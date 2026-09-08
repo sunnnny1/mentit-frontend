@@ -55,10 +55,10 @@ export default function Hero() {
           <ChevronLink text="멘팃 AI와 다시 계획하기" />
         </div>
 
-        <div className="relative h-[55px] w-full rounded-full shadow-[0_0_30px_rgba(0,0,0,0.04)]">
+        <div className="relative h-[55px] w-full rounded-full shadow-[0_0_30px_rgba(0,0,0,0.04)] overflow-hidden">
           <div className="absolute inset-0 bg-[rgba(222,250,255,0.4)] rounded-full" />
           <div className="absolute inset-0 rounded-[inherit] shadow-[inset_-10px_-10px_10px_0_rgba(255,255,255,0.9),inset_10px_10px_10px_0_rgba(255,255,255,0.9)] pointer-events-none" />
-          <div className="absolute left-6 top-1/2 -translate-y-1/2 flex items-center gap-5">
+          <div className="absolute left-[49px] top-1/2 -translate-y-1/2 flex items-center gap-5">
             <div className="flex flex-col items-center gap-0">
               <img alt="" src={imgActivitiesIconRow} className="w-[232px] h-[22px]" />
               <p className="text-[13px] font-medium tracking-[0.26px] text-[#747886] text-center whitespace-nowrap">기업 탐색</p>
@@ -69,7 +69,7 @@ export default function Hero() {
               <p className="text-[13px] font-medium tracking-[0.26px] text-[#747886] text-center whitespace-nowrap">서류 지원</p>
             </div>
           </div>
-          <div className="absolute left-[265px] top-1/2 -translate-y-1/2 flex flex-col gap-1 items-center justify-center px-5 py-3 rounded-[40px] w-[237px] bg-[rgba(255,255,255,0.7)] shadow-[inset_-2px_-2px_2px_0_rgba(255,255,255,0.3)]">
+          <div className="absolute left-[292px] top-1/2 -translate-y-1/2 flex flex-col gap-1 items-center justify-center px-5 py-3 rounded-[40px] w-[237px] bg-[rgba(255,255,255,0.7)] shadow-[inset_-2px_-2px_2px_0_rgba(255,255,255,0.3)]">
             <p className="font-bold text-base text-[#121213] whitespace-nowrap">포트폴리오 보완</p>
             <p className="text-[13px] font-medium tracking-[0.26px] text-[#747886] whitespace-nowrap">Yoonie 멘토에게 피드백 받는중</p>
           </div>
