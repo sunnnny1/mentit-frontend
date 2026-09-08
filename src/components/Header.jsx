@@ -18,7 +18,7 @@ export default function Header() {
             <p className="text-[#121213]">연속 성장하는중</p>
           </div>
           <div className="relative w-[224px] h-5">
-            <img alt="" src={imgDot} className="absolute inset-0 w-full h-full" />
+            <img alt="" src={imgDot} className="absolute inset-0 w-full h-full object-contain" />
             <img alt="" src={imgFootprint} className="absolute left-0 top-0 w-[95px] h-5" />
           </div>
         </div>
