@@ -1,6 +1,6 @@
 export default function PortfolioCard() {
   return (
-    <div className="relative flex flex-col gap-3 h-[264px] items-center p-5 rounded-[20px] w-[346px] shrink-0 overflow-hidden">
+    <div className="relative flex flex-col gap-3 h-[264px] items-center p-5 rounded-[20px] w-[346px] shrink-0 overflow-hidden mt-[107px]">
       <div
         className="absolute inset-0 rounded-[20px]"
         style={{
