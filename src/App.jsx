@@ -8,11 +8,11 @@ import PersonalizedPosts from './components/PersonalizedPosts';
 
 function App() {
   return (
-    <div className="min-h-screen bg-[#fcfcfc]">
+    <div className="h-screen overflow-hidden bg-[#fcfcfc] flex flex-col">
       <Header />
-      <div className="flex items-start gap-5 px-5 pb-16">
+      <div className="flex items-start gap-5 px-5 pb-16 flex-1 min-h-0">
         <Sidebar />
-        <main className="flex-1 max-w-[1173px] mx-auto pt-16 pb-16 px-5 flex flex-col gap-16">
+        <main className="flex-1 max-w-[1173px] mx-auto pt-16 pb-16 px-5 flex flex-col gap-16 self-stretch min-h-0 overflow-y-auto">
           <div className="flex gap-5 items-start">
             <Hero />
             <PortfolioCard />

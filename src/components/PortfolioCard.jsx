@@ -18,9 +18,9 @@ export default function PortfolioCard() {
 
       <button
         type="button"
-        className="relative flex items-center justify-center px-7 py-3 rounded-xl border border-[rgba(255,255,255,0.4)] w-full shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] cursor-pointer"
+        className="relative flex items-center justify-center px-7 py-3 rounded-xl border border-[rgba(255,255,255,0.4)] w-full shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10"
       >
-        <p className="font-bold text-base text-white whitespace-nowrap">Yoonie 멘토 피드백 보러가기</p>
+        <p className="relative font-bold text-base text-white whitespace-nowrap">Yoonie 멘토 피드백 보러가기</p>
       </button>
     </div>
   );

@@ -87,10 +87,10 @@ function MentorCard({ mentor }) {
       <div className="w-full h-px bg-[#e7eaee]" />
 
       <div className="flex gap-3 items-start w-full">
-        <button type="button" className="flex-1 flex items-center justify-center px-7 py-3 rounded-xl border border-[rgba(255,255,255,0.4)] bg-[rgba(255,255,255,0.4)] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] cursor-pointer">
-          <p className="font-bold text-base text-[#121213] whitespace-nowrap">에이전트와 채팅하기</p>
+        <button type="button" className="relative flex-1 flex items-center justify-center px-7 py-3 rounded-xl border border-[rgba(255,255,255,0.4)] bg-[rgba(255,255,255,0.4)] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10">
+          <p className="relative font-bold text-base text-[#121213] whitespace-nowrap">에이전트와 채팅하기</p>
         </button>
-        <button type="button" className="relative flex items-center justify-center h-[47px] w-16 px-5 py-2 rounded-full border border-[rgba(255,255,255,0.4)] bg-[rgba(255,255,255,0.4)] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] overflow-hidden cursor-pointer">
+        <button type="button" className="relative flex items-center justify-center h-[47px] w-16 px-5 py-2 rounded-full border border-[rgba(255,255,255,0.4)] bg-[rgba(255,255,255,0.4)] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10">
           <img alt="멘토 추가" src={imgPersonPlus} className="size-6" />
         </button>
       </div>

@@ -21,7 +21,7 @@ export default function Sidebar() {
   const [active, setActive] = useState('home');
 
   return (
-    <nav className="bg-white border border-white shadow-[0_0_8px_rgba(18,18,19,0.04)] flex flex-col items-center gap-5 pb-6 pt-16 px-2 rounded-2xl w-[69px] shrink-0">
+    <nav className="sticky top-0 z-10 bg-white border border-white shadow-[0_0_8px_rgba(18,18,19,0.04)] flex flex-col items-center gap-5 pb-6 pt-16 px-2 rounded-2xl w-[69px] shrink-0">
       <div className="flex flex-col gap-7 items-center">
         {NAV_ITEMS.map((item) => {
           const isActive = active === item.key;
