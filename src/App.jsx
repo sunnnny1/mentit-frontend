@@ -47,7 +47,11 @@ function App() {
           onOpenChatBar={() => setIsSubMenuOpen(true)}
         />
         {page === 'chat' ? (
-          <ChatPage isSubMenuOpen={isSubMenuOpen} onCloseSubMenu={() => setIsSubMenuOpen(false)} />
+          <ChatPage
+            isSubMenuOpen={isSubMenuOpen}
+            onCloseSubMenu={() => setIsSubMenuOpen(false)}
+            onNavigateHome={() => handleNavigate('home')}
+          />
         ) : (
           <HomeMain />
         )}

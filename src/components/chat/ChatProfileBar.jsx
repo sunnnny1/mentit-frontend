@@ -1,7 +1,7 @@
 const imgAvatarAgent = "https://www.figma.com/api/mcp/asset/6a21ef36-23ee-448e-a72f-026bd1b11241.png";
 const imgAvatarMentor = "https://www.figma.com/api/mcp/asset/1b69a9c3-f6dc-419e-8b7e-4073ed4858c7.png";
 
-export default function ChatProfileBar({ mode = 'agent', onStartMentorChat, onStartReview }) {
+export default function ChatProfileBar({ mode = 'agent', onStartMentorChat, onStartReview, onSubmitReview }) {
   return (
     <div className="flex gap-2.5 items-center p-5 rounded-t-2xl bg-white shrink-0">
       <div className="flex-1 flex gap-3 items-center min-w-0">
@@ -26,11 +26,15 @@ export default function ChatProfileBar({ mode = 'agent', onStartMentorChat, onSt
       <button
         type="button"
         onClick={
-          mode === 'agent' ? onStartMentorChat : mode === 'mentor' ? onStartReview : undefined
+          mode === 'agent'
+            ? onStartMentorChat
+            : mode === 'mentor'
+            ? onStartReview
+            : onSubmitReview
         }
         className="relative flex items-center justify-center px-7 py-3 rounded-xl border border-[#70d2ff] bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10"
       >
-        {/* TODO: 리뷰 제출 로직 연결 */}
+        {/* TODO: 실제 리뷰 데이터 서버 제출 로직 연결 (현재는 홈으로 이동만 처리) */}
         <p className="relative font-bold text-base text-white whitespace-nowrap">
           {mode === 'review' ? '리뷰 등록하기' : mode === 'mentor' ? '리뷰 쓰러가기' : '멘토와 채팅하기'}
         </p>

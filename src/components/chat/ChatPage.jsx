@@ -25,7 +25,7 @@ const QA_MAP = {
 
 const DEFAULT_ANSWER = { text: '아직 학습 중이에요. 조금 더 구체적으로 다시 질문해주시겠어요?' };
 
-export default function ChatPage({ isSubMenuOpen = true, onCloseSubMenu }) {
+export default function ChatPage({ isSubMenuOpen = true, onCloseSubMenu, onNavigateHome }) {
   const [showAgent, setShowAgent] = useState(true);
   const [chatMode, setChatMode] = useState('agent'); // 'agent' | 'mentor' | 'review'
   const [activeMentor, setActiveMentor] = useState('Yoonie');
@@ -57,6 +57,7 @@ export default function ChatPage({ isSubMenuOpen = true, onCloseSubMenu }) {
           mode={chatMode}
           onStartMentorChat={() => setChatMode('mentor')}
           onStartReview={() => setChatMode('review')}
+          onSubmitReview={onNavigateHome}
         />
         <div className="h-px w-full shrink-0 bg-[#e7eaee]" />
         <div className="flex flex-1 min-h-0 overflow-hidden">
