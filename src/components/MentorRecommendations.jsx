@@ -1,6 +1,7 @@
 const imgYoonie = "https://www.figma.com/api/mcp/asset/38da743c-39e9-4b29-92e2-178f15ebcd3d.png";
 const imgEunoia = "https://www.figma.com/api/mcp/asset/92b621eb-70dd-4c6d-a935-09067d86f639.png";
 const imgTeddy = "https://www.figma.com/api/mcp/asset/349f7306-9c3b-45ee-b42e-10569d6479a8.png";
+const imgPersonPlus = "https://www.figma.com/api/mcp/asset/a212207e-60ef-44e7-81e1-3e03e9fcb6ed.svg";
 
 const BADGE_STYLES = {
   purple: 'text-[#9054ff] bg-[#9054ff]',
@@ -50,14 +51,14 @@ const MENTORS = [
 function MentorCard({ mentor }) {
   return (
     <div
-      className="relative flex flex-col gap-5 items-start p-6 rounded-2xl shrink-0 w-[364px] border-[1.5px] border-white shadow-[0_0_15px_rgba(0,0,0,0.04)]"
+      className="relative flex flex-col gap-5 items-start p-6 rounded-2xl shrink-0 w-[364px] border-[1.5px] border-white shadow-[0_0_15px_rgba(0,0,0,0.04),inset_20px_20px_40px_rgba(255,255,255,0.9),inset_-20px_-20px_40px_rgba(255,255,255,0.9)]"
       style={{ background: `radial-gradient(circle at 50% 50%, ${CARD_TINT[mentor.color]} 0%, white 70%)` }}
     >
       <div className="flex gap-3 items-center w-full">
         <img alt={mentor.name} src={mentor.avatar} className="size-[60px] rounded-full shrink-0" />
         <div className="flex-1 flex flex-col gap-1.5 min-w-0">
           <div className="flex gap-2 items-center">
-            <p className="font-bold text-lg tracking-[-0.4px] text-[#121213] whitespace-nowrap">{mentor.name}</p>
+            <p className="font-bold text-lg tracking-[-0.0036px] text-[#121213] whitespace-nowrap">{mentor.name}</p>
             <div className={`relative flex items-center justify-center px-2 py-1 rounded-lg shrink-0`}>
               <div className={`absolute inset-0 opacity-10 rounded-lg ${BADGE_STYLES[mentor.color].split(' ')[1]}`} />
               <p className={`relative text-[10px] tracking-[0.25px] whitespace-nowrap ${BADGE_STYLES[mentor.color].split(' ')[0]}`}>{mentor.badgeLabel}</p>
@@ -71,7 +72,7 @@ function MentorCard({ mentor }) {
         <div className="flex gap-1">
           {mentor.tags.map((tag) => (
             <div key={tag} className="flex items-center justify-center px-2 py-1 rounded-lg border border-[#e7eaee]">
-              <p className="text-xs text-[#747886] tracking-[0.3px] whitespace-nowrap">{tag}</p>
+              <p className="text-xs font-medium text-[#747886] tracking-[0.3px] whitespace-nowrap">{tag}</p>
             </div>
           ))}
         </div>
@@ -89,8 +90,8 @@ function MentorCard({ mentor }) {
         <button type="button" className="flex-1 flex items-center justify-center px-7 py-3 rounded-xl border border-[rgba(255,255,255,0.4)] bg-[rgba(255,255,255,0.4)] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] cursor-pointer">
           <p className="font-bold text-base text-[#121213] whitespace-nowrap">에이전트와 채팅하기</p>
         </button>
-        <button type="button" className="flex flex-col items-center justify-center h-[47px] w-16 rounded-full border border-[rgba(255,255,255,0.4)] bg-[rgba(255,255,255,0.4)] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] cursor-pointer">
-          <span className="text-lg">＋</span>
+        <button type="button" className="relative flex items-center justify-center h-[47px] w-16 px-5 py-2 rounded-full border border-[rgba(255,255,255,0.4)] bg-[rgba(255,255,255,0.4)] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] overflow-hidden cursor-pointer">
+          <img alt="멘토 추가" src={imgPersonPlus} className="size-6" />
         </button>
       </div>
     </div>

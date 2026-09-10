@@ -12,7 +12,7 @@ function App() {
       <Header />
       <div className="flex items-start gap-5 px-5 pb-16">
         <Sidebar />
-        <main className="flex-1 max-w-[1173px] mx-auto py-8 flex flex-col gap-10">
+        <main className="flex-1 max-w-[1173px] mx-auto pt-16 pb-16 px-5 flex flex-col gap-16">
           <div className="flex gap-5 items-start">
             <Hero />
             <PortfolioCard />

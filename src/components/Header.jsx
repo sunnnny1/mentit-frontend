@@ -12,7 +12,7 @@ export default function Header() {
       </div>
 
       <div className="flex items-center justify-end gap-7">
-        <div className="flex items-center gap-7 h-[41px] pb-[10px] pl-[15px] pr-[26px] pt-[11px] rounded-full bg-[#f7feff] shadow-[0_0_10px_rgba(0,0,0,0.04)]">
+        <div className="relative flex items-center gap-7 h-[41px] pb-[10px] pl-[15px] pr-[26px] pt-[11px] rounded-full bg-[#f7feff] shadow-[0_0_10px_rgba(0,0,0,0.04),inset_-8px_-8px_10px_rgba(255,255,255,0.9),inset_8px_8px_10px_rgba(255,255,255,0.9)]">
           <div className="flex items-center gap-1 font-medium text-sm tracking-[0.14px] whitespace-nowrap">
             <p className="text-[#1a75ff]">23일째</p>
             <p className="text-[#121213]">연속 성장하는중</p>

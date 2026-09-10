@@ -3,6 +3,9 @@ const imgImageVideo1 = "https://www.figma.com/api/mcp/asset/0627f450-3efc-453b-9
 const imgEllipse25 = "https://www.figma.com/api/mcp/asset/95a15191-36f1-4923-9783-3462991e5088.png";
 const imgEllipse26 = "https://www.figma.com/api/mcp/asset/cf47df2f-bf88-4c33-b6f9-eeae2da1b5af.png";
 const imgEllipse27 = "https://www.figma.com/api/mcp/asset/968f4175-467a-4e89-9a7d-80848790f180.png";
+const imgLike = "https://www.figma.com/api/mcp/asset/456cdd73-2b36-4510-beb7-ac459c28583e.svg";
+const imgComment = "https://www.figma.com/api/mcp/asset/13581474-4f36-46b1-9063-f3cfc8970ec3.svg";
+const imgChevronRight = "https://www.figma.com/api/mcp/asset/b6c75f15-29da-4258-98b0-26b9a2b2dd15.svg";
 
 const TAG_STYLES = {
   primary: 'text-[#1a75ff] bg-[#1a75ff]/10',
@@ -48,9 +51,9 @@ function PostCard({ post }) {
     <div className="flex flex-col gap-3 items-start justify-center p-5 rounded-2xl w-full bg-white shadow-[0_0_8px_rgba(18,18,19,0.04)]">
       <div className="flex gap-5 items-start w-full">
         <div className="flex-1 flex flex-col gap-4 min-w-0">
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-1 items-center">
             {post.tags.map((tag) => (
-              <span key={tag.label} className={`flex items-center justify-center px-2 py-1 rounded-lg text-xs tracking-[0.3px] whitespace-nowrap ${TAG_STYLES[tag.kind]}`}>
+              <span key={tag.label} className={`flex items-center justify-center px-2 py-1 rounded-lg text-xs font-medium tracking-[0.3px] whitespace-nowrap ${TAG_STYLES[tag.kind]}`}>
                 {tag.label}
               </span>
             ))}
@@ -74,8 +77,8 @@ function PostCard({ post }) {
         </div>
         <div className="flex gap-5 items-center shrink-0">
           <div className="flex gap-1 items-center">
-            <span>👍</span>
-            <span className="text-xs">{post.likes}</span>
+            <img alt="" src={imgLike} className="size-5" />
+            <span className="text-xs font-medium tracking-[0.3px]">{post.likes}</span>
           </div>
           {post.rightMeta.type === 'profiles' ? (
             <div className="flex gap-1 items-center">
@@ -84,12 +87,12 @@ function PostCard({ post }) {
                   <img key={src} src={src} alt="" className={`size-5 rounded-full border border-white ${i > 0 ? '-ml-1.5' : ''}`} />
                 ))}
               </div>
-              <span className="text-xs">{post.rightMeta.count}</span>
+              <span className="text-xs font-medium tracking-[0.3px]">{post.rightMeta.count}</span>
             </div>
           ) : (
             <div className="flex gap-1 items-center">
-              <span>💬</span>
-              <span className="text-xs">{post.rightMeta.count}</span>
+              <img alt="" src={imgComment} className="size-5" />
+              <span className="text-xs tracking-[0.3px]">{post.rightMeta.count}</span>
             </div>
           )}
         </div>
@@ -103,9 +106,9 @@ export default function PersonalizedPosts() {
     <section className="flex flex-col gap-6 items-start w-full pb-10">
       <div className="flex items-center justify-between w-full">
         <h2 className="font-bold text-[22px] tracking-[-0.33px] text-[#121213]">맞춤 게시글</h2>
-        <button type="button" className="flex gap-0.5 items-center text-sm text-[#9ca2b1] tracking-[0.14px] cursor-pointer">
+        <button type="button" className="flex gap-0.5 items-center font-medium text-sm text-[#9ca2b1] tracking-[0.14px] cursor-pointer">
           <span>전체보기</span>
-          <span>›</span>
+          <img alt="" src={imgChevronRight} className="size-6" />
         </button>
       </div>
       <div className="flex flex-col gap-5 items-center w-full">
