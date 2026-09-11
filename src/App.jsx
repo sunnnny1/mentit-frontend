@@ -8,8 +8,13 @@ import CareerTalk from './components/CareerTalk';
 import PersonalizedPosts from './components/PersonalizedPosts';
 import ChatPage from './components/chat/ChatPage';
 import SearchPage from './components/search/SearchPage';
+import BoardPage from './components/board/BoardPage';
+import CareerTalkDetail from './components/board/CareerTalkDetail';
+import CareerTalkDetailYoonie from './components/board/CareerTalkDetailYoonie';
+import QnaDetailQualQuant from './components/board/QnaDetailQualQuant';
+import QnaDetailFailedProject from './components/board/QnaDetailFailedProject';
 
-function HomeMain() {
+function HomeMain({ onNavigateToCareerTalk, onOpenCareerTalkDetail, onOpenQnaDetail }) {
   return (
     <main className="flex-1 max-w-[1173px] mx-auto pt-16 pb-16 px-5 flex flex-col gap-16 self-stretch min-h-0 overflow-y-auto">
       <div className="flex gap-5 items-start">
@@ -18,8 +23,8 @@ function HomeMain() {
       </div>
 
       <MentorRecommendations />
-      <CareerTalk />
-      <PersonalizedPosts />
+      <CareerTalk onNavigateToCareerTalk={onNavigateToCareerTalk} onOpenDetail={onOpenCareerTalkDetail} />
+      <PersonalizedPosts onOpenQnaDetail={onOpenQnaDetail} />
     </main>
   );
 }
@@ -28,16 +33,59 @@ function App() {
   const [page, setPage] = useState('home');
   const [previousPage, setPreviousPage] = useState(null);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(true);
+  const [boardCategory, setBoardCategory] = useState('all');
+  const [careerTalkArticleId, setCareerTalkArticleId] = useState('uha');
+  const [qnaArticleId, setQnaArticleId] = useState('qualquant');
 
   const handleNavigate = (next) => {
     setPage(next);
-    if (next !== 'chat') setIsSubMenuOpen(true);
+    if (next === 'board') setBoardCategory('all');
+    if (next !== 'chat' && next !== 'board') setIsSubMenuOpen(true);
   };
+
+  const handleNavigateToCareerTalk = () => {
+    setPage('board');
+    setBoardCategory('careertalk');
+  };
+
+  const handleOpenCareerTalkDetail = (articleId = 'uha') => {
+    setCareerTalkArticleId(articleId);
+    setPage('careertalk-detail');
+  };
+
+  const handleOpenMentorChat = () => {
+    setPage('chat');
+    setIsSubMenuOpen(false);
+  };
+
+  const handleOpenQnaDetail = (articleId = 'qualquant') => {
+    setQnaArticleId(articleId);
+    setPage('qna-detail');
+  };
+
+  const handleBackFromCareerTalkDetail = () => {
+    setPage('board');
+    setBoardCategory('careertalk');
+  };
+
+  const handleBackFromQnaDetail = () => {
+    setPage('board');
+    setBoardCategory('qna');
+  };
+
+  const isBoardDetail = page === 'careertalk-detail' || page === 'qna-detail';
 
   return (
     <div className="h-dvh max-h-dvh overflow-hidden bg-[#fcfcfc] flex flex-col">
       <Header
-        showStreak={page !== 'chat' && page !== 'search'}
+        showStreak={page !== 'chat' && page !== 'search' && page !== 'board' && !isBoardDetail}
+        onBack={
+          page === 'careertalk-detail'
+            ? handleBackFromCareerTalkDetail
+            : page === 'qna-detail'
+              ? handleBackFromQnaDetail
+              : undefined
+        }
         onSearchClick={() => {
           setPreviousPage((prev) => (page === 'search' ? prev : page));
           setPage('search');
@@ -45,7 +93,7 @@ function App() {
       />
       <div
         className={`flex items-stretch gap-5 px-5 flex-1 min-h-0 overflow-hidden ${
-          page === 'chat' || page === 'search' ? 'pb-5' : 'pb-16'
+          page === 'chat' || page === 'search' || page === 'board' || isBoardDetail ? 'pb-5' : 'pb-16'
         }`}
       >
         {page === 'search' ? (
@@ -53,9 +101,9 @@ function App() {
         ) : (
           <>
             <Sidebar
-              activeItem={page}
+              activeItem={isBoardDetail ? 'board' : page}
               onNavigate={handleNavigate}
-              showChatBarToggle={page === 'chat' && !isSubMenuOpen}
+              showChatBarToggle={(page === 'chat' || page === 'board') && !isSubMenuOpen}
               onOpenChatBar={() => setIsSubMenuOpen(true)}
             />
             {page === 'chat' ? (
@@ -64,8 +112,37 @@ function App() {
                 onCloseSubMenu={() => setIsSubMenuOpen(false)}
                 onNavigateHome={() => handleNavigate('home')}
               />
+            ) : page === 'careertalk-detail' ? (
+              careerTalkArticleId === 'yoonie' ? (
+                <CareerTalkDetailYoonie
+                  onBack={handleBackFromCareerTalkDetail}
+                  onOpenMentorChat={handleOpenMentorChat}
+                />
+              ) : (
+                <CareerTalkDetail onBack={handleBackFromCareerTalkDetail} />
+              )
+            ) : page === 'qna-detail' ? (
+              qnaArticleId === 'failed' ? (
+                <QnaDetailFailedProject onOpenMentorChat={handleOpenMentorChat} />
+              ) : (
+                <QnaDetailQualQuant onOpenMentorChat={handleOpenMentorChat} />
+              )
+            ) : page === 'board' ? (
+              <BoardPage
+                isSubMenuOpen={isSubMenuOpen}
+                onCloseSubMenu={() => setIsSubMenuOpen(false)}
+                category={boardCategory}
+                onCategoryChange={setBoardCategory}
+                onNavigateToCareerTalk={handleNavigateToCareerTalk}
+                onOpenCareerTalkDetail={handleOpenCareerTalkDetail}
+                onOpenQnaDetail={handleOpenQnaDetail}
+              />
             ) : (
-              <HomeMain />
+              <HomeMain
+                onNavigateToCareerTalk={handleNavigateToCareerTalk}
+                onOpenCareerTalkDetail={handleOpenCareerTalkDetail}
+                onOpenQnaDetail={handleOpenQnaDetail}
+              />
             )}
           </>
         )}

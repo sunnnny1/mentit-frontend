@@ -1,9 +1,12 @@
+import { useState } from 'react';
+
 const imgImageVideo = "https://www.figma.com/api/mcp/asset/e82bd9e8-08d4-4798-b06f-ce816dc0dd6c.png";
 const imgImageVideo1 = "https://www.figma.com/api/mcp/asset/0627f450-3efc-453b-96ee-04fa5dd74cd0.png";
 const imgEllipse25 = "https://www.figma.com/api/mcp/asset/95a15191-36f1-4923-9783-3462991e5088.png";
 const imgEllipse26 = "https://www.figma.com/api/mcp/asset/cf47df2f-bf88-4c33-b6f9-eeae2da1b5af.png";
 const imgEllipse27 = "https://www.figma.com/api/mcp/asset/968f4175-467a-4e89-9a7d-80848790f180.png";
 const imgLike = "https://www.figma.com/api/mcp/asset/456cdd73-2b36-4510-beb7-ac459c28583e.svg";
+const imgLikeFill = 'https://www.figma.com/api/mcp/asset/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
 const imgComment = "https://www.figma.com/api/mcp/asset/13581474-4f36-46b1-9063-f3cfc8970ec3.svg";
 const imgChevronRight = "https://www.figma.com/api/mcp/asset/b6c75f15-29da-4258-98b0-26b9a2b2dd15.svg";
 
@@ -21,6 +24,8 @@ const POSTS = [
     views: '조회 800',
     likes: 86,
     rightMeta: { type: 'profiles', count: 47 },
+    hasDetail: true,
+    articleId: 'qualquant',
   },
   {
     tags: [{ label: 'Q&A', kind: 'primary' }, { label: '프로덕트 디자인', kind: 'neutral' }],
@@ -31,6 +36,8 @@ const POSTS = [
     likes: 60,
     image: imgImageVideo,
     rightMeta: { type: 'profiles', count: 32 },
+    hasDetail: true,
+    articleId: 'failed',
   },
   {
     tags: [{ label: '프리토크', kind: 'primary' }, { label: '프로덕트 디자인', kind: 'neutral' }],
@@ -46,9 +53,18 @@ const POSTS = [
 
 const AVATARS = [imgEllipse26, imgEllipse27, imgEllipse25];
 
-function PostCard({ post }) {
+function PostCard({ post, onOpenDetail }) {
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(post.likes);
+
   return (
-    <div className="flex flex-col gap-3 items-start justify-center p-5 rounded-2xl w-full bg-white shadow-[0_0_8px_rgba(18,18,19,0.04)]">
+    <div
+      className={`flex flex-col gap-3 items-start justify-center p-5 rounded-2xl w-full bg-white shadow-[0_0_8px_rgba(18,18,19,0.04)] ${
+        post.hasDetail ? 'cursor-pointer' : ''
+      }`}
+      onClick={post.hasDetail ? () => onOpenDetail?.(post.articleId) : undefined}
+      role={post.hasDetail ? 'button' : undefined}
+    >
       <div className="flex gap-5 items-start w-full">
         <div className="flex-1 flex flex-col gap-4 min-w-0">
           <div className="flex gap-1 items-center">
@@ -76,10 +92,37 @@ function PostCard({ post }) {
           <span>{post.views}</span>
         </div>
         <div className="flex gap-5 items-center shrink-0">
-          <div className="flex gap-1 items-center">
-            <img alt="" src={imgLike} className="size-5" />
-            <span className="text-xs font-medium tracking-[0.3px]">{post.likes}</span>
-          </div>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              setLiked((v) => !v);
+              setLikeCount((count) => (liked ? count - 1 : count + 1));
+            }}
+            className="flex gap-1 items-center cursor-pointer"
+            aria-pressed={liked}
+          >
+            {liked ? (
+              <span
+                aria-hidden
+                className="block size-5"
+                style={{
+                  WebkitMaskImage: `url("${imgLikeFill}")`,
+                  maskImage: `url("${imgLikeFill}")`,
+                  WebkitMaskSize: 'contain',
+                  maskSize: 'contain',
+                  WebkitMaskRepeat: 'no-repeat',
+                  maskRepeat: 'no-repeat',
+                  WebkitMaskPosition: 'center',
+                  maskPosition: 'center',
+                  backgroundColor: '#DFE4E8',
+                }}
+              />
+            ) : (
+              <img alt="" src={imgLike} className="size-5" />
+            )}
+            <span className="text-xs font-medium tracking-[0.3px]">{likeCount}</span>
+          </button>
           {post.rightMeta.type === 'profiles' ? (
             <div className="flex gap-1 items-center">
               <div className="flex items-center">
@@ -101,7 +144,7 @@ function PostCard({ post }) {
   );
 }
 
-export default function PersonalizedPosts() {
+export default function PersonalizedPosts({ onOpenQnaDetail }) {
   return (
     <section className="flex flex-col gap-6 items-start w-full pb-10">
       <div className="flex items-center justify-between w-full">
@@ -113,7 +156,7 @@ export default function PersonalizedPosts() {
       </div>
       <div className="flex flex-col gap-5 items-center w-full">
         {POSTS.map((post) => (
-          <PostCard key={post.title} post={post} />
+          <PostCard key={post.title} post={post} onOpenDetail={onOpenQnaDetail} />
         ))}
       </div>
     </section>

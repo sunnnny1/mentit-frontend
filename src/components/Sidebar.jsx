@@ -9,6 +9,7 @@ const imgVoice = 'https://www.figma.com/api/mcp/asset/08312f9a-f275-4027-b4e6-e5
 const imgAi = 'https://www.figma.com/api/mcp/asset/0f84d59b-23fa-4e0a-ad8e-09bd0fcc1ac6.svg';
 const imgPersonPlus = 'https://www.figma.com/api/mcp/asset/e283ddd9-1555-49de-832f-514c6c9f3622.svg';
 const imgBoard = 'https://www.figma.com/api/mcp/asset/5297977c-5ef6-4c2a-917d-01299de61789.svg';
+const imgBoardActive = 'https://www.figma.com/api/mcp/asset/7f33ef6b-dabb-4a00-9462-4f74c66be344.svg';
 const imgChevronDoubleRight = 'https://www.figma.com/api/mcp/asset/10bfebe3-d119-45c2-a259-535f73774024.svg';
 const imgLineHorizontal = 'https://www.figma.com/api/mcp/asset/5e2a8321-3b01-4485-9e12-0c84b24bb548.svg';
 
@@ -18,7 +19,7 @@ const NAV_ITEMS = [
   { key: 'interview', label: '면접', icon: imgVoice, iconActive: imgVoice },
   { key: 'ai', label: '멘팃 AI', icon: imgAi, iconActive: imgAi },
   { key: 'mentor', label: '멘토 탐색', icon: imgPersonPlus, iconActive: imgPersonPlus },
-  { key: 'board', label: '게시판', icon: imgBoard, iconActive: imgBoard },
+  { key: 'board', label: '게시판', icon: imgBoard, iconActive: imgBoardActive },
 ];
 
 export default function Sidebar({ activeItem, onNavigate, showChatBarToggle = false, onOpenChatBar }) {
