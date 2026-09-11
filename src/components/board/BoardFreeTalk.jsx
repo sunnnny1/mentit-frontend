@@ -12,7 +12,7 @@ const JOB_ROLES = ['그래픽 디자인', '게임 디자인', '프로덕트 디�
 const FREE_POSTS = [
   {
     author: 'Gangster',
-    category: '프로덕트 디자인 외 1',
+    category: '프로덕트 디자인 외 1개',
     avatar: 'https://www.figma.com/api/mcp/asset/1c30df87-166c-4504-9d79-fdc847db4580.png',
     title: '드디어 1차 서류 통과했어ㅠ',
     body: '서류 통과는 취준하면서 처음인데 여기서 포폴이랑 자소서 피드백 받았었거든? 확실히 도움이 된듯..\n아직 면접 남았지만, 잠시만 이 행복을 즐기려고~ 다들 기 받아가!!',

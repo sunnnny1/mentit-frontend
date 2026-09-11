@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-const imgAuthor = 'https://www.figma.com/api/mcp/asset/58c822c4-0089-480d-acd2-73c7af5fc500.png';
 const imgPostImage = 'https://www.figma.com/api/mcp/asset/92b7d4f4-ca13-4e94-8eb4-2852eed4914a.png';
 const imgLikeOutline = 'https://www.figma.com/api/mcp/asset/4f65e1a1-f7c6-4209-9aa8-6879d1fa3e3e.svg';
 const imgLikeFill = 'https://www.figma.com/api/mcp/asset/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
@@ -70,10 +69,10 @@ export default function BoardFreeTalkDetail() {
 
         <div className="flex items-center gap-10 w-full">
           <div className="flex-1 min-w-0 flex items-center gap-3">
-            <img alt="" src={imgAuthor} className="size-[42px] rounded-full object-cover shrink-0" />
+            <img alt="" src={imgGangsterSmall} className="size-[42px] rounded-full object-cover shrink-0" />
             <div className="flex flex-col gap-1">
               <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-[#121213]">Gangster</p>
-              <p className="text-[14px] leading-[1.42] tracking-[0.14px] text-[#747886]">프로덕트 디자인</p>
+              <p className="text-[14px] leading-[1.42] tracking-[0.14px] text-[#747886]">프로덕트 디자인 외 1개</p>
             </div>
           </div>
           <p className="shrink-0 text-[14px] leading-[1.42] tracking-[0.14px] text-[#747886] whitespace-nowrap">
