@@ -4,7 +4,7 @@ const imgFootprint = "https://www.figma.com/api/mcp/asset/01c89bc6-ce88-4f15-8a0
 const imgSearch = "https://www.figma.com/api/mcp/asset/a5bb8d32-e53b-463d-b2ed-6040d61e92cb.svg";
 const imgBell = "https://www.figma.com/api/mcp/asset/c86ae723-d4d2-430f-86af-352a9d7de33d.svg";
 
-export default function Header({ showStreak = true }) {
+export default function Header({ showStreak = true, onSearchClick }) {
   return (
     <header className="sticky top-0 z-20 shrink-0 bg-[#fcfcfc] flex items-center justify-between pb-3 pl-9 pr-5 pt-4 w-full">
       <div className="flex items-center gap-2 h-[39px] p-0.5">
@@ -26,7 +26,7 @@ export default function Header({ showStreak = true }) {
         )}
 
         <div className="flex items-center gap-5">
-          <button type="button" className="flex items-center justify-center size-6 cursor-pointer">
+          <button type="button" onClick={onSearchClick} className="flex items-center justify-center size-6 cursor-pointer">
             <img alt="검색" src={imgSearch} className="size-6" />
           </button>
           <button type="button" className="flex items-center justify-center size-6 cursor-pointer">

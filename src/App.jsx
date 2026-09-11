@@ -7,6 +7,7 @@ import MentorRecommendations from './components/MentorRecommendations';
 import CareerTalk from './components/CareerTalk';
 import PersonalizedPosts from './components/PersonalizedPosts';
 import ChatPage from './components/chat/ChatPage';
+import SearchPage from './components/search/SearchPage';
 
 function HomeMain() {
   return (
@@ -25,6 +26,7 @@ function HomeMain() {
 
 function App() {
   const [page, setPage] = useState('home');
+  const [previousPage, setPreviousPage] = useState(null);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(true);
 
   const handleNavigate = (next) => {
@@ -34,26 +36,38 @@ function App() {
 
   return (
     <div className="h-dvh max-h-dvh overflow-hidden bg-[#fcfcfc] flex flex-col">
-      <Header showStreak={page !== 'chat'} />
+      <Header
+        showStreak={page !== 'chat' && page !== 'search'}
+        onSearchClick={() => {
+          setPreviousPage((prev) => (page === 'search' ? prev : page));
+          setPage('search');
+        }}
+      />
       <div
         className={`flex items-stretch gap-5 px-5 flex-1 min-h-0 overflow-hidden ${
-          page === 'chat' ? 'pb-5' : 'pb-16'
+          page === 'chat' || page === 'search' ? 'pb-5' : 'pb-16'
         }`}
       >
-        <Sidebar
-          activeItem={page}
-          onNavigate={handleNavigate}
-          showChatBarToggle={page === 'chat' && !isSubMenuOpen}
-          onOpenChatBar={() => setIsSubMenuOpen(true)}
-        />
-        {page === 'chat' ? (
-          <ChatPage
-            isSubMenuOpen={isSubMenuOpen}
-            onCloseSubMenu={() => setIsSubMenuOpen(false)}
-            onNavigateHome={() => handleNavigate('home')}
-          />
+        {page === 'search' ? (
+          <SearchPage onClose={() => setPage(previousPage ?? 'home')} />
         ) : (
-          <HomeMain />
+          <>
+            <Sidebar
+              activeItem={page}
+              onNavigate={handleNavigate}
+              showChatBarToggle={page === 'chat' && !isSubMenuOpen}
+              onOpenChatBar={() => setIsSubMenuOpen(true)}
+            />
+            {page === 'chat' ? (
+              <ChatPage
+                isSubMenuOpen={isSubMenuOpen}
+                onCloseSubMenu={() => setIsSubMenuOpen(false)}
+                onNavigateHome={() => handleNavigate('home')}
+              />
+            ) : (
+              <HomeMain />
+            )}
+          </>
         )}
       </div>
     </div>
