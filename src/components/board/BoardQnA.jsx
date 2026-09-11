@@ -6,11 +6,44 @@ const imgChevronDown = 'https://www.figma.com/api/mcp/asset/2a8c0fab-ff12-4088-9
 const imgMoreChevron = 'https://www.figma.com/api/mcp/asset/bb3b8c56-7ee3-4df3-ba7c-8fbd9131aa9f.svg';
 const imgPencil = 'https://www.figma.com/api/mcp/asset/3fab267a-3f49-4c73-b247-11cff7f62c3f.svg';
 
-const AVATARS = [
-  'https://www.figma.com/api/mcp/asset/6bedc709-49ad-401a-b0ac-7f432efb18bb.png',
-  'https://www.figma.com/api/mcp/asset/c5f91b3e-e98b-43bb-8a50-aae4d4f244e1.png',
-  'https://www.figma.com/api/mcp/asset/8e62c78b-c357-4570-b1d2-cd4c2e551468.png',
+const MENTOR_AVATAR_POOL = [
+  {
+    name: 'U.ha',
+    src: 'https://www.figma.com/api/mcp/asset/82f8645a-bff2-40bb-b2ce-b4adeff510e0.png',
+    crop: { top: '-4.69%', left: '-1.28%', width: '170.94%', height: '136.83%' },
+  },
+  {
+    name: 'Yoonie',
+    src: 'https://www.figma.com/api/mcp/asset/38da743c-39e9-4b29-92e2-178f15ebcd3d.png',
+  },
+  {
+    name: 'Eric',
+    src: 'https://www.figma.com/api/mcp/asset/a0d39193-fabc-410b-8ee7-5cd5300c34bf.png',
+    crop: { top: '-1.18%', left: '-2.04%', width: '182%', height: '145.69%' },
+  },
+  {
+    name: 'Daisy',
+    src: 'https://www.figma.com/api/mcp/asset/4e59b148-9a7e-4e39-be3e-0cf935da5817.png',
+    crop: { top: '-5.94%', left: '-0.02%', width: '171.11%', height: '136.97%' },
+  },
+  {
+    name: 'Eunoia',
+    src: 'https://www.figma.com/api/mcp/asset/92b621eb-70dd-4c6d-a935-09067d86f639.png',
+  },
+  {
+    name: 'Teddy',
+    src: 'https://www.figma.com/api/mcp/asset/349f7306-9c3b-45ee-b42e-10569d6479a8.png',
+  },
+  {
+    name: 'Sunny',
+    src: 'https://www.figma.com/api/mcp/asset/f523aa62-cb7a-4452-92f8-9126d2a5de89.png',
+    crop: { top: '-5.92%', left: '-1.73%', width: '175.37%', height: '140.34%' },
+  },
 ];
+
+function pickRandomMentors(count = 3) {
+  return shuffle(MENTOR_AVATAR_POOL).slice(0, count);
+}
 
 const QNA_POSTS = [
   {
@@ -138,6 +171,10 @@ const QNA_POSTS = [
     participants: 3,
   },
 ];
+
+QNA_POSTS.forEach((post) => {
+  post.mentors = pickRandomMentors(3);
+});
 
 const JOB_GROUPS = ['개발', '경영・비즈니스', '마케팅・광고', '디자인', '게임 제작', '미디어'];
 const JOB_ROLES = ['그래픽 디자인', '게임 디자인', '프로덕트 디자인', 'UX 디자인', '제품 디자인', '영상・모션 디자인'];
@@ -307,13 +344,29 @@ function QnaCard({ post, onOpenDetail }) {
           </button>
           <div className="flex items-center gap-1">
             <div className="flex items-center">
-              {AVATARS.map((src, index) => (
-                <img
-                  key={src}
-                  alt=""
-                  src={src}
-                  className={`size-5 rounded-full object-cover border-2 border-white ${index < AVATARS.length - 1 ? '-mr-[7px]' : ''}`}
-                />
+              {(post.mentors ?? []).map((mentor, index) => (
+                <div
+                  key={mentor.name}
+                  className={`relative size-5 rounded-full overflow-hidden border-2 border-white bg-white shrink-0 ${
+                    index < post.mentors.length - 1 ? '-mr-[7px]' : ''
+                  }`}
+                >
+                  {mentor.crop ? (
+                    <img
+                      alt=""
+                      src={mentor.src}
+                      className="absolute max-w-none pointer-events-none"
+                      style={{
+                        top: mentor.crop.top,
+                        left: mentor.crop.left,
+                        width: mentor.crop.width,
+                        height: mentor.crop.height,
+                      }}
+                    />
+                  ) : (
+                    <img alt="" src={mentor.src} className="absolute inset-0 size-full object-cover" />
+                  )}
+                </div>
               ))}
             </div>
             <span className="text-[12px] tracking-[0.3px] text-[#747886]">{post.participants}</span>
