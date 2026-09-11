@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import BoardSubMenu from './BoardSubMenu';
 import BoardCareerTalk from './BoardCareerTalk';
 import BoardQnA from './BoardQnA';
+import BoardFreeTalk from './BoardFreeTalk';
 
 const imgChevronRight = 'https://www.figma.com/api/mcp/asset/a7492a83-b25e-4d60-be05-b7c4b627db4a.svg';
 const imgBookmark = 'https://www.figma.com/api/mcp/asset/4ac74a74-c74e-4012-9e9d-4270d3c5690e.svg';
@@ -48,17 +49,43 @@ const ACTIVE_MENTORS = [
   },
 ];
 
-const QUOTE_AVATARS = [
-  'https://www.figma.com/api/mcp/asset/a607593a-ef5c-40ce-8e47-def8d1ef1747.png',
-  'https://www.figma.com/api/mcp/asset/9cd95563-ed6c-4d3d-89b3-045d6c31fac2.png',
-  'https://www.figma.com/api/mcp/asset/a8e8d68f-de7f-4256-af8a-419b9a7ead34.png',
-];
+function shuffle(list) {
+  const next = [...list];
+  for (let i = next.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [next[i], next[j]] = [next[j], next[i]];
+  }
+  return next;
+}
+
+function pickRandomMentors(count = 3) {
+  return shuffle(ACTIVE_MENTORS).slice(0, count);
+}
+
+// 세부페이지에서 '더보기' 없이 바로 보이는 실제 답변 멘토 3명 (Figma/세부페이지 데이터와 동일하게 고정)
+const EXTRA_MENTORS = {
+  Peter: { name: 'Peter', src: 'https://www.figma.com/api/mcp/asset/238a7985-f398-4c1b-8060-3d42ae43ec7b.png' },
+  Emma: { name: 'Emma', src: 'https://www.figma.com/api/mcp/asset/600e8ec2-767a-4acf-96bf-ca759446cdf4.png' },
+};
+
+function findMentor(name) {
+  return ACTIVE_MENTORS.find((mentor) => mentor.name === name) ?? EXTRA_MENTORS[name];
+}
+
+const FIXED_MENTORS_BY_ARTICLE = {
+  failed: ['Yoonie', 'Daisy', 'Eunoia'].map(findMentor),
+  qualquant: ['U.ha', 'Peter', 'Emma'].map(findMentor),
+};
 
 const POPULAR_QNA = [
   { title: '포트폴리오에 실패한 프로젝트도 넣어도 될까요?', author: '000Sun', date: '오늘', views: '조회 1,200', hasDetail: true, articleId: 'failed' },
   { title: '정성적, 정량적 데이터를 어떻게 포폴에 녹여야 할까요?', author: 'Coco', date: '오늘', views: '조회 800', hasDetail: true, articleId: 'qualquant' },
   { title: '협업 경험 없는 포폴 어떻게 보완해야하나요?', author: 'Gangster', date: '오늘', views: '조회 687' },
 ];
+
+POPULAR_QNA.forEach((post) => {
+  post.mentors = FIXED_MENTORS_BY_ARTICLE[post.articleId] ?? pickRandomMentors(3);
+});
 
 const CAREER_TALKS = [
   {
@@ -89,6 +116,8 @@ const FREE_POSTS = [
     images: ['https://www.figma.com/api/mcp/asset/eab8745c-25ce-4b5a-8eb7-39c1e63f92c0.png'],
     likes: 102,
     comments: 12,
+    hasDetail: true,
+    articleId: 'gangster',
   },
   {
     author: 'Happy',
@@ -143,13 +172,29 @@ function QuoteCard({ post, onOpenDetail }) {
           <span>{post.views}</span>
         </div>
         <div className="flex items-center shrink-0">
-          {QUOTE_AVATARS.map((src, index) => (
-            <img
-              key={src}
-              alt=""
-              src={src}
-              className={`size-5 rounded-full object-cover border-2 border-white ${index < QUOTE_AVATARS.length - 1 ? '-mr-[7px]' : ''}`}
-            />
+          {(post.mentors ?? []).map((mentor, index) => (
+            <div
+              key={mentor.name}
+              className={`relative size-5 rounded-full overflow-hidden border-2 border-white bg-white shrink-0 ${
+                index < post.mentors.length - 1 ? '-mr-[7px]' : ''
+              }`}
+            >
+              {mentor.crop ? (
+                <img
+                  alt=""
+                  src={mentor.src}
+                  className="absolute max-w-none pointer-events-none"
+                  style={{
+                    top: mentor.crop.top,
+                    left: mentor.crop.left,
+                    width: mentor.crop.width,
+                    height: mentor.crop.height,
+                  }}
+                />
+              ) : (
+                <img alt="" src={mentor.src} className="absolute inset-0 size-full object-cover" />
+              )}
+            </div>
           ))}
         </div>
       </div>
@@ -207,13 +252,17 @@ function CareerTalkCard({ talk, onOpenDetail }) {
   );
 }
 
-function FreeTalkPost({ post }) {
+function FreeTalkPost({ post, onOpenDetail }) {
   const hasGallery = post.images.length > 1;
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(post.likes);
 
   return (
-    <article className="py-5 flex flex-col gap-4">
+    <article
+      className={`py-5 flex flex-col gap-4 ${post.hasDetail ? 'cursor-pointer' : ''}`}
+      onClick={post.hasDetail ? () => onOpenDetail?.(post.articleId) : undefined}
+      role={post.hasDetail ? 'button' : undefined}
+    >
       <div className="flex gap-3 items-start">
         <img alt="" src={post.avatar} className="size-[42px] rounded-full object-cover shrink-0" />
         <div className="flex flex-col items-start">
@@ -249,7 +298,8 @@ function FreeTalkPost({ post }) {
       <div className="flex items-center gap-5">
         <button
           type="button"
-          onClick={() => {
+          onClick={(event) => {
+            event.stopPropagation();
             setLiked((v) => !v);
             setLikeCount((count) => (liked ? count - 1 : count + 1));
           }}
@@ -294,6 +344,8 @@ export default function BoardPage({
   onNavigateToCareerTalk,
   onOpenCareerTalkDetail,
   onOpenQnaDetail,
+  onOpenFreeTalkDetail,
+  onOpenWrite,
 }) {
   const scrollRef = useRef(null);
 
@@ -310,7 +362,9 @@ export default function BoardPage({
         {category === 'careertalk' ? (
           <BoardCareerTalk onOpenDetail={onOpenCareerTalkDetail} />
         ) : category === 'qna' ? (
-          <BoardQnA onOpenDetail={onOpenQnaDetail} />
+          <BoardQnA onOpenDetail={onOpenQnaDetail} onOpenWrite={onOpenWrite} />
+        ) : category === 'freetalk' ? (
+          <BoardFreeTalk onOpenDetail={onOpenFreeTalkDetail} onOpenWrite={onOpenWrite} />
         ) : (
         <div className="max-w-[867px] mx-auto py-16 flex flex-col gap-16">
           <section className="flex flex-col gap-6 items-start w-full">
@@ -360,13 +414,13 @@ export default function BoardPage({
           </section>
 
           <section className="flex flex-col gap-5 items-start w-full">
-            <SectionHeading title="멘티들의 자유로운 토크" />
-            <div className="flex flex-col w-full">
+            <SectionHeading title="멘티들의 자유로운 토크" onViewAll={() => onCategoryChange?.('freetalk')} />
+            <div className="flex flex-col w-full gap-5">
               {FREE_POSTS.map((post, index) => (
-                <div key={post.title}>
-                  <FreeTalkPost post={post} />
+                <Fragment key={post.title}>
+                  <FreeTalkPost post={post} onOpenDetail={onOpenFreeTalkDetail} />
                   {index < FREE_POSTS.length - 1 && <div className="h-px bg-[#e7eaee] w-full" />}
-                </div>
+                </Fragment>
               ))}
             </div>
           </section>

@@ -45,6 +45,21 @@ function pickRandomMentors(count = 3) {
   return shuffle(MENTOR_AVATAR_POOL).slice(0, count);
 }
 
+// 세부페이지에서 '더보기' 없이 바로 보이는 실제 답변 멘토 3명 (Figma/세부페이지 데이터와 동일하게 고정)
+const EXTRA_MENTORS = {
+  Peter: { name: 'Peter', src: 'https://www.figma.com/api/mcp/asset/238a7985-f398-4c1b-8060-3d42ae43ec7b.png' },
+  Emma: { name: 'Emma', src: 'https://www.figma.com/api/mcp/asset/600e8ec2-767a-4acf-96bf-ca759446cdf4.png' },
+};
+
+function findMentor(name) {
+  return MENTOR_AVATAR_POOL.find((mentor) => mentor.name === name) ?? EXTRA_MENTORS[name];
+}
+
+const FIXED_MENTORS_BY_ARTICLE = {
+  failed: ['Yoonie', 'Daisy', 'Eunoia'].map(findMentor),
+  qualquant: ['U.ha', 'Peter', 'Emma'].map(findMentor),
+};
+
 const QNA_POSTS = [
   {
     author: 'Coco',
@@ -173,7 +188,7 @@ const QNA_POSTS = [
 ];
 
 QNA_POSTS.forEach((post) => {
-  post.mentors = pickRandomMentors(3);
+  post.mentors = FIXED_MENTORS_BY_ARTICLE[post.articleId] ?? pickRandomMentors(3);
 });
 
 const JOB_GROUPS = ['개발', '경영・비즈니스', '마케팅・광고', '디자인', '게임 제작', '미디어'];
@@ -377,7 +392,7 @@ function QnaCard({ post, onOpenDetail }) {
   );
 }
 
-export default function BoardQnA({ onOpenDetail }) {
+export default function BoardQnA({ onOpenDetail, onOpenWrite }) {
   const [sort, setSort] = useState('popular');
   const [latestPosts, setLatestPosts] = useState(() => shuffle(QNA_POSTS));
   const [expanded, setExpanded] = useState(false);
@@ -420,6 +435,7 @@ export default function BoardQnA({ onOpenDetail }) {
         <JobDropdown />
         <button
           type="button"
+          onClick={() => onOpenWrite?.('qna')}
           className="shrink-0 border border-[#70d2ff] bg-[#1a75ff] rounded-lg pl-4 pr-5 py-2 flex items-center gap-1 shadow-[inset_0_0_4px_0_#e7f3ff] cursor-pointer"
         >
           <img alt="" src={imgPencil} className="size-5" />

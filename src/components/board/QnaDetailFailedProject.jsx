@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const imgAuthor = 'https://www.figma.com/api/mcp/asset/58c822c4-0089-480d-acd2-73c7af5fc500.png';
 const imgPostImage = 'https://www.figma.com/api/mcp/asset/50dda127-74a2-4f2f-926a-9716da2a3f6d.png';
@@ -113,6 +113,15 @@ const MORE_ANSWERS = [
 
 function MentorAnswerCard({ answer, onOpenMentorChat }) {
   const badge = BADGE[answer.badge];
+  const [expanded, setExpanded] = useState(false);
+  const [isClamped, setIsClamped] = useState(false);
+  const textRef = useRef(null);
+
+  useEffect(() => {
+    const el = textRef.current;
+    if (el) setIsClamped(el.scrollHeight > el.clientHeight + 1);
+  }, [answer.text]);
+
   return (
     <div className="border border-[#e7eaee] rounded-2xl p-5 flex flex-col gap-5 w-full">
       <div className="flex items-center gap-3 w-full">
@@ -157,7 +166,23 @@ function MentorAnswerCard({ answer, onOpenMentorChat }) {
         )}
       </div>
       <div className="flex flex-col gap-4 w-full">
-        <p className="text-[15px] leading-[1.6] text-[#121213] whitespace-pre-wrap">{answer.text}</p>
+        <div className="flex flex-col gap-2 items-start">
+          <p
+            ref={textRef}
+            className={`text-[15px] leading-[1.6] text-[#121213] whitespace-pre-wrap ${expanded ? '' : 'line-clamp-3'}`}
+          >
+            {answer.text}
+          </p>
+          {!expanded && isClamped && (
+            <button
+              type="button"
+              onClick={() => setExpanded(true)}
+              className="text-[14px] font-medium leading-[1.42] text-[#9ca2b1] cursor-pointer"
+            >
+              더보기
+            </button>
+          )}
+        </div>
         <div className="flex items-center gap-1">
           <img alt="" src={imgSmallLike} className="size-5" />
           <span className="text-[13px] tracking-[0.26px] text-[#121213]">{answer.likes}</span>

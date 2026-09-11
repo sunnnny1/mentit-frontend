@@ -2,9 +2,6 @@ import { useState } from 'react';
 
 const imgImageVideo = "https://www.figma.com/api/mcp/asset/e82bd9e8-08d4-4798-b06f-ce816dc0dd6c.png";
 const imgImageVideo1 = "https://www.figma.com/api/mcp/asset/0627f450-3efc-453b-96ee-04fa5dd74cd0.png";
-const imgEllipse25 = "https://www.figma.com/api/mcp/asset/95a15191-36f1-4923-9783-3462991e5088.png";
-const imgEllipse26 = "https://www.figma.com/api/mcp/asset/cf47df2f-bf88-4c33-b6f9-eeae2da1b5af.png";
-const imgEllipse27 = "https://www.figma.com/api/mcp/asset/968f4175-467a-4e89-9a7d-80848790f180.png";
 const imgLike = "https://www.figma.com/api/mcp/asset/456cdd73-2b36-4510-beb7-ac459c28583e.svg";
 const imgLikeFill = 'https://www.figma.com/api/mcp/asset/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
 const imgComment = "https://www.figma.com/api/mcp/asset/13581474-4f36-46b1-9063-f3cfc8970ec3.svg";
@@ -26,6 +23,15 @@ const POSTS = [
     rightMeta: { type: 'profiles', count: 47 },
     hasDetail: true,
     articleId: 'qualquant',
+    mentors: [
+      {
+        name: 'U.ha',
+        src: 'https://www.figma.com/api/mcp/asset/82f8645a-bff2-40bb-b2ce-b4adeff510e0.png',
+        crop: { top: '-4.69%', left: '-1.28%', width: '170.94%', height: '136.83%' },
+      },
+      { name: 'Peter', src: 'https://www.figma.com/api/mcp/asset/238a7985-f398-4c1b-8060-3d42ae43ec7b.png' },
+      { name: 'Emma', src: 'https://www.figma.com/api/mcp/asset/600e8ec2-767a-4acf-96bf-ca759446cdf4.png' },
+    ],
   },
   {
     tags: [{ label: 'Q&A', kind: 'primary' }, { label: '프로덕트 디자인', kind: 'neutral' }],
@@ -38,6 +44,15 @@ const POSTS = [
     rightMeta: { type: 'profiles', count: 32 },
     hasDetail: true,
     articleId: 'failed',
+    mentors: [
+      { name: 'Yoonie', src: 'https://www.figma.com/api/mcp/asset/38da743c-39e9-4b29-92e2-178f15ebcd3d.png' },
+      {
+        name: 'Daisy',
+        src: 'https://www.figma.com/api/mcp/asset/4e59b148-9a7e-4e39-be3e-0cf935da5817.png',
+        crop: { top: '-5.94%', left: '-0.02%', width: '171.11%', height: '136.97%' },
+      },
+      { name: 'Eunoia', src: 'https://www.figma.com/api/mcp/asset/92b621eb-70dd-4c6d-a935-09067d86f639.png' },
+    ],
   },
   {
     tags: [{ label: '프리토크', kind: 'primary' }, { label: '프로덕트 디자인', kind: 'neutral' }],
@@ -48,10 +63,11 @@ const POSTS = [
     likes: 102,
     image: imgImageVideo1,
     rightMeta: { type: 'comments', count: 12 },
+    hasDetail: true,
+    articleId: 'gangster',
   },
 ];
 
-const AVATARS = [imgEllipse26, imgEllipse27, imgEllipse25];
 
 function PostCard({ post, onOpenDetail }) {
   const [liked, setLiked] = useState(false);
@@ -126,8 +142,27 @@ function PostCard({ post, onOpenDetail }) {
           {post.rightMeta.type === 'profiles' ? (
             <div className="flex gap-1 items-center">
               <div className="flex items-center">
-                {AVATARS.map((src, i) => (
-                  <img key={src} src={src} alt="" className={`size-5 rounded-full border border-white ${i > 0 ? '-ml-1.5' : ''}`} />
+                {(post.mentors ?? []).map((mentor, i) => (
+                  <div
+                    key={mentor.name}
+                    className={`relative size-5 rounded-full overflow-hidden border border-white bg-white shrink-0 ${i > 0 ? '-ml-1.5' : ''}`}
+                  >
+                    {mentor.crop ? (
+                      <img
+                        alt=""
+                        src={mentor.src}
+                        className="absolute max-w-none pointer-events-none"
+                        style={{
+                          top: mentor.crop.top,
+                          left: mentor.crop.left,
+                          width: mentor.crop.width,
+                          height: mentor.crop.height,
+                        }}
+                      />
+                    ) : (
+                      <img alt="" src={mentor.src} className="absolute inset-0 size-full object-cover" />
+                    )}
+                  </div>
                 ))}
               </div>
               <span className="text-xs font-medium tracking-[0.3px]">{post.rightMeta.count}</span>
@@ -144,7 +179,7 @@ function PostCard({ post, onOpenDetail }) {
   );
 }
 
-export default function PersonalizedPosts({ onOpenQnaDetail }) {
+export default function PersonalizedPosts({ onOpenQnaDetail, onOpenFreeTalkDetail }) {
   return (
     <section className="flex flex-col gap-6 items-start w-full pb-10">
       <div className="flex items-center justify-between w-full">
@@ -156,7 +191,11 @@ export default function PersonalizedPosts({ onOpenQnaDetail }) {
       </div>
       <div className="flex flex-col gap-5 items-center w-full">
         {POSTS.map((post) => (
-          <PostCard key={post.title} post={post} onOpenDetail={onOpenQnaDetail} />
+          <PostCard
+            key={post.title}
+            post={post}
+            onOpenDetail={post.articleId === 'gangster' ? onOpenFreeTalkDetail : onOpenQnaDetail}
+          />
         ))}
       </div>
     </section>
