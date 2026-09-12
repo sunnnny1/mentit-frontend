@@ -13,7 +13,7 @@ const SUGGESTED_QUESTIONS = [
 ];
 
 const QUICK_ACTIONS = [
-  ['멘토 추천', '취업 목표 설정', '기업 추천'],
+  ['멘토 추천', '취업 목표 설정', '직무 추천'],
   ['면접', '포트폴리오', '자기소개서', '프로젝트'],
 ];
 
@@ -38,18 +38,30 @@ function useRotatingText(items, { displayTime = 2200, transitionTime = 300 } = {
   return { text: items[index], visible };
 }
 
-function MentitAiTextfield() {
+function MentitAiTextfield({ onOpenMentorSearch }) {
   const [value, setValue] = useState('');
   const { text, visible } = useRotatingText(SUGGESTED_QUESTIONS, { displayTime: 1700, transitionTime: 220 });
 
+  const submit = () => {
+    const v = value.trim();
+    if (!v) return;
+    if (v.includes('멘토 추천')) {
+      onOpenMentorSearch?.(v);
+    }
+    setValue('');
+  };
+
   return (
     <div className="flex flex-col items-start w-full px-5">
-      <div className="relative flex items-center w-full rounded-xl border border-[#e7eaee] bg-white/70 shadow-[inset_4px_4px_12px_rgba(255,255,255,0.5)] px-5 py-3 gap-2">
+      <div className="relative flex items-center w-full rounded-xl border border-[#e7eaee] bg-white/40 backdrop-blur-[6px] shadow-[inset_4px_4px_12px_rgba(255,255,255,0.5)] px-5 py-3 gap-2">
         <div className="relative flex-1 min-w-0 h-6 flex items-center">
           <input
             type="text"
             value={value}
             onChange={(e) => setValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') submit();
+            }}
             className="w-full bg-transparent text-[15px] leading-[1.6] text-[#121213] outline-none relative z-[1]"
           />
           {value === '' && (
@@ -64,7 +76,8 @@ function MentitAiTextfield() {
         </div>
         <button
           type="button"
-          className="flex items-center justify-center size-10 rounded-full bg-[#1a75ff] border border-[#70d2ff] shadow-[inset_0_0_4px_rgba(231,243,255,1)] shrink-0 cursor-pointer"
+          onClick={submit}
+          className="relative flex items-center justify-center px-5 py-2 rounded-full bg-[#1a75ff] border border-[#70d2ff] shadow-[inset_0_0_4px_rgba(231,243,255,1)] shrink-0 cursor-pointer"
           aria-label="전송"
         >
           <img alt="" src={imgSend} className="size-6" />
@@ -74,18 +87,19 @@ function MentitAiTextfield() {
   );
 }
 
-function QuickActionButton({ label }) {
+function QuickActionButton({ label, onClick }) {
   return (
     <button
       type="button"
-      className="flex items-center justify-center px-3 py-1.5 rounded-lg border border-[#e7eaee] cursor-pointer"
+      onClick={onClick}
+      className="relative overflow-hidden flex items-center justify-center px-3 py-1.5 rounded-lg border border-[#e7eaee] cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10 after:rounded-lg after:transition-opacity"
     >
-      <p className="text-[13px] font-normal tracking-[0.26px] text-[#121213] whitespace-nowrap">{label}</p>
+      <p className="relative text-[13px] font-normal tracking-[0.26px] text-[#747886] whitespace-nowrap">{label}</p>
     </button>
   );
 }
 
-export default function MentitAiPage({ isSubMenuOpen = true, onCloseSubMenu }) {
+export default function MentitAiPage({ isSubMenuOpen = true, onCloseSubMenu, onOpenMentorSearch, onOpenPlan, onOpenJobRecommend }) {
   return (
     <div className="flex items-stretch gap-5 flex-1 min-h-0 h-full w-full overflow-hidden">
       {isSubMenuOpen && <MentitAiSubMenu onClose={onCloseSubMenu} />}
@@ -111,13 +125,25 @@ export default function MentitAiPage({ isSubMenuOpen = true, onCloseSubMenu }) {
           </div>
 
           <div className="flex flex-col gap-10 items-center w-full max-w-[827px]">
-            <MentitAiTextfield />
+            <MentitAiTextfield onOpenMentorSearch={onOpenMentorSearch} />
 
             <div className="flex flex-col gap-2 items-center px-5">
               {QUICK_ACTIONS.map((row, i) => (
                 <div key={i} className="flex gap-2 items-center justify-center">
                   {row.map((label) => (
-                    <QuickActionButton key={label} label={label} />
+                    <QuickActionButton
+                      key={label}
+                      label={label}
+                      onClick={
+                        label === '멘토 추천'
+                          ? () => onOpenMentorSearch?.('멘토 추천')
+                          : label === '취업 목표 설정'
+                            ? () => onOpenPlan?.()
+                            : label === '직무 추천'
+                              ? () => onOpenJobRecommend?.()
+                              : undefined
+                      }
+                    />
                   ))}
                 </div>
               ))}

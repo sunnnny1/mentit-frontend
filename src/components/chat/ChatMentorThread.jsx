@@ -91,7 +91,7 @@ export default function ChatMentorThread({ onBackToAgent }) {
         </div>
       </div>
 
-      <div className="flex-1 min-h-0 overflow-y-auto px-6 pb-4 flex flex-col gap-10 max-w-[957px] mx-auto w-full">
+      <div className="flex-1 min-h-0 overflow-y-auto px-6 pb-28 flex flex-col gap-10 max-w-[957px] mx-auto w-full">
         {MENTOR_CONVERSATION.map((group, index) => {
           if (group.role === 'user') {
             return (
@@ -125,13 +125,13 @@ export default function ChatMentorThread({ onBackToAgent }) {
       </div>
 
       <form
-        className="px-5 py-4 shrink-0"
+        className="absolute bottom-0 left-0 right-0 px-5 py-4"
         onSubmit={(e) => {
           e.preventDefault();
           setDraft('');
         }}
       >
-        <div className="relative flex items-center gap-2 px-5 py-3 rounded-xl border border-[#e7eaee] bg-[rgba(255,255,255,0.7)] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] max-w-[957px] mx-auto w-full">
+        <div className="relative flex items-center gap-2 px-5 py-3 rounded-xl border border-[#e7eaee] bg-[rgba(255,255,255,0.4)] backdrop-blur-[6px] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] max-w-[957px] mx-auto w-full">
           <input
             value={draft}
             onChange={(e) => setDraft(e.target.value)}

@@ -3,9 +3,9 @@ const imgActivitiesIconRow = "https://www.figma.com/api/mcp/asset/4f12ce7a-f471-
 const imgSupportActivities = "https://www.figma.com/api/mcp/asset/ddc91c6f-1c7c-4218-a8ed-be3f45f55183.svg";
 const imgApplicationIcons = "https://www.figma.com/api/mcp/asset/79a01f35-62db-4a40-8491-7b4dd06cc2c0.svg";
 
-function ChevronLink({ text }) {
+function ChevronLink({ text, onClick }) {
   return (
-    <button type="button" className="flex gap-0.5 items-center shrink-0 cursor-pointer">
+    <button type="button" onClick={onClick} className="flex gap-0.5 items-center shrink-0 cursor-pointer">
       <p className="font-medium text-sm tracking-[0.14px] text-[#9ca2b1] whitespace-nowrap">{text}</p>
       <img alt="" src={imgChevronRight} className="size-6" />
     </button>
@@ -28,7 +28,7 @@ const ACTIVITY_CARDS = [
   { count: '4번', label: '면접 준비' },
 ];
 
-export default function Hero() {
+export default function Hero({ onOpenMentitAI } = {}) {
   return (
     <section className="flex flex-col gap-16 items-start w-full">
       <h1 className="font-bold text-[32px] leading-[1.4] tracking-[-0.8px] bg-gradient-to-r from-[#00388c] to-[#121213] bg-clip-text text-transparent whitespace-nowrap">
@@ -52,7 +52,7 @@ export default function Hero() {
               <p className="font-medium text-base leading-[1.45] text-[#747886] whitespace-nowrap">카카오 프로덕트 디자이너 지원까지 D-7</p>
             </div>
           </div>
-          <ChevronLink text="멘팃 AI와 다시 계획하기" />
+          <ChevronLink text="멘팃 AI와 다시 계획하기" onClick={onOpenMentitAI} />
         </div>
 
         <div className="relative h-[55px] w-full rounded-full shadow-[0_0_30px_rgba(0,0,0,0.04)] overflow-hidden">

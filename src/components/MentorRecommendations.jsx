@@ -15,7 +15,7 @@ const CARD_TINT = {
   lightblue: 'rgba(196,236,254,0.4)',
 };
 
-const MENTORS = [
+export const MENTORS = [
   {
     name: 'Yoonie 멘토',
     badgeLabel: 'Active Mentor',
@@ -48,13 +48,16 @@ const MENTORS = [
   },
 ];
 
-function MentorCard({ mentor }) {
+export function MentorCard({ mentor, onOpenAgentChat, onOpenMentorDetail, clampDescription = false }) {
   return (
     <div
       className="relative flex flex-col gap-5 items-start p-6 rounded-2xl shrink-0 w-[364px] border-[1.5px] border-white shadow-[0_0_15px_rgba(0,0,0,0.04),inset_20px_20px_40px_rgba(255,255,255,0.9),inset_-20px_-20px_40px_rgba(255,255,255,0.9)]"
       style={{ background: `radial-gradient(circle at 50% 50%, ${CARD_TINT[mentor.color]} 0%, white 70%)` }}
     >
-      <div className="flex gap-3 items-center w-full">
+      <div
+        className={`flex gap-3 items-center w-full${mentor.name === 'Yoonie 멘토' ? ' cursor-pointer' : ''}`}
+        onClick={mentor.name === 'Yoonie 멘토' ? () => onOpenMentorDetail?.(mentor.name) : undefined}
+      >
         <img alt={mentor.name} src={mentor.avatar} className="size-[60px] rounded-full shrink-0" />
         <div className="flex-1 flex flex-col gap-1.5 min-w-0">
           <div className="flex gap-2 items-center">
@@ -76,7 +79,7 @@ function MentorCard({ mentor }) {
             </div>
           ))}
         </div>
-        <p className="text-base leading-[1.45] text-[#121213]">{mentor.desc}</p>
+        <p className={`text-base leading-[1.45] text-[#121213]${clampDescription ? ' line-clamp-2' : ''}`}>{mentor.desc}</p>
       </div>
 
       <div className="flex gap-2 items-center text-sm text-[#121213] tracking-[0.14px]">
@@ -87,7 +90,11 @@ function MentorCard({ mentor }) {
       <div className="w-full h-px bg-[#e7eaee]" />
 
       <div className="flex gap-3 items-start w-full">
-        <button type="button" className="relative flex-1 flex items-center justify-center px-7 py-3 rounded-xl border border-[rgba(255,255,255,0.4)] bg-[rgba(255,255,255,0.4)] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10">
+        <button
+          type="button"
+          onClick={mentor.name === 'Yoonie 멘토' ? () => onOpenAgentChat?.(mentor) : undefined}
+          className="relative flex-1 flex items-center justify-center px-7 py-3 rounded-xl border border-[rgba(255,255,255,0.4)] bg-[rgba(255,255,255,0.4)] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10"
+        >
           <p className="relative font-bold text-base text-[#121213] whitespace-nowrap">에이전트와 채팅하기</p>
         </button>
         <button type="button" className="relative flex items-center justify-center h-[47px] w-16 px-5 py-2 rounded-full border border-[rgba(255,255,255,0.4)] bg-[rgba(255,255,255,0.4)] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10">
@@ -98,13 +105,13 @@ function MentorCard({ mentor }) {
   );
 }
 
-export default function MentorRecommendations() {
+export default function MentorRecommendations({ onOpenAgentChat, onOpenMentorDetail }) {
   return (
     <section className="flex flex-col gap-6 items-start w-full">
       <h2 className="font-bold text-[22px] tracking-[-0.33px] text-[#121213]">윤영님에게 추천하는 멘토</h2>
       <div className="flex gap-5 items-start">
         {MENTORS.map((mentor) => (
-          <MentorCard key={mentor.name} mentor={mentor} />
+          <MentorCard key={mentor.name} mentor={mentor} onOpenAgentChat={onOpenAgentChat} onOpenMentorDetail={onOpenMentorDetail} />
         ))}
       </div>
     </section>

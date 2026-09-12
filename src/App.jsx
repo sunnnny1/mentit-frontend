@@ -18,16 +18,21 @@ import BoardWrite from './components/board/BoardWrite';
 import MyPage from './components/mypage/MyPage';
 import MyPageProfileEdit from './components/mypage/MyPageProfileEdit';
 import MentitAiPage from './components/mentitai/MentitAiPage';
+import MentitAiMentorSearch from './components/mentitai/MentitAiMentorSearch';
+import MentitAiCareerPlan from './components/mentitai/MentitAiCareerPlan';
+import MentitAiJobRecommend from './components/mentitai/MentitAiJobRecommend';
+import MentorExplorePage from './components/mentor/MentorExplorePage';
+import MentorDetailPage from './components/mentor/MentorDetailPage';
 
-function HomeMain({ onNavigateToCareerTalk, onOpenCareerTalkDetail, onOpenQnaDetail, onOpenFreeTalkDetail }) {
+function HomeMain({ onNavigateToCareerTalk, onOpenCareerTalkDetail, onOpenQnaDetail, onOpenFreeTalkDetail, onOpenAgentChat, onOpenMentorDetail, onOpenMentitAI }) {
   return (
     <main className="flex-1 max-w-[1173px] mx-auto pt-16 pb-16 px-5 flex flex-col gap-16 self-stretch min-h-0 overflow-y-auto">
       <div className="flex gap-5 items-start">
-        <Hero />
+        <Hero onOpenMentitAI={onOpenMentitAI} />
         <PortfolioCard />
       </div>
 
-      <MentorRecommendations />
+      <MentorRecommendations onOpenAgentChat={onOpenAgentChat} onOpenMentorDetail={onOpenMentorDetail} />
       <CareerTalk onNavigateToCareerTalk={onNavigateToCareerTalk} onOpenDetail={onOpenCareerTalkDetail} />
       <PersonalizedPosts onOpenQnaDetail={onOpenQnaDetail} onOpenFreeTalkDetail={onOpenFreeTalkDetail} />
     </main>
@@ -44,11 +49,20 @@ function App() {
   const [writeCategory, setWriteCategory] = useState('qna');
   const [insightTab, setInsightTab] = useState('all');
   const [myPageTab, setMyPageTab] = useState('insight');
+  const [mentorSearchQuery, setMentorSearchQuery] = useState('멘토 추천');
 
   const handleNavigate = (next) => {
     setPage(next);
     if (next === 'board') setBoardCategory('all');
-    if (next !== 'chat' && next !== 'board' && next !== 'ai') setIsSubMenuOpen(true);
+    if (
+      next !== 'chat' &&
+      next !== 'board' &&
+      next !== 'ai' &&
+      next !== 'ai-mentor-search' &&
+      next !== 'ai-plan' &&
+      next !== 'ai-job'
+    )
+      setIsSubMenuOpen(true);
   };
 
   const handleNavigateToCareerTalk = () => {
@@ -64,6 +78,28 @@ function App() {
   const handleOpenMentorChat = () => {
     setPage('chat');
     setIsSubMenuOpen(false);
+  };
+
+  const handleOpenMentorDetail = (mentorName = 'Yoonie') => {
+    if (mentorName !== 'Yoonie' && mentorName !== 'Yoonie 멘토') return;
+    setPage('mentor-detail');
+  };
+
+  const handleBackFromMentorDetail = () => {
+    setPage('mentor');
+  };
+
+  const handleOpenMentorSearch = (query = '멘토 추천') => {
+    setMentorSearchQuery(query);
+    setPage('ai-mentor-search');
+  };
+
+  const handleOpenPlan = () => {
+    setPage('ai-plan');
+  };
+
+  const handleOpenJobRecommend = () => {
+    setPage('ai-job');
   };
 
   const handleOpenQnaDetail = (articleId = 'qualquant') => {
@@ -132,6 +168,11 @@ function App() {
           page !== 'mypage' &&
           page !== 'mypage-profile' &&
           page !== 'ai' &&
+          page !== 'ai-mentor-search' &&
+          page !== 'ai-plan' &&
+          page !== 'ai-job' &&
+          page !== 'mentor' &&
+          page !== 'mentor-detail' &&
           !isBoardDetail
         }
         onBack={
@@ -145,7 +186,9 @@ function App() {
                   ? handleBackFromWrite
                   : page === 'mypage-profile'
                     ? handleBackFromMyPageProfile
-                    : undefined
+                    : page === 'mentor-detail'
+                      ? handleBackFromMentorDetail
+                      : undefined
         }
         onSearchClick={() => {
           setPreviousPage((prev) => (page === 'search' ? prev : page));
@@ -158,9 +201,25 @@ function App() {
         ) : (
           <>
             <Sidebar
-              activeItem={isBoardDetail ? 'board' : page}
+              activeItem={
+                isBoardDetail
+                  ? 'board'
+                  : page === 'ai-mentor-search' || page === 'ai-plan' || page === 'ai-job'
+                    ? 'ai'
+                    : page === 'mentor-detail'
+                      ? 'mentor'
+                      : page
+              }
               onNavigate={handleNavigate}
-              showChatBarToggle={(page === 'chat' || page === 'board' || page === 'ai') && !isSubMenuOpen}
+              showChatBarToggle={
+                (page === 'chat' ||
+                  page === 'board' ||
+                  page === 'ai' ||
+                  page === 'ai-mentor-search' ||
+                  page === 'ai-plan' ||
+                  page === 'ai-job') &&
+                !isSubMenuOpen
+              }
               onOpenChatBar={() => setIsSubMenuOpen(true)}
               onOpenMyPage={handleOpenMyPage}
             />
@@ -174,19 +233,51 @@ function App() {
               <MentitAiPage
                 isSubMenuOpen={isSubMenuOpen}
                 onCloseSubMenu={() => setIsSubMenuOpen(false)}
+                onOpenMentorSearch={handleOpenMentorSearch}
+                onOpenPlan={handleOpenPlan}
+                onOpenJobRecommend={handleOpenJobRecommend}
+              />
+            ) : page === 'ai-mentor-search' ? (
+              <MentitAiMentorSearch
+                query={mentorSearchQuery}
+                isSubMenuOpen={isSubMenuOpen}
+                onCloseSubMenu={() => setIsSubMenuOpen(false)}
+                onOpenAgentChat={handleOpenMentorChat}
+                onOpenMentorDetail={handleOpenMentorDetail}
+              />
+            ) : page === 'ai-plan' ? (
+              <MentitAiCareerPlan
+                isSubMenuOpen={isSubMenuOpen}
+                onCloseSubMenu={() => setIsSubMenuOpen(false)}
+                onNavigateHome={() => handleNavigate('home')}
+              />
+            ) : page === 'ai-job' ? (
+              <MentitAiJobRecommend
+                isSubMenuOpen={isSubMenuOpen}
+                onCloseSubMenu={() => setIsSubMenuOpen(false)}
+                onOpenCareerTalkDetail={handleOpenCareerTalkDetail}
+              />
+            ) : page === 'mentor' ? (
+              <MentorExplorePage onOpenAgentChat={handleOpenMentorChat} onOpenMentorDetail={handleOpenMentorDetail} />
+            ) : page === 'mentor-detail' ? (
+              <MentorDetailPage
+                onOpenAgentChat={handleOpenMentorChat}
+                onOpenCareerTalkDetail={handleOpenCareerTalkDetail}
+                onOpenQnaDetail={handleOpenQnaDetail}
               />
             ) : page === 'careertalk-detail' ? (
               careerTalkArticleId === 'yoonie' ? (
                 <CareerTalkDetailYoonie
                   onBack={handleBackFromCareerTalkDetail}
                   onOpenMentorChat={handleOpenMentorChat}
+                  onOpenMentorDetail={handleOpenMentorDetail}
                 />
               ) : (
                 <CareerTalkDetail onBack={handleBackFromCareerTalkDetail} />
               )
             ) : page === 'qna-detail' ? (
               qnaArticleId === 'failed' ? (
-                <QnaDetailFailedProject onOpenMentorChat={handleOpenMentorChat} />
+                <QnaDetailFailedProject onOpenMentorChat={handleOpenMentorChat} onOpenMentorDetail={handleOpenMentorDetail} />
               ) : (
                 <QnaDetailQualQuant onOpenMentorChat={handleOpenMentorChat} />
               )
@@ -222,6 +313,9 @@ function App() {
                 onOpenCareerTalkDetail={handleOpenCareerTalkDetail}
                 onOpenQnaDetail={handleOpenQnaDetail}
                 onOpenFreeTalkDetail={handleOpenFreeTalkDetail}
+                onOpenAgentChat={handleOpenMentorChat}
+                onOpenMentorDetail={handleOpenMentorDetail}
+                onOpenMentitAI={() => handleNavigate('ai')}
               />
             )}
           </>

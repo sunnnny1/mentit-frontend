@@ -8,6 +8,7 @@ const imgChatActive = 'https://www.figma.com/api/mcp/asset/6e0646a3-3bfd-4216-98
 const imgVoiceGroup = 'https://www.figma.com/api/mcp/asset/5cd38bc8-209f-4e9d-9e62-13a1390574b3.svg';
 const imgAi = 'https://www.figma.com/api/mcp/asset/0f84d59b-23fa-4e0a-ad8e-09bd0fcc1ac6.svg';
 const imgPersonPlus = 'https://www.figma.com/api/mcp/asset/e283ddd9-1555-49de-832f-514c6c9f3622.svg';
+const imgPersonPlusActive = 'https://www.figma.com/api/mcp/asset/c87ef30c-acbb-4729-b42b-d202b3cae687.svg';
 const imgBoard = 'https://www.figma.com/api/mcp/asset/5297977c-5ef6-4c2a-917d-01299de61789.svg';
 const imgBoardActive = 'https://www.figma.com/api/mcp/asset/7f33ef6b-dabb-4a00-9462-4f74c66be344.svg';
 const imgChevronDoubleRight = 'https://www.figma.com/api/mcp/asset/10bfebe3-d119-45c2-a259-535f73774024.svg';
@@ -18,7 +19,7 @@ const NAV_ITEMS = [
   { key: 'chat', label: '채팅', icon: imgChat, iconActive: imgChatActive },
   { key: 'interview', label: '면접', icon: imgVoiceGroup, iconActive: imgVoiceGroup },
   { key: 'ai', label: '멘팃 AI', icon: imgAi, iconActive: imgAi },
-  { key: 'mentor', label: '멘토 탐색', icon: imgPersonPlus, iconActive: imgPersonPlus },
+  { key: 'mentor', label: '멘토 탐색', icon: imgPersonPlus, iconActive: imgPersonPlusActive },
   { key: 'board', label: '게시판', icon: imgBoard, iconActive: imgBoardActive },
 ];
 

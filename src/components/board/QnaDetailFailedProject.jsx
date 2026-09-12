@@ -111,7 +111,7 @@ const MORE_ANSWERS = [
   },
 ];
 
-function MentorAnswerCard({ answer, onOpenMentorChat }) {
+function MentorAnswerCard({ answer, onOpenMentorChat, onOpenMentorDetail }) {
   const badge = BADGE[answer.badge];
   const [expanded, setExpanded] = useState(false);
   const [isClamped, setIsClamped] = useState(false);
@@ -125,7 +125,10 @@ function MentorAnswerCard({ answer, onOpenMentorChat }) {
   return (
     <div className="border border-[#e7eaee] rounded-2xl p-5 flex flex-col gap-5 w-full">
       <div className="flex items-center gap-3 w-full">
-        <div className="flex-1 min-w-0 flex items-center gap-3">
+        <div
+          className={`flex-1 min-w-0 flex items-center gap-3${answer.id === 'yoonie' ? ' cursor-pointer' : ''}`}
+          onClick={answer.id === 'yoonie' ? () => onOpenMentorDetail?.('Yoonie') : undefined}
+        >
           {answer.crop ? (
             <div className="size-[42px] rounded-full overflow-hidden relative bg-white shrink-0">
               <img
@@ -192,7 +195,7 @@ function MentorAnswerCard({ answer, onOpenMentorChat }) {
   );
 }
 
-export default function QnaDetailFailedProject({ onOpenMentorChat }) {
+export default function QnaDetailFailedProject({ onOpenMentorChat, onOpenMentorDetail }) {
   const [liked, setLiked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const [showMore, setShowMore] = useState(false);
@@ -313,11 +316,11 @@ export default function QnaDetailFailedProject({ onOpenMentorChat }) {
           </div>
           <div className="flex flex-col gap-4 w-full">
             {INITIAL_ANSWERS.map((answer) => (
-              <MentorAnswerCard key={answer.id} answer={answer} onOpenMentorChat={onOpenMentorChat} />
+              <MentorAnswerCard key={answer.id} answer={answer} onOpenMentorChat={onOpenMentorChat} onOpenMentorDetail={onOpenMentorDetail} />
             ))}
             {showMore &&
               MORE_ANSWERS.map((answer) => (
-                <MentorAnswerCard key={answer.id} answer={answer} onOpenMentorChat={onOpenMentorChat} />
+                <MentorAnswerCard key={answer.id} answer={answer} onOpenMentorChat={onOpenMentorChat} onOpenMentorDetail={onOpenMentorDetail} />
               ))}
             {!showMore && (
               <button

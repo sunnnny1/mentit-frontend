@@ -69,7 +69,7 @@ function isQuestionLike(text) {
   return text.includes('?');
 }
 
-export default function CareerTalkDetailYoonie({ onBack, onOpenMentorChat }) {
+export default function CareerTalkDetailYoonie({ onBack, onOpenMentorChat, onOpenMentorDetail }) {
   const [draft, setDraft] = useState('');
   const [comments, setComments] = useState(INITIAL_COMMENTS);
   const [liked, setLiked] = useState(false);
@@ -105,16 +105,21 @@ export default function CareerTalkDetailYoonie({ onBack, onOpenMentorChat }) {
             </div>
           </div>
           <div className="flex items-center gap-3 w-full">
-            <img alt="" src={imgAuthor} className="size-[42px] rounded-full object-cover shrink-0" />
-            <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-              <div className="flex items-center gap-2">
-                <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-[#121213]">Yoonie 멘토</p>
-                <div className="relative flex items-center justify-center px-2 py-1 rounded-lg shrink-0">
-                  <div className="absolute inset-0 bg-[#9054ff] opacity-10 rounded-lg" />
-                  <p className="relative text-[10px] tracking-[0.25px] text-[#9054ff] whitespace-nowrap">Active Mentor</p>
+            <div
+              className="flex items-center gap-3 flex-1 min-w-0 cursor-pointer"
+              onClick={() => onOpenMentorDetail?.('Yoonie')}
+            >
+              <img alt="" src={imgAuthor} className="size-[42px] rounded-full object-cover shrink-0" />
+              <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-[#121213]">Yoonie 멘토</p>
+                  <div className="relative flex items-center justify-center px-2 py-1 rounded-lg shrink-0">
+                    <div className="absolute inset-0 bg-[#9054ff] opacity-10 rounded-lg" />
+                    <p className="relative text-[10px] tracking-[0.25px] text-[#9054ff] whitespace-nowrap">Active Mentor</p>
+                  </div>
                 </div>
+                <p className="text-[14px] tracking-[0.14px] text-[#747886]">프로덕트 디자이너・당근・5년차</p>
               </div>
-              <p className="text-[14px] tracking-[0.14px] text-[#747886]">프로덕트 디자이너・당근・5년차</p>
             </div>
             <p className="shrink-0 text-[14px] tracking-[0.14px] text-[#747886] whitespace-nowrap">2026년 08월 14일</p>
           </div>

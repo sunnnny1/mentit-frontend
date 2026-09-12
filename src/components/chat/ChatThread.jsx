@@ -48,7 +48,7 @@ export default function ChatThread({ messages = [], onSend, showAgent = true, on
       </div>
 
       <div
-        className={`flex-1 min-h-0 overflow-y-auto px-6 pb-4 flex flex-col gap-10 ${
+        className={`flex-1 min-h-0 overflow-y-auto px-6 pb-28 flex flex-col gap-10 ${
           showAgent ? '' : 'max-w-[957px] mx-auto w-full'
         }`}
       >
@@ -141,10 +141,10 @@ export default function ChatThread({ messages = [], onSend, showAgent = true, on
         {messages.length > 0 && <img alt="" src={imgLogoMentitLogoCircle} className="size-[36px] shrink-0" />}
       </div>
 
-      <div className="shrink-0">
+      <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-4 px-5 pt-5 pb-4">
         {messages.length === 0 && (
           <div
-            className={`flex flex-col gap-2 items-end px-5 pt-5 ${
+            className={`flex flex-col gap-2 items-end ${
               showAgent ? '' : 'max-w-[957px] mx-auto w-full'
             }`}
           >
@@ -153,7 +153,7 @@ export default function ChatThread({ messages = [], onSend, showAgent = true, on
                 key={q}
                 type="button"
                 onClick={() => submit(q)}
-                className="relative overflow-hidden border-[0.5px] border-[#e7eaee] rounded-[8px] px-5 py-2 text-[15px] leading-[1.45] font-medium text-[#121213] whitespace-nowrap after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:rounded-[8px] after:transition-opacity"
+                className="relative overflow-hidden border-[0.5px] border-[#e7eaee] rounded-[8px] px-5 py-2 text-[15px] leading-[1.45] font-medium text-[#747886] whitespace-nowrap after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:rounded-[8px] after:transition-opacity"
               >
                 {q}
               </button>
@@ -162,14 +162,13 @@ export default function ChatThread({ messages = [], onSend, showAgent = true, on
         )}
 
         <form
-          className="px-5 py-4"
           onSubmit={(e) => {
             e.preventDefault();
             submit(draft);
           }}
         >
           <div
-            className={`relative flex items-center gap-2 px-5 py-3 rounded-xl border border-[#e7eaee] bg-[rgba(255,255,255,0.7)] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] ${
+            className={`relative flex items-center gap-2 px-5 py-3 rounded-xl border border-[#e7eaee] bg-[rgba(255,255,255,0.4)] backdrop-blur-[6px] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] ${
               showAgent ? '' : 'max-w-[957px] mx-auto w-full'
             }`}
           >
