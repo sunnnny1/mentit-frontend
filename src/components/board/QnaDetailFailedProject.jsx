@@ -60,7 +60,7 @@ const INITIAL_ANSWERS = [
     role: '프로덕트 디자이너・토스・3년차',
     text: '저는 신입 포폴을 매년 100개 넘게 봐온 입장에서 말씀드리면, 실패 사례 자체보다 "어떻게 서술했는지"에서 갈려요. "잘 안 됐지만 배웠어요"로 끝나는 포폴이 대부분인데, 수치나 사용자 반응까지 구체적으로 붙여서 왜 실패했는지, 어떤 문제를 발견했는지, 그걸 어떻게 개선했는지 설명한 지원자는 진짜 소수였고, 그 소수가 항상 서류를 통과했어요. 결국 중요한 건 실패를 숨기는 게 아니라, 실패를 통해 어떤 인사이트와 개선 방향을 도출했는지를 보여주는 거예요.',
     likes: 46,
-    canChat: false,
+    canChat: true,
   },
 ];
 
@@ -96,7 +96,7 @@ const MORE_ANSWERS = [
     role: 'UX 디자이너・프리랜서・6년차',
     text: '저는 실패 프로젝트를 뺄지 말지보다 "몇 개까지 넣을지"를 더 고민하라고 말씀드려요. 성공 사례 없이 실패만 나열되면 역량 자체가 의심받을 수 있거든요. 전체 프로젝트 중 1~2개 정도, 성공 사례들 사이에 배치해서 균형을 맞추는 걸 추천해요.',
     likes: 33,
-    canChat: false,
+    canChat: true,
   },
   {
     id: 'sunny',
@@ -157,7 +157,7 @@ function MentorAnswerCard({ answer, onOpenMentorChat, onOpenMentorDetail }) {
         {answer.canChat ? (
           <button
             type="button"
-            onClick={onOpenMentorChat}
+            onClick={() => onOpenMentorChat?.(answer.name)}
             className="shrink-0 border border-[#70d2ff] rounded-lg px-5 py-2 bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff] cursor-pointer"
           >
             <span className="font-bold text-[15px] leading-[1.45] text-white whitespace-nowrap">멘토와 채팅하기</span>

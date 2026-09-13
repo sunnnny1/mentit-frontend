@@ -4,13 +4,6 @@ import { MentorCard, MENTORS } from '../MentorRecommendations';
 
 const imgSend = 'https://www.figma.com/api/mcp/asset/7a7706e1-cc35-4e14-9913-48dfd5adcc5c.svg';
 
-const SUGGESTED_QUESTIONS = [
-  '프로덕트 디자이너의 포트폴리오는 몇 장이 좋을까요?',
-  'PM이 실무에서 쓰는 툴은 어떤게 있나요?',
-  '프로덕트 디자이너는 실무에서 어떻게 일하나요?',
-  '개발자와 어떻게 소통하나요?',
-];
-
 const FOLLOW_UP_CHIPS = [
   '멘토들에게 어떤 질문을 하면 좋을까?',
   '각 멘토들의 대화 후 리뷰는 어때?',
@@ -32,27 +25,6 @@ function rankMentors(role) {
 function mentorHeadingDetail(mentor) {
   const [role, company, years] = mentor.role.split(' · ');
   return `${company} ${role} ${years}`;
-}
-
-function useRotatingText(items, { displayTime = 1700, transitionTime = 220 } = {}) {
-  const [index, setIndex] = useState(0);
-  const [visible, setVisible] = useState(true);
-
-  useEffect(() => {
-    const hideTimer = setTimeout(() => setVisible(false), displayTime);
-    return () => clearTimeout(hideTimer);
-  }, [index, displayTime]);
-
-  useEffect(() => {
-    if (visible) return undefined;
-    const nextTimer = setTimeout(() => {
-      setIndex((prev) => (prev + 1) % items.length);
-      setVisible(true);
-    }, transitionTime);
-    return () => clearTimeout(nextTimer);
-  }, [visible, items.length, transitionTime]);
-
-  return { text: items[index], visible };
 }
 
 // AI 답변을 한 블록씩 순차적으로 나타나게 함 (안내 문구 -> 멘토 카드 하나씩 -> 추천 이유)
@@ -95,7 +67,6 @@ function RevealBlock({ show, className = '', children }) {
 
 function MentorSearchTextfield({ onSubmitQuery }) {
   const [value, setValue] = useState('');
-  const { text, visible } = useRotatingText(SUGGESTED_QUESTIONS);
 
   const submit = () => {
     const v = value.trim();
@@ -115,17 +86,9 @@ function MentorSearchTextfield({ onSubmitQuery }) {
             onKeyDown={(e) => {
               if (e.key === 'Enter') submit();
             }}
-            className="w-full bg-transparent text-[15px] leading-[1.6] text-[#121213] outline-none relative z-[1]"
+            placeholder="메세지를 입력해주세요"
+            className="w-full bg-transparent text-[15px] leading-[1.6] text-[#121213] placeholder:text-[#9ca2b1] outline-none relative z-[1]"
           />
-          {value === '' && (
-            <span
-              className={`pointer-events-none absolute left-0 text-[15px] leading-[1.6] text-[#9ca2b1] whitespace-nowrap transition-all duration-300 ${
-                visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-1'
-              }`}
-            >
-              {text}
-            </span>
-          )}
         </div>
         <button
           type="button"

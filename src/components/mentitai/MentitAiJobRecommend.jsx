@@ -6,12 +6,6 @@ const imgThumbnail1 = 'https://www.figma.com/api/mcp/asset/3c061cdb-9bff-4932-80
 const imgThumbnail2 = 'https://www.figma.com/api/mcp/asset/12220f1e-7e9e-4e8e-88c1-29e19fa7e1ba.png';
 const imgBookmark = 'https://www.figma.com/api/mcp/asset/7dd4dd90-1310-4e13-b127-08d8a397f76a.svg';
 
-const SUGGESTED_QUESTIONS = [
-  '프로덕트 디자이너의 포트폴리오는 몇 장이 좋을까요?',
-  'UX 디자이너랑 PM 중에 뭐가 저한테 더 잘 맞을까요?',
-  '직무를 바꾸고 싶을 땐 어떻게 접근해야 하나요?',
-];
-
 const FOLLOW_UP_CHIPS = [
   '프로덕트 디자이너 멘토의 아티클을 조금 더 추천해줘',
   '프로덕트 디자이너의 일하는 방식을 더 구체적으로 설명해줘',
@@ -53,27 +47,6 @@ const ARTICLES = [
   },
 ];
 
-function useRotatingText(items, { displayTime = 1700, transitionTime = 220 } = {}) {
-  const [index, setIndex] = useState(0);
-  const [visible, setVisible] = useState(true);
-
-  useEffect(() => {
-    const hideTimer = setTimeout(() => setVisible(false), displayTime);
-    return () => clearTimeout(hideTimer);
-  }, [index, displayTime]);
-
-  useEffect(() => {
-    if (visible) return undefined;
-    const nextTimer = setTimeout(() => {
-      setIndex((prev) => (prev + 1) % items.length);
-      setVisible(true);
-    }, transitionTime);
-    return () => clearTimeout(nextTimer);
-  }, [visible, items.length, transitionTime]);
-
-  return { text: items[index], visible };
-}
-
 // AI 답변을 한 블록씩 순차적으로 나타나게 함 (안내 문구 -> 기준 섹션들 -> 아티클 추천)
 // - 스트리밍/타이핑처럼 답변을 주는 느낌을 주기 위함.
 function useSequentialReveal(steps, stepDelay = 380) {
@@ -110,7 +83,6 @@ function RevealBlock({ show, className = '', children }) {
 
 function JobTextfield({ onSubmitQuery }) {
   const [value, setValue] = useState('');
-  const { text, visible } = useRotatingText(SUGGESTED_QUESTIONS);
 
   const submit = () => {
     const v = value.trim();
@@ -130,17 +102,9 @@ function JobTextfield({ onSubmitQuery }) {
             onKeyDown={(e) => {
               if (e.key === 'Enter') submit();
             }}
-            className="w-full bg-transparent text-[15px] leading-[1.6] text-[#121213] outline-none relative z-[1]"
+            placeholder="메세지를 입력해주세요"
+            className="w-full bg-transparent text-[15px] leading-[1.6] text-[#121213] placeholder:text-[#9ca2b1] outline-none relative z-[1]"
           />
-          {value === '' && (
-            <span
-              className={`pointer-events-none absolute left-0 text-[15px] leading-[1.6] text-[#9ca2b1] whitespace-nowrap transition-all duration-300 ${
-                visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-1'
-              }`}
-            >
-              {text}
-            </span>
-          )}
         </div>
         <button
           type="button"

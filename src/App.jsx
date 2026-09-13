@@ -26,7 +26,7 @@ import MentorDetailPage from './components/mentor/MentorDetailPage';
 
 function HomeMain({ onNavigateToCareerTalk, onOpenCareerTalkDetail, onOpenQnaDetail, onOpenFreeTalkDetail, onOpenAgentChat, onOpenMentorDetail, onOpenMentitAI }) {
   return (
-    <main className="flex-1 max-w-[1173px] mx-auto pt-16 pb-16 px-5 flex flex-col gap-16 self-stretch min-h-0 overflow-y-auto">
+    <main className="no-scrollbar flex-1 max-w-[1173px] mx-auto pt-16 pb-16 px-5 flex flex-col gap-16 self-stretch min-h-0 overflow-y-auto">
       <div className="flex gap-5 items-start">
         <Hero onOpenMentitAI={onOpenMentitAI} />
         <PortfolioCard />
@@ -50,10 +50,16 @@ function App() {
   const [insightTab, setInsightTab] = useState('all');
   const [myPageTab, setMyPageTab] = useState('insight');
   const [mentorSearchQuery, setMentorSearchQuery] = useState('멘토 추천');
+  const [chatSkipStart, setChatSkipStart] = useState(false);
+  const [chatMentor, setChatMentor] = useState('Yoonie');
 
   const handleNavigate = (next) => {
     setPage(next);
     if (next === 'board') setBoardCategory('all');
+    if (next === 'chat') {
+      setChatSkipStart(false);
+      setChatMentor('Yoonie');
+    }
     if (
       next !== 'chat' &&
       next !== 'board' &&
@@ -75,9 +81,12 @@ function App() {
     setPage('careertalk-detail');
   };
 
-  const handleOpenMentorChat = () => {
+  const handleOpenMentorChat = (mentor = 'Yoonie') => {
+    const name = (typeof mentor === 'string' ? mentor : mentor?.name ?? 'Yoonie').replace(/\s*멘토$/, '');
+    setChatMentor(name);
     setPage('chat');
     setIsSubMenuOpen(false);
+    setChatSkipStart(true);
   };
 
   const handleOpenMentorDetail = (mentorName = 'Yoonie') => {
@@ -197,7 +206,7 @@ function App() {
       />
       <div className="flex items-stretch gap-5 px-5 flex-1 min-h-0 overflow-hidden pb-5">
         {page === 'search' ? (
-          <SearchPage onClose={() => setPage(previousPage ?? 'home')} />
+          <SearchPage onClose={() => setPage(previousPage ?? 'home')} onOpenAgentChat={handleOpenMentorChat} />
         ) : (
           <>
             <Sidebar
@@ -225,9 +234,14 @@ function App() {
             />
             {page === 'chat' ? (
               <ChatPage
+                key={chatMentor}
                 isSubMenuOpen={isSubMenuOpen}
                 onCloseSubMenu={() => setIsSubMenuOpen(false)}
                 onNavigateHome={() => handleNavigate('home')}
+                onOpenMentorExplore={() => handleNavigate('mentor')}
+                onOpenMentorSearch={() => handleOpenMentorSearch()}
+                skipStart={chatSkipStart}
+                initialMentor={chatMentor}
               />
             ) : page === 'ai' ? (
               <MentitAiPage

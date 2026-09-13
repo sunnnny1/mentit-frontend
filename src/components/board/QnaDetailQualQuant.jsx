@@ -81,7 +81,7 @@ const MORE_ANSWERS = [
     role: '프로덕트 디자이너・토스・3년차',
     text: '면접에서 정성/정량 데이터에 대해 꼭 물어보는데, 숫자를 못 외워서 얼버무리는 분들이 많아요. 포폴에 넣은 수치는 그 자리에서 바로 설명할 수 있을 정도로 본인이 직접 계산하거나 뽑아본 데이터여야 해요. 어디서 가져온 숫자인지, 어떻게 구했는지까지 스스로 설명 가능한 데이터만 포폴에 넣으시길 추천해요.',
     likes: 44,
-    canChat: false,
+    canChat: true,
   },
   {
     id: 'teddy',
@@ -91,7 +91,7 @@ const MORE_ANSWERS = [
     role: 'UX 디자이너・프리랜서・6년차',
     text: '프리랜서로 일하다 보니 정량 데이터 자체를 못 받는 프로젝트가 많았는데, 그럴 땐 정성 데이터를 표나 타임라인 형태로 시각화해서 "정량적으로 보이게" 정리했어요. 데이터의 형태(숫자)가 아니라 근거의 구조가 명확한지가 더 중요하더라고요.',
     likes: 31,
-    canChat: false,
+    canChat: true,
   },
 ];
 
@@ -138,7 +138,7 @@ function MentorAnswerCard({ answer, onOpenMentorChat }) {
         {answer.canChat ? (
           <button
             type="button"
-            onClick={onOpenMentorChat}
+            onClick={() => onOpenMentorChat?.(answer.name)}
             className="shrink-0 border border-[#70d2ff] rounded-lg px-5 py-2 bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff] cursor-pointer"
           >
             <span className="font-bold text-[15px] leading-[1.45] text-white whitespace-nowrap">멘토와 채팅하기</span>

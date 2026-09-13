@@ -4,13 +4,6 @@ import MentitAiSubMenu from './MentitAiSubMenu';
 const imgSend = 'https://www.figma.com/api/mcp/asset/7a7706e1-cc35-4e14-9913-48dfd5adcc5c.svg';
 const imgArrowIcon = 'https://www.figma.com/api/mcp/asset/73476c4a-dc29-4768-b226-165c046e231d.svg';
 
-const SUGGESTED_QUESTIONS = [
-  '프로덕트 디자이너의 포트폴리오는 몇 장이 좋을까요?',
-  'PM이 실무에서 쓰는 툴은 어떤게 있나요?',
-  '프로덕트 디자이너는 실무에서 어떻게 일하나요?',
-  '개발자와 어떻게 소통하나요?',
-];
-
 const FOLLOW_UP_CHIPS = [
   '취업 준비 계획 타임라인을 메인 홈 화면에 반영해줘',
   '조금 더 구체적으로 계획을 설명해줘',
@@ -44,27 +37,6 @@ const TIMELINE = [
     ],
   },
 ];
-
-function useRotatingText(items, { displayTime = 1700, transitionTime = 220 } = {}) {
-  const [index, setIndex] = useState(0);
-  const [visible, setVisible] = useState(true);
-
-  useEffect(() => {
-    const hideTimer = setTimeout(() => setVisible(false), displayTime);
-    return () => clearTimeout(hideTimer);
-  }, [index, displayTime]);
-
-  useEffect(() => {
-    if (visible) return undefined;
-    const nextTimer = setTimeout(() => {
-      setIndex((prev) => (prev + 1) % items.length);
-      setVisible(true);
-    }, transitionTime);
-    return () => clearTimeout(nextTimer);
-  }, [visible, items.length, transitionTime]);
-
-  return { text: items[index], visible };
-}
 
 // AI 답변을 한 블록씩 순차적으로 나타나게 함 (현황 섹션 -> 타임라인 카드들 ->
 // 안내문구 -> 요약카드) - 스트리밍/타이핑처럼 답변을 주는 느낌을 주기 위함.
@@ -102,7 +74,6 @@ function RevealBlock({ show, className = '', children }) {
 
 function PlanTextfield({ onSubmitQuery }) {
   const [value, setValue] = useState('');
-  const { text, visible } = useRotatingText(SUGGESTED_QUESTIONS);
 
   const submit = () => {
     const v = value.trim();
@@ -122,17 +93,9 @@ function PlanTextfield({ onSubmitQuery }) {
             onKeyDown={(e) => {
               if (e.key === 'Enter') submit();
             }}
-            className="w-full bg-transparent text-[15px] leading-[1.6] text-[#121213] outline-none relative z-[1]"
+            placeholder="메세지를 입력해주세요"
+            className="w-full bg-transparent text-[15px] leading-[1.6] text-[#121213] placeholder:text-[#9ca2b1] outline-none relative z-[1]"
           />
-          {value === '' && (
-            <span
-              className={`pointer-events-none absolute left-0 text-[15px] leading-[1.6] text-[#9ca2b1] whitespace-nowrap transition-all duration-300 ${
-                visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-1'
-              }`}
-            >
-              {text}
-            </span>
-          )}
         </div>
         <button
           type="button"

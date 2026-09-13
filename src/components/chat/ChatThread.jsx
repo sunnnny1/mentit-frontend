@@ -10,7 +10,16 @@ const SUGGESTED_CHIPS = [
   '취준생이 가장 자주 하는 실수는 무엇인가요?',
 ];
 
-export default function ChatThread({ messages = [], onSend, showAgent = true, onShowAgent }) {
+export default function ChatThread({
+  messages = [],
+  onSend,
+  showAgent = true,
+  onShowAgent,
+  displayName = 'Yoonie',
+  threadIntro = 'Yoonie AI 에이전트와 대화가 시작돼요',
+  initialGreeting = '안녕하세요? 저는 당근에서 프로덕트 디자이너 5년차인 멘토 Yoonie 입니다. 멘토의 경험을 바탕으로, 이윤영님에게 도움을 드릴게요. 궁금한 점을 말해주세요.',
+  suggestedChips = SUGGESTED_CHIPS,
+}) {
   const [draft, setDraft] = useState('');
 
   const submit = (text) => {
@@ -26,7 +35,7 @@ export default function ChatThread({ messages = [], onSend, showAgent = true, on
         <img alt="" src={imgSegmentControl} className="absolute inset-0 w-full h-full object-cover pointer-events-none" />
         <div className="relative flex flex-col gap-1 items-center justify-center text-center w-full">
           <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213] w-full">
-            Yoonie AI 에이전트와 대화가 시작돼요
+            {threadIntro}
           </p>
           <p className="font-normal text-[12px] leading-[1.35] tracking-[0.3px] text-[#747886] w-full">
             실제 멘토의 경험과 의사결정 기준을 바탕으로 학습된 AI 에이전트예요.
@@ -52,18 +61,12 @@ export default function ChatThread({ messages = [], onSend, showAgent = true, on
           showAgent ? '' : 'max-w-[957px] mx-auto w-full'
         }`}
       >
-        <div className="flex flex-col gap-2 items-start max-w-[513px] w-full">
+        <div className={`flex flex-col gap-2 items-start w-full ${showAgent ? 'max-w-[399px]' : 'max-w-[513px]'}`}>
           <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213]">
-            Yoonie (AI Agent)
+            {displayName} (AI Agent)
           </p>
           <div className="bg-[#f7fbff] rounded-[12px] p-[12px] max-w-[513px] w-full">
-            <p className="font-normal text-[15px] leading-[1.6] text-[#121213]">
-              안녕하세요? 저는 당근에서 프로덕트 디자이너 5년차인 멘토 Yoonie 입니다.{' '}
-              <br />
-              멘토의 경험을 바탕으로, 이윤영님에게 도움을 드릴게요. 궁금한 점을{' '}
-              <br />
-              말해주세요.
-            </p>
+            <p className="font-normal text-[15px] leading-[1.6] text-[#121213]">{initialGreeting}</p>
           </div>
         </div>
 
@@ -83,8 +86,8 @@ export default function ChatThread({ messages = [], onSend, showAgent = true, on
             <div key={index} className="flex flex-col gap-1 items-start w-full max-w-[552px]">
               <div className="flex flex-col gap-4 items-start w-full max-w-[513px]">
                 <div className="flex flex-col gap-2 items-start w-full">
-                  <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213]">
-                    Yoonie (AI Agent)
+                    <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213]">
+                    {displayName} (AI Agent)
                   </p>
                   <div className="bg-[#f7fbff] rounded-[12px] p-[12px] max-w-[513px] w-full">
                     <p className="font-normal text-[15px] leading-[1.6] text-[#121213]">{parts[0]}</p>
@@ -148,12 +151,12 @@ export default function ChatThread({ messages = [], onSend, showAgent = true, on
               showAgent ? '' : 'max-w-[957px] mx-auto w-full'
             }`}
           >
-            {SUGGESTED_CHIPS.map((q) => (
+            {suggestedChips.map((q) => (
               <button
                 key={q}
                 type="button"
                 onClick={() => submit(q)}
-                className="relative overflow-hidden border-[0.5px] border-[#e7eaee] rounded-[8px] px-5 py-2 text-[15px] leading-[1.45] font-medium text-[#747886] whitespace-nowrap after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:rounded-[8px] after:transition-opacity"
+                className="relative overflow-hidden border border-[#e7eaee] rounded-[8px] px-4 py-2 text-[14px] leading-[1.42] tracking-[0.14px] font-medium text-[#747886] whitespace-nowrap after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:rounded-[8px] after:transition-opacity"
               >
                 {q}
               </button>

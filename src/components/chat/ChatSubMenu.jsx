@@ -5,7 +5,7 @@ const imgPin = "https://www.figma.com/api/mcp/asset/59578afb-163a-4f72-b0d6-fb27
 
 const MENTORS = [
   { name: 'Yoonie', unread: 0 },
-  { name: 'Sunny', unread: 2 },
+  { name: 'Teddy', unread: 0 },
   { name: 'Eunoia', unread: 1 },
 ];
 

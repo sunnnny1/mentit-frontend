@@ -5,6 +5,21 @@ const imgCarrot = 'https://www.figma.com/api/mcp/asset/6173dd1c-ece3-40d6-9f2d-2
 const imgKakao = 'https://www.figma.com/api/mcp/asset/aacd105e-6ca7-4c89-8003-29bd622d36d1.png';
 const imgInfoIcon = 'https://www.figma.com/api/mcp/asset/dec8b4d6-0b3c-4134-8a25-e5349f8a34a2.svg';
 const imgPersonPlus = 'https://www.figma.com/api/mcp/asset/b9802b84-7f26-4e07-899f-5798e99bc4e7.svg';
+// 팔로우 취소(마이너스) 상태: 사람 아이콘 모양을 완전히 동일하게 유지하기 위해
+// (직접 그린 아이콘을 쓰지 않고) 기존 person-plus 이미지를 그대로 재사용하고,
+// CSS mask(evenodd로 구멍을 뚫는 방식)로 "+"의 세로선 부분(위/아래 2군데)만
+// 잘라내어 "-"처럼 보이게 함. 좌표는 실제 아이콘을 캔버스에 그려 0.25 단위로
+// 픽셀 스캔해서 구한 값(24x24 기준: 세로선 x=18~20.8, 가로선 밴드 y=10.5~12.3).
+const PERSON_MINUS_MASK_URL =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' fill='white' d='M0,0H24V24H0Z M18,7.5H20.8V10.5H18Z M18,12.3H20.8V15.5H18Z'/%3E%3C/svg%3E\")";
+const PERSON_MINUS_MASK_STYLE = {
+  maskImage: PERSON_MINUS_MASK_URL,
+  WebkitMaskImage: PERSON_MINUS_MASK_URL,
+  maskSize: '100% 100%',
+  WebkitMaskSize: '100% 100%',
+  maskRepeat: 'no-repeat',
+  WebkitMaskRepeat: 'no-repeat',
+};
 const imgAiSummaryIcon = 'https://www.figma.com/api/mcp/asset/36ef78e8-6018-4fe4-b391-6cb5a05aac28.svg';
 const imgChevronDown = 'https://www.figma.com/api/mcp/asset/f8febec3-4d51-48c7-8360-5b05675e4744.svg';
 const imgReviewerLuvuuu = 'https://www.figma.com/api/mcp/asset/f81418e4-29cb-4475-a83a-eeb1b8d64498.png';
@@ -304,6 +319,7 @@ function ContentQnaCard({ question, text, likes, onOpenBoard }) {
 }
 
 function ProfileSidebarCard({ onOpenAgentChat }) {
+  const [isFollowing, setIsFollowing] = useState(false);
   return (
     <div className="w-[335px] shrink-0 sticky top-0 -mt-16 pt-16">
       <div
@@ -360,9 +376,14 @@ function ProfileSidebarCard({ onOpenAgentChat }) {
         </button>
         <button
           type="button"
+          onClick={() => setIsFollowing((prev) => !prev)}
           className="relative flex items-center justify-center h-[47px] w-16 px-5 py-2 rounded-full border border-[rgba(255,255,255,0.4)] bg-[rgba(255,255,255,0.4)] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10"
         >
-            <img alt="멘토 추가" src={imgPersonPlus} className="size-6" />
+            {isFollowing ? (
+              <img alt="멘토 팔로우 취소" src={imgPersonPlus} className="size-6" style={PERSON_MINUS_MASK_STYLE} />
+            ) : (
+              <img alt="멘토 추가" src={imgPersonPlus} className="size-6" />
+            )}
           </button>
         </div>
       </div>

@@ -21,7 +21,7 @@ const INITIAL_SELECTED = ['포트폴리오 개선', '실무 인사이트 공유'
 const MAX_SELECTIONS = 4;
 const MAX_COMMENT_LENGTH = 2000;
 
-export default function ChatReview() {
+export default function ChatReview({ mentorDisplayName = 'Yoonie (최윤희)' }) {
   const [selectedOptions, setSelectedOptions] = useState(INITIAL_SELECTED);
   const [comment, setComment] = useState('');
 
@@ -41,7 +41,7 @@ export default function ChatReview() {
         <img alt="" src={imgSegmentControl} className="absolute inset-0 w-full h-full object-cover pointer-events-none" />
         <div className="relative flex flex-col gap-1 items-center justify-center text-center w-full">
           <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213] w-full">
-            Yoonie (최윤희) 멘토와의 채팅 어떠셨나요?
+            {mentorDisplayName} 멘토와의 채팅 어떠셨나요?
           </p>
           <p className="font-normal text-[12px] leading-[1.35] tracking-[0.3px] text-[#747886] w-full">
             솔직한 리뷰가 다른 취준생에게 큰 도움이 될 수 있어요
