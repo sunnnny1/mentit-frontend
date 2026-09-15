@@ -52,9 +52,17 @@ function TalkCard({ talk, onOpenDetail }) {
           )}
         </button>
       </div>
-      <div className="absolute bottom-0 left-0 w-full px-4 pb-4 pt-10 bg-gradient-to-t from-black/60 to-transparent flex flex-col gap-0.5">
-        <p className="font-bold text-lg text-white [text-shadow:0_0_2px_rgba(0,0,0,0.3)]">{talk.title}</p>
-        <div className="flex gap-1 items-center text-[15px] text-white">
+      <div className="absolute bottom-0 left-0 w-full h-[140px] px-4 pb-4 flex flex-col justify-end gap-0.5">
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(to top, rgba(156, 162, 177, 0.9) 0%, rgba(156, 162, 177, 0.45) 38%, rgba(156, 162, 177, 0.12) 68%, rgba(156, 162, 177, 0) 100%)',
+          }}
+        />
+        <p className="relative font-bold text-lg leading-[1.5] tracking-[-0.0036px] text-white [text-shadow:0_0_2px_rgba(0,0,0,0.08)]">{talk.title}</p>
+        <div className="relative flex gap-0.5 items-center text-[15px] leading-[1.45] text-white [text-shadow:0_0_2px_rgba(0,0,0,0.08)]">
           <span>{talk.mentor}</span>
           <span>・</span>
           <span>{talk.role}</span>

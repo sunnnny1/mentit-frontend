@@ -1,12 +1,9 @@
 const imgCollapse = 'https://www.figma.com/api/mcp/asset/52e98eae-8932-4f12-888b-38f3e46a793e.svg';
 const imgPin = 'https://www.figma.com/api/mcp/asset/8c5d481c-7337-4561-910a-455ed7cfc8da.svg';
 
-export default function MentitAiSubMenu({
-  onClose,
-  recentConversations = [],
-  activeConversationId = null,
-  onSelectConversation,
-}) {
+const MENTORS = ['Sunny', 'U.ha'];
+
+export default function InterviewSubMenu({ onClose, activeMentor = 'Sunny', onSelectMentor }) {
   return (
     <aside className="bg-white shadow-[0_0_8px_rgba(18,18,19,0.04)] flex flex-col items-start px-5 py-6 rounded-2xl w-[246px] h-full min-h-0 shrink-0 overflow-hidden">
       <div className="flex flex-col gap-10 items-start w-full min-h-0 flex-1 overflow-y-auto">
@@ -14,7 +11,7 @@ export default function MentitAiSubMenu({
           <button type="button" onClick={onClose} className="size-6 cursor-pointer" aria-label="채팅바 여닫기">
             <img alt="" src={imgCollapse} className="size-6" />
           </button>
-          <p className="font-bold text-[15px] leading-[1.6] text-[#121213]">멘팃 AI</p>
+          <p className="font-bold text-[15px] leading-[1.6] text-[#121213]">면접</p>
         </div>
 
         <div className="flex flex-col gap-3 items-start w-full">
@@ -26,28 +23,26 @@ export default function MentitAiSubMenu({
         </div>
 
         <div className="flex flex-col gap-3 items-start w-full">
-          <p className="font-medium text-sm tracking-[0.14px] text-[#747886]">최근 대화</p>
-          {recentConversations.length > 0 && (
-            <div className="flex flex-col gap-1 items-start w-full">
-              {recentConversations.map((conversation) => {
-                const isActive = activeConversationId === conversation.id;
-                return (
-                  <button
-                    key={conversation.id}
-                    type="button"
-                    onClick={() => onSelectConversation?.(conversation)}
-                    className={`flex items-center gap-2.5 p-3 rounded-xl w-full cursor-pointer ${
-                      isActive ? 'bg-[#f9fafb]' : 'bg-white'
-                    }`}
-                  >
-                    <span className="flex-1 text-left font-medium text-[15px] leading-[1.45] text-[#121213] truncate">
-                      {conversation.title}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          )}
+          <p className="font-medium text-sm tracking-[0.14px] text-[#747886]">최근 멘토와의 메세지</p>
+          <div className="flex flex-col gap-1 items-start w-full">
+            {MENTORS.map((mentor) => {
+              const isActive = activeMentor === mentor;
+              return (
+                <button
+                  key={mentor}
+                  type="button"
+                  onClick={() => onSelectMentor?.(mentor)}
+                  className={`flex items-center gap-2.5 p-3 rounded-xl w-full cursor-pointer ${
+                    isActive ? 'bg-[#f9fafb]' : 'bg-white'
+                  }`}
+                >
+                  <span className="flex-1 text-left font-medium text-[15px] leading-[1.45] text-[#121213] truncate">
+                    {mentor}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </aside>

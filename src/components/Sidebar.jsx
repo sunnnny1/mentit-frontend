@@ -30,28 +30,24 @@ export default function Sidebar({ activeItem, onNavigate, showChatBarToggle = fa
     (activeItem == null ? internalActive : null);
 
   return (
-    <nav
-      className={`sticky top-0 z-10 self-stretch h-full min-h-0 bg-white border border-white shadow-[0_0_8px_rgba(18,18,19,0.04)] flex flex-col items-center justify-between pb-6 px-2 rounded-2xl w-[69px] shrink-0 overflow-hidden ${
-        showChatBarToggle ? 'pt-6' : 'pt-16'
-      }`}
-    >
-      <div className="flex flex-col items-center">
-        {showChatBarToggle && (
-          <div className="flex flex-col items-center">
-            <button
-              type="button"
-              onClick={onOpenChatBar}
-              className="flex items-center justify-center size-10 rounded-lg cursor-pointer"
-              aria-label="채팅바 열기"
-            >
-              <img alt="" src={imgChevronDoubleRight} className="size-6" />
-            </button>
-            <div className="flex items-center justify-center size-[60px]">
-              <img alt="" src={imgLineHorizontal} className="w-9 h-6" />
-            </div>
+    <nav className="relative z-10 self-stretch h-full min-h-0 bg-white border border-white shadow-[0_0_8px_rgba(18,18,19,0.04)] flex flex-col items-center justify-between pt-16 pb-6 px-2 rounded-2xl w-[69px] shrink-0 overflow-hidden">
+      {showChatBarToggle && (
+        <div className="absolute top-0 inset-x-0 h-16 flex flex-col items-center justify-center">
+          <button
+            type="button"
+            onClick={onOpenChatBar}
+            className="flex items-center justify-center size-10 rounded-lg cursor-pointer"
+            aria-label="채팅바 열기"
+          >
+            <img alt="" src={imgChevronDoubleRight} className="size-6" />
+          </button>
+          <div className="flex items-center justify-center h-4">
+            <img alt="" src={imgLineHorizontal} className="w-9 h-6" />
           </div>
-        )}
+        </div>
+      )}
 
+      <div className="flex flex-col items-center">
         <div className="flex flex-col gap-7 items-center">
           {NAV_ITEMS.map((item) => {
             const isActive = active === item.key;
@@ -68,9 +64,28 @@ export default function Sidebar({ activeItem, onNavigate, showChatBarToggle = fa
                 {item.key === 'interview' ? (
                   <div className="overflow-clip relative shrink-0 size-6">
                     <div className="absolute inset-[8.33%_18.75%]">
-                      <div className="absolute inset-[-5%_-6.67%]">
-                        <img alt="" className="block max-w-none size-full" src={item.icon} />
-                      </div>
+                      <svg
+                        aria-hidden="true"
+                        className="block size-full overflow-visible"
+                        viewBox="0 0 17 22"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12 4.5C12 2.567 10.433 1 8.5 1C6.567 1 5 2.567 5 4.5V11C5 12.933 6.567 14.5 8.5 14.5C10.433 14.5 12 12.933 12 11V4.5Z"
+                          fill={isActive ? '#1A75FF' : 'none'}
+                          stroke={isActive ? '#1A75FF' : '#747886'}
+                          strokeWidth="2"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M1 10.5C1 14.642 4.358 18 8.5 18M8.5 18C12.642 18 16 14.642 16 10.5M8.5 18V21"
+                          stroke={isActive ? '#1A75FF' : '#747886'}
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
                     </div>
                   </div>
                 ) : item.key === 'ai' && isActive ? (

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import MentitAiSubMenu from './MentitAiSubMenu';
+import LoadingSymbol from '../chat/LoadingSymbol';
 
 const imgSend = 'https://www.figma.com/api/mcp/asset/2dda7b37-f0bb-4b8e-8d9f-ac9709f93b08.svg';
 const imgThumbnail1 = 'https://www.figma.com/api/mcp/asset/3c061cdb-9bff-4932-8051-491c144e577c.png';
@@ -49,16 +50,24 @@ const ARTICLES = [
 
 // AI 답변을 한 블록씩 순차적으로 나타나게 함 (안내 문구 -> 기준 섹션들 -> 아티클 추천)
 // - 스트리밍/타이핑처럼 답변을 주는 느낌을 주기 위함.
-function useSequentialReveal(steps, stepDelay = 380) {
+function useSequentialReveal(steps, resetKey, stepDelay = 380) {
   const [revealed, setRevealed] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (revealed >= steps) return undefined;
-    const timer = setTimeout(() => setRevealed((prev) => prev + 1), revealed === 0 ? 200 : stepDelay);
+    setRevealed(0);
+    setIsLoading(true);
+    const timer = setTimeout(() => setIsLoading(false), 2200);
     return () => clearTimeout(timer);
-  }, [revealed, steps, stepDelay]);
+  }, [resetKey]);
 
-  return revealed;
+  useEffect(() => {
+    if (isLoading || revealed >= steps) return undefined;
+    const timer = setTimeout(() => setRevealed((prev) => prev + 1), revealed === 0 ? 0 : stepDelay);
+    return () => clearTimeout(timer);
+  }, [isLoading, revealed, steps, stepDelay]);
+
+  return { revealed, isLoading };
 }
 
 function RevealBlock({ show, className = '', children }) {
@@ -150,24 +159,26 @@ function ArticleCard({ image, title, mentor, role, onClick }) {
   );
 }
 
-export default function MentitAiJobRecommend({ isSubMenuOpen = true, onCloseSubMenu, onOpenCareerTalkDetail }) {
-  const revealed = useSequentialReveal(6);
+export default function MentitAiJobRecommend({ isSubMenuOpen = true, onCloseSubMenu, subMenu, onOpenCareerTalkDetail }) {
   const [activeQuery, setActiveQuery] = useState('직무 추천');
+  const { revealed, isLoading } = useSequentialReveal(6, activeQuery);
 
   return (
     <div className="flex items-stretch gap-5 flex-1 min-h-0 h-full w-full overflow-hidden">
-      {isSubMenuOpen && <MentitAiSubMenu onClose={onCloseSubMenu} />}
+      {isSubMenuOpen && <MentitAiSubMenu onClose={onCloseSubMenu} {...subMenu} />}
 
       <section className="relative flex-1 min-w-0 min-h-0 flex flex-col rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-hidden">
         <div className="shrink-0 flex items-center px-5 py-6 border-b border-[#e7eaee]">
           <p className="font-bold text-lg tracking-[-0.0036px] text-[#121213]">직무 선택 고민</p>
         </div>
 
-        <div className="flex-1 min-h-0 overflow-y-auto flex flex-col items-center px-5 pt-10 pb-[260px]">
+        <div className="flex-1 min-h-0 overflow-y-auto flex flex-col items-center px-5 pt-10 pb-28">
           <div className="flex flex-col gap-10 items-start w-full max-w-[867px]">
             <div className="self-end bg-[#f9fafb] max-w-[513px] p-3 rounded-xl">
               <p className="text-[15px] leading-[1.6] text-[#121213]">{activeQuery}</p>
             </div>
+
+            {isLoading && <LoadingSymbol size={72} className="self-start shrink-0" />}
 
             <RevealBlock show={revealed >= 1}>
               <p className="text-[15px] leading-[1.6] text-[#121213]">
@@ -199,31 +210,40 @@ export default function MentitAiJobRecommend({ isSubMenuOpen = true, onCloseSubM
               <p className="text-[15px] leading-[1.6]">{SECTIONS[3].desc}</p>
             </RevealBlock>
 
-            <RevealBlock show={revealed >= 6} className="flex flex-col gap-5 items-start">
-              <div className="h-px bg-[#e7eaee] w-full" />
-              <p className="text-[15px] leading-[1.6] text-[#121213]">윤영님이 관심있게 볼 아티클을 추천해드릴게요.</p>
-              <div className="flex gap-5 items-center w-full">
-                {ARTICLES.map((article) => (
-                  <ArticleCard
-                    key={article.title}
-                    {...article}
-                    onClick={article.articleId ? () => onOpenCareerTalkDetail?.(article.articleId) : undefined}
-                  />
+            <RevealBlock show={revealed >= 6} className="flex flex-col gap-5 items-start w-full">
+              <div className="flex flex-col gap-5 items-start w-full">
+                <div className="h-px bg-[#e7eaee] w-full" />
+                <p className="text-[15px] leading-[1.6] text-[#121213]">윤영님이 관심있게 볼 아티클을 추천해드릴게요.</p>
+                <div className="flex gap-5 items-center w-full">
+                  {ARTICLES.map((article) => (
+                    <ArticleCard
+                      key={article.title}
+                      {...article}
+                      onClick={article.articleId ? () => onOpenCareerTalkDetail?.(article.articleId) : undefined}
+                    />
+                  ))}
+                </div>
+              </div>
+              <div className="flex flex-col gap-2 items-start">
+                {FOLLOW_UP_CHIPS.map((chip) => (
+                  <button
+                    key={chip}
+                    type="button"
+                    className="relative overflow-hidden bg-white border border-[#e7eaee] rounded-lg px-5 py-2 cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:rounded-lg after:transition-opacity"
+                  >
+                    <p className="relative text-[15px] font-medium text-[#747886] whitespace-nowrap">{chip}</p>
+                  </button>
                 ))}
               </div>
             </RevealBlock>
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-6 items-center px-5 pt-10 pb-6">
-          <div className="flex flex-col gap-2 items-end w-full max-w-[867px] self-center">
-            {FOLLOW_UP_CHIPS.map((chip) => (
-              <div key={chip} className="bg-white border border-[#e7eaee] rounded-lg px-5 py-2">
-                <p className="text-[15px] font-medium text-[#747886] whitespace-nowrap">{chip}</p>
-              </div>
-            ))}
-          </div>
+        <div className="absolute bottom-0 left-0 right-0 flex flex-col">
+          <div className="flex flex-col items-center px-5 pt-5">
           <JobTextfield onSubmitQuery={setActiveQuery} />
+          </div>
+          <div className="h-6 w-full bg-white" aria-hidden />
         </div>
       </section>
     </div>

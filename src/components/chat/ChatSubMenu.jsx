@@ -3,13 +3,9 @@ import { useState } from 'react';
 const imgCollapse = "https://www.figma.com/api/mcp/asset/7593cb7f-18f9-440f-a8bf-fc9df3b74e55.svg";
 const imgPin = "https://www.figma.com/api/mcp/asset/59578afb-163a-4f72-b0d6-fb2747b379c9.svg";
 
-const MENTORS = [
-  { name: 'Yoonie', unread: 0 },
-  { name: 'Teddy', unread: 0 },
-  { name: 'Eunoia', unread: 1 },
-];
+const MENTORS = ['Yoonie', 'Teddy', 'Eunoia'];
 
-export default function ChatSubMenu({ onClose, activeMentor, onSelectMentor }) {
+export default function ChatSubMenu({ onClose, activeMentor, onSelectMentor, unreadByMentor = {} }) {
   const [tab, setTab] = useState('chat');
 
   return (
@@ -56,22 +52,23 @@ export default function ChatSubMenu({ onClose, activeMentor, onSelectMentor }) {
               <p className="font-medium text-sm tracking-[0.14px] text-[#747886]">최근 멘토와의 메세지</p>
               <div className="flex flex-col gap-1 items-start w-full">
                 {MENTORS.map((mentor) => {
-                  const isActive = activeMentor === mentor.name;
+                  const isActive = activeMentor === mentor;
+                  const unread = unreadByMentor[mentor] ?? 0;
                   return (
                     <button
-                      key={mentor.name}
+                      key={mentor}
                       type="button"
-                      onClick={() => onSelectMentor?.(mentor.name)}
+                      onClick={() => onSelectMentor?.(mentor)}
                       className={`flex items-center gap-2.5 p-3 rounded-xl w-full cursor-pointer ${
                         isActive ? 'bg-[#f9fafb]' : 'bg-white'
                       }`}
                     >
                       <span className="flex-1 text-left font-medium text-[15px] leading-[1.45] text-[#121213] truncate">
-                        {mentor.name}
+                        {mentor}
                       </span>
-                      {mentor.unread > 0 && (
+                      {unread > 0 && (
                         <span className="flex items-center justify-center h-7 w-[30px] rounded-[14px] bg-[#f4f6f8] text-[13px] font-medium tracking-[0.26px] text-[#121213]">
-                          {mentor.unread}
+                          {unread}
                         </span>
                       )}
                     </button>

@@ -237,12 +237,13 @@ export default function ChatMentorThread({
       </div>
 
       <form
-        className="absolute bottom-0 left-0 right-0 px-5 py-4"
+        className="absolute bottom-0 left-0 right-0 flex flex-col"
         onSubmit={(e) => {
           e.preventDefault();
           setDraft('');
         }}
       >
+        <div className="px-5 pt-4">
         <div className="relative flex items-center gap-2 px-5 py-3 rounded-xl border border-[#e7eaee] bg-[rgba(255,255,255,0.4)] backdrop-blur-[6px] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] max-w-[957px] mx-auto w-full">
           <input
             value={draft}
@@ -258,6 +259,8 @@ export default function ChatMentorThread({
             <img alt="" src={imgSend} className="relative size-6" />
           </button>
         </div>
+        </div>
+        <div className="h-4 w-full bg-white" aria-hidden />
       </form>
     </div>
   );

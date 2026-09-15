@@ -17,7 +17,11 @@ function StartCard({ title, subtitle, widthClass, onClick }) {
   );
 }
 
-export default function ChatStartScreen({ onOpenMentorExplore, onOpenMentorSearch }) {
+export default function ChatStartScreen({
+  onOpenMentorExplore,
+  onOpenMentorSearch,
+  greeting = '윤영님, 멘토와 대화를 시작해볼까요?',
+}) {
   return (
     <section className="flex-1 min-w-0 min-h-0 h-full flex flex-col items-center justify-center rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] px-5">
       <div className="flex flex-col gap-10 items-center w-full max-w-[827px]">
@@ -25,7 +29,7 @@ export default function ChatStartScreen({ onOpenMentorExplore, onOpenMentorSearc
           <div className="flex gap-2 items-center justify-center">
             <img alt="" src={imgLogoCircle} className="size-9 shrink-0" />
             <p className="font-medium text-[22px] leading-[1.4] tracking-[-0.33px] text-[#121213] whitespace-nowrap">
-              윤영님, 멘토와 대화를 시작해볼까요?
+              {greeting}
             </p>
           </div>
           <div className="text-center text-[14px] leading-[1.58] tracking-[0.14px] text-[#121213]">

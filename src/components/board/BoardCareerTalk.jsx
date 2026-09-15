@@ -144,9 +144,17 @@ function CareerTalkCard({ talk, onOpenDetail }) {
           <img alt="" src={imgBookmark} className="relative size-6" />
         )}
       </button>
-      <div className="absolute bottom-0 left-0 w-full px-4 pb-3 pt-10 bg-gradient-to-t from-black/60 to-transparent flex flex-col gap-0.5">
-        <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-white">{talk.title}</p>
-        <p className="font-normal text-[15px] leading-[1.45] text-white">
+      <div className="absolute bottom-0 left-0 w-full h-[140px] px-4 pb-3 flex flex-col justify-end gap-0.5">
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(to top, rgba(156, 162, 177, 0.9) 0%, rgba(156, 162, 177, 0.45) 38%, rgba(156, 162, 177, 0.12) 68%, rgba(156, 162, 177, 0) 100%)',
+          }}
+        />
+        <p className="relative font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-white [text-shadow:0_0_2px_rgba(0,0,0,0.08)]">{talk.title}</p>
+        <p className="relative font-normal text-[15px] leading-[1.45] text-white [text-shadow:0_0_2px_rgba(0,0,0,0.08)]">
           {talk.mentor} ・ {talk.role}
         </p>
       </div>

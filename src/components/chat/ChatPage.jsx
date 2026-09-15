@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ChatSubMenu from './ChatSubMenu';
 import ChatProfileBar from './ChatProfileBar';
 import ChatAgentPanel from './ChatAgentPanel';
@@ -147,20 +147,36 @@ export default function ChatPage({
   onOpenMentorSearch,
   skipStart = false,
   initialMentor = 'Yoonie',
+  unreadByMentor: unreadByMentorProp,
+  onReadMentor,
 }) {
   const [started, setStarted] = useState(skipStart);
   const [showAgent, setShowAgent] = useState(true);
   const [chatMode, setChatMode] = useState('agent'); // 'agent' | 'mentor' | 'review'
   const [activeMentor, setActiveMentor] = useState(initialMentor);
   const [messages, setMessages] = useState([]);
+  const [isAnswering, setIsAnswering] = useState(false);
+  const [unreadByMentorLocal, setUnreadByMentorLocal] = useState({ Yoonie: 0, Teddy: 0, Eunoia: 1 });
+  const unreadByMentor = unreadByMentorProp ?? unreadByMentorLocal;
 
   const mentorConfig = MENTOR_CHAT_CONFIG[activeMentor] ?? MENTOR_CHAT_CONFIG.Yoonie;
 
+  useEffect(() => {
+    onReadMentor?.(activeMentor);
+    setUnreadByMentorLocal((prev) => {
+      if (!prev[activeMentor]) return prev;
+      return { ...prev, [activeMentor]: 0 };
+    });
+  }, [activeMentor, onReadMentor]);
+
   const handleSelectMentor = (name) => {
     setActiveMentor(name);
+    onReadMentor?.(name);
+    setUnreadByMentorLocal((prev) => (prev[name] ? { ...prev, [name]: 0 } : prev));
     setStarted(true);
     setChatMode('agent');
     setMessages([]);
+    setIsAnswering(false);
     setShowAgent(true);
   };
 
@@ -169,11 +185,15 @@ export default function ChatPage({
     if (!value) return;
     const qaMap = MENTOR_CHAT_CONFIG[activeMentor]?.qaMap ?? QA_MAP;
     const answer = qaMap[value] ?? DEFAULT_ANSWER;
-    setMessages((prev) => [
-      ...prev,
-      { role: 'user', text: value },
-      { role: 'mentor', text: answer.text, citation: answer.citation, ctaText: answer.ctaText },
-    ]);
+    setMessages((prev) => [...prev, { role: 'user', text: value }]);
+    setIsAnswering(true);
+    setTimeout(() => {
+      setMessages((prev) => [
+        ...prev,
+        { role: 'mentor', text: answer.text, citation: answer.citation, ctaText: answer.ctaText },
+      ]);
+      setIsAnswering(false);
+    }, 2200);
   };
 
   return (
@@ -183,6 +203,7 @@ export default function ChatPage({
           onClose={onCloseSubMenu}
           activeMentor={activeMentor}
           onSelectMentor={handleSelectMentor}
+          unreadByMentor={unreadByMentor}
         />
       )}
 
@@ -231,6 +252,7 @@ export default function ChatPage({
                 <ChatThread
                   messages={messages}
                   onSend={handleSend}
+                  isAnswering={isAnswering}
                   showAgent={showAgent}
                   onShowAgent={() => setShowAgent(true)}
                   displayName={mentorConfig.displayName}

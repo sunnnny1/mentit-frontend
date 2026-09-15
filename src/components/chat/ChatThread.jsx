@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import LoadingSymbol from './LoadingSymbol';
 
 const imgSend = 'https://www.figma.com/api/mcp/asset/70a5b9f2-c5bb-45a9-9836-1ccc8ad917e2.svg';
 const imgSegmentControl = 'https://www.figma.com/api/mcp/asset/41fe867f-d67f-44f6-9936-91fa6bda6e6d.png';
-const imgLogoMentitLogoCircle = 'https://www.figma.com/api/mcp/asset/04ad0798-9c3a-4941-8c08-22c0fbf30157.svg';
 
 const SUGGESTED_CHIPS = [
   '저에게 맞는 직무를 어떻게 선택해야할까요?',
@@ -19,6 +19,7 @@ export default function ChatThread({
   threadIntro = 'Yoonie AI 에이전트와 대화가 시작돼요',
   initialGreeting = '안녕하세요? 저는 당근에서 프로덕트 디자이너 5년차인 멘토 Yoonie 입니다. 멘토의 경험을 바탕으로, 이윤영님에게 도움을 드릴게요. 궁금한 점을 말해주세요.',
   suggestedChips = SUGGESTED_CHIPS,
+  isAnswering = false,
 }) {
   const [draft, setDraft] = useState('');
 
@@ -57,17 +58,33 @@ export default function ChatThread({
       </div>
 
       <div
-        className={`flex-1 min-h-0 overflow-y-auto px-6 pb-28 flex flex-col gap-10 ${
+        className={`flex-1 min-h-0 overflow-y-auto px-6 pb-24 flex flex-col gap-10 ${
           showAgent ? '' : 'max-w-[957px] mx-auto w-full'
         }`}
       >
-        <div className={`flex flex-col gap-2 items-start w-full ${showAgent ? 'max-w-[399px]' : 'max-w-[513px]'}`}>
-          <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213]">
-            {displayName} (AI Agent)
-          </p>
-          <div className="bg-[#f7fbff] rounded-[12px] p-[12px] max-w-[513px] w-full">
-            <p className="font-normal text-[15px] leading-[1.6] text-[#121213]">{initialGreeting}</p>
+        <div className={`flex flex-col gap-3 items-start w-full ${showAgent ? 'max-w-[399px]' : 'max-w-[513px]'}`}>
+          <div className="flex flex-col gap-2 items-start w-full">
+            <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213]">
+              {displayName} (AI Agent)
+            </p>
+            <div className="bg-[#f7fbff] rounded-[12px] p-[12px] max-w-[513px] w-full">
+              <p className="font-normal text-[15px] leading-[1.6] text-[#121213]">{initialGreeting}</p>
+            </div>
           </div>
+          {messages.length === 0 && !isAnswering && (
+            <div className="flex flex-col gap-2 items-start">
+              {suggestedChips.map((q) => (
+                <button
+                  key={q}
+                  type="button"
+                  onClick={() => submit(q)}
+                  className="relative overflow-hidden border border-[#e7eaee] rounded-[8px] px-4 py-2 text-[14px] leading-[1.42] tracking-[0.14px] font-medium text-[#747886] whitespace-nowrap after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:rounded-[8px] after:transition-opacity"
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {messages.map((msg, index) => {
@@ -141,29 +158,11 @@ export default function ChatThread({
           );
         })}
 
-        {messages.length > 0 && <img alt="" src={imgLogoMentitLogoCircle} className="size-[36px] shrink-0" />}
+        {isAnswering && <LoadingSymbol size={72} className="shrink-0" />}
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-4 px-5 pt-5 pb-4">
-        {messages.length === 0 && (
-          <div
-            className={`flex flex-col gap-2 items-end ${
-              showAgent ? '' : 'max-w-[957px] mx-auto w-full'
-            }`}
-          >
-            {suggestedChips.map((q) => (
-              <button
-                key={q}
-                type="button"
-                onClick={() => submit(q)}
-                className="relative overflow-hidden border border-[#e7eaee] rounded-[8px] px-4 py-2 text-[14px] leading-[1.42] tracking-[0.14px] font-medium text-[#747886] whitespace-nowrap after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:rounded-[8px] after:transition-opacity"
-              >
-                {q}
-              </button>
-            ))}
-          </div>
-        )}
-
+      <div className="absolute bottom-0 left-0 right-0 flex flex-col">
+      <div className="flex flex-col px-5 pt-5">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -190,6 +189,8 @@ export default function ChatThread({
             </button>
           </div>
         </form>
+      </div>
+      <div className="h-4 w-full bg-white" aria-hidden />
       </div>
     </div>
   );

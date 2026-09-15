@@ -19,6 +19,9 @@ const FEATURED_MENTORS = [
     tags: ['UX 디자인', '면접'],
     desc: '사용자 리서치부터 UX 설계까지 다양한 프로젝트를 경험해왔어요. 디자인 취업을 준비하면서 생기는 고민과 실무에서 필요한 역량에 대해 구체적으로 알려드릴게요.',
     reviews: '60개',
+    followers: '2.1K',
+    chats: '90',
+    reviewCount: '60',
     avatar: imgSunny,
   },
   {
@@ -29,6 +32,9 @@ const FEATURED_MENTORS = [
     tags: ['프로덕트 디자인', '포트폴리오'],
     desc: '취준했던 경험을 바탕으로 가장 가까이서 대기업 프로덕트 디자이너에 대한 내용을 알려드립니다.',
     reviews: '8개',
+    followers: '340',
+    chats: '15',
+    reviewCount: '8',
     avatar: imgDaisy,
   },
   {
@@ -39,6 +45,9 @@ const FEATURED_MENTORS = [
     tags: ['프로덕트 디자인', '포트폴리오'],
     desc: '해외 디자이너의 A to Z 까지 포트폴리오, 면접, 실무에 관한 내용을 알려드립니다.',
     reviews: '30개',
+    followers: '890',
+    chats: '42',
+    reviewCount: '30',
     avatar: imgUha,
   },
 ];
@@ -220,7 +229,7 @@ function DirectoryMentorCard({ mentor, onOpenMentorDetail }) {
   );
 }
 
-export default function MentorExplorePage({ onOpenAgentChat, onOpenMentorDetail }) {
+export default function MentorExplorePage({ onOpenAgentChat, onOpenMentorDetail, onOpenInterview }) {
   const [activeCategory, setActiveCategory] = useState('all');
 
   const filteredMentors =
@@ -228,19 +237,19 @@ export default function MentorExplorePage({ onOpenAgentChat, onOpenMentorDetail 
 
   return (
     <section className="relative flex-1 min-w-0 min-h-0 flex flex-col rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-hidden">
-      <div className="flex-1 min-h-0 overflow-y-auto flex flex-col items-center px-5 pt-16 pb-16">
-        <div className="w-[1133px] max-w-full flex flex-col gap-16">
+      <div className="flex-1 min-h-0 overflow-y-auto flex flex-col items-center px-5 pb-16">
+        <div className="w-[1133px] max-w-full flex flex-col gap-16 pt-16">
           <section className="flex flex-col gap-8 items-start w-full">
             <h2 className="font-bold text-[22px] tracking-[-0.33px] text-[#121213]">희망 직무의 추천 멘토와 대화를 시작해보세요</h2>
             <div className="flex flex-col gap-5 w-full">
               <div className="flex gap-5 items-start w-full">
                 {FEATURED_MENTORS.slice(0, 3).map((mentor) => (
-                  <MentorCard key={mentor.name} mentor={mentor} onOpenAgentChat={onOpenAgentChat} onOpenMentorDetail={onOpenMentorDetail} clampDescription />
+                  <MentorCard key={mentor.name} mentor={mentor} onOpenAgentChat={onOpenAgentChat} onOpenMentorDetail={onOpenMentorDetail} onOpenInterview={onOpenInterview} variant="profile" />
                 ))}
               </div>
               <div className="flex gap-5 items-start w-full">
                 {FEATURED_MENTORS.slice(3, 6).map((mentor) => (
-                  <MentorCard key={mentor.name} mentor={mentor} onOpenAgentChat={onOpenAgentChat} onOpenMentorDetail={onOpenMentorDetail} clampDescription />
+                  <MentorCard key={mentor.name} mentor={mentor} onOpenAgentChat={onOpenAgentChat} onOpenMentorDetail={onOpenMentorDetail} onOpenInterview={onOpenInterview} variant="profile" />
                 ))}
               </div>
             </div>
@@ -255,8 +264,8 @@ export default function MentorExplorePage({ onOpenAgentChat, onOpenMentorDetail 
             </div>
           </section>
 
-          <section className="flex flex-col gap-8 w-full">
-            <div className="sticky top-0 z-10 bg-white -mt-8 pt-8 flex flex-col gap-6 w-full pb-2">
+          <section className="relative isolate flex flex-col w-full">
+            <div className="sticky top-0 z-30 -mx-5 px-5 bg-white pt-16 -mt-16 pb-8 flex flex-col gap-6 isolate">
               <h2 className="font-bold text-[22px] tracking-[-0.33px] text-[#121213]">멘토 카테고리</h2>
               <div className="flex items-center w-full border-b border-[#e7eaee]">
                 {CATEGORIES.map((category) => {
@@ -287,7 +296,7 @@ export default function MentorExplorePage({ onOpenAgentChat, onOpenMentorDetail 
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-5 w-full">
+            <div className="relative z-0 flex flex-wrap gap-5 w-full">
               {filteredMentors.map((mentor) => (
                 <DirectoryMentorCard key={mentor.name} mentor={mentor} onOpenMentorDetail={onOpenMentorDetail} />
               ))}

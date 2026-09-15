@@ -7,7 +7,7 @@ const imgBell = "https://www.figma.com/api/mcp/asset/c86ae723-d4d2-430f-86af-352
 
 export default function Header({ showStreak = true, onSearchClick, onBack }) {
   return (
-    <header className="sticky top-0 z-20 shrink-0 bg-[#fcfcfc] flex items-center justify-between pb-3 pl-9 pr-5 pt-4 w-full">
+    <header className="sticky top-0 z-20 shrink-0 h-16 bg-[#fcfcfc] flex items-center justify-between pl-9 pr-5 w-full">
       <div className="flex items-center gap-[37px] h-[39px] p-0.5">
         <img alt="Mentit" src={imgLogo} className="size-[35px]" />
         {onBack && (

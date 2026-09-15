@@ -242,9 +242,17 @@ function CareerTalkCard({ talk, onOpenDetail }) {
         <img alt="" src={imgBookmark} className="relative size-6" />
       )}
       </button>
-      <div className="absolute bottom-0 left-0 w-full px-4 pb-3 pt-10 bg-gradient-to-t from-black/60 to-transparent flex flex-col gap-0.5">
-        <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-white">{talk.title}</p>
-        <p className="font-normal text-[15px] leading-[1.45] text-white">
+      <div className="absolute bottom-0 left-0 w-full h-[140px] px-4 pb-3 flex flex-col justify-end gap-0.5">
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(to top, rgba(156, 162, 177, 0.9) 0%, rgba(156, 162, 177, 0.45) 38%, rgba(156, 162, 177, 0.12) 68%, rgba(156, 162, 177, 0) 100%)',
+          }}
+        />
+        <p className="relative font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-white [text-shadow:0_0_2px_rgba(0,0,0,0.08)]">{talk.title}</p>
+        <p className="relative font-normal text-[15px] leading-[1.45] text-white [text-shadow:0_0_2px_rgba(0,0,0,0.08)]">
           {talk.mentor} ・ {talk.role}
         </p>
       </div>
@@ -346,6 +354,7 @@ export default function BoardPage({
   onOpenQnaDetail,
   onOpenFreeTalkDetail,
   onOpenWrite,
+  onOpenMentorDetail,
 }) {
   const scrollRef = useRef(null);
 
@@ -370,8 +379,15 @@ export default function BoardPage({
           <section className="flex flex-col gap-6 items-start w-full">
             <h2 className="font-bold text-[22px] leading-[1.4] tracking-[-0.33px] text-[#121213]">이번주 활동량 높은 멘토</h2>
             <div className="flex gap-8 items-start overflow-x-auto w-full">
-              {ACTIVE_MENTORS.map((mentor) => (
-                <div key={mentor.name} className="flex flex-col gap-1 items-center shrink-0">
+              {ACTIVE_MENTORS.map((mentor) => {
+                const isYoonie = mentor.name === 'Yoonie';
+                return (
+                <div
+                  key={mentor.name}
+                  className={`flex flex-col gap-1 items-center shrink-0${isYoonie ? ' cursor-pointer' : ''}`}
+                  onClick={isYoonie ? () => onOpenMentorDetail?.(mentor.name) : undefined}
+                  role={isYoonie ? 'button' : undefined}
+                >
                   {mentor.crop ? (
                     <div className="size-16 rounded-full overflow-hidden relative bg-white shrink-0">
                       <img
@@ -391,7 +407,8 @@ export default function BoardPage({
                   )}
                   <p className="font-normal text-[14px] tracking-[0.14px] text-[#121213] whitespace-nowrap">{mentor.name}</p>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </section>
 

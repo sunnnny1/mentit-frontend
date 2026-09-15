@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import MentitAiSubMenu from './MentitAiSubMenu';
-
-const imgLogo = 'https://www.figma.com/api/mcp/asset/556c2fd1-803d-47a2-b220-548b7e2b8deb.svg';
+import mentitSymbol from '../../assets/mentit-symbol.png';
 const imgBackground = 'https://www.figma.com/api/mcp/asset/e9d9e8a2-cf74-4646-ab4c-cfe3b1059510.svg';
 const imgSend = 'https://www.figma.com/api/mcp/asset/7a7706e1-cc35-4e14-9913-48dfd5adcc5c.svg';
 
@@ -99,10 +98,10 @@ function QuickActionButton({ label, onClick }) {
   );
 }
 
-export default function MentitAiPage({ isSubMenuOpen = true, onCloseSubMenu, onOpenMentorSearch, onOpenPlan, onOpenJobRecommend }) {
+export default function MentitAiPage({ isSubMenuOpen = true, onCloseSubMenu, subMenu, onOpenMentorSearch, onOpenPlan, onOpenJobRecommend }) {
   return (
     <div className="flex items-stretch gap-5 flex-1 min-h-0 h-full w-full overflow-hidden">
-      {isSubMenuOpen && <MentitAiSubMenu onClose={onCloseSubMenu} />}
+      {isSubMenuOpen && <MentitAiSubMenu onClose={onCloseSubMenu} {...subMenu} />}
 
       <section className="relative flex-1 min-w-0 min-h-0 flex flex-col rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-hidden">
         <img
@@ -114,7 +113,7 @@ export default function MentitAiPage({ isSubMenuOpen = true, onCloseSubMenu, onO
         <div className="relative flex-1 min-h-0 flex flex-col items-center justify-center gap-10 px-5 py-10 overflow-y-auto">
           <div className="flex flex-col gap-4 items-center w-full max-w-[827px]">
             <div className="flex flex-col gap-2 items-center">
-              <img alt="" src={imgLogo} className="size-9" />
+              <img alt="" src={mentitSymbol} className="size-[72px] object-contain" />
               <p className="font-medium text-[22px] leading-[1.4] tracking-[-0.33px] text-[#121213] text-center whitespace-nowrap">
                 멘팃 AI가 취업 준비를 함께 도와드릴게요
               </p>
