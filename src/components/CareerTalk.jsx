@@ -48,7 +48,21 @@ function TalkCard({ talk, onOpenDetail }) {
               }}
             />
           ) : (
-            <img alt="북마크" src={imgBookmark} className="size-6" />
+            <span
+              aria-hidden
+              className="block size-6"
+              style={{
+                WebkitMaskImage: `url("${imgBookmark}")`,
+                maskImage: `url("${imgBookmark}")`,
+                WebkitMaskSize: 'contain',
+                maskSize: 'contain',
+                WebkitMaskRepeat: 'no-repeat',
+                maskRepeat: 'no-repeat',
+                WebkitMaskPosition: 'center',
+                maskPosition: 'center',
+                backgroundColor: '#ffffff',
+              }}
+            />
           )}
         </button>
       </div>

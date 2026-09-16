@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-
-const imgBookmark = 'https://www.figma.com/api/mcp/asset/4ac74a74-c74e-4012-9e9d-4270d3c5690e.svg';
-const imgBookmarkFill = 'https://www.figma.com/api/mcp/asset/b20bcd72-0b9e-4707-8bd9-b80aa3f1fae3.svg';
+import imgBookmark from '../../assets/icons/careertalk-bookmark.svg';
+import imgBookmarkFill from '../../assets/icons/careertalk-bookmark-fill.svg';
 const imgChevronDown = 'https://www.figma.com/api/mcp/asset/2a8c0fab-ff12-4088-9976-f8cdb0698792.svg';
 const imgMoreChevron = 'https://www.figma.com/api/mcp/asset/bb3b8c56-7ee3-4df3-ba7c-8fbd9131aa9f.svg';
 
@@ -141,7 +140,21 @@ function CareerTalkCard({ talk, onOpenDetail }) {
             }}
           />
         ) : (
-          <img alt="" src={imgBookmark} className="relative size-6" />
+          <span
+              aria-hidden
+              className="relative block size-6"
+              style={{
+                WebkitMaskImage: `url("${imgBookmark}")`,
+                maskImage: `url("${imgBookmark}")`,
+                WebkitMaskSize: 'contain',
+                maskSize: 'contain',
+                WebkitMaskRepeat: 'no-repeat',
+                maskRepeat: 'no-repeat',
+                WebkitMaskPosition: 'center',
+                maskPosition: 'center',
+                backgroundColor: '#ffffff',
+              }}
+            />
         )}
       </button>
       <div className="absolute bottom-0 left-0 w-full h-[140px] px-4 pb-3 flex flex-col justify-end gap-0.5">

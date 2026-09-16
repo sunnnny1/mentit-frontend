@@ -3,48 +3,61 @@ import BoardSubMenu from './BoardSubMenu';
 import BoardCareerTalk from './BoardCareerTalk';
 import BoardQnA from './BoardQnA';
 import BoardFreeTalk from './BoardFreeTalk';
-
-const imgChevronRight = 'https://www.figma.com/api/mcp/asset/a7492a83-b25e-4d60-be05-b7c4b627db4a.svg';
-const imgBookmark = 'https://www.figma.com/api/mcp/asset/4ac74a74-c74e-4012-9e9d-4270d3c5690e.svg';
-const imgBookmarkFill = 'https://www.figma.com/api/mcp/asset/b20bcd72-0b9e-4707-8bd9-b80aa3f1fae3.svg';
-const imgLike = 'https://www.figma.com/api/mcp/asset/d82be445-be8d-44cb-bce0-d3f6a3b977c2.svg';
-const imgLikeFill = 'https://www.figma.com/api/mcp/asset/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
-const imgComment = 'https://www.figma.com/api/mcp/asset/a7002a5b-eba5-4e8e-9759-748d8f41bbb7.svg';
+import imgChevronRight from '../../assets/icons/chevron-right.svg';
+import imgBookmark from '../../assets/icons/careertalk-bookmark.svg';
+import imgBookmarkFill from '../../assets/icons/careertalk-bookmark-fill.svg';
+import imgLike from '../../assets/icons/like.svg';
+import imgLikeFill from '../../assets/icons/like-fill.svg';
+import imgComment from '../../assets/icons/comment.svg';
+import imgUha from '../../assets/icons/uha.webp';
+import imgYoonieMentor from '../../assets/icons/yoonie.webp';
+import imgEric from '../../assets/icons/eric.webp';
+import imgDaisy from '../../assets/icons/daisy.webp';
+import imgEunoiaMentor from '../../assets/icons/eunoia.webp';
+import imgTeddyMentor from '../../assets/icons/teddy.webp';
+import imgSunny from '../../assets/icons/sunny.webp';
+import imgPeter from '../../assets/icons/peter.webp';
+import imgEmma from '../../assets/icons/emma.webp';
+import imgTalkYoonie from '../../assets/icons/talkYoonie.webp';
+import imgTalkUha from '../../assets/icons/talkUha.webp';
+import imgGangsterAvatar from '../../assets/icons/gangsterAvatar.webp';
+import imgHappyAvatar from '../../assets/icons/happyAvatar.webp';
+import imgGangsterPost from '../../assets/icons/gangsterImg.webp';
 
 const ACTIVE_MENTORS = [
   {
     name: 'U.ha',
-    src: 'https://www.figma.com/api/mcp/asset/82f8645a-bff2-40bb-b2ce-b4adeff510e0.png',
+    src: imgUha,
     crop: { top: '-4.69%', left: '-1.28%', width: '170.94%', height: '136.83%' },
   },
   {
     // 홈 화면(MentorRecommendations.jsx)에서 이미 쓰고 있는 것과 동일한 이미지 재사용
     name: 'Yoonie',
-    src: 'https://www.figma.com/api/mcp/asset/38da743c-39e9-4b29-92e2-178f15ebcd3d.png',
+    src: imgYoonieMentor,
   },
   {
     name: 'Eric',
-    src: 'https://www.figma.com/api/mcp/asset/a0d39193-fabc-410b-8ee7-5cd5300c34bf.png',
+    src: imgEric,
     crop: { top: '-1.18%', left: '-2.04%', width: '182%', height: '145.69%' },
   },
   {
     name: 'Daisy',
-    src: 'https://www.figma.com/api/mcp/asset/4e59b148-9a7e-4e39-be3e-0cf935da5817.png',
+    src: imgDaisy,
     crop: { top: '-5.94%', left: '-0.02%', width: '171.11%', height: '136.97%' },
   },
   {
     // 홈 화면(MentorRecommendations.jsx)에서 이미 쓰고 있는 것과 동일한 이미지 재사용
     name: 'Eunoia',
-    src: 'https://www.figma.com/api/mcp/asset/92b621eb-70dd-4c6d-a935-09067d86f639.png',
+    src: imgEunoiaMentor,
   },
   {
     // 홈 화면(MentorRecommendations.jsx)에서 이미 쓰고 있는 것과 동일한 이미지 재사용
     name: 'Teddy',
-    src: 'https://www.figma.com/api/mcp/asset/349f7306-9c3b-45ee-b42e-10569d6479a8.png',
+    src: imgTeddyMentor,
   },
   {
     name: 'Sunny',
-    src: 'https://www.figma.com/api/mcp/asset/f523aa62-cb7a-4452-92f8-9126d2a5de89.png',
+    src: imgSunny,
     crop: { top: '-5.92%', left: '-1.73%', width: '175.37%', height: '140.34%' },
   },
 ];
@@ -64,8 +77,8 @@ function pickRandomMentors(count = 3) {
 
 // 세부페이지에서 '더보기' 없이 바로 보이는 실제 답변 멘토 3명 (Figma/세부페이지 데이터와 동일하게 고정)
 const EXTRA_MENTORS = {
-  Peter: { name: 'Peter', src: 'https://www.figma.com/api/mcp/asset/238a7985-f398-4c1b-8060-3d42ae43ec7b.png' },
-  Emma: { name: 'Emma', src: 'https://www.figma.com/api/mcp/asset/600e8ec2-767a-4acf-96bf-ca759446cdf4.png' },
+  Peter: { name: 'Peter', src: imgPeter },
+  Emma: { name: 'Emma', src: imgEmma },
 };
 
 function findMentor(name) {
@@ -92,7 +105,7 @@ const CAREER_TALKS = [
     title: 'AI 시대의 프로덕트 디자인 활용 팁',
     mentor: 'Yoonie 멘토',
     role: '프로덕트 디자이너',
-    thumbnail: 'https://www.figma.com/api/mcp/asset/1b743c22-63bf-4fed-a834-3cd5ad99e76a.png',
+    thumbnail: imgTalkYoonie,
     hasDetail: true,
     articleId: 'yoonie',
   },
@@ -100,7 +113,7 @@ const CAREER_TALKS = [
     title: '에이전틱 AI 제품 만들 때 참고할 점',
     mentor: 'U.ha 멘토',
     role: '프로덕트 디자이너',
-    thumbnail: 'https://www.figma.com/api/mcp/asset/0446e01f-6d28-4cf1-9a60-2de08c22b3da.png',
+    thumbnail: imgTalkUha,
     hasDetail: true,
     articleId: 'uha',
   },
@@ -110,10 +123,10 @@ const FREE_POSTS = [
   {
     author: 'Gangster',
     category: '프로덕트 디자인 외 1개',
-    avatar: 'https://www.figma.com/api/mcp/asset/f7e3c16b-976c-4fb1-b4a1-480ad2324ba4.png',
+    avatar: imgGangsterAvatar,
     title: '드디어 1차 서류 통과했어ㅠ',
     body: '서류 통과는 취준하면서 처음인데 여기서 포폴이랑 자소서 피드백 받았었거든? 확실히 도움이 된듯..\n아직 면접 남았지만, 잠시만 이 행복을 즐기려고~ 다들 기 받아가!!',
-    images: ['https://www.figma.com/api/mcp/asset/eab8745c-25ce-4b5a-8eb7-39c1e63f92c0.png'],
+    images: [imgGangsterPost],
     likes: 102,
     comments: 12,
     hasDetail: true,
@@ -122,7 +135,7 @@ const FREE_POSTS = [
   {
     author: 'Happy',
     category: 'UX 디자인 외 2개',
-    avatar: 'https://www.figma.com/api/mcp/asset/9a11811f-f3d2-4e28-bb43-b18c4ca28c09.png',
+    avatar: imgHappyAvatar,
     title: '비핸스에 포폴 올렸는데 보고 피드백 줄 사람?!',
     body: '드디어 포폴 1차 완성해서 비핸스에 올렸어요! 근데 계속 혼자 보다 보니까 뭐가 문제인지도 모르겠고 감이 없어지더라고요.. 편하게 훑어보고 솔직한 의견 주실 분 계시면 댓글 남겨주세요. 저도 다른 분들 포폴 봐드릴게요!',
     images: [
@@ -239,7 +252,21 @@ function CareerTalkCard({ talk, onOpenDetail }) {
           }}
         />
       ) : (
-        <img alt="" src={imgBookmark} className="relative size-6" />
+        <span
+          aria-hidden
+          className="relative block size-6"
+          style={{
+            WebkitMaskImage: `url("${imgBookmark}")`,
+            maskImage: `url("${imgBookmark}")`,
+            WebkitMaskSize: 'contain',
+            maskSize: 'contain',
+            WebkitMaskRepeat: 'no-repeat',
+            maskRepeat: 'no-repeat',
+            WebkitMaskPosition: 'center',
+            maskPosition: 'center',
+            backgroundColor: '#ffffff',
+          }}
+        />
       )}
       </button>
       <div className="absolute bottom-0 left-0 w-full h-[140px] px-4 pb-3 flex flex-col justify-end gap-0.5">
