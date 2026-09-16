@@ -1,11 +1,16 @@
 import { useState } from 'react';
 
-const imgImageVideo = "https://www.figma.com/api/mcp/asset/e82bd9e8-08d4-4798-b06f-ce816dc0dd6c.png";
-const imgImageVideo1 = "https://www.figma.com/api/mcp/asset/0627f450-3efc-453b-96ee-04fa5dd74cd0.png";
-const imgLike = "https://www.figma.com/api/mcp/asset/456cdd73-2b36-4510-beb7-ac459c28583e.svg";
-const imgLikeFill = 'https://www.figma.com/api/mcp/asset/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
-const imgComment = "https://www.figma.com/api/mcp/asset/13581474-4f36-46b1-9063-f3cfc8970ec3.svg";
-const imgChevronRight = "https://www.figma.com/api/mcp/asset/b6c75f15-29da-4258-98b0-26b9a2b2dd15.svg";
+import imgImageVideo from '../assets/icons/personalized-thumb-1.webp';
+import imgImageVideo1 from '../assets/icons/personalized-thumb-2.webp';
+import imgLike from '../assets/icons/like.svg';
+import imgLikeFill from '../assets/icons/like-fill.svg';
+import imgComment from '../assets/icons/comment.svg';
+import imgChevronRight from '../assets/icons/chevron-right.svg';
+import imgYoonie from '../assets/icons/yoonie.webp';
+import imgEunoia from '../assets/icons/eunoia.webp';
+import imgTeddy from '../assets/icons/teddy.webp';
+import imgEllipsePeter from '../assets/icons/ellipse-peter.webp';
+import imgEllipseDaisy from '../assets/icons/ellipse-daisy.webp';
 
 const TAG_STYLES = {
   primary: 'text-[#1a75ff] bg-[#1a75ff]/10',
@@ -24,13 +29,9 @@ const POSTS = [
     hasDetail: true,
     articleId: 'qualquant',
     mentors: [
-      {
-        name: 'U.ha',
-        src: 'https://www.figma.com/api/mcp/asset/82f8645a-bff2-40bb-b2ce-b4adeff510e0.png',
-        crop: { top: '-4.69%', left: '-1.28%', width: '170.94%', height: '136.83%' },
-      },
-      { name: 'Peter', src: 'https://www.figma.com/api/mcp/asset/238a7985-f398-4c1b-8060-3d42ae43ec7b.png' },
-      { name: 'Emma', src: 'https://www.figma.com/api/mcp/asset/600e8ec2-767a-4acf-96bf-ca759446cdf4.png' },
+      { name: 'U.ha', src: imgTeddy },
+      { name: 'Peter', src: imgEllipsePeter },
+      { name: 'Emma', src: imgEunoia },
     ],
   },
   {
@@ -45,13 +46,9 @@ const POSTS = [
     hasDetail: true,
     articleId: 'failed',
     mentors: [
-      { name: 'Yoonie', src: 'https://www.figma.com/api/mcp/asset/38da743c-39e9-4b29-92e2-178f15ebcd3d.png' },
-      {
-        name: 'Daisy',
-        src: 'https://www.figma.com/api/mcp/asset/4e59b148-9a7e-4e39-be3e-0cf935da5817.png',
-        crop: { top: '-5.94%', left: '-0.02%', width: '171.11%', height: '136.97%' },
-      },
-      { name: 'Eunoia', src: 'https://www.figma.com/api/mcp/asset/92b621eb-70dd-4c6d-a935-09067d86f639.png' },
+      { name: 'Yoonie', src: imgYoonie },
+      { name: 'Daisy', src: imgEllipseDaisy },
+      { name: 'Eunoia', src: imgEunoia },
     ],
   },
   {

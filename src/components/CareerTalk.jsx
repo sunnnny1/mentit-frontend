@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
-const imgThumnail = "https://www.figma.com/api/mcp/asset/2c384b3f-18ac-4e23-adf9-fefb737f38a1.png";
-const imgThumnail1 = "https://www.figma.com/api/mcp/asset/67b8c5e1-5198-4378-a990-2e4336f4ae6e.png";
-const imgBookmark = "https://www.figma.com/api/mcp/asset/630f9793-e98b-4bb0-8109-42b89b92f70d.svg";
-const imgBookmarkFill = 'https://www.figma.com/api/mcp/asset/b20bcd72-0b9e-4707-8bd9-b80aa3f1fae3.svg';
-const imgChevronRight = "https://www.figma.com/api/mcp/asset/b6c75f15-29da-4258-98b0-26b9a2b2dd15.svg";
+import imgThumnail from '../assets/icons/talk-thumb-1.webp';
+import imgThumnail1 from '../assets/icons/talk-thumb-2.webp';
+import imgBookmark from '../assets/icons/careertalk-bookmark.svg';
+import imgBookmarkFill from '../assets/icons/careertalk-bookmark-fill.svg';
+import imgChevronRight from '../assets/icons/chevron-right.svg';
 
 const TALKS = [
   { title: 'AI 시대의 프로덕트 디자인 활용 팁', mentor: 'Yoonie 멘토', role: '프로덕트 디자이너', thumbnail: imgThumnail, hasDetail: true, articleId: 'yoonie' },

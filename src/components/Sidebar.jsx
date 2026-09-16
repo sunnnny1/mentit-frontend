@@ -1,23 +1,23 @@
 import { useState } from 'react';
 
-const imgAvatarButton = 'https://www.figma.com/api/mcp/asset/ce94f98e-38a8-43b6-b4b5-cc5fb802e9dc.png';
-const imgHome = 'https://www.figma.com/api/mcp/asset/d59476d5-d0bd-4315-a1be-77017219ba57.svg';
-const imgHomeActive = 'https://www.figma.com/api/mcp/asset/85fdb3d9-a2e1-4425-9f9b-ba9a93513e79.svg';
-const imgChat = 'https://www.figma.com/api/mcp/asset/07f8ee83-82fc-4ee5-ac19-fecb78c2f970.svg';
-const imgChatActive = 'https://www.figma.com/api/mcp/asset/6e0646a3-3bfd-4216-98cc-9cc9269a9b83.svg';
-const imgVoiceGroup = 'https://www.figma.com/api/mcp/asset/5cd38bc8-209f-4e9d-9e62-13a1390574b3.svg';
-const imgAi = 'https://www.figma.com/api/mcp/asset/0f84d59b-23fa-4e0a-ad8e-09bd0fcc1ac6.svg';
-const imgPersonPlus = 'https://www.figma.com/api/mcp/asset/e283ddd9-1555-49de-832f-514c6c9f3622.svg';
-const imgPersonPlusActive = 'https://www.figma.com/api/mcp/asset/c87ef30c-acbb-4729-b42b-d202b3cae687.svg';
-const imgBoard = 'https://www.figma.com/api/mcp/asset/5297977c-5ef6-4c2a-917d-01299de61789.svg';
-const imgBoardActive = 'https://www.figma.com/api/mcp/asset/7f33ef6b-dabb-4a00-9462-4f74c66be344.svg';
+import imgAvatarButton from '../assets/icons/avatar.webp';
+import imgHome from '../assets/icons/home-inactive.svg';
+import imgHomeActive from '../assets/icons/home-active.svg';
+import imgChat from '../assets/icons/chat-inactive.svg';
+import imgChatActive from '../assets/icons/chat-active.svg';
+import imgAi from '../assets/icons/ai-inactive.svg';
+import imgPersonPlus from '../assets/icons/person-plus-inactive.svg';
+import imgPersonPlusActive from '../assets/icons/person-plus-active.svg';
+import imgBoard from '../assets/icons/board-inactive.svg';
+import imgBoardActive from '../assets/icons/board-active.svg';
+// TODO: 채팅바 토글용 아이콘 2개는 홈 화면에 없어서 아직 로컬로 못 옮김 - 만료된 Figma URL로 남아있음
 const imgChevronDoubleRight = 'https://www.figma.com/api/mcp/asset/10bfebe3-d119-45c2-a259-535f73774024.svg';
 const imgLineHorizontal = 'https://www.figma.com/api/mcp/asset/5e2a8321-3b01-4485-9e12-0c84b24bb548.svg';
 
 const NAV_ITEMS = [
   { key: 'home', label: '홈', icon: imgHome, iconActive: imgHomeActive },
   { key: 'chat', label: '채팅', icon: imgChat, iconActive: imgChatActive },
-  { key: 'interview', label: '면접', icon: imgVoiceGroup, iconActive: imgVoiceGroup },
+  { key: 'interview', label: '면접', icon: null, iconActive: null },
   { key: 'ai', label: '멘팃 AI', icon: imgAi, iconActive: imgAi },
   { key: 'mentor', label: '멘토 탐색', icon: imgPersonPlus, iconActive: imgPersonPlusActive },
   { key: 'board', label: '게시판', icon: imgBoard, iconActive: imgBoardActive },

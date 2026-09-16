@@ -1,9 +1,10 @@
-const imgLogo = "https://www.figma.com/api/mcp/asset/04ad0798-9c3a-4941-8c08-22c0fbf30157.svg";
+import imgLogo from '../assets/icons/header-logo.svg';
+import imgDot from '../assets/icons/header-dot.svg';
+import imgFootprint from '../assets/icons/header-footprint.svg';
+import imgSearch from '../assets/icons/header-search.svg';
+import imgBell from '../assets/icons/header-bell.svg';
+// TODO: 뒤로가기 화살표 아이콘(imgChevronLeft)은 홈 화면에 없어서 아직 로컬로 못 옮김 - 만료된 Figma URL로 남아있음
 const imgChevronLeft = 'https://www.figma.com/api/mcp/asset/c25d4b68-8802-4c60-8fb6-a6c20b14fba3.svg';
-const imgDot = "https://www.figma.com/api/mcp/asset/2f97f4aa-c538-48c2-8aa1-2069ecb2ecee.svg";
-const imgFootprint = "https://www.figma.com/api/mcp/asset/01c89bc6-ce88-4f15-8a01-5633d142d5c4.svg";
-const imgSearch = "https://www.figma.com/api/mcp/asset/a5bb8d32-e53b-463d-b2ed-6040d61e92cb.svg";
-const imgBell = "https://www.figma.com/api/mcp/asset/c86ae723-d4d2-430f-86af-352a9d7de33d.svg";
 
 export default function Header({ showStreak = true, onSearchClick, onBack }) {
   return (

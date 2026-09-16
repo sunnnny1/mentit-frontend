@@ -1,7 +1,7 @@
-const imgChevronRight = "https://www.figma.com/api/mcp/asset/7b97a683-09d8-496a-8c97-4fe4aeb0759f.svg";
-const imgActivitiesIconRow = "https://www.figma.com/api/mcp/asset/4f12ce7a-f471-4e1e-9573-87309fff7ab5.svg";
-const imgSupportActivities = "https://www.figma.com/api/mcp/asset/ddc91c6f-1c7c-4218-a8ed-be3f45f55183.svg";
-const imgApplicationIcons = "https://www.figma.com/api/mcp/asset/79a01f35-62db-4a40-8491-7b4dd06cc2c0.svg";
+import imgChevronRight from '../assets/icons/chevron-right.svg';
+import imgActivitiesIconRow from '../assets/icons/activities-icon-row.svg';
+import imgSupportActivities from '../assets/icons/support-activities.svg';
+import imgApplicationIcons from '../assets/icons/application-icons.svg';
 
 function ChevronLink({ text, onClick }) {
   return (

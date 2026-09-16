@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-const imgYoonie = "https://www.figma.com/api/mcp/asset/38da743c-39e9-4b29-92e2-178f15ebcd3d.png";
-const imgEunoia = "https://www.figma.com/api/mcp/asset/92b621eb-70dd-4c6d-a935-09067d86f639.png";
-const imgTeddy = "https://www.figma.com/api/mcp/asset/349f7306-9c3b-45ee-b42e-10569d6479a8.png";
-const imgPersonPlus = "https://www.figma.com/api/mcp/asset/a212207e-60ef-44e7-81e1-3e03e9fcb6ed.svg";
+import imgYoonie from '../assets/icons/yoonie.webp';
+import imgEunoia from '../assets/icons/eunoia.webp';
+import imgTeddy from '../assets/icons/teddy.webp';
+import imgPersonPlus from '../assets/icons/person-plus.svg';
 // 팔로우 취소(마이너스) 상태: 사람 아이콘 모양을 완전히 동일하게 유지하기 위해
 // (직접 그린 아이콘을 쓰지 않고) 기존 person-plus 이미지를 그대로 재사용하고,
 // CSS mask(evenodd로 구멍을 뚫는 방식)로 "+"의 세로선 부분(위/아래 2군데)만

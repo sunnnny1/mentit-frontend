@@ -1,4 +1,4 @@
-const imgPortfolioGraphic = 'https://www.figma.com/api/mcp/asset/756213db-1358-42df-aed8-9bf36757e464.png';
+import imgPortfolioGraphic from '../assets/icons/portfolio-graphic.webp';
 
 export default function PortfolioCard() {
   return (
