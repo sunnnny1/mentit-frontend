@@ -4,13 +4,13 @@ import InterviewSubMenu from './InterviewSubMenu';
 const imgSunny = 'https://www.figma.com/api/mcp/asset/c11cc4d3-aa70-48e8-a183-5d36c9318492.png';
 const imgCharacter = 'https://www.figma.com/api/mcp/asset/ceef9e7c-3912-4cc0-ba9c-dbf2d463f3e3.png';
 
-export default function InterviewNormalPage({ isSubMenuOpen = false, onCloseSubMenu }) {
+export default function InterviewNormalPage({ isSubMenuOpen = false, onCloseSubMenu, onStartInterview }) {
   return (
     <div className="flex items-stretch gap-5 flex-1 min-h-0 h-full w-full overflow-hidden">
       {isSubMenuOpen && <InterviewSubMenu onClose={onCloseSubMenu} activeMentor="Sunny" />}
 
       <section className="flex-1 min-w-0 min-h-0 h-full flex flex-col rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-hidden">
-        <div className="border-b border-transparent">
+        <div className="border-b border-[#e7eaee]">
           <ChatProfileBar
             mode="agent"
             displayName="Sunny"
@@ -63,6 +63,7 @@ export default function InterviewNormalPage({ isSubMenuOpen = false, onCloseSubM
               </div>
               <button
                 type="button"
+                onClick={onStartInterview}
                 className="relative flex items-center justify-center px-7 py-3 rounded-xl border border-[#70d2ff] bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10"
               >
                 <span className="relative font-bold text-base leading-[1.45] text-white whitespace-nowrap">

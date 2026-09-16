@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import CheckRow from '../JobCheckRow';
 
 const imgAvatar = 'https://www.figma.com/api/mcp/asset/9a42d99c-7fd8-4c37-8461-0f74801502b3.png';
 const imgChevronDown = 'https://www.figma.com/api/mcp/asset/8fd5a327-77c9-49d8-9a91-348e41bdc898.svg';
@@ -15,23 +16,6 @@ function SectionHeading({ title, subtext, required = false }) {
       </div>
       <p className="text-[14px] leading-[1.42] tracking-[0.14px] text-[#9ca2b1] w-full">{subtext}</p>
     </div>
-  );
-}
-
-function CheckRow({ label, checked, onToggle }) {
-  return (
-    <button
-      type="button"
-      onClick={onToggle}
-      className="relative overflow-hidden flex items-center justify-between gap-2 w-full px-4 py-3 rounded-xl bg-white cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:transition-opacity"
-    >
-      <span className="relative font-normal text-[14px] leading-[1.58] tracking-[0.14px] text-[#121213]">{label}</span>
-      <span
-        className={`relative size-[18px] rounded-[5px] border-[1.5px] shrink-0 ${
-          checked ? 'bg-[#1a75ff] border-[#1a75ff]' : 'border-[#e7eaee] bg-white'
-        }`}
-      />
-    </button>
   );
 }
 

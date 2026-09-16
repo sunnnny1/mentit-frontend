@@ -2,6 +2,7 @@ import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 
 import imgLikeFill from '../../assets/icons/like-fill-gray.svg';
 import imgGangsterPost from '../../assets/icons/gangsterImg.png';
+import CheckRow from '../JobCheckRow';
 const imgComment = 'https://www.figma.com/api/mcp/asset/13581474-4f36-46b1-9063-f3cfc8970ec3.svg';
 const imgChevronDown = 'https://www.figma.com/api/mcp/asset/800d0303-c40c-40a5-9c0a-cb6149f79de6.svg';
 const imgPencil = 'https://www.figma.com/api/mcp/asset/3fab267a-3f49-4c73-b247-11cff7f62c3f.svg';
@@ -77,21 +78,6 @@ function shuffle(list) {
     [next[i], next[j]] = [next[j], next[i]];
   }
   return next;
-}
-
-function CheckRow({ label, checked, onToggle }) {
-  return (
-    <button
-      type="button"
-      onClick={onToggle}
-      className="relative overflow-hidden flex items-center justify-between gap-2 w-full px-4 py-3 rounded-xl bg-white cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:transition-opacity"
-    >
-      <span className="font-normal text-[14px] leading-[1.58] tracking-[0.14px] text-[#121213]">{label}</span>
-      <span
-        className={`size-[18px] rounded-[5px] border-[1.5px] border-[#e7eaee] shrink-0 ${checked ? 'bg-[#1a75ff] border-[#1a75ff]' : 'bg-white'}`}
-      />
-    </button>
-  );
 }
 
 function JobDropdown() {

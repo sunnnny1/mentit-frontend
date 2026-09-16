@@ -27,6 +27,7 @@ import InterviewPage from './components/interview/InterviewPage';
 import InterviewOnboardingPage from './components/interview/InterviewOnboardingPage';
 import InterviewAnalyzePage from './components/interview/InterviewAnalyzePage';
 import InterviewNormalPage from './components/interview/InterviewNormalPage';
+import InterviewSessionPage from './components/interview/InterviewSessionPage';
 
 function HomeMain({ onNavigateToCareerTalk, onOpenCareerTalkDetail, onOpenQnaDetail, onOpenFreeTalkDetail, onOpenAgentChat, onOpenMentorDetail, onOpenMentitAI }) {
   return (
@@ -249,6 +250,7 @@ function App() {
           page !== 'interview-onboarding' &&
           page !== 'interview-analyze' &&
           page !== 'interview-normal' &&
+          page !== 'interview-session' &&
           !isBoardDetail
         }
         onBack={
@@ -287,7 +289,8 @@ function App() {
                       ? 'mentor'
                       : page === 'interview-onboarding' ||
                           page === 'interview-analyze' ||
-                          page === 'interview-normal'
+                          page === 'interview-normal' ||
+                          page === 'interview-session'
                         ? 'interview'
                         : page
               }
@@ -299,7 +302,8 @@ function App() {
                   page === 'ai-mentor-search' ||
                   page === 'ai-plan' ||
                   page === 'ai-job' ||
-                  page === 'interview-normal') &&
+                  page === 'interview-normal' ||
+                  page === 'interview-session') &&
                 !isSubMenuOpen
               }
               onOpenChatBar={() => setIsSubMenuOpen(true)}
@@ -376,6 +380,19 @@ function App() {
               <InterviewNormalPage
                 isSubMenuOpen={isSubMenuOpen}
                 onCloseSubMenu={() => setIsSubMenuOpen(false)}
+                onStartInterview={() => {
+                  setIsSubMenuOpen(false);
+                  setPage('interview-session');
+                }}
+              />
+            ) : page === 'interview-session' ? (
+              <InterviewSessionPage
+                isSubMenuOpen={isSubMenuOpen}
+                onCloseSubMenu={() => setIsSubMenuOpen(false)}
+                onStopInterview={() => {
+                  setIsSubMenuOpen(false);
+                  setPage('interview');
+                }}
               />
             ) : page === 'mentor' ? (
               <MentorExplorePage

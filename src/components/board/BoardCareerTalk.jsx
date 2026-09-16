@@ -3,6 +3,7 @@ import imgBookmark from '../../assets/icons/careertalk-bookmark.svg';
 import imgBookmarkFill from '../../assets/icons/careertalk-bookmark-fill.svg';
 import imgTalkYoonie from '../../assets/icons/talkYoonie.png';
 import imgTalkUha from '../../assets/icons/talkUha.png';
+import CheckRow from '../JobCheckRow';
 const imgChevronDown = 'https://www.figma.com/api/mcp/asset/2a8c0fab-ff12-4088-9976-f8cdb0698792.svg';
 const imgMoreChevron = 'https://www.figma.com/api/mcp/asset/bb3b8c56-7ee3-4df3-ba7c-8fbd9131aa9f.svg';
 
@@ -173,23 +174,6 @@ function CareerTalkCard({ talk, onOpenDetail }) {
         </p>
       </div>
     </div>
-  );
-}
-
-function CheckRow({ label, checked, onToggle }) {
-  return (
-    <button
-      type="button"
-      onClick={onToggle}
-      className="relative overflow-hidden flex items-center justify-between gap-2 w-full px-4 py-3 rounded-xl bg-white cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:transition-opacity"
-    >
-      <span className="relative font-normal text-[14px] leading-[1.58] tracking-[0.14px] text-[#121213]">{label}</span>
-      <span
-        className={`relative size-[18px] rounded-[5px] border-[1.5px] shrink-0 ${
-          checked ? 'bg-[#1a75ff] border-[#1a75ff]' : 'border-[#e7eaee] bg-white'
-        }`}
-      />
-    </button>
   );
 }
 

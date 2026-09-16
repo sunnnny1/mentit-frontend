@@ -11,8 +11,10 @@ export default function ChatProfileBar({
   onStartMentorChat,
   onStartReview,
   onSubmitReview,
+  extraActionLabel,
+  onExtraAction,
 }) {
-  const showActionButton = mode !== 'agent' || supportsMentorReview;
+  const showActionButton = Boolean(extraActionLabel) || mode !== 'agent' || supportsMentorReview;
 
   return (
     <div className="flex gap-2.5 items-center p-5 rounded-t-2xl bg-white shrink-0">
@@ -37,7 +39,15 @@ export default function ChatProfileBar({
           <p className="text-sm text-[#747886] tracking-[0.14px] whitespace-nowrap">{role}</p>
         </div>
       </div>
-      {showActionButton && (
+      {showActionButton && extraActionLabel ? (
+        <button
+          type="button"
+          onClick={onExtraAction}
+          className="relative flex items-center justify-center px-7 py-3 rounded-xl border border-[#e7eaee] bg-white overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10"
+        >
+          <p className="relative font-medium text-base text-[#121213] whitespace-nowrap">{extraActionLabel}</p>
+        </button>
+      ) : showActionButton ? (
         <button
           type="button"
           onClick={
@@ -50,7 +60,7 @@ export default function ChatProfileBar({
             {mode === 'review' ? '리뷰 등록하기' : mode === 'mentor' ? '리뷰 쓰러가기' : '멘토와 채팅하기'}
           </p>
         </button>
-      )}
+      ) : null}
     </div>
   );
 }
