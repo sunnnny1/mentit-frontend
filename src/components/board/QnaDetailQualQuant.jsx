@@ -1,5 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 
+import MentorProfile from './MentorProfile';
+import imgUha from '../../assets/icons/ellipse-uha.png';
+import imgPeter from '../../assets/icons/ellipse-peter.png';
+import imgEmma from '../../assets/icons/emma.webp';
+import imgDaisy from '../../assets/icons/ellipse-daisy.png';
+import imgEunoia from '../../assets/icons/eunoia.webp';
+import imgTeddy from '../../assets/icons/teddy.webp';
+
 const imgAuthor = 'https://www.figma.com/api/mcp/asset/b4ad48a6-02b1-4721-a66a-4a0f340df722.png';
 const imgLikeOutline = 'https://www.figma.com/api/mcp/asset/245f4c4c-0050-45ba-a7b5-d68859001b46.svg';
 const imgLikeFill = 'https://www.figma.com/api/mcp/asset/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
@@ -8,16 +16,6 @@ const imgBookmarkFill = 'https://www.figma.com/api/mcp/asset/b20bcd72-0b9e-4707-
 const imgShare = 'https://www.figma.com/api/mcp/asset/027bc329-49a1-4a70-9a34-5bb6dcae417c.svg';
 const imgSmallLike = 'https://www.figma.com/api/mcp/asset/d82be445-be8d-44cb-bce0-d3f6a3b977c2.svg';
 const imgMoreChevron = 'https://www.figma.com/api/mcp/asset/bb3b8c56-7ee3-4df3-ba7c-8fbd9131aa9f.svg';
-
-const imgUha = 'https://www.figma.com/api/mcp/asset/82f8645a-bff2-40bb-b2ce-b4adeff510e0.png';
-const imgPeter = 'https://www.figma.com/api/mcp/asset/238a7985-f398-4c1b-8060-3d42ae43ec7b.png';
-const imgEmma = 'https://www.figma.com/api/mcp/asset/600e8ec2-767a-4acf-96bf-ca759446cdf4.png';
-const imgDaisy = 'https://www.figma.com/api/mcp/asset/4e59b148-9a7e-4e39-be3e-0cf935da5817.png';
-const imgEunoia = 'https://www.figma.com/api/mcp/asset/92b621eb-70dd-4c6d-a935-09067d86f639.png';
-const imgTeddy = 'https://www.figma.com/api/mcp/asset/349f7306-9c3b-45ee-b42e-10569d6479a8.png';
-
-const CROP_UHA = { top: '-4.69%', left: '-1.28%', width: '170.94%', height: '136.83%' };
-const CROP_DAISY = { top: '-5.94%', left: '-0.02%', width: '171.11%', height: '136.97%' };
 
 const BADGE = {
   purple: { bg: 'bg-[#9054ff]', text: 'text-[#9054ff]', label: 'Active Mentor' },
@@ -31,7 +29,6 @@ const INITIAL_ANSWERS = [
     id: 'uha',
     name: 'U.ha',
     avatar: imgUha,
-    crop: CROP_UHA,
     badge: 'purple',
     role: '프로덕트 디자이너・세일즈포스・2년차',
     text: '저는 정성/정량을 따로 나열하지 않고 항상 짝지어서 써요. "채팅 응답률이 12% 떨어졌다"는 숫자만 있으면 그냥 숫자예요. 근데 그 옆에 인터뷰에서 나온 "이 사람 지금 대화 가능한지 몰라서 다른 사람한테 물어봤어요"라는 말을 같이 붙이면, 그 숫자가 "왜" 떨어졌는지가 설명이 돼요. 숫자 하나마다 그걸 뒷받침하는 발화를 최소 1개씩 짝지어 넣으려고 해요.',
@@ -66,7 +63,6 @@ const MORE_ANSWERS = [
     id: 'daisy',
     name: 'Daisy',
     avatar: imgDaisy,
-    crop: CROP_DAISY,
     badge: 'lightblue',
     role: '프로덕트 디자이너・카카오・1년차',
     text: '저는 정량 데이터를 못 구했을 땐 억지로 숫자를 만들지 않고, 제가 직접 관찰하거나 소규모로 테스트한 결과라도 구체적으로 적어요. "5명한테 보여줬더니 3명이 여기서 멈칫했다"도 충분히 정량적인 근거가 돼요. 완벽한 데이터셋이 없다고 정성 경험만 나열하지 말고, 규모가 작아도 숫자로 표현하려는 시도 자체를 보여주는 게 중요해요.',
@@ -110,18 +106,7 @@ function MentorAnswerCard({ answer, onOpenMentorChat }) {
     <div className="border border-[#e7eaee] rounded-2xl p-5 flex flex-col gap-5 w-full">
       <div className="flex items-center gap-3 w-full">
         <div className="flex-1 min-w-0 flex items-center gap-3">
-          {answer.crop ? (
-            <div className="size-[42px] rounded-full overflow-hidden relative bg-white shrink-0">
-              <img
-                alt=""
-                src={answer.avatar}
-                className="absolute max-w-none pointer-events-none"
-                style={{ top: answer.crop.top, left: answer.crop.left, width: answer.crop.width, height: answer.crop.height }}
-              />
-            </div>
-          ) : (
-            <img alt="" src={answer.avatar} className="size-[42px] rounded-full object-cover shrink-0" />
-          )}
+          <MentorProfile src={answer.avatar} size="medium" />
           <div className="flex flex-col gap-1.5 min-w-0">
             <div className="flex items-center gap-2">
               <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-[#121213] whitespace-nowrap">
@@ -241,7 +226,21 @@ export default function QnaDetailQualQuant({ onOpenMentorChat }) {
                 }}
               />
             ) : (
-              <img alt="좋아요" src={imgLikeOutline} className="size-6" />
+              <span
+                aria-hidden
+                className="block size-6"
+                style={{
+                  WebkitMaskImage: `url("${imgLikeOutline}")`,
+                  maskImage: `url("${imgLikeOutline}")`,
+                  WebkitMaskSize: 'contain',
+                  maskSize: 'contain',
+                  WebkitMaskRepeat: 'no-repeat',
+                  maskRepeat: 'no-repeat',
+                  WebkitMaskPosition: 'center',
+                  maskPosition: 'center',
+                  backgroundColor: '#9CA2B1',
+                }}
+              />
             )}
             <span className="font-medium text-[14px] tracking-[0.14px] text-[#121213]">{liked ? 87 : 86}</span>
           </button>

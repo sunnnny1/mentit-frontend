@@ -1,16 +1,16 @@
 import { useState } from 'react';
+import MentorProfile from './board/MentorProfile';
 
-import imgImageVideo from '../assets/icons/personalized-thumb-1.webp';
-import imgImageVideo1 from '../assets/icons/personalized-thumb-2.webp';
-import imgLike from '../assets/icons/like.svg';
-import imgLikeFill from '../assets/icons/like-fill.svg';
+import imgImageVideo from '../assets/icons/personalized-thumb-1.png';
+import imgImageVideo1 from '../assets/icons/gangsterImg.png';
+import imgLikeFill from '../assets/icons/like-fill-gray.svg';
 import imgComment from '../assets/icons/comment.svg';
 import imgChevronRight from '../assets/icons/chevron-right.svg';
 import imgYoonie from '../assets/icons/yoonie.webp';
 import imgEunoia from '../assets/icons/eunoia.webp';
 import imgTeddy from '../assets/icons/teddy.webp';
-import imgEllipsePeter from '../assets/icons/ellipse-peter.webp';
-import imgEllipseDaisy from '../assets/icons/ellipse-daisy.webp';
+import imgEllipsePeter from '../assets/icons/ellipse-peter.png';
+import imgEllipseDaisy from '../assets/icons/ellipse-daisy.png';
 
 const TAG_STYLES = {
   primary: 'text-[#1a75ff] bg-[#1a75ff]/10',
@@ -115,51 +115,19 @@ function PostCard({ post, onOpenDetail }) {
             className="flex gap-1 items-center cursor-pointer"
             aria-pressed={liked}
           >
-            {liked ? (
-              <span
-                aria-hidden
-                className="block size-5"
-                style={{
-                  WebkitMaskImage: `url("${imgLikeFill}")`,
-                  maskImage: `url("${imgLikeFill}")`,
-                  WebkitMaskSize: 'contain',
-                  maskSize: 'contain',
-                  WebkitMaskRepeat: 'no-repeat',
-                  maskRepeat: 'no-repeat',
-                  WebkitMaskPosition: 'center',
-                  maskPosition: 'center',
-                  backgroundColor: '#DFE4E8',
-                }}
-              />
-            ) : (
-              <img alt="" src={imgLike} className="size-5" />
-            )}
+            <img alt="" src={imgLikeFill} className="size-5" />
             <span className="text-xs font-medium tracking-[0.3px]">{likeCount}</span>
           </button>
           {post.rightMeta.type === 'profiles' ? (
             <div className="flex gap-1 items-center">
               <div className="flex items-center">
                 {(post.mentors ?? []).map((mentor, i) => (
-                  <div
+                  <MentorProfile
                     key={mentor.name}
-                    className={`relative size-5 rounded-full overflow-hidden border border-white bg-white shrink-0 ${i > 0 ? '-ml-1.5' : ''}`}
-                  >
-                    {mentor.crop ? (
-                      <img
-                        alt=""
-                        src={mentor.src}
-                        className="absolute max-w-none pointer-events-none"
-                        style={{
-                          top: mentor.crop.top,
-                          left: mentor.crop.left,
-                          width: mentor.crop.width,
-                          height: mentor.crop.height,
-                        }}
-                      />
-                    ) : (
-                      <img alt="" src={mentor.src} className="absolute inset-0 size-full object-cover" />
-                    )}
-                  </div>
+                    src={mentor.src}
+                    size="xs"
+                    className={`border border-white bg-white ${i > 0 ? '-ml-1.5' : ''}`}
+                  />
                 ))}
               </div>
               <span className="text-xs font-medium tracking-[0.3px]">{post.rightMeta.count}</span>

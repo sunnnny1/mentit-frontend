@@ -161,7 +161,7 @@ function ShowMoreButton() {
   );
 }
 
-export default function SearchPage({ onClose, onOpenAgentChat }) {
+export default function SearchPage({ onClose, onOpenAgentChat, onOpenMentorDetail }) {
   const [query, setQuery] = useState('');
   const [recentSearches, setRecentSearches] = useState([]);
   const [submittedQuery, setSubmittedQuery] = useState('');
@@ -327,7 +327,7 @@ export default function SearchPage({ onClose, onOpenAgentChat }) {
               <p className="font-bold text-[22px] tracking-[-0.33px] text-[#121213]">멘토</p>
               <div className="flex flex-wrap gap-5">
                 {SEARCH_RESULT_MENTORS.map((mentor) => (
-                  <MentorCard key={mentor.name} mentor={mentor} onOpenAgentChat={onOpenAgentChat} clampDescription />
+                  <MentorCard key={mentor.name} mentor={mentor} onOpenAgentChat={onOpenAgentChat} onOpenMentorDetail={onOpenMentorDetail} clampDescription />
                 ))}
               </div>
               <ShowMoreButton />

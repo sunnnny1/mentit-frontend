@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-const imgPostImage = 'https://www.figma.com/api/mcp/asset/92b7d4f4-ca13-4e94-8eb4-2852eed4914a.png';
+import imgPostImage from '../../assets/icons/gangsterImg.png';
+
 const imgLikeOutline = 'https://www.figma.com/api/mcp/asset/4f65e1a1-f7c6-4209-9aa8-6879d1fa3e3e.svg';
 const imgLikeFill = 'https://www.figma.com/api/mcp/asset/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
 const imgBookmarkOutline = 'https://www.figma.com/api/mcp/asset/5972d921-320c-4f23-ae3c-9781e5c4d1f1.svg';
@@ -112,7 +113,21 @@ export default function BoardFreeTalkDetail() {
                   }}
                 />
               ) : (
-                <img alt="좋아요" src={imgLikeOutline} className="size-6" />
+                <span
+                  aria-hidden
+                  className="block size-6"
+                  style={{
+                    WebkitMaskImage: `url("${imgLikeOutline}")`,
+                    maskImage: `url("${imgLikeOutline}")`,
+                    WebkitMaskSize: 'contain',
+                    maskSize: 'contain',
+                    WebkitMaskRepeat: 'no-repeat',
+                    maskRepeat: 'no-repeat',
+                    WebkitMaskPosition: 'center',
+                    maskPosition: 'center',
+                    backgroundColor: '#9CA2B1',
+                  }}
+                />
               )}
               <span className="font-medium text-[14px] tracking-[0.14px] text-[#121213]">{liked ? 103 : 102}</span>
             </button>

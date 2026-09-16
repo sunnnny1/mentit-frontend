@@ -82,10 +82,12 @@ function InterviewTypeDropdown({ value, onChange }) {
   );
 }
 
-function SunnyMentorPick() {
+function SunnyMentorPick({ onOpenMentorDetail }) {
   return (
     <div
-      className="relative flex items-center gap-3 p-6 rounded-2xl shrink-0 w-[364px] border-[1.5px] border-white shadow-[0_0_15px_rgba(0,0,0,0.04),inset_20px_20px_40px_rgba(255,255,255,0.9),inset_-20px_-20px_40px_rgba(255,255,255,0.9)]"
+      role="button"
+      onClick={() => onOpenMentorDetail?.('Sunny')}
+      className="relative flex items-center gap-3 p-6 rounded-2xl shrink-0 w-[364px] border-[1.5px] border-white shadow-[0_0_15px_rgba(0,0,0,0.04),inset_20px_20px_40px_rgba(255,255,255,0.9),inset_-20px_-20px_40px_rgba(255,255,255,0.9)] cursor-pointer"
       style={{ background: 'radial-gradient(circle at 50% 50%, rgba(254,213,213,0.4) 0%, white 70%)' }}
     >
       <img alt="Sunny 멘토" src={imgSunny} className="size-[60px] rounded-full shrink-0 object-cover" />
@@ -109,7 +111,7 @@ function SunnyMentorPick() {
   );
 }
 
-export default function InterviewOnboardingPage({ onBack, onNext }) {
+export default function InterviewOnboardingPage({ onBack, onNext, onOpenMentorDetail }) {
   const [name, setName] = useState('');
   const [type, setType] = useState('');
   const [jobLink, setJobLink] = useState('');
@@ -144,7 +146,7 @@ export default function InterviewOnboardingPage({ onBack, onNext }) {
 
             <div className="flex flex-col gap-2 items-start w-full">
               <FieldLabel>함께할 AI 멘토</FieldLabel>
-              <SunnyMentorPick />
+              <SunnyMentorPick onOpenMentorDetail={onOpenMentorDetail} />
             </div>
 
             <div className="flex flex-col gap-2 items-start w-full">

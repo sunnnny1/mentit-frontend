@@ -1,5 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 
+import MentorProfile from './MentorProfile';
+import imgYoonie from '../../assets/icons/yoonie.webp';
+import imgDaisy from '../../assets/icons/ellipse-daisy.png';
+import imgEunoia from '../../assets/icons/eunoia.webp';
+import imgUha from '../../assets/icons/ellipse-uha.png';
+import imgEric from '../../assets/icons/ellipse-eric.png';
+import imgTeddy from '../../assets/icons/teddy.webp';
+import imgSunny from '../../assets/icons/ellipse-sunny.png';
+
 const imgAuthor = 'https://www.figma.com/api/mcp/asset/58c822c4-0089-480d-acd2-73c7af5fc500.png';
 const imgPostImage = 'https://www.figma.com/api/mcp/asset/50dda127-74a2-4f2f-926a-9716da2a3f6d.png';
 const imgLikeOutline = 'https://www.figma.com/api/mcp/asset/f620f4c6-4526-4ddb-aa32-c770b2445ecc.svg';
@@ -9,19 +18,6 @@ const imgBookmarkFill = 'https://www.figma.com/api/mcp/asset/b20bcd72-0b9e-4707-
 const imgShare = 'https://www.figma.com/api/mcp/asset/31df88cc-773e-48e7-b925-81defe4a651c.svg';
 const imgSmallLike = 'https://www.figma.com/api/mcp/asset/d82be445-be8d-44cb-bce0-d3f6a3b977c2.svg';
 const imgMoreChevron = 'https://www.figma.com/api/mcp/asset/bb3b8c56-7ee3-4df3-ba7c-8fbd9131aa9f.svg';
-
-const imgYoonie = 'https://www.figma.com/api/mcp/asset/38da743c-39e9-4b29-92e2-178f15ebcd3d.png';
-const imgDaisy = 'https://www.figma.com/api/mcp/asset/4e59b148-9a7e-4e39-be3e-0cf935da5817.png';
-const imgEunoia = 'https://www.figma.com/api/mcp/asset/92b621eb-70dd-4c6d-a935-09067d86f639.png';
-const imgUha = 'https://www.figma.com/api/mcp/asset/82f8645a-bff2-40bb-b2ce-b4adeff510e0.png';
-const imgEric = 'https://www.figma.com/api/mcp/asset/a0d39193-fabc-410b-8ee7-5cd5300c34bf.png';
-const imgTeddy = 'https://www.figma.com/api/mcp/asset/349f7306-9c3b-45ee-b42e-10569d6479a8.png';
-const imgSunny = 'https://www.figma.com/api/mcp/asset/f523aa62-cb7a-4452-92f8-9126d2a5de89.png';
-
-const CROP_UHA = { top: '-4.69%', left: '-1.28%', width: '170.94%', height: '136.83%' };
-const CROP_ERIC = { top: '-1.18%', left: '-2.04%', width: '182%', height: '145.69%' };
-const CROP_DAISY = { top: '-5.94%', left: '-0.02%', width: '171.11%', height: '136.97%' };
-const CROP_SUNNY = { top: '-5.92%', left: '-1.73%', width: '175.37%', height: '140.34%' };
 
 const BADGE = {
   purple: { bg: 'bg-[#9054ff]', text: 'text-[#9054ff]', label: 'Active Mentor' },
@@ -45,7 +41,6 @@ const INITIAL_ANSWERS = [
     id: 'daisy',
     name: 'Daisy',
     avatar: imgDaisy,
-    crop: CROP_DAISY,
     badge: 'lightblue',
     role: '프로덕트 디자이너・카카오・1년차',
     text: '저도 초반엔 실패 프로젝트 넣기가 무서워서 뺐었는데, 나중엔 그게 오히려 손해였다는 걸 알았어요. 성공 사례만 있으면 어려운 상황에서 어떻게 판단하는지 확인할 방법이 없거든요. 넣을 땐 실험 가설이 뭐였고 어떤 지표로 실패라고 판단했는지까지 구체적으로 적는 걸 추천해요.',
@@ -70,7 +65,6 @@ const MORE_ANSWERS = [
     id: 'uha',
     name: 'U.ha',
     avatar: imgUha,
-    crop: CROP_UHA,
     badge: 'purple',
     role: '프로덕트 디자이너・세일즈포스・2년차',
     text: '실패 프로젝트를 뺄지 고민된다면, 그 프로젝트가 "왜 실패라고 판단했는지"를 먼저 정리해보세요. 목표 대비 결과가 안 나온 거라면 그 목표 설정 과정 자체도 좋은 이야깃거리가 돼요. 저는 오히려 성공 사례만 있는 포폴보다 실패를 통해 배운 게 명확한 포폴에 더 신뢰가 가더라고요.',
@@ -81,7 +75,6 @@ const MORE_ANSWERS = [
     id: 'eric',
     name: 'Eric',
     avatar: imgEric,
-    crop: CROP_ERIC,
     badge: 'lightblue',
     role: '콘텐츠 마케터・올리브영・2년차',
     text: '면접관 입장에서 말씀드리면, 실패 프로젝트를 뺀 포폴은 오히려 "이 사람이 어려운 상황을 겪어본 적이 없나?"라는 의문이 들어요. 결과보다 과정에서의 의사결정을 중요하게 보기 때문에, 실패했더라도 그 안에서 어떤 트레이드오프를 고민했는지 보여주시면 충분히 플러스 요인이 될 수 있어요.',
@@ -102,7 +95,6 @@ const MORE_ANSWERS = [
     id: 'sunny',
     name: 'Sunny',
     avatar: imgSunny,
-    crop: CROP_SUNNY,
     badge: 'red',
     role: 'UX 디자이너・카카오・5년차',
     text: '저도 연차 낮을 때 실패 프로젝트를 뺐다가 오히려 "왜 성공한 것만 있냐"는 질문을 받았어요. 지금은 실패 사례를 넣되 마지막 문장을 꼭 "그래서 다음엔 이렇게 검증했다"로 끝내요. 실패 자체보다 그 다음 행동이 있었는지를 더 중요하게 보시는 것 같아요.',
@@ -126,21 +118,14 @@ function MentorAnswerCard({ answer, onOpenMentorChat, onOpenMentorDetail }) {
     <div className="border border-[#e7eaee] rounded-2xl p-5 flex flex-col gap-5 w-full">
       <div className="flex items-center gap-3 w-full">
         <div
-          className={`flex-1 min-w-0 flex items-center gap-3${answer.id === 'yoonie' ? ' cursor-pointer' : ''}`}
-          onClick={answer.id === 'yoonie' ? () => onOpenMentorDetail?.('Yoonie') : undefined}
+          className={`flex-1 min-w-0 flex items-center gap-3${answer.id === 'yoonie' || answer.id === 'sunny' ? ' cursor-pointer' : ''}`}
+          onClick={
+            answer.id === 'yoonie' || answer.id === 'sunny'
+              ? () => onOpenMentorDetail?.(answer.name)
+              : undefined
+          }
         >
-          {answer.crop ? (
-            <div className="size-[42px] rounded-full overflow-hidden relative bg-white shrink-0">
-              <img
-                alt=""
-                src={answer.avatar}
-                className="absolute max-w-none pointer-events-none"
-                style={{ top: answer.crop.top, left: answer.crop.left, width: answer.crop.width, height: answer.crop.height }}
-              />
-            </div>
-          ) : (
-            <img alt="" src={answer.avatar} className="size-[42px] rounded-full object-cover shrink-0" />
-          )}
+          <MentorProfile src={answer.avatar} size="medium" />
           <div className="flex flex-col gap-1.5 min-w-0">
             <div className="flex items-center gap-2">
               <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-[#121213] whitespace-nowrap">
@@ -263,7 +248,21 @@ export default function QnaDetailFailedProject({ onOpenMentorChat, onOpenMentorD
                 }}
               />
             ) : (
-              <img alt="좋아요" src={imgLikeOutline} className="size-6" />
+              <span
+                aria-hidden
+                className="block size-6"
+                style={{
+                  WebkitMaskImage: `url("${imgLikeOutline}")`,
+                  maskImage: `url("${imgLikeOutline}")`,
+                  WebkitMaskSize: 'contain',
+                  maskSize: 'contain',
+                  WebkitMaskRepeat: 'no-repeat',
+                  maskRepeat: 'no-repeat',
+                  WebkitMaskPosition: 'center',
+                  maskPosition: 'center',
+                  backgroundColor: '#9CA2B1',
+                }}
+              />
             )}
             <span className="font-medium text-[14px] tracking-[0.14px] text-[#121213]">{liked ? 61 : 60}</span>
           </button>

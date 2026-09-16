@@ -33,7 +33,7 @@ const REVIEWS = [
   },
 ];
 
-function ReviewCard({ review }) {
+function ReviewCard({ review, onOpenMentorDetail }) {
   const [expanded, setExpanded] = useState(false);
   const [isClamped, setIsClamped] = useState(false);
   const textRef = useRef(null);
@@ -44,10 +44,14 @@ function ReviewCard({ review }) {
   }, [review.text]);
 
   const isMaster = review.mentorTier === 'Master';
+  const canOpenDetail = review.mentorName === 'Yoonie' || review.mentorName === 'Sunny';
 
   return (
     <article className="border border-[#e7eaee] rounded-2xl px-4 py-5 flex flex-col gap-5 w-full">
-      <div className="flex gap-2 items-center">
+      <div
+        className={`flex gap-2 items-center${canOpenDetail ? ' cursor-pointer' : ''}`}
+        onClick={canOpenDetail ? () => onOpenMentorDetail?.(review.mentorName) : undefined}
+      >
         <div className="relative size-9 shrink-0">
           <img alt="" className="absolute block inset-0 max-w-none size-full" src={review.avatar} />
         </div>
@@ -79,11 +83,11 @@ function ReviewCard({ review }) {
   );
 }
 
-export default function MyPageReview() {
+export default function MyPageReview({ onOpenMentorDetail }) {
   return (
     <div className="flex flex-col gap-5 pt-10 pb-16 w-full">
       {REVIEWS.map((review) => (
-        <ReviewCard key={review.id} review={review} />
+        <ReviewCard key={review.id} review={review} onOpenMentorDetail={onOpenMentorDetail} />
       ))}
       <button type="button" className="border border-[#e7eaee] rounded-lg py-2 w-full text-[14px] font-medium tracking-[0.14px] text-[#747886]">
         더보기

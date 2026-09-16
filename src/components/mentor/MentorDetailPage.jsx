@@ -1,6 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
 
+import imgSunnyAvatar from '../../assets/icons/ellipse-sunny.png';
+
 const imgYoonieAvatar = 'https://www.figma.com/api/mcp/asset/6295d8ad-2523-4444-ad67-afa9c909b74e.png';
+const imgKakaoSunny = 'https://www.figma.com/api/mcp/asset/1597f73a-ad68-4de9-b3d2-a991bbd381ae.png';
+const imgWanted = 'https://www.figma.com/api/mcp/asset/a873382d-6e6d-435c-8771-5cacb244e020.png';
+const imgInfoIconMaster = 'https://www.figma.com/api/mcp/asset/28f4314c-4318-4458-b819-bf1da5cdceb2.svg';
+const imgReviewerMumumu = 'https://www.figma.com/api/mcp/asset/e239b3f5-12b3-4681-9f36-892fad5385ea.png';
+const imgReviewerKiki = 'https://www.figma.com/api/mcp/asset/a3943117-ae68-4d0a-ba07-b53cbf13a6d9.png';
+const imgReviewerCoco = 'https://www.figma.com/api/mcp/asset/c69f52ef-4a44-42a0-ad38-bc4d99cc5aff.png';
+const imgSunnyCareerTalk1 = 'https://www.figma.com/api/mcp/asset/5bead996-cc1d-42c1-88a7-1d6e3d408833.png';
+const imgSunnyCareerTalk2 = 'https://www.figma.com/api/mcp/asset/05b829b9-5dbc-4852-aa40-7b088ff2bd1a.png';
 const imgCarrot = 'https://www.figma.com/api/mcp/asset/6173dd1c-ece3-40d6-9f2d-207c1b37aab8.png';
 const imgKakao = 'https://www.figma.com/api/mcp/asset/aacd105e-6ca7-4c89-8003-29bd622d36d1.png';
 const imgInfoIcon = 'https://www.figma.com/api/mcp/asset/dec8b4d6-0b3c-4134-8a25-e5349f8a34a2.svg';
@@ -107,21 +117,153 @@ const STEPS = [
   },
 ];
 
-function ActiveMentorBadge({ onClick }) {
+const SUNNY_REVIEWS = [
+  {
+    id: 'mumumu',
+    name: 'mumumu',
+    avatar: imgReviewerMumumu,
+    channel: '면접',
+    tags: ['실무 인사이트 공유', '빠른 응답'],
+    text: '모의면접하면서 제가 놓치고 있던 부분을 하나씩 짚어주셔서 좋았어요. 실제 면접에서 어떻게 말하면 좋을지까지 제안해주셔서 바로 적용할 수 있었습니다.',
+    date: '2026.05.15',
+  },
+  {
+    id: 'kiki',
+    name: 'kiki',
+    avatar: imgReviewerKiki,
+    channel: '면접',
+    tags: ['취업 방향 설정', '명확한 피드백'],
+    text: 'AI 점수만 보고 제 답변이 부족하다고 생각했는데, 멘토님이 직접 들어보시고 오히려 강점으로 가져가면 좋을 부분을 짚어주셨어요.',
+    date: '2026.05.15',
+  },
+  {
+    id: 'coco',
+    name: 'Coco',
+    avatar: imgReviewerCoco,
+    channel: '면접',
+    tags: ['구체적 조언', '적극적인 소통'],
+    text: '혼자 준비할 때는 답변이 괜찮은지 판단하기 어려웠는데, 현직자 관점에서 직접 피드백을 받으니 어떤 부분이 부족한지 바로 이해됐어요. 특히 제가 한 경험을 면접 답변으로 어떻게 연결할지 알려주신 게 가장 도움이 됐습니다. 덕분에 이번에 있는 카카오 실무 면접도 잘 보고 올 수 있을 것 같은 느낌이 듭니다 ㅎㅎ 합격한다면 다 멘토님 덕분이에요!',
+    date: '2026.05.15',
+  },
+];
+
+const SUNNY_CAREER_TALKS = [
+  {
+    id: 'interview-donts',
+    image: imgSunnyCareerTalk1,
+    badge: '면접',
+    title: '면접 볼 때 이것만은 하지 마세요!',
+  },
+  {
+    id: 'interview-common',
+    image: imgSunnyCareerTalk2,
+    badge: '면접',
+    title: '면접관이 보는 합격하는 사람의 공통점',
+  },
+];
+
+const SUNNY_QNA_ANSWERS = [
+  {
+    id: 'ux-interview',
+    question: 'UX 디자이너 면접에서 중요한 것은 무엇인가요?',
+    text: 'UX 디자이너 면접에서는 결과물 자체보다 왜 그런 문제를 발견했고, 어떤 근거로 해결 방법을 선택했는지를 설명하는 것이 중요하다고 생각합니다. 프로젝트의 결과만 보여주기보다 문제 상황부터 나의 판단과 행동, 그 결과까지 논리적으로 설명하면 문제 해결 과정과 UX 흐름을 잘 설명하면 좋을 것 같아요.',
+    likes: 127,
+  },
+  {
+    id: 'why-design',
+    question: '“왜 이 디자인을 선택했나요?”라는 질문에는 어떻게 답해야 하나요?',
+    text: '“디자인의 취향이 아닌 근거를 이야기하세요.”\n사용자 테스트, 리서치, 데이터, 비즈니스 목표 등 어떤 근거를 바탕으로 결정했는지를 설명하는 것이 중요합니다. 특히 여러 대안 중 왜 최종 방향을 선택했는지까지 설명한다면, 단순히 결과물을 만드는 디자이너가...',
+    likes: 89,
+  },
+  {
+    id: 'prep',
+    question: '프로덕트 디자이너 취업 준비, 무엇부터 시작해야 할까요?',
+    text: '가장 먼저 지원하고 싶은 직무와 기업에서 어떤 역량을 중요하게 보는지 파악하는 것부터 추천해요. 그다음 본인의 프로젝트를 직무 역량에 맞춰 정리하고, 단순히 결과물을 보여주기보다 문제를 어떻게 발견하고 해결했는지가 드러나도록 포트폴리오를 다듬어보세요.',
+    likes: 85,
+  },
+];
+
+const SUNNY_CAREERS = [
+  { logo: imgKakaoSunny, company: '카카오', role: 'UX 디자이너', period: '2021.01 - 재직중' },
+  { logo: imgWanted, company: '원티드', role: '그래픽 디자이너', period: '2020.01 - 2020.12' },
+];
+
+const MENTOR_PAGES = {
+  yoonie: {
+    id: 'yoonie',
+    displayName: 'Yoonie 멘토',
+    badge: 'active',
+    specialty: 'IT 기업 프로덕트 디자인 포트폴리오 구성 도움',
+    portfolioLabel: 'Yoonie 멘토 포트폴리오 사이트',
+    linkedinLabel: 'Yoonie 멘토 링크드인',
+    bio: 'UX와 프로덕트 디자인 경험을 바탕으로 UX 리서치부터 데이터 분석, 디자인시스템까지 집중적으로 답변해드립니다.\n네이버, 카카오, 당근마켓 등에서 다양한 사람들과 프로젝트를 진행하고 팀을 리딩해왔습니다. 커머스, 커뮤니티, 핀테크, 동영상 등 여러 도메인을 넘나들며 ‘좋은 디자인’을 고민해왔어요. 실제 면접관들이 어떤 시선으로 포트폴리오를 보고 판단하는지, 도메인별로 어떤 특징이 있는지 그 현실적인 관점을 나누고 싶어요.',
+    careers: CAREERS,
+    reviews: REVIEWS,
+    reviewCount: 45,
+    aiSummary:
+      '멘티들이 가장 많이 꼽은 강점은 "명확한 피드백"이에요. "두루뭉술한 조언이 아니라 바로 고칠 수 있었다"는 후기가 반복적으로 나왔어요. 포폴・자소서 피드백 만족도가 특히 높아요.',
+    careerTalks: CAREER_TALKS,
+    qnaAnswers: QNA_ANSWERS,
+    sidebar: {
+      avatar: imgYoonieAvatar,
+      roleLine: '프로덕트 디자이너 ・ 당근 ・ 5년차',
+      tags: ['프로덕트 디자인', '포트폴리오'],
+      followers: '1.2K',
+      chats: '60',
+      reviews: '45',
+      gradient: 'linear-gradient(-1.85deg, rgba(233,186,255,0.25) 1.43%, rgba(251,247,255,0.25) 50%), #ffffff',
+      canChat: true,
+      canInterview: false,
+    },
+  },
+  sunny: {
+    id: 'sunny',
+    displayName: 'Sunny 멘토',
+    badge: 'master',
+    specialty: 'IT 기업 면접 준비 및 이직 준비 도움',
+    portfolioLabel: 'Sunny 멘토 포트폴리오 사이트',
+    linkedinLabel: 'Sunny 멘토 링크드인',
+    bio: '사용자 리서치부터 UX 설계까지 다양한 프로젝트를 경험해왔어요. 디자인 취업을 준비하면서 생기는 고민과 실무에서 필요한 역량에 대해 구체적으로 알려드릴게요.',
+    careers: SUNNY_CAREERS,
+    reviews: SUNNY_REVIEWS,
+    reviewCount: 50,
+    aiSummary:
+      '특히 모의면접과 멘토 피드백에 대한 만족도가 높아요. 현직자 관점에서 답변의 부족한 부분을 구체적으로 짚어주고, 실제 면접에서 바로 활용할 수 있는 개선 방향과 스크립트를 제공한 점이 가장 도움이 되었다는 의견이 많았어요.',
+    careerTalks: SUNNY_CAREER_TALKS,
+    qnaAnswers: SUNNY_QNA_ANSWERS,
+    sidebar: {
+      avatar: imgSunnyAvatar,
+      roleLine: 'UX 디자이너 ・ 카카오 ・ 5년차',
+      tags: ['UX 디자인', '면접'],
+      followers: '4K',
+      chats: '30',
+      reviews: '50',
+      gradient: 'linear-gradient(-1.85deg, rgba(255,181,181,0.25) 1.43%, rgba(255,250,250,0.25) 50%), #ffffff',
+      canChat: false,
+      canInterview: true,
+    },
+  },
+};
+
+function MentorTypeBadge({ variant = 'active', onClick }) {
+  const isMaster = variant === 'master';
   return (
     <button
       type="button"
       onClick={onClick}
       className="relative flex items-center gap-1 h-7 px-2 py-1 rounded-lg shrink-0 cursor-pointer"
     >
-      <div className="absolute inset-0 bg-[#ad36e3] opacity-10 rounded-lg" />
-      <img alt="" src={imgInfoIcon} className="relative size-3.5" />
-      <p className="relative text-[13px] tracking-[0.26px] text-[#ad36e3] whitespace-nowrap">Active Mentor</p>
+      <div className={`absolute inset-0 opacity-10 rounded-lg ${isMaster ? 'bg-[#e52222]' : 'bg-[#ad36e3]'}`} />
+      <img alt="" src={isMaster ? imgInfoIconMaster : imgInfoIcon} className="relative size-3.5" />
+      <p className={`relative text-[13px] tracking-[0.26px] whitespace-nowrap ${isMaster ? 'text-[#e52222]' : 'text-[#ad36e3]'}`}>
+        {isMaster ? 'Master Mentor' : 'Active Mentor'}
+      </p>
     </button>
   );
 }
 
-function InfoModal({ onClose }) {
+function InfoModal({ variant = 'active', onClose }) {
+  const isMaster = variant === 'master';
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-5"
@@ -133,9 +275,11 @@ function InfoModal({ onClose }) {
       >
         <div className="flex items-center justify-between">
           <div className="relative flex items-center gap-1 h-7 px-2 py-1 rounded-lg shrink-0">
-            <div className="absolute inset-0 bg-[#ad36e3] opacity-10 rounded-lg" />
-            <img alt="" src={imgInfoIcon} className="relative size-3.5" />
-            <p className="relative text-[13px] tracking-[0.26px] text-[#ad36e3] whitespace-nowrap">Active Mentor</p>
+            <div className={`absolute inset-0 opacity-10 rounded-lg ${isMaster ? 'bg-[#e52222]' : 'bg-[#ad36e3]'}`} />
+            <img alt="" src={isMaster ? imgInfoIconMaster : imgInfoIcon} className="relative size-3.5" />
+            <p className={`relative text-[13px] tracking-[0.26px] whitespace-nowrap ${isMaster ? 'text-[#e52222]' : 'text-[#ad36e3]'}`}>
+              {isMaster ? 'Master Mentor' : 'Active Mentor'}
+            </p>
           </div>
           <button
             type="button"
@@ -146,8 +290,10 @@ function InfoModal({ onClose }) {
             ×
           </button>
         </div>
-        <p className="text-[15px] leading-[1.6] text-[#121213] whitespace-pre-line">
-          {'꾸준히 활동하며 좋은 평가를 받고 있는 멘토예요.\n많은 취준생과 대화를 나눴고, 만족도 높은 피드백으로\n신뢰를 쌓았어요. 지금 가장 활발하게 멘티를 돕고 있어요.'}
+        <p className="text-[15px] leading-[1.6] text-[#121213]">
+          {isMaster
+            ? '해당 분야의 풍부한 경험과 높은 만족도를 인정받은 멘토예요. 많은 취준생과 대화를 나눴고, 만족도 높은 피드백으로 신뢰를 쌓았어요.'
+            : '꾸준히 활동하며 좋은 평가를 받고 있는 멘토예요. 많은 취준생과 대화를 나눴고, 만족도 높은 피드백으로 신뢰를 쌓았어요. 지금 가장 활발하게 멘티를 돕고 있어요.'}
         </p>
         <div className="flex flex-col gap-1.5 pt-4 border-t border-[#e7eaee]">
           <p className="font-bold text-[14px] text-[#121213]">[획득 조건]</p>
@@ -305,29 +451,29 @@ function ContentQnaCard({ question, text, likes, onOpenBoard }) {
 const GLASS_BUTTON =
   'relative flex-1 flex items-center justify-center px-7 py-3 rounded-xl border border-[rgba(255,255,255,0.4)] bg-[rgba(255,255,255,0.4)] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10';
 
-function ProfileSidebarCard({ onOpenAgentChat }) {
+function ProfileSidebarCard({ profile, onOpenAgentChat, onOpenInterview }) {
   const [isFollowing, setIsFollowing] = useState(false);
+  const isMaster = profile.badge === 'master';
   return (
     <div className="w-[335px] shrink-0 sticky top-0 -mt-16 pt-16">
       <div
         className="relative w-full overflow-hidden border-[1.5px] border-white rounded-2xl p-6 flex flex-col gap-5 shadow-[0_0_16px_rgba(18,18,19,0.04),inset_-2px_-2px_2px_rgba(255,255,255,0.3)]"
-        style={{
-          background:
-            'linear-gradient(-1.85deg, rgba(233,186,255,0.25) 1.43%, rgba(251,247,255,0.25) 50%), #ffffff',
-        }}
+        style={{ background: profile.gradient }}
       >
         <div className="relative flex gap-2 items-start w-full">
           <div className="flex-1 min-w-0 flex flex-col gap-3">
-            <img alt="Yoonie 멘토" src={imgYoonieAvatar} className="size-[60px] rounded-full object-cover" />
+            <img alt={profile.displayName} src={profile.avatar} className="size-[60px] rounded-full object-cover" />
             <div className="flex flex-col gap-1.5 w-full">
               <div className="flex gap-2 items-center">
-                <p className="font-bold text-lg leading-[1.5] tracking-[-0.0036px] text-[#121213] whitespace-nowrap">Yoonie 멘토</p>
+                <p className="font-bold text-lg leading-[1.5] tracking-[-0.0036px] text-[#121213] whitespace-nowrap">{profile.displayName}</p>
                 <div className="relative flex items-center justify-center px-2 py-1 rounded-lg shrink-0">
-                  <div className="absolute inset-0 bg-[#9054ff] opacity-10 rounded-lg" />
-                  <p className="relative text-[10px] tracking-[0.25px] text-[#9054ff] whitespace-nowrap">Active Mentor</p>
+                  <div className={`absolute inset-0 opacity-10 rounded-lg ${isMaster ? 'bg-[#e52222]' : 'bg-[#9054ff]'}`} />
+                  <p className={`relative text-[10px] tracking-[0.25px] whitespace-nowrap ${isMaster ? 'text-[#e52222]' : 'text-[#9054ff]'}`}>
+                    {isMaster ? 'Master Mentor' : 'Active Mentor'}
+                  </p>
                 </div>
               </div>
-              <p className="text-sm text-[#747886] tracking-[0.14px] whitespace-nowrap">프로덕트 디자이너 ・ 당근 ・ 5년차</p>
+              <p className="text-sm text-[#747886] tracking-[0.14px] whitespace-nowrap">{profile.roleLine}</p>
             </div>
           </div>
           <button
@@ -342,25 +488,24 @@ function ProfileSidebarCard({ onOpenAgentChat }) {
         </div>
 
         <div className="relative flex gap-1">
-          <div className="flex items-center justify-center px-2 py-1 rounded-lg border border-[#e7eaee]">
-            <p className="text-xs font-medium text-[#747886] tracking-[0.3px] whitespace-nowrap">프로덕트 디자인</p>
-          </div>
-          <div className="flex items-center justify-center px-2 py-1 rounded-lg border border-[#e7eaee]">
-            <p className="text-xs font-medium text-[#747886] tracking-[0.3px] whitespace-nowrap">포트폴리오</p>
-          </div>
+          {profile.tags.map((tag) => (
+            <div key={tag} className="flex items-center justify-center px-2 py-1 rounded-lg border border-[#e7eaee]">
+              <p className="text-xs font-medium text-[#747886] tracking-[0.3px] whitespace-nowrap">{tag}</p>
+            </div>
+          ))}
         </div>
 
         <div className="relative grid grid-cols-3 gap-8 text-center w-full">
           <div className="flex flex-col gap-0.5 items-center">
-            <p className="font-bold text-[15px] leading-[1.45] text-[#121213]">1.2K</p>
+            <p className="font-bold text-[15px] leading-[1.45] text-[#121213]">{profile.followers}</p>
             <p className="text-[13px] leading-[1.4] tracking-[0.26px] text-[#747886]">팔로워</p>
           </div>
           <div className="flex flex-col gap-0.5 items-center">
-            <p className="font-bold text-[15px] leading-[1.45] text-[#121213]">60</p>
+            <p className="font-bold text-[15px] leading-[1.45] text-[#121213]">{profile.chats}</p>
             <p className="text-[13px] leading-[1.4] tracking-[0.26px] text-[#747886]">채팅</p>
           </div>
           <div className="flex flex-col gap-0.5 items-center">
-            <p className="font-bold text-[15px] leading-[1.45] text-[#121213]">45</p>
+            <p className="font-bold text-[15px] leading-[1.45] text-[#121213]">{profile.reviews}</p>
             <p className="text-[13px] leading-[1.4] tracking-[0.26px] text-[#747886]">리뷰</p>
           </div>
         </div>
@@ -368,10 +513,10 @@ function ProfileSidebarCard({ onOpenAgentChat }) {
         <div className="relative w-full h-px bg-[#e7eaee]" />
 
         <div className="relative flex gap-3 items-start w-full">
-          <button type="button" onClick={onOpenAgentChat} className={GLASS_BUTTON}>
+          <button type="button" onClick={profile.canChat ? onOpenAgentChat : undefined} className={GLASS_BUTTON}>
             <p className="relative font-bold text-base text-[#121213] whitespace-nowrap">채팅하기</p>
           </button>
-          <button type="button" className={GLASS_BUTTON}>
+          <button type="button" onClick={profile.canInterview ? onOpenInterview : undefined} className={GLASS_BUTTON}>
             <p className="relative font-bold text-base text-[#121213] whitespace-nowrap">면접보기</p>
           </button>
         </div>
@@ -380,9 +525,21 @@ function ProfileSidebarCard({ onOpenAgentChat }) {
   );
 }
 
-export default function MentorDetailPage({ onOpenAgentChat, onOpenCareerTalkDetail, onOpenQnaDetail }) {
+export default function MentorDetailPage({
+  mentorId = 'yoonie',
+  onOpenAgentChat,
+  onOpenInterview,
+  onOpenCareerTalkDetail,
+  onOpenQnaDetail,
+}) {
+  const mentor = MENTOR_PAGES[mentorId] ?? MENTOR_PAGES.yoonie;
   const [activeTab, setActiveTab] = useState('intro');
   const [showInfoModal, setShowInfoModal] = useState(false);
+
+  useEffect(() => {
+    setActiveTab('intro');
+    setShowInfoModal(false);
+  }, [mentorId]);
 
   return (
     <section className="relative flex-1 min-w-0 min-h-0 flex flex-col rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-hidden">
@@ -392,8 +549,8 @@ export default function MentorDetailPage({ onOpenAgentChat, onOpenCareerTalkDeta
             <div className="sticky top-0 z-10 bg-white -mt-16 pt-16 flex flex-col w-full pb-2">
               <div className="flex flex-col gap-6 w-full max-w-[730px]">
                 <div className="flex gap-3 items-center w-full px-5">
-                  <h1 className="font-bold text-[22px] tracking-[-0.33px] text-black whitespace-nowrap">Yoonie 멘토</h1>
-                  <ActiveMentorBadge onClick={() => setShowInfoModal(true)} />
+                  <h1 className="font-bold text-[22px] tracking-[-0.33px] text-black whitespace-nowrap">{mentor.displayName}</h1>
+                  <MentorTypeBadge variant={mentor.badge} onClick={() => setShowInfoModal(true)} />
                 </div>
                 <div className="flex gap-5 items-center w-full border-b border-[#e7eaee]">
                   {TABS.map((tab) => {
@@ -423,7 +580,7 @@ export default function MentorDetailPage({ onOpenAgentChat, onOpenCareerTalkDeta
                 <div className="flex flex-col gap-5 w-full">
                   <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-black">대표 멘토링 분야</p>
                   <p className="font-medium text-[18px] leading-[1.5] tracking-[-0.0036px] text-[#121213]">
-                    IT 기업 프로덕트 디자인 포트폴리오 구성 도움
+                    {mentor.specialty}
                   </p>
                 </div>
 
@@ -431,11 +588,11 @@ export default function MentorDetailPage({ onOpenAgentChat, onOpenCareerTalkDeta
                   <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-black">멘토 소개</p>
                   <div className="flex flex-col gap-4 w-full">
                     <div className="flex flex-col gap-2">
-                      <p className="text-[15px] leading-[1.6] text-[#121213] underline">Yoonie 멘토 포트폴리오 사이트</p>
-                      <p className="text-[15px] leading-[1.6] text-[#121213] underline">Yoonie 멘토 링크드인</p>
+                      <p className="text-[15px] leading-[1.6] text-[#121213] underline">{mentor.portfolioLabel}</p>
+                      <p className="text-[15px] leading-[1.6] text-[#121213] underline">{mentor.linkedinLabel}</p>
                     </div>
                     <p className="text-[15px] leading-[1.6] text-[#121213] whitespace-pre-line">
-                      {'UX와 프로덕트 디자인 경험을 바탕으로 UX 리서치부터 데이터 분석, 디자인시스템까지 집중적으로 답변해드립니다.\n네이버, 카카오, 당근마켓 등에서 다양한 사람들과 프로젝트를 진행하고 팀을 리딩해왔습니다. 커머스, 커뮤니티, 핀테크, 동영상 등 여러 도메인을 넘나들며 ‘좋은 디자인’을 고민해왔어요. 실제 면접관들이 어떤 시선으로 포트폴리오를 보고 판단하는지, 도메인별로 어떤 특징이 있는지 그 현실적인 관점을 나누고 싶어요.'}
+                      {mentor.bio}
                     </p>
                   </div>
                 </div>
@@ -443,7 +600,7 @@ export default function MentorDetailPage({ onOpenAgentChat, onOpenCareerTalkDeta
                 <div className="flex flex-col gap-5 w-full">
                   <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-black">멘토 경력</p>
                   <div className="flex flex-col gap-3 w-full">
-                    {CAREERS.map((item) => (
+                    {mentor.careers.map((item) => (
                       <CareerItem key={item.company} item={item} />
                     ))}
                   </div>
@@ -460,18 +617,18 @@ export default function MentorDetailPage({ onOpenAgentChat, onOpenCareerTalkDeta
               </>
             ) : activeTab === 'review' ? (
               <div className="flex flex-col gap-6 w-full">
-                <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-black">대화 후 리뷰 (45)</p>
+                <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-black">{`대화 후 리뷰 (${mentor.reviewCount})`}</p>
                 <div className="flex flex-col gap-5 items-start bg-[#f9fafb] rounded-2xl px-4 py-5 w-full">
                   <div className="flex gap-2 items-center">
                     <img alt="" src={imgAiSummaryIcon} className="size-5" />
                     <p className="font-bold text-base text-[#121213]">AI 리뷰 요약</p>
                   </div>
                   <p className="text-[15px] leading-[1.6] text-[#121213] w-full">
-                    {'멘티들이 가장 많이 꼽은 강점은 "명확한 피드백"이에요. "두루뭉술한 조언이 아니라 바로 고칠 수 있었다"는 후기가 반복적으로 나왔어요. 포폴・자소서 피드백 만족도가 특히 높아요.'}
+                    {mentor.aiSummary}
                   </p>
                 </div>
                 <div className="flex flex-col gap-5 items-start w-full">
-                  {REVIEWS.map((review) => (
+                  {mentor.reviews.map((review) => (
                     <MentorReviewCard key={review.id} review={review} />
                   ))}
                   <button
@@ -489,7 +646,7 @@ export default function MentorDetailPage({ onOpenAgentChat, onOpenCareerTalkDeta
                   <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-black">커리어 토크 (13)</p>
                   <div className="flex flex-col gap-5 items-start w-full">
                     <div className="flex gap-[18px] items-start w-full flex-wrap">
-                      {CAREER_TALKS.map((item) => (
+                      {mentor.careerTalks.map((item) => (
                         <ContentCareerTalkCard
                           key={item.id}
                           image={item.image}
@@ -512,7 +669,7 @@ export default function MentorDetailPage({ onOpenAgentChat, onOpenCareerTalkDeta
                 <div className="flex flex-col gap-6 w-full">
                   <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-black">{'Q&A 답변 (27)'}</p>
                   <div className="flex flex-col gap-5 items-start w-[690px] max-w-full">
-                    {QNA_ANSWERS.map((item) => (
+                    {mentor.qnaAnswers.map((item) => (
                       <ContentQnaCard
                         key={item.id}
                         question={item.question}
@@ -535,11 +692,15 @@ export default function MentorDetailPage({ onOpenAgentChat, onOpenCareerTalkDeta
             </div>
           </div>
 
-          <ProfileSidebarCard onOpenAgentChat={onOpenAgentChat} />
+          <ProfileSidebarCard
+            profile={{ ...mentor.sidebar, badge: mentor.badge, displayName: mentor.displayName }}
+            onOpenAgentChat={() => onOpenAgentChat?.(mentor.displayName)}
+            onOpenInterview={onOpenInterview}
+          />
         </div>
       </div>
 
-      {showInfoModal && <InfoModal onClose={() => setShowInfoModal(false)} />}
+      {showInfoModal && <InfoModal variant={mentor.badge} onClose={() => setShowInfoModal(false)} />}
     </section>
   );
 }

@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 
-const imgLike = 'https://www.figma.com/api/mcp/asset/456cdd73-2b36-4510-beb7-ac459c28583e.svg';
-const imgLikeFill = 'https://www.figma.com/api/mcp/asset/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
+import imgLikeFill from '../../assets/icons/like-fill-gray.svg';
+import imgGangsterPost from '../../assets/icons/gangsterImg.png';
 const imgComment = 'https://www.figma.com/api/mcp/asset/13581474-4f36-46b1-9063-f3cfc8970ec3.svg';
 const imgChevronDown = 'https://www.figma.com/api/mcp/asset/800d0303-c40c-40a5-9c0a-cb6149f79de6.svg';
 const imgPencil = 'https://www.figma.com/api/mcp/asset/3fab267a-3f49-4c73-b247-11cff7f62c3f.svg';
@@ -16,7 +16,7 @@ const FREE_POSTS = [
     avatar: 'https://www.figma.com/api/mcp/asset/1c30df87-166c-4504-9d79-fdc847db4580.png',
     title: '드디어 1차 서류 통과했어ㅠ',
     body: '서류 통과는 취준하면서 처음인데 여기서 포폴이랑 자소서 피드백 받았었거든? 확실히 도움이 된듯..\n아직 면접 남았지만, 잠시만 이 행복을 즐기려고~ 다들 기 받아가!!',
-    images: ['https://www.figma.com/api/mcp/asset/92b7d4f4-ca13-4e94-8eb4-2852eed4914a.png'],
+    images: [imgGangsterPost],
     likes: 102,
     comments: 12,
     hasDetail: true,
@@ -219,25 +219,7 @@ function FreeTalkPost({ post, onOpenDetail }) {
           className="flex items-center gap-1 cursor-pointer"
           aria-pressed={liked}
         >
-          {liked ? (
-            <span
-              aria-hidden
-              className="block size-5"
-              style={{
-                WebkitMaskImage: `url("${imgLikeFill}")`,
-                maskImage: `url("${imgLikeFill}")`,
-                WebkitMaskSize: 'contain',
-                maskSize: 'contain',
-                WebkitMaskRepeat: 'no-repeat',
-                maskRepeat: 'no-repeat',
-                WebkitMaskPosition: 'center',
-                maskPosition: 'center',
-                backgroundColor: '#DFE4E8',
-              }}
-            />
-          ) : (
-            <img alt="" src={imgLike} className="size-5" />
-          )}
+          <img alt="" src={imgLikeFill} className="size-5" />
           <span className="text-[12px] tracking-[0.3px] text-[#747886]">{likeCount}</span>
         </button>
         <div className="flex items-center gap-1">

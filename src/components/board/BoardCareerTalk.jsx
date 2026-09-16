@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import imgBookmark from '../../assets/icons/careertalk-bookmark.svg';
 import imgBookmarkFill from '../../assets/icons/careertalk-bookmark-fill.svg';
+import imgTalkYoonie from '../../assets/icons/talkYoonie.png';
+import imgTalkUha from '../../assets/icons/talkUha.png';
 const imgChevronDown = 'https://www.figma.com/api/mcp/asset/2a8c0fab-ff12-4088-9976-f8cdb0698792.svg';
 const imgMoreChevron = 'https://www.figma.com/api/mcp/asset/bb3b8c56-7ee3-4df3-ba7c-8fbd9131aa9f.svg';
 
@@ -11,7 +13,7 @@ const CAREER_TALK_POSTS = [
     title: 'AI 시대의 프로덕트 디자인 활용 팁',
     mentor: 'Yoonie 멘토',
     role: '프로덕트 디자이너',
-    src: 'https://www.figma.com/api/mcp/asset/f6bbfcc4-7f95-4233-82a0-9c56cf516c69.png',
+    src: imgTalkYoonie,
     hasDetail: true,
     articleId: 'yoonie',
   },
@@ -26,8 +28,7 @@ const CAREER_TALK_POSTS = [
     title: '에이전틱 AI 제품 만들 때 참고할 점',
     mentor: 'U.ha 멘토',
     role: '프로덕트 디자이너',
-    src: 'https://www.figma.com/api/mcp/asset/1852c258-39ea-4fc0-840c-4e7df6c56d59.png',
-    crop: CROP,
+    src: imgTalkUha,
     hasDetail: true,
     articleId: 'uha',
   },

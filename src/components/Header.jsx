@@ -6,11 +6,18 @@ import imgBell from '../assets/icons/header-bell.svg';
 // TODO: 뒤로가기 화살표 아이콘(imgChevronLeft)은 홈 화면에 없어서 아직 로컬로 못 옮김 - 만료된 Figma URL로 남아있음
 const imgChevronLeft = 'https://www.figma.com/api/mcp/asset/c25d4b68-8802-4c60-8fb6-a6c20b14fba3.svg';
 
-export default function Header({ showStreak = true, onSearchClick, onBack }) {
+export default function Header({ showStreak = true, onSearchClick, onBack, onLogoClick }) {
   return (
     <header className="sticky top-0 z-20 shrink-0 h-16 bg-[#fcfcfc] flex items-center justify-between pl-9 pr-5 w-full">
       <div className="flex items-center gap-[37px] h-[39px] p-0.5">
-        <img alt="Mentit" src={imgLogo} className="size-[35px]" />
+        <button
+          type="button"
+          onClick={onLogoClick}
+          className="size-[35px] cursor-pointer shrink-0"
+          aria-label="홈으로 이동"
+        >
+          <img alt="" src={imgLogo} className="size-[35px]" />
+        </button>
         {onBack && (
           <button type="button" onClick={onBack} className="size-6 cursor-pointer">
             <img alt="뒤로가기" src={imgChevronLeft} className="size-6" />

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import imgThumnail from '../assets/icons/talk-thumb-1.webp';
-import imgThumnail1 from '../assets/icons/talk-thumb-2.webp';
+import imgThumnail from '../assets/icons/talkYoonie.png';
+import imgThumnail1 from '../assets/icons/talkUha.png';
 import imgBookmark from '../assets/icons/careertalk-bookmark.svg';
 import imgBookmarkFill from '../assets/icons/careertalk-bookmark-fill.svg';
 import imgChevronRight from '../assets/icons/chevron-right.svg';

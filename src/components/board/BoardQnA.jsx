@@ -1,4 +1,16 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import MentorProfile from './MentorProfile';
+
+import imgUha from '../../assets/icons/ellipse-uha.png';
+import imgYoonie from '../../assets/icons/yoonie.webp';
+import imgEric from '../../assets/icons/ellipse-eric.png';
+import imgDaisy from '../../assets/icons/ellipse-daisy.png';
+import imgEunoia from '../../assets/icons/eunoia.webp';
+import imgTeddy from '../../assets/icons/teddy.webp';
+import imgSunny from '../../assets/icons/ellipse-sunny.png';
+import imgPeter from '../../assets/icons/ellipse-peter.png';
+import imgEmma from '../../assets/icons/emma.webp';
+import imgFailedProject from '../../assets/icons/personalized-thumb-1.png';
 
 const imgLike = 'https://www.figma.com/api/mcp/asset/d82be445-be8d-44cb-bce0-d3f6a3b977c2.svg';
 const imgLikeFill = 'https://www.figma.com/api/mcp/asset/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
@@ -7,38 +19,13 @@ const imgMoreChevron = 'https://www.figma.com/api/mcp/asset/bb3b8c56-7ee3-4df3-b
 const imgPencil = 'https://www.figma.com/api/mcp/asset/3fab267a-3f49-4c73-b247-11cff7f62c3f.svg';
 
 const MENTOR_AVATAR_POOL = [
-  {
-    name: 'U.ha',
-    src: 'https://www.figma.com/api/mcp/asset/82f8645a-bff2-40bb-b2ce-b4adeff510e0.png',
-    crop: { top: '-4.69%', left: '-1.28%', width: '170.94%', height: '136.83%' },
-  },
-  {
-    name: 'Yoonie',
-    src: 'https://www.figma.com/api/mcp/asset/38da743c-39e9-4b29-92e2-178f15ebcd3d.png',
-  },
-  {
-    name: 'Eric',
-    src: 'https://www.figma.com/api/mcp/asset/a0d39193-fabc-410b-8ee7-5cd5300c34bf.png',
-    crop: { top: '-1.18%', left: '-2.04%', width: '182%', height: '145.69%' },
-  },
-  {
-    name: 'Daisy',
-    src: 'https://www.figma.com/api/mcp/asset/4e59b148-9a7e-4e39-be3e-0cf935da5817.png',
-    crop: { top: '-5.94%', left: '-0.02%', width: '171.11%', height: '136.97%' },
-  },
-  {
-    name: 'Eunoia',
-    src: 'https://www.figma.com/api/mcp/asset/92b621eb-70dd-4c6d-a935-09067d86f639.png',
-  },
-  {
-    name: 'Teddy',
-    src: 'https://www.figma.com/api/mcp/asset/349f7306-9c3b-45ee-b42e-10569d6479a8.png',
-  },
-  {
-    name: 'Sunny',
-    src: 'https://www.figma.com/api/mcp/asset/f523aa62-cb7a-4452-92f8-9126d2a5de89.png',
-    crop: { top: '-5.92%', left: '-1.73%', width: '175.37%', height: '140.34%' },
-  },
+  { name: 'U.ha', src: imgUha },
+  { name: 'Yoonie', src: imgYoonie },
+  { name: 'Eric', src: imgEric },
+  { name: 'Daisy', src: imgDaisy },
+  { name: 'Eunoia', src: imgEunoia },
+  { name: 'Teddy', src: imgTeddy },
+  { name: 'Sunny', src: imgSunny },
 ];
 
 function pickRandomMentors(count = 3) {
@@ -47,8 +34,8 @@ function pickRandomMentors(count = 3) {
 
 // 세부페이지에서 '더보기' 없이 바로 보이는 실제 답변 멘토 3명 (Figma/세부페이지 데이터와 동일하게 고정)
 const EXTRA_MENTORS = {
-  Peter: { name: 'Peter', src: 'https://www.figma.com/api/mcp/asset/238a7985-f398-4c1b-8060-3d42ae43ec7b.png' },
-  Emma: { name: 'Emma', src: 'https://www.figma.com/api/mcp/asset/600e8ec2-767a-4acf-96bf-ca759446cdf4.png' },
+  Peter: { name: 'Peter', src: imgPeter },
+  Emma: { name: 'Emma', src: imgEmma },
 };
 
 function findMentor(name) {
@@ -78,7 +65,7 @@ const QNA_POSTS = [
     tag: '프로덕트 디자인',
     title: '포트폴리오에 실패한 프로젝트도 넣어도 될까요?',
     body: '실패한 프로젝트를 잘 풀어낼지, 아니면 과감하게 빼고 성공한 프로젝트만 넣어서 구성할지 고민입니다. 넣으면 오히려 감점 요소가 될까요? 너무 고민이에요.',
-    image: 'https://www.figma.com/api/mcp/asset/4d8e7d48-b6ab-4f91-8b3d-409bf3a4fa86.png',
+    image: imgFailedProject,
     views: 1200,
     likes: 60,
     participants: 32,
@@ -353,35 +340,35 @@ function QnaCard({ post, onOpenDetail }) {
                 }}
               />
             ) : (
-              <img alt="" src={imgLike} className="size-5" />
+              <span
+                aria-hidden
+                className="block size-5"
+                style={{
+                  WebkitMaskImage: `url("${imgLike}")`,
+                  maskImage: `url("${imgLike}")`,
+                  WebkitMaskSize: 'contain',
+                  maskSize: 'contain',
+                  WebkitMaskRepeat: 'no-repeat',
+                  maskRepeat: 'no-repeat',
+                  WebkitMaskPosition: 'center',
+                  maskPosition: 'center',
+                  backgroundColor: '#DFE4E8',
+                }}
+              />
             )}
             <span className="text-[12px] tracking-[0.3px] text-[#747886]">{likeCount}</span>
           </button>
           <div className="flex items-center gap-1">
             <div className="flex items-center">
-              {(post.mentors ?? []).map((mentor, index) => (
-                <div
+              {(post.mentors ?? []).filter(Boolean).map((mentor, index) => (
+                <MentorProfile
                   key={mentor.name}
-                  className={`relative size-5 rounded-full overflow-hidden border-2 border-white bg-white shrink-0 ${
+                  src={mentor.src}
+                  size="xs"
+                  className={`border-2 border-white bg-white ${
                     index < post.mentors.length - 1 ? '-mr-[7px]' : ''
                   }`}
-                >
-                  {mentor.crop ? (
-                    <img
-                      alt=""
-                      src={mentor.src}
-                      className="absolute max-w-none pointer-events-none"
-                      style={{
-                        top: mentor.crop.top,
-                        left: mentor.crop.left,
-                        width: mentor.crop.width,
-                        height: mentor.crop.height,
-                      }}
-                    />
-                  ) : (
-                    <img alt="" src={mentor.src} className="absolute inset-0 size-full object-cover" />
-                  )}
-                </div>
+                />
               ))}
             </div>
             <span className="text-[12px] tracking-[0.3px] text-[#747886]">{post.participants}</span>

@@ -3,48 +3,36 @@ import BoardSubMenu from './BoardSubMenu';
 import BoardCareerTalk from './BoardCareerTalk';
 import BoardQnA from './BoardQnA';
 import BoardFreeTalk from './BoardFreeTalk';
+import MentorProfile from './MentorProfile';
 import imgChevronRight from '../../assets/icons/chevron-right.svg';
 import imgBookmark from '../../assets/icons/careertalk-bookmark.svg';
 import imgBookmarkFill from '../../assets/icons/careertalk-bookmark-fill.svg';
-import imgLike from '../../assets/icons/like.svg';
-import imgLikeFill from '../../assets/icons/like-fill.svg';
+import imgLikeFill from '../../assets/icons/like-fill-gray.svg';
 import imgComment from '../../assets/icons/comment.svg';
-import imgUha from '../../assets/icons/uha.webp';
+import imgUha from '../../assets/icons/ellipse-uha.png';
 import imgYoonieMentor from '../../assets/icons/yoonie.webp';
-import imgEric from '../../assets/icons/eric.webp';
-import imgDaisy from '../../assets/icons/daisy.webp';
+import imgEric from '../../assets/icons/ellipse-eric.png';
+import imgDaisy from '../../assets/icons/ellipse-daisy.png';
 import imgEunoiaMentor from '../../assets/icons/eunoia.webp';
 import imgTeddyMentor from '../../assets/icons/teddy.webp';
-import imgSunny from '../../assets/icons/sunny.webp';
-import imgPeter from '../../assets/icons/peter.webp';
+import imgSunny from '../../assets/icons/ellipse-sunny.png';
+import imgPeter from '../../assets/icons/ellipse-peter.png';
 import imgEmma from '../../assets/icons/emma.webp';
-import imgTalkYoonie from '../../assets/icons/talkYoonie.webp';
-import imgTalkUha from '../../assets/icons/talkUha.webp';
+import imgTalkYoonie from '../../assets/icons/talkYoonie.png';
+import imgTalkUha from '../../assets/icons/talkUha.png';
 import imgGangsterAvatar from '../../assets/icons/gangsterAvatar.webp';
 import imgHappyAvatar from '../../assets/icons/happyAvatar.webp';
-import imgGangsterPost from '../../assets/icons/gangsterImg.webp';
+import imgGangsterPost from '../../assets/icons/gangsterImg.png';
 
 const ACTIVE_MENTORS = [
-  {
-    name: 'U.ha',
-    src: imgUha,
-    crop: { top: '-4.69%', left: '-1.28%', width: '170.94%', height: '136.83%' },
-  },
+  { name: 'U.ha', src: imgUha },
   {
     // 홈 화면(MentorRecommendations.jsx)에서 이미 쓰고 있는 것과 동일한 이미지 재사용
     name: 'Yoonie',
     src: imgYoonieMentor,
   },
-  {
-    name: 'Eric',
-    src: imgEric,
-    crop: { top: '-1.18%', left: '-2.04%', width: '182%', height: '145.69%' },
-  },
-  {
-    name: 'Daisy',
-    src: imgDaisy,
-    crop: { top: '-5.94%', left: '-0.02%', width: '171.11%', height: '136.97%' },
-  },
+  { name: 'Eric', src: imgEric },
+  { name: 'Daisy', src: imgDaisy },
   {
     // 홈 화면(MentorRecommendations.jsx)에서 이미 쓰고 있는 것과 동일한 이미지 재사용
     name: 'Eunoia',
@@ -55,11 +43,7 @@ const ACTIVE_MENTORS = [
     name: 'Teddy',
     src: imgTeddyMentor,
   },
-  {
-    name: 'Sunny',
-    src: imgSunny,
-    crop: { top: '-5.92%', left: '-1.73%', width: '175.37%', height: '140.34%' },
-  },
+  { name: 'Sunny', src: imgSunny },
 ];
 
 function shuffle(list) {
@@ -185,29 +169,15 @@ function QuoteCard({ post, onOpenDetail }) {
           <span>{post.views}</span>
         </div>
         <div className="flex items-center shrink-0">
-          {(post.mentors ?? []).map((mentor, index) => (
-            <div
+          {(post.mentors ?? []).filter(Boolean).map((mentor, index) => (
+            <MentorProfile
               key={mentor.name}
-              className={`relative size-5 rounded-full overflow-hidden border-2 border-white bg-white shrink-0 ${
+              src={mentor.src}
+              size="xs"
+              className={`border-2 border-white bg-white ${
                 index < post.mentors.length - 1 ? '-mr-[7px]' : ''
               }`}
-            >
-              {mentor.crop ? (
-                <img
-                  alt=""
-                  src={mentor.src}
-                  className="absolute max-w-none pointer-events-none"
-                  style={{
-                    top: mentor.crop.top,
-                    left: mentor.crop.left,
-                    width: mentor.crop.width,
-                    height: mentor.crop.height,
-                  }}
-                />
-              ) : (
-                <img alt="" src={mentor.src} className="absolute inset-0 size-full object-cover" />
-              )}
-            </div>
+            />
           ))}
         </div>
       </div>
@@ -341,25 +311,7 @@ function FreeTalkPost({ post, onOpenDetail }) {
           className="flex items-center gap-1 cursor-pointer"
           aria-pressed={liked}
         >
-          {liked ? (
-            <span
-              aria-hidden
-              className="block size-5"
-              style={{
-                WebkitMaskImage: `url("${imgLikeFill}")`,
-                maskImage: `url("${imgLikeFill}")`,
-                WebkitMaskSize: 'contain',
-                maskSize: 'contain',
-                WebkitMaskRepeat: 'no-repeat',
-                maskRepeat: 'no-repeat',
-                WebkitMaskPosition: 'center',
-                maskPosition: 'center',
-                backgroundColor: '#DFE4E8',
-              }}
-            />
-          ) : (
-            <img alt="" src={imgLike} className="size-5" />
-          )}
+          <img alt="" src={imgLikeFill} className="size-5" />
           <span className="text-[12px] tracking-[0.3px] text-[#747886]">{likeCount}</span>
         </button>
         <div className="flex items-center gap-1">
@@ -407,31 +359,15 @@ export default function BoardPage({
             <h2 className="font-bold text-[22px] leading-[1.4] tracking-[-0.33px] text-[#121213]">이번주 활동량 높은 멘토</h2>
             <div className="flex gap-8 items-start overflow-x-auto w-full">
               {ACTIVE_MENTORS.map((mentor) => {
-                const isYoonie = mentor.name === 'Yoonie';
+                const canOpenDetail = mentor.name === 'Yoonie' || mentor.name === 'Sunny';
                 return (
                 <div
                   key={mentor.name}
-                  className={`flex flex-col gap-1 items-center shrink-0${isYoonie ? ' cursor-pointer' : ''}`}
-                  onClick={isYoonie ? () => onOpenMentorDetail?.(mentor.name) : undefined}
-                  role={isYoonie ? 'button' : undefined}
+                  className={`flex flex-col gap-1 items-center shrink-0${canOpenDetail ? ' cursor-pointer' : ''}`}
+                  onClick={canOpenDetail ? () => onOpenMentorDetail?.(mentor.name) : undefined}
+                  role={canOpenDetail ? 'button' : undefined}
                 >
-                  {mentor.crop ? (
-                    <div className="size-16 rounded-full overflow-hidden relative bg-white shrink-0">
-                      <img
-                        alt=""
-                        src={mentor.src}
-                        className="absolute max-w-none pointer-events-none"
-                        style={{
-                          top: mentor.crop.top,
-                          left: mentor.crop.left,
-                          width: mentor.crop.width,
-                          height: mentor.crop.height,
-                        }}
-                      />
-                    </div>
-                  ) : (
-                    <img alt="" src={mentor.src} className="size-16 rounded-full object-cover" />
-                  )}
+                  <MentorProfile src={mentor.src} size="default" />
                   <p className="font-normal text-[14px] tracking-[0.14px] text-[#121213] whitespace-nowrap">{mentor.name}</p>
                 </div>
                 );

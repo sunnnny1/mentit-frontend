@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
+import imgHero from '../../assets/icons/talkUha.png';
+
 const imgAuthor = 'https://www.figma.com/api/mcp/asset/c0901e52-de24-4d64-9c05-4e48c5440ecc.png';
-const imgHero = 'https://www.figma.com/api/mcp/asset/78785f76-4d8e-442f-97b3-23290681f675.png';
 const imgGalleryA1 = 'https://www.figma.com/api/mcp/asset/f9ed70ea-f840-4f0a-81b3-0908033f3ffe.png';
 const imgGalleryA2 = 'https://www.figma.com/api/mcp/asset/96f8fdaa-7fc0-4da1-882b-19fa0295e593.png';
 const imgGalleryB1 = 'https://www.figma.com/api/mcp/asset/71c981da-3d20-44d3-9150-480efcdf0fd0.png';
@@ -171,7 +172,21 @@ export default function CareerTalkDetail() {
                 }}
               />
             ) : (
-              <img alt="좋아요" src={imgLike} className="size-6" />
+              <span
+                aria-hidden
+                className="block size-6"
+                style={{
+                  WebkitMaskImage: `url("${imgLike}")`,
+                  maskImage: `url("${imgLike}")`,
+                  WebkitMaskSize: 'contain',
+                  maskSize: 'contain',
+                  WebkitMaskRepeat: 'no-repeat',
+                  maskRepeat: 'no-repeat',
+                  WebkitMaskPosition: 'center',
+                  maskPosition: 'center',
+                  backgroundColor: '#9CA2B1',
+                }}
+              />
             )}
             <span className="font-medium text-[14px] tracking-[0.14px] text-[#121213]">{liked ? 103 : 102}</span>
           </button>

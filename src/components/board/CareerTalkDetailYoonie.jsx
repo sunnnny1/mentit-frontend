@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
+import imgHero from '../../assets/icons/talkYoonie.png';
+
 const imgAuthor = 'https://www.figma.com/api/mcp/asset/c7402831-81b7-446c-89fc-f0e0fd686c1a.png';
-const imgHero = 'https://www.figma.com/api/mcp/asset/0ab11342-5343-485f-aa55-57962e506c24.png';
 const imgLike = 'https://www.figma.com/api/mcp/asset/76bc3acd-6bf0-40a9-93be-eb8f1b0df6c8.svg';
 const imgLikeFill = 'https://www.figma.com/api/mcp/asset/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
 const imgBookmarkIcon = 'https://www.figma.com/api/mcp/asset/235a7d1e-f793-4443-8408-af972d7e6de4.svg';
@@ -171,7 +172,21 @@ export default function CareerTalkDetailYoonie({ onBack, onOpenMentorChat, onOpe
                 }}
               />
             ) : (
-              <img alt="좋아요" src={imgLike} className="size-6" />
+              <span
+                aria-hidden
+                className="block size-6"
+                style={{
+                  WebkitMaskImage: `url("${imgLike}")`,
+                  maskImage: `url("${imgLike}")`,
+                  WebkitMaskSize: 'contain',
+                  maskSize: 'contain',
+                  WebkitMaskRepeat: 'no-repeat',
+                  maskRepeat: 'no-repeat',
+                  WebkitMaskPosition: 'center',
+                  maskPosition: 'center',
+                  backgroundColor: '#9CA2B1',
+                }}
+              />
             )}
             <span className="font-medium text-[14px] tracking-[0.14px] text-[#121213]">{liked ? 103 : 102}</span>
           </button>

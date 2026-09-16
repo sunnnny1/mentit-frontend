@@ -18,6 +18,7 @@ const TIMELINE = [
     items: [
       { title: '원하는 기업 탐색', desc: '멘팃 AI와 기업 탐색하러 가기', arrow: true },
       { title: '피드백 기반으로 포트폴리오 보완', desc: 'Yoonie 멘토에게 피드백받으러 가기', arrow: true },
+      { title: '자기소개서 정리', desc: 'Yoonie 멘토에게 피드백 받으러 가기', arrow: true },
     ],
   },
   {

@@ -83,6 +83,15 @@ export const MENTORS = [
   },
 ];
 
+export function normalizeMentorName(name = '') {
+  return String(typeof name === 'string' ? name : name?.name ?? '').replace(/\s*멘토$/, '');
+}
+
+export function canOpenMentorDetail(name) {
+  const n = normalizeMentorName(name);
+  return n === 'Yoonie' || n === 'Sunny';
+}
+
 function canOpenAgentChat(name) {
   return name === 'Yoonie 멘토' || name === 'Yoonie' || name === 'Eunoia' || name === 'Teddy';
 }
@@ -93,7 +102,7 @@ function canOpenInterview(name) {
 
 export function MentorCard({ mentor, onOpenAgentChat, onOpenMentorDetail, onOpenInterview, clampDescription = false, variant = 'home' }) {
   const [isFollowing, setIsFollowing] = useState(false);
-  const isYoonie = mentor.name === 'Yoonie 멘토' || mentor.name === 'Yoonie';
+  const canOpenDetail = canOpenMentorDetail(mentor.name);
   const displayName = mentor.name.endsWith('멘토') ? mentor.name : `${mentor.name} 멘토`;
 
   if (variant === 'profile') {
@@ -104,8 +113,8 @@ export function MentorCard({ mentor, onOpenAgentChat, onOpenMentorDetail, onOpen
       >
         <div className="relative flex gap-2 items-start w-full">
           <div
-            className={`flex-1 min-w-0 flex flex-col gap-3${isYoonie ? ' cursor-pointer' : ''}`}
-            onClick={isYoonie ? () => onOpenMentorDetail?.(mentor.name) : undefined}
+            className={`flex-1 min-w-0 flex flex-col gap-3${canOpenDetail ? ' cursor-pointer' : ''}`}
+            onClick={canOpenDetail ? () => onOpenMentorDetail?.(mentor.name) : undefined}
           >
             <img alt={displayName} src={mentor.avatar} className="size-[60px] rounded-full shrink-0 object-cover" />
             <div className="flex flex-col gap-1.5 w-full">
@@ -184,8 +193,8 @@ export function MentorCard({ mentor, onOpenAgentChat, onOpenMentorDetail, onOpen
       style={{ background: `radial-gradient(circle at 50% 50%, ${CARD_TINT[mentor.color]} 0%, white 70%)` }}
     >
       <div
-        className={`flex gap-3 items-center w-full${isYoonie ? ' cursor-pointer' : ''}`}
-        onClick={isYoonie ? () => onOpenMentorDetail?.(mentor.name) : undefined}
+        className={`flex gap-3 items-center w-full${canOpenDetail ? ' cursor-pointer' : ''}`}
+        onClick={canOpenDetail ? () => onOpenMentorDetail?.(mentor.name) : undefined}
       >
         <img alt={mentor.name} src={mentor.avatar} className="size-[60px] rounded-full shrink-0" />
         <div className="flex-1 flex flex-col gap-1.5 min-w-0">

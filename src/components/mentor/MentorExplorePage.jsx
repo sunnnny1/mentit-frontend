@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MentorCard, MENTORS } from '../MentorRecommendations';
+import { MentorCard, MENTORS, canOpenMentorDetail } from '../MentorRecommendations';
 
 const imgChevronRight = 'https://www.figma.com/api/mcp/asset/2cd6c863-1cd7-4771-ac46-5a3145e7a3bd.svg';
 
@@ -139,13 +139,13 @@ function MentorBadgePill({ badge }) {
 
 function ReviewCard({ review, rotate, onOpenMentorDetail }) {
   const [isHovered, setIsHovered] = useState(false);
-  const isYoonie = review.mentorName === 'Yoonie';
+  const canOpenDetail = canOpenMentorDetail(review.mentorName);
   return (
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={isYoonie ? () => onOpenMentorDetail?.(review.mentorName) : undefined}
-      className="flex-1 min-w-0 flex flex-col gap-4 items-start px-5 py-4 rounded-xl border border-[#f4f6f8] bg-[#f7fbff] shadow-[0_0_4px_rgba(18,18,19,0.04)] transition-transform duration-300 ease-out cursor-pointer"
+      onClick={canOpenDetail ? () => onOpenMentorDetail?.(review.mentorName) : undefined}
+      className={`flex-1 min-w-0 flex flex-col gap-4 items-start px-5 py-4 rounded-xl border border-[#f4f6f8] bg-[#f7fbff] shadow-[0_0_4px_rgba(18,18,19,0.04)] transition-transform duration-300 ease-out${canOpenDetail ? ' cursor-pointer' : ''}`}
       style={{ transform: `rotate(${isHovered ? -rotate : rotate}deg)` }}
     >
       <p className="text-[15px] leading-[1.6] text-[#121213] line-clamp-2">{review.quote}</p>
@@ -190,12 +190,12 @@ function CompanyLogo({ src, type = 'plain', crop }) {
 }
 
 function DirectoryMentorCard({ mentor, onOpenMentorDetail }) {
-  const isYoonie = mentor.name === 'Yoonie';
+  const canOpenDetail = canOpenMentorDetail(mentor.name);
   return (
     <div className="flex flex-col gap-4 items-start p-6 rounded-2xl border border-[#f4f6f8] bg-white shadow-[0_0_8px_rgba(18,18,19,0.04)] w-[364px] shrink-0">
       <div
-        className={`flex gap-3 items-center w-full${isYoonie ? ' cursor-pointer' : ''}`}
-        onClick={isYoonie ? () => onOpenMentorDetail?.(mentor.name) : undefined}
+        className={`flex gap-3 items-center w-full${canOpenDetail ? ' cursor-pointer' : ''}`}
+        onClick={canOpenDetail ? () => onOpenMentorDetail?.(mentor.name) : undefined}
       >
         <img alt={mentor.name} src={mentor.avatar} className="size-[60px] rounded-full shrink-0 object-cover" />
         <div className="flex-1 flex items-center gap-2 min-w-0">

@@ -3,7 +3,7 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Hero from './components/Hero';
 import PortfolioCard from './components/PortfolioCard';
-import MentorRecommendations from './components/MentorRecommendations';
+import MentorRecommendations, { normalizeMentorName } from './components/MentorRecommendations';
 import CareerTalk from './components/CareerTalk';
 import PersonalizedPosts from './components/PersonalizedPosts';
 import ChatPage from './components/chat/ChatPage';
@@ -59,6 +59,7 @@ function App() {
   const [chatSkipStart, setChatSkipStart] = useState(false);
   const [chatMentor, setChatMentor] = useState('Yoonie');
   const [chatUnread, setChatUnread] = useState({ Yoonie: 0, Teddy: 0, Eunoia: 1 });
+  const [mentorDetailId, setMentorDetailId] = useState('yoonie');
 
   const markChatRead = useCallback((name) => {
     setChatUnread((prev) => (prev[name] ? { ...prev, [name]: 0 } : prev));
@@ -102,7 +103,9 @@ function App() {
   };
 
   const handleOpenMentorDetail = (mentorName = 'Yoonie') => {
-    if (mentorName !== 'Yoonie' && mentorName !== 'Yoonie 멘토') return;
+    const name = normalizeMentorName(mentorName);
+    if (name !== 'Yoonie' && name !== 'Sunny') return;
+    setMentorDetailId(name.toLowerCase());
     setPage('mentor-detail');
   };
 
@@ -263,6 +266,7 @@ function App() {
                       ? handleBackFromMentorDetail
                       : undefined
         }
+        onLogoClick={() => handleNavigate('home')}
         onSearchClick={() => {
           setPreviousPage((prev) => (page === 'search' ? prev : page));
           setPage('search');
@@ -270,7 +274,7 @@ function App() {
       />
       <div className="flex items-stretch gap-5 px-5 flex-1 min-h-0 overflow-hidden pb-5">
         {page === 'search' ? (
-          <SearchPage onClose={() => setPage(previousPage ?? 'home')} onOpenAgentChat={handleOpenMentorChat} />
+          <SearchPage onClose={() => setPage(previousPage ?? 'home')} onOpenAgentChat={handleOpenMentorChat} onOpenMentorDetail={handleOpenMentorDetail} />
         ) : (
           <>
             <Sidebar
@@ -359,6 +363,7 @@ function App() {
               <InterviewOnboardingPage
                 onBack={handleBackFromInterviewOnboarding}
                 onNext={() => setPage('interview-analyze')}
+                onOpenMentorDetail={handleOpenMentorDetail}
               />
             ) : page === 'interview-analyze' ? (
               <InterviewAnalyzePage
@@ -380,7 +385,9 @@ function App() {
               />
             ) : page === 'mentor-detail' ? (
               <MentorDetailPage
+                mentorId={mentorDetailId}
                 onOpenAgentChat={handleOpenMentorChat}
+                onOpenInterview={handleOpenInterviewOnboarding}
                 onOpenCareerTalkDetail={handleOpenCareerTalkDetail}
                 onOpenQnaDetail={handleOpenQnaDetail}
               />
@@ -413,6 +420,7 @@ function App() {
                 insightTab={insightTab}
                 onInsightTabChange={setInsightTab}
                 onEditProfile={handleOpenMyPageProfile}
+                onOpenMentorDetail={handleOpenMentorDetail}
               />
             ) : page === 'board' ? (
               <BoardPage

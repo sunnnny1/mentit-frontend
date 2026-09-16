@@ -30,24 +30,27 @@ export default function Sidebar({ activeItem, onNavigate, showChatBarToggle = fa
     (activeItem == null ? internalActive : null);
 
   return (
-    <nav className="relative z-10 self-stretch h-full min-h-0 bg-white border border-white shadow-[0_0_8px_rgba(18,18,19,0.04)] flex flex-col items-center justify-between pt-16 pb-6 px-2 rounded-2xl w-[69px] shrink-0 overflow-hidden">
-      {showChatBarToggle && (
-        <div className="absolute top-0 inset-x-0 h-16 flex flex-col items-center justify-center">
-          <button
-            type="button"
-            onClick={onOpenChatBar}
-            className="flex items-center justify-center size-10 rounded-lg cursor-pointer"
-            aria-label="채팅바 열기"
-          >
-            <img alt="" src={imgChevronDoubleRight} className="size-6" />
-          </button>
-          <div className="flex items-center justify-center h-4">
-            <img alt="" src={imgLineHorizontal} className="w-9 h-6" />
-          </div>
-        </div>
-      )}
-
+    <nav
+      className={`relative z-10 self-stretch h-full min-h-0 bg-white border border-white shadow-[0_0_8px_rgba(18,18,19,0.04)] flex flex-col items-center justify-between pb-6 px-2 rounded-2xl w-[69px] shrink-0 overflow-hidden ${
+        showChatBarToggle ? 'pt-6' : 'pt-16'
+      }`}
+    >
       <div className="flex flex-col items-center">
+        {showChatBarToggle && (
+          <div className="flex flex-col items-center w-[60px] h-[100px] shrink-0">
+            <button
+              type="button"
+              onClick={onOpenChatBar}
+              className="flex items-center justify-center size-10 rounded-lg cursor-pointer"
+              aria-label="채팅바 열기"
+            >
+              <img alt="" src={imgChevronDoubleRight} className="size-6" />
+            </button>
+            <div className="flex items-center justify-center w-[60px] h-[60px]">
+              <img alt="" src={imgLineHorizontal} className="w-9 h-6" />
+            </div>
+          </div>
+        )}
         <div className="flex flex-col gap-7 items-center">
           {NAV_ITEMS.map((item) => {
             const isActive = active === item.key;
@@ -63,7 +66,7 @@ export default function Sidebar({ activeItem, onNavigate, showChatBarToggle = fa
               >
                 {item.key === 'interview' ? (
                   <div className="overflow-clip relative shrink-0 size-6">
-                    <div className="absolute inset-[8.33%_18.75%]">
+                    <div className="absolute inset-0">
                       <svg
                         aria-hidden="true"
                         className="block size-full overflow-visible"

@@ -20,7 +20,7 @@ const INSIGHT_CHIPS = [
   { key: 'saved', label: '저장된 인사이트' },
 ];
 
-export default function MyPage({ myPageTab = 'insight', onMyPageTabChange, insightTab, onInsightTabChange, onEditProfile }) {
+export default function MyPage({ myPageTab = 'insight', onMyPageTabChange, insightTab, onInsightTabChange, onEditProfile, onOpenMentorDetail }) {
   return (
     <section className="flex-1 min-w-0 min-h-0 rounded-2xl bg-white shadow-[0_0_8px_rgba(18,18,19,0.04)] overflow-y-auto">
       <div className="max-w-[1311px] mx-auto flex gap-[88px] items-start pl-[69px] pr-[89px] pb-16">
@@ -80,7 +80,7 @@ export default function MyPage({ myPageTab = 'insight', onMyPageTabChange, insig
 
           <div className="w-full">
             {myPageTab === 'review' ? (
-              <MyPageReview />
+              <MyPageReview onOpenMentorDetail={onOpenMentorDetail} />
             ) : myPageTab === 'files' ? (
               <MyPageFiles />
             ) : myPageTab === 'bookmark' ? (
