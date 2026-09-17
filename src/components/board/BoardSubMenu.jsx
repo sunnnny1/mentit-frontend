@@ -1,4 +1,6 @@
-const imgCollapse = 'https://www.figma.com/api/mcp/asset/7593cb7f-18f9-440f-a8bf-fc9df3b74e55.svg';
+import figma_7593cb7f_18f9_440f_a8bf_fc9df3b74e55_svg from '../../assets/figma/7593cb7f-18f9-440f-a8bf-fc9df3b74e55.svg';
+
+const imgCollapse = figma_7593cb7f_18f9_440f_a8bf_fc9df3b74e55_svg;
 
 const CATEGORIES = [
   { key: 'all', label: '전체' },

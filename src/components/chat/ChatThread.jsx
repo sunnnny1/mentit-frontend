@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import LoadingSymbol from './LoadingSymbol';
+import figma_70a5b9f2_c5bb_45a9_9836_1ccc8ad917e2_svg from '../../assets/figma/70a5b9f2-c5bb-45a9-9836-1ccc8ad917e2.svg';
 
-const imgSend = 'https://www.figma.com/api/mcp/asset/70a5b9f2-c5bb-45a9-9836-1ccc8ad917e2.svg';
-const imgSegmentControl = 'https://www.figma.com/api/mcp/asset/41fe867f-d67f-44f6-9936-91fa6bda6e6d.png';
+const imgSend = figma_70a5b9f2_c5bb_45a9_9836_1ccc8ad917e2_svg;
 
 const SUGGESTED_CHIPS = [
   '저에게 맞는 직무를 어떻게 선택해야할까요?',
@@ -32,8 +32,7 @@ export default function ChatThread({
 
   return (
     <div className={`relative z-[1] flex-1 min-w-0 min-h-0 h-full flex flex-col bg-white ${showAgent ? 'rounded-br-2xl' : ''}`}>
-      <div className="relative shrink-0 px-6 py-7">
-        <img alt="" src={imgSegmentControl} className="absolute inset-0 w-full h-full object-cover pointer-events-none" />
+      <div className="relative shrink-0 px-6 py-7 bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_50%,#ffffff_100%)]">
         <div className="relative flex flex-col gap-1 items-center justify-center text-center w-full">
           <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213] w-full">
             {threadIntro}

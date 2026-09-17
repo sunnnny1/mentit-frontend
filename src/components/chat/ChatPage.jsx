@@ -10,10 +10,22 @@ import ChatMentorThread, {
 } from './ChatMentorThread';
 import ChatReview from './ChatReview';
 import ChatStartScreen from './ChatStartScreen';
+import figma_6a21ef36_23ee_448e_a72f_026bd1b11241_png from '../../assets/figma/6a21ef36-23ee-448e-a72f-026bd1b11241.png';
+import figma_1b69a9c3_f6dc_419e_8b7e_4073ed4858c7_png from '../../assets/figma/1b69a9c3-f6dc-419e-8b7e-4073ed4858c7.png';
+import figma_5ddbd43f_7583_4a6b_8ddb_cf34b22b4e76_png from '../../assets/figma/5ddbd43f-7583-4a6b-8ddb-cf34b22b4e76.png';
+import figma_ea377a0e_1420_4c73_8a4d_c09f50d135a0_png from '../../assets/figma/ea377a0e-1420-4c73-8a4d-c09f50d135a0.png';
+import figma_831143ea_bc10_4177_8788_90ed49816699_png from '../../assets/figma/831143ea-bc10-4177-8788-90ed49816699.png';
+import figma_ac693826_e769_4723_8f46_5f82fd520909_png from '../../assets/figma/ac693826-e769-4723-8f46-5f82fd520909.png';
+import figma_9a8a793a_7f8d_4803_8fe8_a2de07fedc14_png from '../../assets/figma/9a8a793a-7f8d-4803-8fe8-a2de07fedc14.png';
+import figma_a7a013d1_ad2d_40e9_87de_7c0ad93dc40d_png from '../../assets/figma/a7a013d1-ad2d-40e9-87de-7c0ad93dc40d.png';
+import figma_2f350675_d7a6_4070_8e18_7ede58745826_png from '../../assets/figma/2f350675-d7a6-4070-8e18-7ede58745826.png';
+import figma_a1ebb537_e789_47ea_9b0c_b7eb971effd0_png from '../../assets/figma/a1ebb537-e789-47ea-9b0c-b7eb971effd0.png';
+import figma_35c6cc1b_033b_4127_abc7_140365b532f4_png from '../../assets/figma/35c6cc1b-033b-4127-abc7-140365b532f4.png';
+import figma_52966149_85bf_4f88_9a88_fc1f7f9fabbb_png from '../../assets/figma/52966149-85bf-4f88-9a88-fc1f7f9fabbb.png';
 
-const imgAvatarAgent = 'https://www.figma.com/api/mcp/asset/6a21ef36-23ee-448e-a72f-026bd1b11241.png';
-const imgAvatarMentor = 'https://www.figma.com/api/mcp/asset/1b69a9c3-f6dc-419e-8b7e-4073ed4858c7.png';
-const imgCharacterActive = 'https://www.figma.com/api/mcp/asset/5ddbd43f-7583-4a6b-8ddb-cf34b22b4e76.png';
+const imgAvatarAgent = figma_6a21ef36_23ee_448e_a72f_026bd1b11241_png;
+const imgAvatarMentor = figma_1b69a9c3_f6dc_419e_8b7e_4073ed4858c7_png;
+const imgCharacterActive = figma_5ddbd43f_7583_4a6b_8ddb_cf34b22b4e76_png;
 
 const QA_MAP = {
   '저에게 맞는 직무를 어떻게 선택해야할까요?': {
@@ -78,7 +90,7 @@ const MENTOR_CHAT_CONFIG = {
     mentorAvatar: imgAvatarMentor,
     mentorDisplayName: 'Yoonie (최윤희)',
     agentGreetingIdle: ['안녕하세요! Yoonie 멘토의 AI Agent에요.', '저를 찾아주셔서 감사해요!'],
-    characterIdleImg: 'https://www.figma.com/api/mcp/asset/ea377a0e-1420-4c73-8a4d-c09f50d135a0.png',
+    characterIdleImg: figma_ea377a0e_1420_4c73_8a4d_c09f50d135a0_png,
     characterActiveImg: imgCharacterActive,
     gradientColor: 'purple',
     threadIntro: 'Yoonie AI 에이전트와 대화가 시작돼요',
@@ -95,12 +107,12 @@ const MENTOR_CHAT_CONFIG = {
     role: '프로덕트 디자이너 ・ 토스 ・ 3년차',
     badgeLabel: 'Master Mentor',
     badgeColor: '#e52222',
-    profileAvatar: 'https://www.figma.com/api/mcp/asset/831143ea-bc10-4177-8788-90ed49816699.png',
-    mentorAvatar: 'https://www.figma.com/api/mcp/asset/ac693826-e769-4723-8f46-5f82fd520909.png',
+    profileAvatar: figma_831143ea_bc10_4177_8788_90ed49816699_png,
+    mentorAvatar: figma_ac693826_e769_4723_8f46_5f82fd520909_png,
     mentorDisplayName: 'Eunoia (이지희)',
     agentGreetingIdle: ['안녕하세요! Eunoia 멘토의 AI Agent에요.', '저를 찾아주셔서 감사해요!'],
-    characterIdleImg: 'https://www.figma.com/api/mcp/asset/9a8a793a-7f8d-4803-8fe8-a2de07fedc14.png',
-    characterActiveImg: 'https://www.figma.com/api/mcp/asset/a7a013d1-ad2d-40e9-87de-7c0ad93dc40d.png',
+    characterIdleImg: figma_9a8a793a_7f8d_4803_8fe8_a2de07fedc14_png,
+    characterActiveImg: figma_a7a013d1_ad2d_40e9_87de_7c0ad93dc40d_png,
     gradientColor: 'red',
     threadIntro: 'Eunoia AI 에이전트와 대화가 시작돼요',
     initialGreeting:
@@ -116,12 +128,12 @@ const MENTOR_CHAT_CONFIG = {
     role: 'UX 디자이너 ・ 프리랜서 ・ 6년차',
     badgeLabel: 'Rookie Mentor',
     badgeColor: '#008dcf',
-    profileAvatar: 'https://www.figma.com/api/mcp/asset/2f350675-d7a6-4070-8e18-7ede58745826.png',
-    mentorAvatar: 'https://www.figma.com/api/mcp/asset/a1ebb537-e789-47ea-9b0c-b7eb971effd0.png',
+    profileAvatar: figma_2f350675_d7a6_4070_8e18_7ede58745826_png,
+    mentorAvatar: figma_a1ebb537_e789_47ea_9b0c_b7eb971effd0_png,
     mentorDisplayName: 'Teddy (박태훈)',
     agentGreetingIdle: ['안녕하세요! Teddy 멘토의 AI Agent에요.', '저를 찾아주셔서 감사해요!'],
-    characterIdleImg: 'https://www.figma.com/api/mcp/asset/35c6cc1b-033b-4127-abc7-140365b532f4.png',
-    characterActiveImg: 'https://www.figma.com/api/mcp/asset/52966149-85bf-4f88-9a88-fc1f7f9fabbb.png',
+    characterIdleImg: figma_35c6cc1b_033b_4127_abc7_140365b532f4_png,
+    characterActiveImg: figma_52966149_85bf_4f88_9a88_fc1f7f9fabbb_png,
     gradientColor: 'blue',
     threadIntro: 'Teddy AI 에이전트와 대화가 시작돼요',
     initialGreeting:

@@ -2,9 +2,11 @@ import MyPageInsight from './MyPageInsight';
 import MyPageReview from './MyPageReview';
 import MyPageFiles from './MyPageFiles';
 import MyPageBookmark from './MyPageBookmark';
+import figma_92eaa1fc_4224_491d_bfc9_1424fcc7641d_png from '../../assets/figma/92eaa1fc-4224-491d-bfc9-1424fcc7641d.png';
+import figma_76cede70_2675_456a_b41a_05e1bad4057d_svg from '../../assets/figma/76cede70-2675-456a-b41a-05e1bad4057d.svg';
 
-const imgAvatar = 'https://www.figma.com/api/mcp/asset/92eaa1fc-4224-491d-bfc9-1424fcc7641d.png';
-const imgSetting = 'https://www.figma.com/api/mcp/asset/76cede70-2675-456a-b41a-05e1bad4057d.svg';
+const imgAvatar = figma_92eaa1fc_4224_491d_bfc9_1424fcc7641d_png;
+const imgSetting = figma_76cede70_2675_456a_b41a_05e1bad4057d_svg;
 
 const TOP_TABS = [
   { key: 'insight', label: '인사이트' },

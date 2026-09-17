@@ -3,8 +3,8 @@ import imgDot from '../assets/icons/header-dot.svg';
 import imgFootprint from '../assets/icons/header-footprint.svg';
 import imgSearch from '../assets/icons/header-search.svg';
 import imgBell from '../assets/icons/header-bell.svg';
-// TODO: 뒤로가기 화살표 아이콘(imgChevronLeft)은 홈 화면에 없어서 아직 로컬로 못 옮김 - 만료된 Figma URL로 남아있음
-const imgChevronLeft = 'https://www.figma.com/api/mcp/asset/c25d4b68-8802-4c60-8fb6-a6c20b14fba3.svg';
+import figma_c25d4b68_8802_4c60_8fb6_a6c20b14fba3_svg from '../assets/figma/c25d4b68-8802-4c60-8fb6-a6c20b14fba3.svg';
+const imgChevronLeft = figma_c25d4b68_8802_4c60_8fb6_a6c20b14fba3_svg;
 
 export default function Header({ showStreak = true, onSearchClick, onBack, onLogoClick }) {
   return (

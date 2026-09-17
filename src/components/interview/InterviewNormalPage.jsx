@@ -1,8 +1,10 @@
 import ChatProfileBar from '../chat/ChatProfileBar';
 import InterviewSubMenu from './InterviewSubMenu';
+import figma_c11cc4d3_aa70_48e8_a183_5d36c9318492_png from '../../assets/figma/c11cc4d3-aa70-48e8-a183-5d36c9318492.png';
+import figma_ceef9e7c_3912_4cc0_ba9c_dbf2d463f3e3_png from '../../assets/figma/ceef9e7c-3912-4cc0-ba9c-dbf2d463f3e3.png';
 
-const imgSunny = 'https://www.figma.com/api/mcp/asset/c11cc4d3-aa70-48e8-a183-5d36c9318492.png';
-const imgCharacter = 'https://www.figma.com/api/mcp/asset/ceef9e7c-3912-4cc0-ba9c-dbf2d463f3e3.png';
+const imgSunny = figma_c11cc4d3_aa70_48e8_a183_5d36c9318492_png;
+const imgCharacter = figma_ceef9e7c_3912_4cc0_ba9c_dbf2d463f3e3_png;
 
 export default function InterviewNormalPage({ isSubMenuOpen = false, onCloseSubMenu, onStartInterview }) {
   return (

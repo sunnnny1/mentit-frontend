@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import CheckRow from '../JobCheckRow';
+import figma_9a42d99c_7fd8_4c37_8461_0f74801502b3_png from '../../assets/figma/9a42d99c-7fd8-4c37-8461-0f74801502b3.png';
+import figma_8fd5a327_77c9_49d8_9a91_348e41bdc898_svg from '../../assets/figma/8fd5a327-77c9-49d8-9a91-348e41bdc898.svg';
 
-const imgAvatar = 'https://www.figma.com/api/mcp/asset/9a42d99c-7fd8-4c37-8461-0f74801502b3.png';
-const imgChevronDown = 'https://www.figma.com/api/mcp/asset/8fd5a327-77c9-49d8-9a91-348e41bdc898.svg';
+const imgAvatar = figma_9a42d99c_7fd8_4c37_8461_0f74801502b3_png;
+const imgChevronDown = figma_8fd5a327_77c9_49d8_9a91_348e41bdc898_svg;
 
 const JOB_GROUPS = ['개발', '경영・비즈니스', '마케팅・광고', '디자인', '게임 제작', '미디어'];
 const JOB_ROLES = ['그래픽 디자인', '게임 디자인', '프로덕트 디자인', 'UX 디자인', '제품 디자인', '영상・모션 디자인'];

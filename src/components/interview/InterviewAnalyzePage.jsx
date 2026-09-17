@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
 import ChatProfileBar from '../chat/ChatProfileBar';
+import figma_c11cc4d3_aa70_48e8_a183_5d36c9318492_png from '../../assets/figma/c11cc4d3-aa70-48e8-a183-5d36c9318492.png';
+import figma_8efc9a98_3066_4866_9c40_c9ccd7f4d0c7_svg from '../../assets/figma/8efc9a98-3066-4866-9c40-c9ccd7f4d0c7.svg';
+import figma_c643f2a3_c889_49a3_a172_153902530740_svg from '../../assets/figma/c643f2a3-c889-49a3-a172-153902530740.svg';
+import figma_4e98b0f4_a655_4e26_b066_94a928da7715_svg from '../../assets/figma/4e98b0f4-a655-4e26-b066-94a928da7715.svg';
+import figma_7978d2b2_cf93_4ad6_ba2f_2a81c8a9f41d_svg from '../../assets/figma/7978d2b2-cf93-4ad6-ba2f-2a81c8a9f41d.svg';
 
-const imgSunny = 'https://www.figma.com/api/mcp/asset/c11cc4d3-aa70-48e8-a183-5d36c9318492.png';
-const imgLogoSpin = 'https://www.figma.com/api/mcp/asset/8efc9a98-3066-4866-9c40-c9ccd7f4d0c7.svg';
-const imgCheckDone = 'https://www.figma.com/api/mcp/asset/c643f2a3-c889-49a3-a172-153902530740.svg';
-const imgCheckProgress = 'https://www.figma.com/api/mcp/asset/4e98b0f4-a655-4e26-b066-94a928da7715.svg';
-const imgCheckWait = 'https://www.figma.com/api/mcp/asset/7978d2b2-cf93-4ad6-ba2f-2a81c8a9f41d.svg';
+const imgSunny = figma_c11cc4d3_aa70_48e8_a183_5d36c9318492_png;
+const imgLogoSpin = figma_8efc9a98_3066_4866_9c40_c9ccd7f4d0c7_svg;
+const imgCheckDone = figma_c643f2a3_c889_49a3_a172_153902530740_svg;
+const imgCheckProgress = figma_4e98b0f4_a655_4e26_b066_94a928da7715_svg;
+const imgCheckWait = figma_7978d2b2_cf93_4ad6_ba2f_2a81c8a9f41d_svg;
 
 const ANALYZE_STEPS = [
   { done: '포트폴리오 분석 완료', progress: '포트폴리오 분석중..', wait: '포트폴리오 분석 대기중..' },

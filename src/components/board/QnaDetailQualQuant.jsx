@@ -7,15 +7,23 @@ import imgEmma from '../../assets/icons/emma.webp';
 import imgDaisy from '../../assets/icons/ellipse-daisy.png';
 import imgEunoia from '../../assets/icons/eunoia.webp';
 import imgTeddy from '../../assets/icons/teddy.webp';
+import figma_b4ad48a6_02b1_4721_a66a_4a0f340df722_png from '../../assets/figma/b4ad48a6-02b1-4721-a66a-4a0f340df722.png';
+import figma_245f4c4c_0050_45ba_a7b5_d68859001b46_svg from '../../assets/figma/245f4c4c-0050-45ba-a7b5-d68859001b46.svg';
+import figma_f18f03a8_dbf0_4add_aa12_723afdd968d9_svg from '../../assets/figma/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
+import figma_df765ee2_056e_4c6e_9c71_962cc09f1dc5_svg from '../../assets/figma/df765ee2-056e-4c6e-9c71-962cc09f1dc5.svg';
+import figma_b20bcd72_0b9e_4707_8bd9_b80aa3f1fae3_svg from '../../assets/figma/b20bcd72-0b9e-4707-8bd9-b80aa3f1fae3.svg';
+import figma_027bc329_49a1_4a70_9a34_5bb6dcae417c_svg from '../../assets/figma/027bc329-49a1-4a70-9a34-5bb6dcae417c.svg';
+import figma_d82be445_be8d_44cb_bce0_d3f6a3b977c2_svg from '../../assets/figma/d82be445-be8d-44cb-bce0-d3f6a3b977c2.svg';
+import figma_bb3b8c56_7ee3_4df3_ba7c_8fbd9131aa9f_svg from '../../assets/figma/bb3b8c56-7ee3-4df3-ba7c-8fbd9131aa9f.svg';
 
-const imgAuthor = 'https://www.figma.com/api/mcp/asset/b4ad48a6-02b1-4721-a66a-4a0f340df722.png';
-const imgLikeOutline = 'https://www.figma.com/api/mcp/asset/245f4c4c-0050-45ba-a7b5-d68859001b46.svg';
-const imgLikeFill = 'https://www.figma.com/api/mcp/asset/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
-const imgBookmarkOutline = 'https://www.figma.com/api/mcp/asset/df765ee2-056e-4c6e-9c71-962cc09f1dc5.svg';
-const imgBookmarkFill = 'https://www.figma.com/api/mcp/asset/b20bcd72-0b9e-4707-8bd9-b80aa3f1fae3.svg';
-const imgShare = 'https://www.figma.com/api/mcp/asset/027bc329-49a1-4a70-9a34-5bb6dcae417c.svg';
-const imgSmallLike = 'https://www.figma.com/api/mcp/asset/d82be445-be8d-44cb-bce0-d3f6a3b977c2.svg';
-const imgMoreChevron = 'https://www.figma.com/api/mcp/asset/bb3b8c56-7ee3-4df3-ba7c-8fbd9131aa9f.svg';
+const imgAuthor = figma_b4ad48a6_02b1_4721_a66a_4a0f340df722_png;
+const imgLikeOutline = figma_245f4c4c_0050_45ba_a7b5_d68859001b46_svg;
+const imgLikeFill = figma_f18f03a8_dbf0_4add_aa12_723afdd968d9_svg;
+const imgBookmarkOutline = figma_df765ee2_056e_4c6e_9c71_962cc09f1dc5_svg;
+const imgBookmarkFill = figma_b20bcd72_0b9e_4707_8bd9_b80aa3f1fae3_svg;
+const imgShare = figma_027bc329_49a1_4a70_9a34_5bb6dcae417c_svg;
+const imgSmallLike = figma_d82be445_be8d_44cb_bce0_d3f6a3b977c2_svg;
+const imgMoreChevron = figma_bb3b8c56_7ee3_4df3_ba7c_8fbd9131aa9f_svg;
 
 const BADGE = {
   purple: { bg: 'bg-[#9054ff]', text: 'text-[#9054ff]', label: 'Active Mentor' },

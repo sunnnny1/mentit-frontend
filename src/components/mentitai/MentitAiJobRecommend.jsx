@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import MentitAiSubMenu from './MentitAiSubMenu';
 import LoadingSymbol from '../chat/LoadingSymbol';
+import figma_2dda7b37_f0bb_4b8e_8d9f_ac9709f93b08_svg from '../../assets/figma/2dda7b37-f0bb-4b8e-8d9f-ac9709f93b08.svg';
+import figma_3c061cdb_9bff_4932_8051_491c144e577c_png from '../../assets/figma/3c061cdb-9bff-4932-8051-491c144e577c.png';
+import figma_12220f1e_7e9e_4e8e_88c1_29e19fa7e1ba_png from '../../assets/figma/12220f1e-7e9e-4e8e-88c1-29e19fa7e1ba.png';
+import figma_7dd4dd90_1310_4e13_b127_08d8a397f76a_svg from '../../assets/figma/7dd4dd90-1310-4e13-b127-08d8a397f76a.svg';
 
-const imgSend = 'https://www.figma.com/api/mcp/asset/2dda7b37-f0bb-4b8e-8d9f-ac9709f93b08.svg';
-const imgThumbnail1 = 'https://www.figma.com/api/mcp/asset/3c061cdb-9bff-4932-8051-491c144e577c.png';
-const imgThumbnail2 = 'https://www.figma.com/api/mcp/asset/12220f1e-7e9e-4e8e-88c1-29e19fa7e1ba.png';
-const imgBookmark = 'https://www.figma.com/api/mcp/asset/7dd4dd90-1310-4e13-b127-08d8a397f76a.svg';
+const imgSend = figma_2dda7b37_f0bb_4b8e_8d9f_ac9709f93b08_svg;
+const imgThumbnail1 = figma_3c061cdb_9bff_4932_8051_491c144e577c_png;
+const imgThumbnail2 = figma_12220f1e_7e9e_4e8e_88c1_29e19fa7e1ba_png;
+const imgBookmark = figma_7dd4dd90_1310_4e13_b127_08d8a397f76a_svg;
 
 const FOLLOW_UP_CHIPS = [
   '프로덕트 디자이너 멘토의 아티클을 조금 더 추천해줘',

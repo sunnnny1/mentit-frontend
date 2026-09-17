@@ -4,8 +4,18 @@ import imgBookmarkFill from '../../assets/icons/careertalk-bookmark-fill.svg';
 import imgTalkYoonie from '../../assets/icons/talkYoonie.png';
 import imgTalkUha from '../../assets/icons/talkUha.png';
 import CheckRow from '../JobCheckRow';
-const imgChevronDown = 'https://www.figma.com/api/mcp/asset/2a8c0fab-ff12-4088-9976-f8cdb0698792.svg';
-const imgMoreChevron = 'https://www.figma.com/api/mcp/asset/bb3b8c56-7ee3-4df3-ba7c-8fbd9131aa9f.svg';
+import figma_2a8c0fab_ff12_4088_9976_f8cdb0698792_svg from '../../assets/figma/2a8c0fab-ff12-4088-9976-f8cdb0698792.svg';
+import figma_bb3b8c56_7ee3_4df3_ba7c_8fbd9131aa9f_svg from '../../assets/figma/bb3b8c56-7ee3-4df3-ba7c-8fbd9131aa9f.svg';
+import figma_42e8dda3_b48d_4178_aa56_943f81e0bc58_png from '../../assets/figma/42e8dda3-b48d-4178-aa56-943f81e0bc58.png';
+import figma_444c9d7b_ee5e_436b_b8c4_9cd4b605267e_png from '../../assets/figma/444c9d7b-ee5e-436b-b8c4-9cd4b605267e.png';
+import figma_64c9f214_aa8c_44ed_91cf_2b4ec4344479_png from '../../assets/figma/64c9f214-aa8c-44ed-91cf-2b4ec4344479.png';
+import figma_57ca12d7_4a35_44a5_868b_66cc2ca11698_png from '../../assets/figma/57ca12d7-4a35-44a5-868b-66cc2ca11698.png';
+import figma_b1826544_39cf_4bbc_9ecf_5a1e949ead99_png from '../../assets/figma/b1826544-39cf-4bbc-9ecf-5a1e949ead99.png';
+import figma_2aaad4a5_40c5_4c8b_83bd_e75572d056d9_png from '../../assets/figma/2aaad4a5-40c5-4c8b-83bd-e75572d056d9.png';
+import figma_5889b5a5_5bb9_4b8c_9126_c21a5641ada6_png from '../../assets/figma/5889b5a5-5bb9-4b8c-9126-c21a5641ada6.png';
+import figma_c6a69720_80fd_4bc4_ac71_9af6bb352849_png from '../../assets/figma/c6a69720-80fd-4bc4-ac71-9af6bb352849.png';
+const imgChevronDown = figma_2a8c0fab_ff12_4088_9976_f8cdb0698792_svg;
+const imgMoreChevron = figma_bb3b8c56_7ee3_4df3_ba7c_8fbd9131aa9f_svg;
 
 const CROP = { top: '-31.68%', left: '-0.08%', width: '100%', height: '135.41%' };
 
@@ -22,7 +32,7 @@ const CAREER_TALK_POSTS = [
     title: 'UXUI, 반드시 알아야 할 데이터 읽는 법',
     mentor: 'Dasiy 멘토',
     role: '프로덕트 디자이너',
-    src: 'https://www.figma.com/api/mcp/asset/42e8dda3-b48d-4178-aa56-943f81e0bc58.png',
+    src: figma_42e8dda3_b48d_4178_aa56_943f81e0bc58_png,
     crop: CROP,
   },
   {
@@ -37,43 +47,43 @@ const CAREER_TALK_POSTS = [
     title: '인터뷰 스크립트 짜는 법',
     mentor: 'Peter 멘토',
     role: 'UX 디자이너',
-    src: 'https://www.figma.com/api/mcp/asset/444c9d7b-ee5e-436b-b8c4-9cd4b605267e.png',
+    src: figma_444c9d7b_ee5e_436b_b8c4_9cd4b605267e_png,
   },
   {
     title: '면접 볼 때 이것만은 하지 마세요!',
     mentor: 'Sunny 멘토',
     role: 'UX 디자이너',
-    src: 'https://www.figma.com/api/mcp/asset/64c9f214-aa8c-44ed-91cf-2b4ec4344479.png',
+    src: figma_64c9f214_aa8c_44ed_91cf_2b4ec4344479_png,
   },
   {
     title: '화면보다 먼저 봐야 할 것',
     mentor: 'Emma 멘토',
     role: '프로덕트 디자이너',
-    src: 'https://www.figma.com/api/mcp/asset/57ca12d7-4a35-44a5-868b-66cc2ca11698.png',
+    src: figma_57ca12d7_4a35_44a5_868b_66cc2ca11698_png,
   },
   {
     title: '비대면으로 UT하는 툴 소개해드려요',
     mentor: 'Andrew 멘토',
     role: '프로덕트 디자이너',
-    src: 'https://www.figma.com/api/mcp/asset/b1826544-39cf-4bbc-9ecf-5a1e949ead99.png',
+    src: figma_b1826544_39cf_4bbc_9ecf_5a1e949ead99_png,
   },
   {
     title: '숫자보다 맥락이 먼저예요',
     mentor: 'Rora 멘토',
     role: 'UX 디자이너',
-    src: 'https://www.figma.com/api/mcp/asset/2aaad4a5-40c5-4c8b-83bd-e75572d056d9.png',
+    src: figma_2aaad4a5_40c5_4c8b_83bd_e75572d056d9_png,
   },
   {
     title: '유저 리서치할 때 주의해야 할 점',
     mentor: 'Stella 멘토',
     role: 'UX 디자이너',
-    src: 'https://www.figma.com/api/mcp/asset/5889b5a5-5bb9-4b8c-9126-c21a5641ada6.png',
+    src: figma_5889b5a5_5bb9_4b8c_9126_c21a5641ada6_png,
   },
   {
     title: '제 판단 기준은 이거예요',
     mentor: 'Jack 멘토',
     role: 'UX 디자이너',
-    src: 'https://www.figma.com/api/mcp/asset/c6a69720-80fd-4bc4-ac71-9af6bb352849.png',
+    src: figma_c6a69720_80fd_4bc4_ac71_9af6bb352849_png,
   },
 ];
 

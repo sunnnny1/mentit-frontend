@@ -1,5 +1,8 @@
-const imgLogoCircle = 'https://www.figma.com/api/mcp/asset/cca1b162-9b6b-4353-9e9a-311e84863eb1.svg';
-const imgPersonPlus = 'https://www.figma.com/api/mcp/asset/38789304-3ec8-46e0-a0c1-d358fc10868f.svg';
+import figma_cca1b162_9b6b_4353_9e9a_311e84863eb1_svg from '../../assets/figma/cca1b162-9b6b-4353-9e9a-311e84863eb1.svg';
+import figma_38789304_3ec8_46e0_a0c1_d358fc10868f_svg from '../../assets/figma/38789304-3ec8-46e0-a0c1-d358fc10868f.svg';
+
+const imgLogoCircle = figma_cca1b162_9b6b_4353_9e9a_311e84863eb1_svg;
+const imgPersonPlus = figma_38789304_3ec8_46e0_a0c1_d358fc10868f_svg;
 
 function StartCard({ title, subtitle, widthClass, onClick }) {
   return (

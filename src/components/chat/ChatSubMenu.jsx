@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import figma_7593cb7f_18f9_440f_a8bf_fc9df3b74e55_svg from '../../assets/figma/7593cb7f-18f9-440f-a8bf-fc9df3b74e55.svg';
+import figma_59578afb_163a_4f72_b0d6_fb2747b379c9_svg from '../../assets/figma/59578afb-163a-4f72-b0d6-fb2747b379c9.svg';
 
-const imgCollapse = "https://www.figma.com/api/mcp/asset/7593cb7f-18f9-440f-a8bf-fc9df3b74e55.svg";
-const imgPin = "https://www.figma.com/api/mcp/asset/59578afb-163a-4f72-b0d6-fb2747b379c9.svg";
+const imgCollapse = figma_7593cb7f_18f9_440f_a8bf_fc9df3b74e55_svg;
+const imgPin = figma_59578afb_163a_4f72_b0d6_fb2747b379c9_svg;
 
 const MENTORS = ['Yoonie', 'Teddy', 'Eunoia'];
 

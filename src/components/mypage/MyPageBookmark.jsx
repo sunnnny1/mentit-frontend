@@ -1,13 +1,19 @@
 import { useState } from 'react';
+import figma_c5e0db78_1e3c_4f7a_b950_19e91fffe9aa_svg from '../../assets/figma/c5e0db78-1e3c-4f7a-b950-19e91fffe9aa.svg';
+import figma_b20bcd72_0b9e_4707_8bd9_b80aa3f1fae3_svg from '../../assets/figma/b20bcd72-0b9e-4707-8bd9-b80aa3f1fae3.svg';
+import figma_9f8b2245_96d6_4a5a_b781_47ccca5a60e6_png from '../../assets/figma/9f8b2245-96d6-4a5a-b781-47ccca5a60e6.png';
+import figma_51ba9a82_9ebd_49ab_b34d_0085621101d1_png from '../../assets/figma/51ba9a82-9ebd-49ab-b34d-0085621101d1.png';
+import figma_1fe4470f_d393_4fb9_bfd3_fe093b843f3b_png from '../../assets/figma/1fe4470f-d393-4fb9-bfd3-fe093b843f3b.png';
+import figma_1bd879c7_c846_47ea_9853_45130c711592_png from '../../assets/figma/1bd879c7-c846-47ea-9853-45130c711592.png';
 
-const imgIconNormalBookmark = 'https://www.figma.com/api/mcp/asset/c5e0db78-1e3c-4f7a-b950-19e91fffe9aa.svg';
-const imgIconNormalBookmarkFill = 'https://www.figma.com/api/mcp/asset/b20bcd72-0b9e-4707-8bd9-b80aa3f1fae3.svg';
+const imgIconNormalBookmark = figma_c5e0db78_1e3c_4f7a_b950_19e91fffe9aa_svg;
+const imgIconNormalBookmarkFill = figma_b20bcd72_0b9e_4707_8bd9_b80aa3f1fae3_svg;
 
 const BOOKMARKED_ARTICLES = [
-  { id: 'ai-product-design-tips', title: 'AI 시대의 프로덕트 디자인 활용 팁', subtitle: 'Yoonie 멘토・프로덕트 디자이너', image: 'https://www.figma.com/api/mcp/asset/9f8b2245-96d6-4a5a-b781-47ccca5a60e6.png' },
-  { id: 'interview-donts', title: '면접 볼 때 이것만은 하지 마세요!', subtitle: 'Sunny 멘토・UX 디자이너', image: 'https://www.figma.com/api/mcp/asset/51ba9a82-9ebd-49ab-b34d-0085621101d1.png' },
-  { id: 'agentic-ai-product', title: '에이전틱 AI 제품을 만들 때 참고할 점', subtitle: 'U.ha 멘토・프로덕트 디자이너', image: 'https://www.figma.com/api/mcp/asset/1fe4470f-d393-4fb9-bfd3-fe093b843f3b.png' },
-  { id: 'user-research-cautions', title: '유저 리서치할 때 주의해야 할 점', subtitle: 'Stella 멘토・UX 디자이너', image: 'https://www.figma.com/api/mcp/asset/1bd879c7-c846-47ea-9853-45130c711592.png' },
+  { id: 'ai-product-design-tips', title: 'AI 시대의 프로덕트 디자인 활용 팁', subtitle: 'Yoonie 멘토・프로덕트 디자이너', image: figma_9f8b2245_96d6_4a5a_b781_47ccca5a60e6_png },
+  { id: 'interview-donts', title: '면접 볼 때 이것만은 하지 마세요!', subtitle: 'Sunny 멘토・UX 디자이너', image: figma_51ba9a82_9ebd_49ab_b34d_0085621101d1_png },
+  { id: 'agentic-ai-product', title: '에이전틱 AI 제품을 만들 때 참고할 점', subtitle: 'U.ha 멘토・프로덕트 디자이너', image: figma_1fe4470f_d393_4fb9_bfd3_fe093b843f3b_png },
+  { id: 'user-research-cautions', title: '유저 리서치할 때 주의해야 할 점', subtitle: 'Stella 멘토・UX 디자이너', image: figma_1bd879c7_c846_47ea_9853_45130c711592_png },
 ];
 
 function BookmarkCard({ article, isBookmarked, onToggleBookmark }) {

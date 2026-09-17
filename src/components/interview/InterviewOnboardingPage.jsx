@@ -1,10 +1,15 @@
 import { useState } from 'react';
+import figma_ba571657_cca6_48a5_aa58_467ac1e324d3_svg from '../../assets/figma/ba571657-cca6-48a5-aa58-467ac1e324d3.svg';
+import figma_c11cc4d3_aa70_48e8_a183_5d36c9318492_png from '../../assets/figma/c11cc4d3-aa70-48e8-a183-5d36c9318492.png';
+import figma_fd315a38_e73e_406e_bdc3_ef0d1231ce5a_svg from '../../assets/figma/fd315a38-e73e-406e-bdc3-ef0d1231ce5a.svg';
+import figma_20870255_5069_4a4b_963f_7d5e3d603d2d_svg from '../../assets/figma/20870255-5069-4a4b-963f-7d5e3d603d2d.svg';
+import figma_746b5a21_af12_4144_9847_16f8b457e3c6_svg from '../../assets/figma/746b5a21-af12-4144-9847-16f8b457e3c6.svg';
 
-const imgLogoCircle = 'https://www.figma.com/api/mcp/asset/ba571657-cca6-48a5-aa58-467ac1e324d3.svg';
-const imgSunny = 'https://www.figma.com/api/mcp/asset/c11cc4d3-aa70-48e8-a183-5d36c9318492.png';
-const imgChevronDown = 'https://www.figma.com/api/mcp/asset/fd315a38-e73e-406e-bdc3-ef0d1231ce5a.svg';
-const imgChevronUp = 'https://www.figma.com/api/mcp/asset/20870255-5069-4a4b-963f-7d5e3d603d2d.svg';
-const imgCheck = 'https://www.figma.com/api/mcp/asset/746b5a21-af12-4144-9847-16f8b457e3c6.svg';
+const imgLogoCircle = figma_ba571657_cca6_48a5_aa58_467ac1e324d3_svg;
+const imgSunny = figma_c11cc4d3_aa70_48e8_a183_5d36c9318492_png;
+const imgChevronDown = figma_fd315a38_e73e_406e_bdc3_ef0d1231ce5a_svg;
+const imgChevronUp = figma_20870255_5069_4a4b_963f_7d5e3d603d2d_svg;
+const imgCheck = figma_746b5a21_af12_4144_9847_16f8b457e3c6_svg;
 
 const INTERVIEW_TYPES = ['실무 면접', '임원 면접', 'PT 면접', '직무 기술 면접', '컬쳐핏 면접'];
 

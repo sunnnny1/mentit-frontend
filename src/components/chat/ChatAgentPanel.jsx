@@ -1,6 +1,7 @@
 import MentorCircleGradient from './MentorCircleGradient';
+import figma_343a242e_14ba_427b_a8e0_6227d163ad87_svg from '../../assets/figma/343a242e-14ba-427b-a8e0-6227d163ad87.svg';
 
-const imgClose = 'https://www.figma.com/api/mcp/asset/343a242e-14ba-427b-a8e0-6227d163ad87.svg';
+const imgClose = figma_343a242e_14ba_427b_a8e0_6227d163ad87_svg;
 
 export default function ChatAgentPanel({
   onClose,

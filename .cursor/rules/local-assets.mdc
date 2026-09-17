@@ -1,0 +1,17 @@
+---
+description: Never leave expiring Figma MCP asset URLs in app source
+alwaysApply: true
+---
+
+# Local assets only
+
+`https://www.figma.com/api/mcp/asset/...` URLs expire in about 7 days and break icons in production.
+
+When implementing Figma designs:
+
+1. Download the asset bytes immediately into `src/assets/` (or `src/assets/figma/`).
+2. Import the local file in React. Do not keep the remote Figma URL in JSX, CSS, or data objects.
+3. Reuse an existing local icon if it already matches (logo, chevron, like, bookmark, person-plus).
+4. After adding images, run `npm run lint` so `scripts/check-no-figma-urls.mjs` fails if a Figma MCP URL slipped in.
+
+If a Figma export URL is already expired, recreate or copy a matching local SVG/PNG. Do not leave a dead URL.

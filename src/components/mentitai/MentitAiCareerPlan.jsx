@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import MentitAiSubMenu from './MentitAiSubMenu';
 import LoadingSymbol from '../chat/LoadingSymbol';
+import figma_7a7706e1_cc35_4e14_9913_48dfd5adcc5c_svg from '../../assets/figma/7a7706e1-cc35-4e14-9913-48dfd5adcc5c.svg';
+import figma_73476c4a_dc29_4768_b226_165c046e231d_svg from '../../assets/figma/73476c4a-dc29-4768-b226-165c046e231d.svg';
 
-const imgSend = 'https://www.figma.com/api/mcp/asset/7a7706e1-cc35-4e14-9913-48dfd5adcc5c.svg';
-const imgArrowIcon = 'https://www.figma.com/api/mcp/asset/73476c4a-dc29-4768-b226-165c046e231d.svg';
+const imgSend = figma_7a7706e1_cc35_4e14_9913_48dfd5adcc5c_svg;
+const imgArrowIcon = figma_73476c4a_dc29_4768_b226_165c046e231d_svg;
 
 const FOLLOW_UP_CHIPS = [
   '취업 준비 계획 타임라인을 메인 홈 화면에 반영해줘',

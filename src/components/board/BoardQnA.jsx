@@ -12,12 +12,21 @@ import imgSunny from '../../assets/icons/ellipse-sunny.png';
 import imgPeter from '../../assets/icons/ellipse-peter.png';
 import imgEmma from '../../assets/icons/emma.webp';
 import imgFailedProject from '../../assets/icons/personalized-thumb-1.png';
+import figma_d82be445_be8d_44cb_bce0_d3f6a3b977c2_svg from '../../assets/figma/d82be445-be8d-44cb-bce0-d3f6a3b977c2.svg';
+import figma_f18f03a8_dbf0_4add_aa12_723afdd968d9_svg from '../../assets/figma/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
+import figma_2a8c0fab_ff12_4088_9976_f8cdb0698792_svg from '../../assets/figma/2a8c0fab-ff12-4088-9976-f8cdb0698792.svg';
+import figma_bb3b8c56_7ee3_4df3_ba7c_8fbd9131aa9f_svg from '../../assets/figma/bb3b8c56-7ee3-4df3-ba7c-8fbd9131aa9f.svg';
+import figma_3fab267a_3f49_4c73_b247_11cff7f62c3f_svg from '../../assets/figma/3fab267a-3f49-4c73-b247-11cff7f62c3f.svg';
+import figma_b2a8cdbd_ae3f_4c16_8bff_caeb758fbadf_png from '../../assets/figma/b2a8cdbd-ae3f-4c16-8bff-caeb758fbadf.png';
+import figma_d47118a4_9707_403e_bdc8_88b3a5f6c7b0_png from '../../assets/figma/d47118a4-9707-403e-bdc8-88b3a5f6c7b0.png';
+import figma_c574a559_1d5e_467e_abcb_bc9db9c6e29c_png from '../../assets/figma/c574a559-1d5e-467e-abcb-bc9db9c6e29c.png';
+import figma_bf8a5b4b_bc24_4456_b46e_facc3795a174_png from '../../assets/figma/bf8a5b4b-bc24-4456-b46e-facc3795a174.png';
 
-const imgLike = 'https://www.figma.com/api/mcp/asset/d82be445-be8d-44cb-bce0-d3f6a3b977c2.svg';
-const imgLikeFill = 'https://www.figma.com/api/mcp/asset/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
-const imgChevronDown = 'https://www.figma.com/api/mcp/asset/2a8c0fab-ff12-4088-9976-f8cdb0698792.svg';
-const imgMoreChevron = 'https://www.figma.com/api/mcp/asset/bb3b8c56-7ee3-4df3-ba7c-8fbd9131aa9f.svg';
-const imgPencil = 'https://www.figma.com/api/mcp/asset/3fab267a-3f49-4c73-b247-11cff7f62c3f.svg';
+const imgLike = figma_d82be445_be8d_44cb_bce0_d3f6a3b977c2_svg;
+const imgLikeFill = figma_f18f03a8_dbf0_4add_aa12_723afdd968d9_svg;
+const imgChevronDown = figma_2a8c0fab_ff12_4088_9976_f8cdb0698792_svg;
+const imgMoreChevron = figma_bb3b8c56_7ee3_4df3_ba7c_8fbd9131aa9f_svg;
+const imgPencil = figma_3fab267a_3f49_4c73_b247_11cff7f62c3f_svg;
 
 const MENTOR_AVATAR_POOL = [
   { name: 'U.ha', src: imgUha },
@@ -108,7 +117,7 @@ const QNA_POSTS = [
     tag: '프로덕트 디자인',
     title: '비전공자가 프로덕트 디자이너로 취업하려면 어떤 걸 준비해야 하나요?',
     body: '디자인 전공이 아니라서 기초부터 독학하고 있는데, 전공자와 비교해서 어떤 부분을 더 채워야 할지 모르겠어요. 부트캠프가 꼭 필요할까요?',
-    image: 'https://www.figma.com/api/mcp/asset/b2a8cdbd-ae3f-4c16-8bff-caeb758fbadf.png',
+    image: figma_b2a8cdbd_ae3f_4c16_8bff_caeb758fbadf_png,
     views: 780,
     likes: 27,
     participants: 20,
@@ -118,7 +127,7 @@ const QNA_POSTS = [
     tag: 'UX 디자인',
     title: '신입 면접에서 그 자리에서 와이어프레임 그려보라고 하면 어떻게 대응하나요?',
     body: '라이브 과제나 화이트보드 테스트가 있다는 얘기를 들었는데, 시간 안에 논리적으로 구조를 짜는 연습을 어떻게 해야 할지 감이 안 잡혀요.',
-    image: 'https://www.figma.com/api/mcp/asset/d47118a4-9707-403e-bdc8-88b3a5f6c7b0.png',
+    image: figma_d47118a4_9707_403e_bdc8_88b3a5f6c7b0_png,
     views: 576,
     likes: 39,
     participants: 18,
@@ -138,7 +147,7 @@ const QNA_POSTS = [
     tag: '프로덕트 디자인',
     title: '개발자와 협업할 때 자주 부딪히는 부분이 뭔가요?',
     body: '디자인 의도가 개발 단계에서 자꾸 달라진다는 얘기를 들었는데, 실무에서는 이런 걸 어떻게 조율하는지 궁금해요.',
-    image: 'https://www.figma.com/api/mcp/asset/c574a559-1d5e-467e-abcb-bc9db9c6e29c.png',
+    image: figma_c574a559_1d5e_467e_abcb_bc9db9c6e29c_png,
     views: 639,
     likes: 26,
     participants: 11,
@@ -168,7 +177,7 @@ const QNA_POSTS = [
     tag: '프로덕트 디자인',
     title: 'UX 리서치 경험이 없는데, 포트폴리오에 어떻게 녹여야 하나요?',
     body: '주어진 시간 안에 리서치, 디자인, 발표 자료까지 다 준비해야 해서 늘 시간이 부족해요. 단계별로 시간을 어떻게 나누는 게 좋을지 궁금합니다.',
-    image: 'https://www.figma.com/api/mcp/asset/bf8a5b4b-bc24-4456-b46e-facc3795a174.png',
+    image: figma_bf8a5b4b_bc24_4456_b46e_facc3795a174_png,
     views: 601,
     likes: 13,
     participants: 3,

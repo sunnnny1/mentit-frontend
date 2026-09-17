@@ -1,21 +1,35 @@
 import { useState } from 'react';
 
 import imgHero from '../../assets/icons/talkUha.png';
+import figma_c0901e52_de24_4d64_9c05_4e48c5440ecc_png from '../../assets/figma/c0901e52-de24-4d64-9c05-4e48c5440ecc.png';
+import figma_f9ed70ea_f840_4f0a_81b3_0908033f3ffe_png from '../../assets/figma/f9ed70ea-f840-4f0a-81b3-0908033f3ffe.png';
+import figma_96f8fdaa_7fc0_4da1_882b_19fa0295e593_png from '../../assets/figma/96f8fdaa-7fc0-4da1-882b-19fa0295e593.png';
+import figma_71c981da_3d20_44d3_9150_480efcdf0fd0_png from '../../assets/figma/71c981da-3d20-44d3-9150-480efcdf0fd0.png';
+import figma_61d8e3ea_6af2_4cb7_ac22_744103f36096_png from '../../assets/figma/61d8e3ea-6af2-4cb7-ac22-744103f36096.png';
+import figma_76bc3acd_6bf0_40a9_93be_eb8f1b0df6c8_svg from '../../assets/figma/76bc3acd-6bf0-40a9-93be-eb8f1b0df6c8.svg';
+import figma_f18f03a8_dbf0_4add_aa12_723afdd968d9_svg from '../../assets/figma/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
+import figma_235a7d1e_f793_4443_8408_af972d7e6de4_svg from '../../assets/figma/235a7d1e-f793-4443-8408-af972d7e6de4.svg';
+import figma_b20bcd72_0b9e_4707_8bd9_b80aa3f1fae3_svg from '../../assets/figma/b20bcd72-0b9e-4707-8bd9-b80aa3f1fae3.svg';
+import figma_df0b1844_a3c6_42cb_a30f_fb7816118fcd_svg from '../../assets/figma/df0b1844-a3c6-42cb-a30f-fb7816118fcd.svg';
+import figma_4c967de1_d376_423c_9acd_a3b320cf6b0a_png from '../../assets/figma/4c967de1-d376-423c-9acd-a3b320cf6b0a.png';
+import figma_d54b4a22_6c3b_430c_8d46_49125c613340_png from '../../assets/figma/d54b4a22-6c3b-430c-8d46-49125c613340.png';
+import figma_557944c2_92e4_406f_acd0_a37db77fc91b_png from '../../assets/figma/557944c2-92e4-406f-acd0-a37db77fc91b.png';
+import figma_c7e52710_ca86_4094_906d_8474e2528a2f_png from '../../assets/figma/c7e52710-ca86-4094-906d-8474e2528a2f.png';
 
-const imgAuthor = 'https://www.figma.com/api/mcp/asset/c0901e52-de24-4d64-9c05-4e48c5440ecc.png';
-const imgGalleryA1 = 'https://www.figma.com/api/mcp/asset/f9ed70ea-f840-4f0a-81b3-0908033f3ffe.png';
-const imgGalleryA2 = 'https://www.figma.com/api/mcp/asset/96f8fdaa-7fc0-4da1-882b-19fa0295e593.png';
-const imgGalleryB1 = 'https://www.figma.com/api/mcp/asset/71c981da-3d20-44d3-9150-480efcdf0fd0.png';
-const imgGalleryB2 = 'https://www.figma.com/api/mcp/asset/61d8e3ea-6af2-4cb7-ac22-744103f36096.png';
-const imgLike = 'https://www.figma.com/api/mcp/asset/76bc3acd-6bf0-40a9-93be-eb8f1b0df6c8.svg';
-const imgLikeFill = 'https://www.figma.com/api/mcp/asset/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
-const imgBookmarkIcon = 'https://www.figma.com/api/mcp/asset/235a7d1e-f793-4443-8408-af972d7e6de4.svg';
-const imgBookmarkFill = 'https://www.figma.com/api/mcp/asset/b20bcd72-0b9e-4707-8bd9-b80aa3f1fae3.svg';
-const imgShare = 'https://www.figma.com/api/mcp/asset/df0b1844-a3c6-42cb-a30f-fb7816118fcd.svg';
-const imgYunn00 = 'https://www.figma.com/api/mcp/asset/4c967de1-d376-423c-9acd-a3b320cf6b0a.png';
-const imgGangster = 'https://www.figma.com/api/mcp/asset/d54b4a22-6c3b-430c-8d46-49125c613340.png';
-const imgAionue = 'https://www.figma.com/api/mcp/asset/557944c2-92e4-406f-acd0-a37db77fc91b.png';
-const imgCoco = 'https://www.figma.com/api/mcp/asset/c7e52710-ca86-4094-906d-8474e2528a2f.png';
+const imgAuthor = figma_c0901e52_de24_4d64_9c05_4e48c5440ecc_png;
+const imgGalleryA1 = figma_f9ed70ea_f840_4f0a_81b3_0908033f3ffe_png;
+const imgGalleryA2 = figma_96f8fdaa_7fc0_4da1_882b_19fa0295e593_png;
+const imgGalleryB1 = figma_71c981da_3d20_44d3_9150_480efcdf0fd0_png;
+const imgGalleryB2 = figma_61d8e3ea_6af2_4cb7_ac22_744103f36096_png;
+const imgLike = figma_76bc3acd_6bf0_40a9_93be_eb8f1b0df6c8_svg;
+const imgLikeFill = figma_f18f03a8_dbf0_4add_aa12_723afdd968d9_svg;
+const imgBookmarkIcon = figma_235a7d1e_f793_4443_8408_af972d7e6de4_svg;
+const imgBookmarkFill = figma_b20bcd72_0b9e_4707_8bd9_b80aa3f1fae3_svg;
+const imgShare = figma_df0b1844_a3c6_42cb_a30f_fb7816118fcd_svg;
+const imgYunn00 = figma_4c967de1_d376_423c_9acd_a3b320cf6b0a_png;
+const imgGangster = figma_d54b4a22_6c3b_430c_8d46_49125c613340_png;
+const imgAionue = figma_557944c2_92e4_406f_acd0_a37db77fc91b_png;
+const imgCoco = figma_c7e52710_ca86_4094_906d_8474e2528a2f_png;
 
 const TAGS = ['#프로덕트디자인', '#AI_Agent', '#해외'];
 

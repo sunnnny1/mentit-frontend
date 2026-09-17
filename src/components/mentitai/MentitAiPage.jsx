@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import MentitAiSubMenu from './MentitAiSubMenu';
 import mentitSymbol from '../../assets/mentit-symbol.png';
-const imgBackground = 'https://www.figma.com/api/mcp/asset/e9d9e8a2-cf74-4646-ab4c-cfe3b1059510.svg';
-const imgSend = 'https://www.figma.com/api/mcp/asset/7a7706e1-cc35-4e14-9913-48dfd5adcc5c.svg';
+import figma_e9d9e8a2_cf74_4646_ab4c_cfe3b1059510_svg from '../../assets/figma/e9d9e8a2-cf74-4646-ab4c-cfe3b1059510.svg';
+import figma_7a7706e1_cc35_4e14_9913_48dfd5adcc5c_svg from '../../assets/figma/7a7706e1-cc35-4e14-9913-48dfd5adcc5c.svg';
+const imgBackground = figma_e9d9e8a2_cf74_4646_ab4c_cfe3b1059510_svg;
+const imgSend = figma_7a7706e1_cc35_4e14_9913_48dfd5adcc5c_svg;
 
 const SUGGESTED_QUESTIONS = [
   '프로덕트 디자이너의 포트폴리오는 몇 장이 좋을까요?',

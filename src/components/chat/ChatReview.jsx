@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-const imgSegmentControl = 'https://www.figma.com/api/mcp/asset/41fe867f-d67f-44f6-9936-91fa6bda6e6d.png';
-
 const REVIEW_GROUPS = [
   {
     label: '멘토링 내용',
@@ -37,8 +35,7 @@ export default function ChatReview({ mentorDisplayName = 'Yoonie (최윤희)' })
 
   return (
     <div className="relative z-[1] flex-1 min-w-0 min-h-0 h-full flex flex-col bg-white overflow-hidden">
-      <div className="relative shrink-0 px-6 py-7">
-        <img alt="" src={imgSegmentControl} className="absolute inset-0 w-full h-full object-cover pointer-events-none" />
+      <div className="relative shrink-0 px-6 py-7 bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_50%,#ffffff_100%)]">
         <div className="relative flex flex-col gap-1 items-center justify-center text-center w-full">
           <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213] w-full">
             {mentorDisplayName} 멘토와의 채팅 어떠셨나요?

@@ -1,21 +1,34 @@
 import { useState } from 'react';
 
 import imgPostImage from '../../assets/icons/gangsterImg.png';
+import figma_4f65e1a1_f7c6_4209_9aa8_6879d1fa3e3e_svg from '../../assets/figma/4f65e1a1-f7c6-4209-9aa8-6879d1fa3e3e.svg';
+import figma_f18f03a8_dbf0_4add_aa12_723afdd968d9_svg from '../../assets/figma/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
+import figma_5972d921_320c_4f23_ae3c_9781e5c4d1f1_svg from '../../assets/figma/5972d921-320c-4f23-ae3c-9781e5c4d1f1.svg';
+import figma_b20bcd72_0b9e_4707_8bd9_b80aa3f1fae3_svg from '../../assets/figma/b20bcd72-0b9e-4707-8bd9-b80aa3f1fae3.svg';
+import figma_be913caa_33e4_4e4d_aa6a_2c39664f727d_svg from '../../assets/figma/be913caa-33e4-4e4d-aa6a-2c39664f727d.svg';
+import figma_17f9d712_2e3f_40ca_b059_cb541a5f2605_svg from '../../assets/figma/17f9d712-2e3f-40ca-b059-cb541a5f2605.svg';
+import figma_15f95135_06d0_42d1_acb7_c25ec37f0c79_png from '../../assets/figma/15f95135-06d0-42d1-acb7-c25ec37f0c79.png';
+import figma_7ee59a20_181b_4c78_a9dc_7529e2280caa_png from '../../assets/figma/7ee59a20-181b-4c78-a9dc-7529e2280caa.png';
+import figma_8e56f4c4_d886_4676_8da7_c3f559d26e0b_png from '../../assets/figma/8e56f4c4-d886-4676-8da7-c3f559d26e0b.png';
+import figma_8224da2a_a826_4578_a312_1fa0ae3a0040_png from '../../assets/figma/8224da2a-a826-4578-a312-1fa0ae3a0040.png';
+import figma_d8a681b6_8c6d_4d08_80c4_bf1397223b5e_png from '../../assets/figma/d8a681b6-8c6d-4d08-80c4-bf1397223b5e.png';
+import figma_4f5d61de_2a6f_48f7_aad0_3c057b7b0bf4_png from '../../assets/figma/4f5d61de-2a6f-48f7-aad0-3c057b7b0bf4.png';
+import figma_1c874779_782f_4eb9_96cd_63540102866d_png from '../../assets/figma/1c874779-782f-4eb9-96cd-63540102866d.png';
 
-const imgLikeOutline = 'https://www.figma.com/api/mcp/asset/4f65e1a1-f7c6-4209-9aa8-6879d1fa3e3e.svg';
-const imgLikeFill = 'https://www.figma.com/api/mcp/asset/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
-const imgBookmarkOutline = 'https://www.figma.com/api/mcp/asset/5972d921-320c-4f23-ae3c-9781e5c4d1f1.svg';
-const imgBookmarkFill = 'https://www.figma.com/api/mcp/asset/b20bcd72-0b9e-4707-8bd9-b80aa3f1fae3.svg';
-const imgShare = 'https://www.figma.com/api/mcp/asset/be913caa-33e4-4e4d-aa6a-2c39664f727d.svg';
-const imgArrowReturn = 'https://www.figma.com/api/mcp/asset/17f9d712-2e3f-40ca-b059-cb541a5f2605.svg';
+const imgLikeOutline = figma_4f65e1a1_f7c6_4209_9aa8_6879d1fa3e3e_svg;
+const imgLikeFill = figma_f18f03a8_dbf0_4add_aa12_723afdd968d9_svg;
+const imgBookmarkOutline = figma_5972d921_320c_4f23_ae3c_9781e5c4d1f1_svg;
+const imgBookmarkFill = figma_b20bcd72_0b9e_4707_8bd9_b80aa3f1fae3_svg;
+const imgShare = figma_be913caa_33e4_4e4d_aa6a_2c39664f727d_svg;
+const imgArrowReturn = figma_17f9d712_2e3f_40ca_b059_cb541a5f2605_svg;
 
-const imgMe = 'https://www.figma.com/api/mcp/asset/15f95135-06d0-42d1-acb7-c25ec37f0c79.png';
-const imgGangsterSmall = 'https://www.figma.com/api/mcp/asset/7ee59a20-181b-4c78-a9dc-7529e2280caa.png';
-const imgLuvuuu = 'https://www.figma.com/api/mcp/asset/8e56f4c4-d886-4676-8da7-c3f559d26e0b.png';
-const imgAionue = 'https://www.figma.com/api/mcp/asset/8224da2a-a826-4578-a312-1fa0ae3a0040.png';
-const imgHappy = 'https://www.figma.com/api/mcp/asset/d8a681b6-8c6d-4d08-80c4-bf1397223b5e.png';
-const imgCoco = 'https://www.figma.com/api/mcp/asset/4f5d61de-2a6f-48f7-aad0-3c057b7b0bf4.png';
-const imgMumumu = 'https://www.figma.com/api/mcp/asset/1c874779-782f-4eb9-96cd-63540102866d.png';
+const imgMe = figma_15f95135_06d0_42d1_acb7_c25ec37f0c79_png;
+const imgGangsterSmall = figma_7ee59a20_181b_4c78_a9dc_7529e2280caa_png;
+const imgLuvuuu = figma_8e56f4c4_d886_4676_8da7_c3f559d26e0b_png;
+const imgAionue = figma_8224da2a_a826_4578_a312_1fa0ae3a0040_png;
+const imgHappy = figma_d8a681b6_8c6d_4d08_80c4_bf1397223b5e_png;
+const imgCoco = figma_4f5d61de_2a6f_48f7_aad0_3c057b7b0bf4_png;
+const imgMumumu = figma_1c874779_782f_4eb9_96cd_63540102866d_png;
 
 const TAGS = ['#프로덕트디자인', '#프리토크', '#취준'];
 

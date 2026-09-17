@@ -1,5 +1,8 @@
-const imgCollapse = 'https://www.figma.com/api/mcp/asset/52e98eae-8932-4f12-888b-38f3e46a793e.svg';
-const imgPin = 'https://www.figma.com/api/mcp/asset/8c5d481c-7337-4561-910a-455ed7cfc8da.svg';
+import figma_52e98eae_8932_4f12_888b_38f3e46a793e_svg from '../../assets/figma/52e98eae-8932-4f12-888b-38f3e46a793e.svg';
+import figma_8c5d481c_7337_4561_910a_455ed7cfc8da_svg from '../../assets/figma/8c5d481c-7337-4561-910a-455ed7cfc8da.svg';
+
+const imgCollapse = figma_52e98eae_8932_4f12_888b_38f3e46a793e_svg;
+const imgPin = figma_8c5d481c_7337_4561_910a_455ed7cfc8da_svg;
 
 const MENTORS = ['Sunny', 'U.ha'];
 

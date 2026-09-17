@@ -3,9 +3,23 @@ import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import imgLikeFill from '../../assets/icons/like-fill-gray.svg';
 import imgGangsterPost from '../../assets/icons/gangsterImg.png';
 import CheckRow from '../JobCheckRow';
-const imgComment = 'https://www.figma.com/api/mcp/asset/13581474-4f36-46b1-9063-f3cfc8970ec3.svg';
-const imgChevronDown = 'https://www.figma.com/api/mcp/asset/800d0303-c40c-40a5-9c0a-cb6149f79de6.svg';
-const imgPencil = 'https://www.figma.com/api/mcp/asset/3fab267a-3f49-4c73-b247-11cff7f62c3f.svg';
+import figma_13581474_4f36_46b1_9063_f3cfc8970ec3_svg from '../../assets/figma/13581474-4f36-46b1-9063-f3cfc8970ec3.svg';
+import figma_800d0303_c40c_40a5_9c0a_cb6149f79de6_svg from '../../assets/figma/800d0303-c40c-40a5-9c0a-cb6149f79de6.svg';
+import figma_3fab267a_3f49_4c73_b247_11cff7f62c3f_svg from '../../assets/figma/3fab267a-3f49-4c73-b247-11cff7f62c3f.svg';
+import figma_1c30df87_166c_4504_9d79_fdc847db4580_png from '../../assets/figma/1c30df87-166c-4504-9d79-fdc847db4580.png';
+import figma_2ea9a27f_5291_434e_b6b2_6efba4b60d83_png from '../../assets/figma/2ea9a27f-5291-434e-b6b2-6efba4b60d83.png';
+import figma_7b7f5ec8_080d_4da2_9a4e_ca50dce927a3_png from '../../assets/figma/7b7f5ec8-080d-4da2-9a4e-ca50dce927a3.png';
+import figma_ae0254da_7dbe_4fba_a40f_5de9d3411a7d_png from '../../assets/figma/ae0254da-7dbe-4fba-a40f-5de9d3411a7d.png';
+import figma_6367f8b8_e22f_4a6b_bb56_b837f2db16c8_png from '../../assets/figma/6367f8b8-e22f-4a6b-bb56-b837f2db16c8.png';
+import figma_40e4efca_bd57_4c0f_94fc_d6e900361d34_png from '../../assets/figma/40e4efca-bd57-4c0f-94fc-d6e900361d34.png';
+import figma_4ca3a1c1_b478_4b2f_82a4_906fb08aa942_png from '../../assets/figma/4ca3a1c1-b478-4b2f-82a4-906fb08aa942.png';
+import figma_2422592b_dc90_4757_a47c_729af233e3f3_png from '../../assets/figma/2422592b-dc90-4757-a47c-729af233e3f3.png';
+import figma_eb30e4b4_fadd_47b1_8bfa_2b0efb88a62d_png from '../../assets/figma/eb30e4b4-fadd-47b1-8bfa-2b0efb88a62d.png';
+import figma_09c05f5c_4273_4198_a4ed_e9f4c000e9a2_png from '../../assets/figma/09c05f5c-4273-4198-a4ed-e9f4c000e9a2.png';
+import figma_d065ab99_5a90_4b4a_8be3_db8b22c1efc9_png from '../../assets/figma/d065ab99-5a90-4b4a-8be3-db8b22c1efc9.png';
+const imgComment = figma_13581474_4f36_46b1_9063_f3cfc8970ec3_svg;
+const imgChevronDown = figma_800d0303_c40c_40a5_9c0a_cb6149f79de6_svg;
+const imgPencil = figma_3fab267a_3f49_4c73_b247_11cff7f62c3f_svg;
 
 const JOB_GROUPS = ['개발', '경영・비즈니스', '마케팅・광고', '디자인', '게임 제작', '미디어'];
 const JOB_ROLES = ['그래픽 디자인', '게임 디자인', '프로덕트 디자인', 'UX 디자인', '제품 디자인', '영상・모션 디자인'];
@@ -14,7 +28,7 @@ const FREE_POSTS = [
   {
     author: 'Gangster',
     category: '프로덕트 디자인 외 1개',
-    avatar: 'https://www.figma.com/api/mcp/asset/1c30df87-166c-4504-9d79-fdc847db4580.png',
+    avatar: figma_1c30df87_166c_4504_9d79_fdc847db4580_png,
     title: '드디어 1차 서류 통과했어ㅠ',
     body: '서류 통과는 취준하면서 처음인데 여기서 포폴이랑 자소서 피드백 받았었거든? 확실히 도움이 된듯..\n아직 면접 남았지만, 잠시만 이 행복을 즐기려고~ 다들 기 받아가!!',
     images: [imgGangsterPost],
@@ -26,17 +40,17 @@ const FREE_POSTS = [
   {
     author: 'Kiki',
     category: 'UX 디자인 외 2개',
-    avatar: 'https://www.figma.com/api/mcp/asset/2ea9a27f-5291-434e-b6b2-6efba4b60d83.png',
+    avatar: figma_2ea9a27f_5291_434e_b6b2_6efba4b60d83_png,
     title: 'UX 리서치 스터디 같이 하실 분 구해요(주1회, 온라인)',
     body: '매주 토요일 오전에 온라인으로 모여서 케이스 스터디 발표하고 서로 피드백 주고받는 스터디 구합니다.\n성실하게 임하지 않는 사람은 신청하지 않았으면 합니다.. 정말 진심으로 열시히 스터디 참여할 사람만 댓글 달아주세요!',
-    images: ['https://www.figma.com/api/mcp/asset/7b7f5ec8-080d-4da2-9a4e-ca50dce927a3.png'],
+    images: [figma_7b7f5ec8_080d_4da2_9a4e_ca50dce927a3_png],
     likes: 32,
     comments: 8,
   },
   {
     author: 'AIONUE',
     category: '프로덕트 디자인 외 1개',
-    avatar: 'https://www.figma.com/api/mcp/asset/ae0254da-7dbe-4fba-a40f-5de9d3411a7d.png',
+    avatar: figma_ae0254da_7dbe_4fba_a40f_5de9d3411a7d_png,
     title: '포트폴리오 30번은 갈아엎은 것 같아요,,ㅎ 이게 맞나 싶네요',
     body: '계속 리서치부터 다시 정리하고, 스토리라인 바꾸고, 또 갈아엎고... 벌써 몇 번째인지 모르겠어요. 다른 분들도 포폴 완성까지 이 정도로 오래 걸리셨나요? 저만 유독 느린 건가 싶어서 조금 지치네요...ㅜㅜ',
     images: [],
@@ -46,7 +60,7 @@ const FREE_POSTS = [
   {
     author: 'Coco',
     category: 'UX 디자인',
-    avatar: 'https://www.figma.com/api/mcp/asset/6367f8b8-e22f-4a6b-bb56-b837f2db16c8.png',
+    avatar: figma_6367f8b8_e22f_4a6b_bb56_b837f2db16c8_png,
     title: '취준 N개월차, 다들 하루 루틴 어떻게 잡으세요?',
     body: '회사를 안 다니니까 하루가 뭉개지는 느낌이에요. 포폴 작업한다고 앉아있는데 집중은 안 되고 시간만 가고...\n다들 어떻게 하루를 계획하시는지 궁금해요.',
     images: [],
@@ -56,15 +70,15 @@ const FREE_POSTS = [
   {
     author: 'Happy',
     category: 'UX 디자인 외 2개',
-    avatar: 'https://www.figma.com/api/mcp/asset/40e4efca-bd57-4c0f-94fc-d6e900361d34.png',
+    avatar: figma_40e4efca_bd57_4c0f_94fc_d6e900361d34_png,
     title: '비핸스에 포폴 올렸는데 보고 피드백 줄 사람?!',
     body: '드디어 포폴 1차 완성해서 비핸스에 올렸어요! 근데 계속 혼자 보다 보니까 뭐가 문제인지도 모르겠고 감이 없어지더라고요.. 편하게 훑어보고 솔직한 의견 주실 분 계시면 댓글 남겨주세요. 저도 다른 분들 포폴 봐드릴게요!',
     images: [
-      'https://www.figma.com/api/mcp/asset/4ca3a1c1-b478-4b2f-82a4-906fb08aa942.png',
-      'https://www.figma.com/api/mcp/asset/2422592b-dc90-4757-a47c-729af233e3f3.png',
-      'https://www.figma.com/api/mcp/asset/eb30e4b4-fadd-47b1-8bfa-2b0efb88a62d.png',
-      'https://www.figma.com/api/mcp/asset/09c05f5c-4273-4198-a4ed-e9f4c000e9a2.png',
-      'https://www.figma.com/api/mcp/asset/d065ab99-5a90-4b4a-8be3-db8b22c1efc9.png',
+      figma_4ca3a1c1_b478_4b2f_82a4_906fb08aa942_png,
+      figma_2422592b_dc90_4757_a47c_729af233e3f3_png,
+      figma_eb30e4b4_fadd_47b1_8bfa_2b0efb88a62d_png,
+      figma_09c05f5c_4273_4198_a4ed_e9f4c000e9a2_png,
+      figma_d065ab99_5a90_4b4a_8be3_db8b22c1efc9_png,
     ],
     likes: 32,
     comments: 8,

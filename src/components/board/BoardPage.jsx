@@ -23,6 +23,11 @@ import imgTalkUha from '../../assets/icons/talkUha.png';
 import imgGangsterAvatar from '../../assets/icons/gangsterAvatar.webp';
 import imgHappyAvatar from '../../assets/icons/happyAvatar.webp';
 import imgGangsterPost from '../../assets/icons/gangsterImg.png';
+import figma_351bbd39_3bb3_44f5_b47c_4e99a9d7fd96_png from '../../assets/figma/351bbd39-3bb3-44f5-b47c-4e99a9d7fd96.png';
+import figma_3999f190_a737_47ed_9b38_92d0c376561c_png from '../../assets/figma/3999f190-a737-47ed-9b38-92d0c376561c.png';
+import figma_dc687cae_ed7c_41e1_882c_5a570399efd6_png from '../../assets/figma/dc687cae-ed7c-41e1-882c-5a570399efd6.png';
+import figma_4f65498c_145b_472c_84de_7a8289dbdc6b_png from '../../assets/figma/4f65498c-145b-472c-84de-7a8289dbdc6b.png';
+import figma_89422302_a889_4f8f_9d44_425ee5f51551_png from '../../assets/figma/89422302-a889-4f8f-9d44-425ee5f51551.png';
 
 const ACTIVE_MENTORS = [
   { name: 'U.ha', src: imgUha },
@@ -123,11 +128,11 @@ const FREE_POSTS = [
     title: '비핸스에 포폴 올렸는데 보고 피드백 줄 사람?!',
     body: '드디어 포폴 1차 완성해서 비핸스에 올렸어요! 근데 계속 혼자 보다 보니까 뭐가 문제인지도 모르겠고 감이 없어지더라고요.. 편하게 훑어보고 솔직한 의견 주실 분 계시면 댓글 남겨주세요. 저도 다른 분들 포폴 봐드릴게요!',
     images: [
-      'https://www.figma.com/api/mcp/asset/351bbd39-3bb3-44f5-b47c-4e99a9d7fd96.png',
-      'https://www.figma.com/api/mcp/asset/3999f190-a737-47ed-9b38-92d0c376561c.png',
-      'https://www.figma.com/api/mcp/asset/dc687cae-ed7c-41e1-882c-5a570399efd6.png',
-      'https://www.figma.com/api/mcp/asset/4f65498c-145b-472c-84de-7a8289dbdc6b.png',
-      'https://www.figma.com/api/mcp/asset/89422302-a889-4f8f-9d44-425ee5f51551.png',
+      figma_351bbd39_3bb3_44f5_b47c_4e99a9d7fd96_png,
+      figma_3999f190_a737_47ed_9b38_92d0c376561c_png,
+      figma_dc687cae_ed7c_41e1_882c_5a570399efd6_png,
+      figma_4f65498c_145b_472c_84de_7a8289dbdc6b_png,
+      figma_89422302_a889_4f8f_9d44_425ee5f51551_png,
     ],
     likes: 32,
     comments: 8,

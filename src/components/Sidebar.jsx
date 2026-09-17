@@ -10,9 +10,10 @@ import imgPersonPlus from '../assets/icons/person-plus-inactive.svg';
 import imgPersonPlusActive from '../assets/icons/person-plus-active.svg';
 import imgBoard from '../assets/icons/board-inactive.svg';
 import imgBoardActive from '../assets/icons/board-active.svg';
-// TODO: 채팅바 토글용 아이콘 2개는 홈 화면에 없어서 아직 로컬로 못 옮김 - 만료된 Figma URL로 남아있음
-const imgChevronDoubleRight = 'https://www.figma.com/api/mcp/asset/10bfebe3-d119-45c2-a259-535f73774024.svg';
-const imgLineHorizontal = 'https://www.figma.com/api/mcp/asset/5e2a8321-3b01-4485-9e12-0c84b24bb548.svg';
+import figma_10bfebe3_d119_45c2_a259_535f73774024_svg from '../assets/figma/10bfebe3-d119-45c2-a259-535f73774024.svg';
+import figma_5e2a8321_3b01_4485_9e12_0c84b24bb548_svg from '../assets/figma/5e2a8321-3b01-4485-9e12-0c84b24bb548.svg';
+const imgChevronDoubleRight = figma_10bfebe3_d119_45c2_a259_535f73774024_svg;
+const imgLineHorizontal = figma_5e2a8321_3b01_4485_9e12_0c84b24bb548_svg;
 
 const NAV_ITEMS = [
   { key: 'home', label: '홈', icon: imgHome, iconActive: imgHomeActive },

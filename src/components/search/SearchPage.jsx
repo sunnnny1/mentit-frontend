@@ -1,8 +1,22 @@
 import { useRef, useState } from 'react';
 import { MentorCard } from '../MentorRecommendations';
+import figma_584cd8e0_692e_40dd_b281_c786a976a2df_svg from '../../assets/figma/584cd8e0-692e-40dd-b281-c786a976a2df.svg';
+import figma_6200caeb_f035_496f_8a18_17217b41b83a_svg from '../../assets/figma/6200caeb-f035-496f-8a18-17217b41b83a.svg';
+import figma_c58f2eb9_fc3f_4dc2_9304_c812c269ce4a_png from '../../assets/figma/c58f2eb9-fc3f-4dc2-9304-c812c269ce4a.png';
+import figma_4fc2875a_b944_432f_a353_27f4477fb297_png from '../../assets/figma/4fc2875a-b944-432f-a353-27f4477fb297.png';
+import figma_62f18348_a922_4f06_9f91_0f572c9bb895_png from '../../assets/figma/62f18348-a922-4f06-9f91-0f572c9bb895.png';
+import figma_d1e33ab9_4908_499b_85a9_5f3fdb6101fa_png from '../../assets/figma/d1e33ab9-4908-499b-85a9-5f3fdb6101fa.png';
+import figma_7dcce8ce_03aa_4c20_becc_5efdd47b9e72_png from '../../assets/figma/7dcce8ce-03aa-4c20-becc-5efdd47b9e72.png';
+import figma_8f5af816_6ac2_429a_a38a_4940495a7fcf_png from '../../assets/figma/8f5af816-6ac2-429a-a38a-4940495a7fcf.png';
+import figma_28f97689_f273_48d2_b046_9792727055bf_png from '../../assets/figma/28f97689-f273-48d2-b046-9792727055bf.png';
+import figma_9087b259_e5a2_4b62_b6e6_e333ba2eb510_png from '../../assets/figma/9087b259-e5a2-4b62-b6e6-e333ba2eb510.png';
+import figma_a5f3d68d_868f_4a62_be6e_28148e379581_png from '../../assets/figma/a5f3d68d-868f-4a62-be6e-28148e379581.png';
+import figma_71d4380a_a1a2_451f_8ee3_2b42796b5869_png from '../../assets/figma/71d4380a-a1a2-451f-8ee3-2b42796b5869.png';
+import figma_d16cf0e4_c85b_4e5d_8149_8760204fc052_svg from '../../assets/figma/d16cf0e4-c85b-4e5d-8149-8760204fc052.svg';
+import figma_b20bcd72_0b9e_4707_8bd9_b80aa3f1fae3_svg from '../../assets/figma/b20bcd72-0b9e-4707-8bd9-b80aa3f1fae3.svg';
 
-const imgClose = 'https://www.figma.com/api/mcp/asset/584cd8e0-692e-40dd-b281-c786a976a2df.svg';
-const imgSearchIcon = 'https://www.figma.com/api/mcp/asset/6200caeb-f035-496f-8a18-17217b41b83a.svg';
+const imgClose = figma_584cd8e0_692e_40dd_b281_c786a976a2df_svg;
+const imgSearchIcon = figma_6200caeb_f035_496f_8a18_17217b41b83a_svg;
 
 const POPULAR_SEARCHES = [
   'Master Mentor',
@@ -14,12 +28,12 @@ const POPULAR_SEARCHES = [
 ];
 
 // "Master Mentor" 검색 결과에 노출되는 멘토 카드 데이터 (Figma: After Search_MasterMentor)
-const imgJohn = 'https://www.figma.com/api/mcp/asset/c58f2eb9-fc3f-4dc2-9304-c812c269ce4a.png';
-const imgSunny = 'https://www.figma.com/api/mcp/asset/4fc2875a-b944-432f-a353-27f4477fb297.png';
-const imgKevin = 'https://www.figma.com/api/mcp/asset/62f18348-a922-4f06-9f91-0f572c9bb895.png';
-const imgDave = 'https://www.figma.com/api/mcp/asset/d1e33ab9-4908-499b-85a9-5f3fdb6101fa.png';
-const imgEunoia = 'https://www.figma.com/api/mcp/asset/7dcce8ce-03aa-4c20-becc-5efdd47b9e72.png';
-const imgEthan = 'https://www.figma.com/api/mcp/asset/8f5af816-6ac2-429a-a38a-4940495a7fcf.png';
+const imgJohn = figma_c58f2eb9_fc3f_4dc2_9304_c812c269ce4a_png;
+const imgSunny = figma_4fc2875a_b944_432f_a353_27f4477fb297_png;
+const imgKevin = figma_62f18348_a922_4f06_9f91_0f572c9bb895_png;
+const imgDave = figma_d1e33ab9_4908_499b_85a9_5f3fdb6101fa_png;
+const imgEunoia = figma_7dcce8ce_03aa_4c20_becc_5efdd47b9e72_png;
+const imgEthan = figma_8f5af816_6ac2_429a_a38a_4940495a7fcf_png;
 
 const SEARCH_RESULT_MENTORS = [
   {
@@ -85,12 +99,12 @@ const SEARCH_RESULT_MENTORS = [
 ];
 
 // "Master Mentor" 검색 결과의 콘텐츠 카드 데이터
-const imgContentThumb1 = 'https://www.figma.com/api/mcp/asset/28f97689-f273-48d2-b046-9792727055bf.png';
-const imgContentThumb2 = 'https://www.figma.com/api/mcp/asset/9087b259-e5a2-4b62-b6e6-e333ba2eb510.png';
-const imgContentThumb3 = 'https://www.figma.com/api/mcp/asset/a5f3d68d-868f-4a62-be6e-28148e379581.png';
-const imgContentThumb4 = 'https://www.figma.com/api/mcp/asset/71d4380a-a1a2-451f-8ee3-2b42796b5869.png';
-const imgBookmark = 'https://www.figma.com/api/mcp/asset/d16cf0e4-c85b-4e5d-8149-8760204fc052.svg';
-const imgBookmarkFill = 'https://www.figma.com/api/mcp/asset/b20bcd72-0b9e-4707-8bd9-b80aa3f1fae3.svg';
+const imgContentThumb1 = figma_28f97689_f273_48d2_b046_9792727055bf_png;
+const imgContentThumb2 = figma_9087b259_e5a2_4b62_b6e6_e333ba2eb510_png;
+const imgContentThumb3 = figma_a5f3d68d_868f_4a62_be6e_28148e379581_png;
+const imgContentThumb4 = figma_71d4380a_a1a2_451f_8ee3_2b42796b5869_png;
+const imgBookmark = figma_d16cf0e4_c85b_4e5d_8149_8760204fc052_svg;
+const imgBookmarkFill = figma_b20bcd72_0b9e_4707_8bd9_b80aa3f1fae3_svg;
 
 const SEARCH_RESULT_CONTENTS = [
   { title: '면접 볼 때 이것만은 하지마세요!', mentor: 'Sunny 멘토', role: 'UX 디자이너', thumbnail: imgContentThumb1 },

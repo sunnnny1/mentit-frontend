@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import MentitAiSubMenu from './MentitAiSubMenu';
 import LoadingSymbol from '../chat/LoadingSymbol';
 import { MentorCard, MENTORS } from '../MentorRecommendations';
+import figma_7a7706e1_cc35_4e14_9913_48dfd5adcc5c_svg from '../../assets/figma/7a7706e1-cc35-4e14-9913-48dfd5adcc5c.svg';
+import figma_c11cc4d3_aa70_48e8_a183_5d36c9318492_png from '../../assets/figma/c11cc4d3-aa70-48e8-a183-5d36c9318492.png';
 
-const imgSend = 'https://www.figma.com/api/mcp/asset/7a7706e1-cc35-4e14-9913-48dfd5adcc5c.svg';
-const imgSunny = 'https://www.figma.com/api/mcp/asset/c11cc4d3-aa70-48e8-a183-5d36c9318492.png';
+const imgSend = figma_7a7706e1_cc35_4e14_9913_48dfd5adcc5c_svg;
+const imgSunny = figma_c11cc4d3_aa70_48e8_a183_5d36c9318492_png;
 
 const SUNNY_MENTOR = {
   name: 'Sunny',

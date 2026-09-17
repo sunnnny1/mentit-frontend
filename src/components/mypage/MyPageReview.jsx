@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
+import figma_8e752842_45bb_44bc_8911_186c0175df9e_png from '../../assets/figma/8e752842-45bb-44bc-8911-186c0175df9e.png';
+import figma_af24e4ff_b2a2_4621_b815_f8bfb6ad056a_png from '../../assets/figma/af24e4ff-b2a2-4621-b815-f8bfb6ad056a.png';
+import figma_7223e6f8_a2dd_4968_9808_31d569f49693_png from '../../assets/figma/7223e6f8-a2dd-4968-9808-31d569f49693.png';
 
 const REVIEWS = [
   {
     id: 'yoonie-1',
     mentorName: 'Yoonie',
     mentorTier: 'Active',
-    avatar: 'https://www.figma.com/api/mcp/asset/8e752842-45bb-44bc-8911-186c0175df9e.png',
+    avatar: figma_8e752842_45bb_44bc_8911_186c0175df9e_png,
     channel: '채팅',
     tags: ['실무 인사이트 공유', '구체적인 조언', '쉬운 이해'],
     text: "처음에는 AI가 해주는 피드백이라 얼마나 도움이 될까 싶었는데, 생각보다 훨씬 구체적이라 놀랐어요. 실제 멘토님의 경험과 데이터를 기반으로 해서 그런지 방향성을 잡는 데 도움이 많이 됐습니다. 단순히 좋다/아쉽다 수준이 아니라 어떤 부분을 왜 수정해야 하는지 자세하게 설명해 주셔서 좋았어요. 덕분에 포트폴리오를 보완하는 과정에서 많은 도움을 받았습니다. 취업 준비하면서 혼자 고민이 많았는데, 누군가와 이야기하면서 방향을 점검해 볼 수 있다는 점이 가장 좋았던 것 같아요. 포트폴리오나 취업 준비 때문에 고민 중이라면 한 번 받아보시는 것도 추천드립니다.",
@@ -15,7 +18,7 @@ const REVIEWS = [
     id: 'eunoia-1',
     mentorName: 'Eunoia',
     mentorTier: 'Master',
-    avatar: 'https://www.figma.com/api/mcp/asset/af24e4ff-b2a2-4621-b815-f8bfb6ad056a.png',
+    avatar: figma_af24e4ff_b2a2_4621_b815_f8bfb6ad056a_png,
     channel: '채팅',
     tags: ['빠른 응답', '친근한 소통'],
     text: "취업 준비를 하면서 혼자 고민하는 시간이 많았는데, 채팅을 통해 궁금한 점을 바로 질문하고 피드백을 받을 수 있어서 정말 유용했습니다. 특히 현직자 관점에서 조언을 받을 수 있다는 점이 가장 좋았고, 덕분에 포트폴리오를 수정하거나 방향을 잡을 때 많은 도움을 받았어요. 취업 준비 과정에서 누군가와 꾸준히 소통할 수 있다는 것만으로도 큰 힘이 됐습니다.",
@@ -25,7 +28,7 @@ const REVIEWS = [
     id: 'sunny-1',
     mentorName: 'Sunny',
     mentorTier: 'Master',
-    avatar: 'https://www.figma.com/api/mcp/asset/7223e6f8-a2dd-4968-9808-31d569f49693.png',
+    avatar: figma_7223e6f8_a2dd_4968_9808_31d569f49693_png,
     channel: '면접',
     tags: ['개선 방향 조언', '명확한 설명'],
     text: "취업 준비를 하면서 혼자 고민하는 시간이 많았는데, 채팅을 통해 궁금한 점을 바로 질문하고 피드백을 받을 수 있어서 정말 유용했습니다. 특히 현직자 관점에서 조언을 받을 수 있다는 점이 가장 좋았고, 덕분에 포트폴리오를 수정하거나 방향을 잡을 때 많은 도움을 받았어요. 취업 준비 과정에서 누군가와 꾸준히 소통할 수 있다는 것만으로도 큰 힘이 됐습니다.",

@@ -1,11 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
+import figma_b129180e_e058_43e6_80e8_4aa7162f3570_svg from '../../assets/figma/b129180e-e058-43e6-80e8-4aa7162f3570.svg';
+import figma_3c64cca8_5611_4b4a_9ed8_f4a43d92ddf3_svg from '../../assets/figma/3c64cca8-5611-4b4a-9ed8-f4a43d92ddf3.svg';
+import figma_7c54bad3_27c9_4285_8311_918364e2a324_svg from '../../assets/figma/7c54bad3-27c9-4285-8311-918364e2a324.svg';
+import figma_942a09e5_0de3_4322_a67a_39e140acb294_svg from '../../assets/figma/942a09e5-0de3-4322-a67a-39e140acb294.svg';
+import figma_ad3a5fbe_9bf3_42d0_9dd6_8225f7e61db2_svg from '../../assets/figma/ad3a5fbe-9bf3-42d0-9dd6-8225f7e61db2.svg';
+import figma_0b3389d3_30a4_4251_ac1f_7ed826233b31_svg from '../../assets/figma/0b3389d3-30a4-4251-ac1f-7ed826233b31.svg';
 
-const imgChevronDown = 'https://www.figma.com/api/mcp/asset/b129180e-e058-43e6-80e8-4aa7162f3570.svg';
-const imgListCategory = 'https://www.figma.com/api/mcp/asset/3c64cca8-5611-4b4a-9ed8-f4a43d92ddf3.svg';
-const imgImage = 'https://www.figma.com/api/mcp/asset/7c54bad3-27c9-4285-8311-918364e2a324.svg';
-const imgAttachment = 'https://www.figma.com/api/mcp/asset/942a09e5-0de3-4322-a67a-39e140acb294.svg';
-const imgBold = 'https://www.figma.com/api/mcp/asset/ad3a5fbe-9bf3-42d0-9dd6-8225f7e61db2.svg';
-const imgClose = 'https://www.figma.com/api/mcp/asset/0b3389d3-30a4-4251-ac1f-7ed826233b31.svg';
+const imgChevronDown = figma_b129180e_e058_43e6_80e8_4aa7162f3570_svg;
+const imgListCategory = figma_3c64cca8_5611_4b4a_9ed8_f4a43d92ddf3_svg;
+const imgImage = figma_7c54bad3_27c9_4285_8311_918364e2a324_svg;
+const imgAttachment = figma_942a09e5_0de3_4322_a67a_39e140acb294_svg;
+const imgBold = figma_ad3a5fbe_9bf3_42d0_9dd6_8225f7e61db2_svg;
+const imgClose = figma_0b3389d3_30a4_4251_ac1f_7ed826233b31_svg;
 
 const BOARD_OPTIONS = [
   { key: 'qna', label: 'Q&A' },

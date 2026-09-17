@@ -8,16 +8,25 @@ import imgUha from '../../assets/icons/ellipse-uha.png';
 import imgEric from '../../assets/icons/ellipse-eric.png';
 import imgTeddy from '../../assets/icons/teddy.webp';
 import imgSunny from '../../assets/icons/ellipse-sunny.png';
+import figma_58c822c4_0089_480d_acd2_73c7af5fc500_png from '../../assets/figma/58c822c4-0089-480d-acd2-73c7af5fc500.png';
+import figma_50dda127_74a2_4f2f_926a_9716da2a3f6d_png from '../../assets/figma/50dda127-74a2-4f2f-926a-9716da2a3f6d.png';
+import figma_f620f4c6_4526_4ddb_aa32_c770b2445ecc_svg from '../../assets/figma/f620f4c6-4526-4ddb-aa32-c770b2445ecc.svg';
+import figma_f18f03a8_dbf0_4add_aa12_723afdd968d9_svg from '../../assets/figma/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
+import figma_489aff29_3b43_4635_80cf_b1adf4150db5_svg from '../../assets/figma/489aff29-3b43-4635-80cf-b1adf4150db5.svg';
+import figma_b20bcd72_0b9e_4707_8bd9_b80aa3f1fae3_svg from '../../assets/figma/b20bcd72-0b9e-4707-8bd9-b80aa3f1fae3.svg';
+import figma_31df88cc_773e_48e7_b925_81defe4a651c_svg from '../../assets/figma/31df88cc-773e-48e7-b925-81defe4a651c.svg';
+import figma_d82be445_be8d_44cb_bce0_d3f6a3b977c2_svg from '../../assets/figma/d82be445-be8d-44cb-bce0-d3f6a3b977c2.svg';
+import figma_bb3b8c56_7ee3_4df3_ba7c_8fbd9131aa9f_svg from '../../assets/figma/bb3b8c56-7ee3-4df3-ba7c-8fbd9131aa9f.svg';
 
-const imgAuthor = 'https://www.figma.com/api/mcp/asset/58c822c4-0089-480d-acd2-73c7af5fc500.png';
-const imgPostImage = 'https://www.figma.com/api/mcp/asset/50dda127-74a2-4f2f-926a-9716da2a3f6d.png';
-const imgLikeOutline = 'https://www.figma.com/api/mcp/asset/f620f4c6-4526-4ddb-aa32-c770b2445ecc.svg';
-const imgLikeFill = 'https://www.figma.com/api/mcp/asset/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
-const imgBookmarkOutline = 'https://www.figma.com/api/mcp/asset/489aff29-3b43-4635-80cf-b1adf4150db5.svg';
-const imgBookmarkFill = 'https://www.figma.com/api/mcp/asset/b20bcd72-0b9e-4707-8bd9-b80aa3f1fae3.svg';
-const imgShare = 'https://www.figma.com/api/mcp/asset/31df88cc-773e-48e7-b925-81defe4a651c.svg';
-const imgSmallLike = 'https://www.figma.com/api/mcp/asset/d82be445-be8d-44cb-bce0-d3f6a3b977c2.svg';
-const imgMoreChevron = 'https://www.figma.com/api/mcp/asset/bb3b8c56-7ee3-4df3-ba7c-8fbd9131aa9f.svg';
+const imgAuthor = figma_58c822c4_0089_480d_acd2_73c7af5fc500_png;
+const imgPostImage = figma_50dda127_74a2_4f2f_926a_9716da2a3f6d_png;
+const imgLikeOutline = figma_f620f4c6_4526_4ddb_aa32_c770b2445ecc_svg;
+const imgLikeFill = figma_f18f03a8_dbf0_4add_aa12_723afdd968d9_svg;
+const imgBookmarkOutline = figma_489aff29_3b43_4635_80cf_b1adf4150db5_svg;
+const imgBookmarkFill = figma_b20bcd72_0b9e_4707_8bd9_b80aa3f1fae3_svg;
+const imgShare = figma_31df88cc_773e_48e7_b925_81defe4a651c_svg;
+const imgSmallLike = figma_d82be445_be8d_44cb_bce0_d3f6a3b977c2_svg;
+const imgMoreChevron = figma_bb3b8c56_7ee3_4df3_ba7c_8fbd9131aa9f_svg;
 
 const BADGE = {
   purple: { bg: 'bg-[#9054ff]', text: 'text-[#9054ff]', label: 'Active Mentor' },

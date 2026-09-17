@@ -1,4 +1,6 @@
-const imgChevronDown = 'https://www.figma.com/api/mcp/asset/161084ec-5185-4798-b600-973d45bcc181.svg';
+import figma_161084ec_5185_4798_b600_973d45bcc181_svg from '../../assets/figma/161084ec-5185-4798-b600-973d45bcc181.svg';
+
+const imgChevronDown = figma_161084ec_5185_4798_b600_973d45bcc181_svg;
 
 const FILE_SECTIONS = [
   {
