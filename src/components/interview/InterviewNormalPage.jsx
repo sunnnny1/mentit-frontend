@@ -6,10 +6,18 @@ import figma_ceef9e7c_3912_4cc0_ba9c_dbf2d463f3e3_png from '../../assets/figma/c
 const imgSunny = figma_c11cc4d3_aa70_48e8_a183_5d36c9318492_png;
 const imgCharacter = figma_ceef9e7c_3912_4cc0_ba9c_dbf2d463f3e3_png;
 
-export default function InterviewNormalPage({ isSubMenuOpen = false, onCloseSubMenu, onStartInterview }) {
+export default function InterviewNormalPage({
+  isSubMenuOpen = false,
+  onCloseSubMenu,
+  onStartInterview,
+  activeMentor = 'Sunny',
+  onSelectMentor,
+}) {
   return (
     <div className="flex items-stretch gap-5 flex-1 min-h-0 h-full w-full overflow-hidden">
-      {isSubMenuOpen && <InterviewSubMenu onClose={onCloseSubMenu} activeMentor="Sunny" />}
+      {isSubMenuOpen && (
+        <InterviewSubMenu onClose={onCloseSubMenu} activeMentor={activeMentor} onSelectMentor={onSelectMentor} />
+      )}
 
       <section className="flex-1 min-w-0 min-h-0 h-full flex flex-col rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-hidden">
         <div className="border-b border-[#e7eaee]">

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import figma_70a5b9f2_c5bb_45a9_9836_1ccc8ad917e2_svg from '../../assets/figma/70a5b9f2-c5bb-45a9-9836-1ccc8ad917e2.svg';
+import imgMic from '../../assets/icons/chat/mic.svg';
 
 const imgSend = figma_70a5b9f2_c5bb_45a9_9836_1ccc8ad917e2_svg;
 
@@ -162,12 +163,62 @@ export const TEDDY_MENTOR_CONVERSATION = [
   },
 ];
 
+export const SUNNY_MENTOR_CONVERSATION = [
+  {
+    role: 'user',
+    texts: ['안녕하세요 멘토님! 면접 피드백을 받아봤는데 궁금한 점이 있어서 연락드렸어요 :)'],
+  },
+  {
+    role: 'mentor',
+    texts: ['안녕하세요 윤영님! 네, 어떤 부분이 가장 궁금하셨나요?'],
+  },
+  {
+    role: 'user',
+    texts: [
+      '전체적으로는 프로젝트 경험이나 사용자 문제를 해결한 과정은 잘 설명했다고 나왔는데, ‘의사결정 근거가 부족하다’는 피드백이 있었어요. 제가 어떤 부분을 놓친 걸까요?',
+    ],
+  },
+  {
+    role: 'mentor',
+    texts: [
+      '프로젝트에서 어떤 문제를 발견했고 어떻게 해결했는지는 잘 전달하셨어요.\n다만 왜 그 해결 방법을 선택했는지에 대한 설명이 조금 부족했던 것 같아요',
+    ],
+  },
+  {
+    role: 'user',
+    texts: ['아, 제가 결과랑 과정 위주로 설명했던 것 같아요.\n그럼 실제 면접에서는 어떤 식으로 이야기하면 좋을까요?'],
+  },
+  {
+    role: 'mentor',
+    texts: [
+      '예를 들어 “사용자 테스트 결과 화면을 개선했습니다”라고만 하기보다, 어떤 대안을 고민했고, 무엇을 기준으로 최종 방향을 선택했는지까지 이야기해보세요.',
+    ],
+  },
+  {
+    role: 'user',
+    texts: ['그러면 “A안과 B안을 비교했고, 사용자 테스트 결과와 서비스 목표를 고려해 A안을 선택했다”처럼요?'],
+  },
+  {
+    role: 'mentor',
+    texts: [
+      '네, 바로 그런 방식이에요!\n프로덕트 디자이너 면접에서는 결과물보다 디자인 의사결정 과정과 그 근거를 보여주는 게 중요해요.',
+      '리서치 내용을 많이 보여주는 것보다 “리서치에서 무엇을 발견했고 → 그 인사이트가 어떤 디자인 결정으로 이어졌는지”를 명확하게 보여주는 게 좋아요.',
+    ],
+  },
+  {
+    role: 'user',
+    texts: ['감사합니다 멘토님! 피드백 보고 막막했는데 어떤 부분을 고쳐야 할지 이제 좀 알 것 같아요 :)'],
+  },
+];
+
 export default function ChatMentorThread({
   onBackToAgent,
   mentorDisplayName = 'Yoonie (최윤희)',
   availabilityIntro = '실제 현직자 Yoonie, 최윤희 멘토와 직접 대화할 수 있어요!',
   availabilityDetail = 'Yoonie 멘토는 평일 오후 8시 이후, 주말에 답변이 가능해요.',
   conversation = YOONIE_MENTOR_CONVERSATION,
+  agentTabLabel = 'AI Agent 채팅',
+  feedbackCard,
 }) {
   const [draft, setDraft] = useState('');
 
@@ -180,7 +231,7 @@ export default function ChatMentorThread({
             onClick={onBackToAgent}
             className="flex items-center justify-center px-7 py-1 rounded-lg text-[13px] leading-[1.4] font-medium tracking-[0.26px] cursor-pointer text-[#9ca2b1]"
           >
-            AI Agent 채팅
+            {agentTabLabel}
           </button>
           <button
             type="button"
@@ -206,7 +257,26 @@ export default function ChatMentorThread({
         {conversation.map((group, index) => {
           if (group.role === 'user') {
             return (
-              <div key={index} className="flex flex-col gap-2.5 items-end w-full">
+              <div key={index} className={`flex flex-col items-end w-full ${index === 0 && feedbackCard ? 'gap-2' : 'gap-2.5'}`}>
+                {index === 0 && feedbackCard ? (
+                  <button
+                    type="button"
+                    onClick={feedbackCard.onClick}
+                    className="relative flex gap-5 items-center overflow-hidden px-7 py-4 rounded-xl bg-[#f4f6f8] cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:rounded-xl"
+                  >
+                    <span className="relative flex flex-col gap-1 items-start text-left">
+                      <span className="font-medium text-[16px] leading-[1.45] text-[#121213] whitespace-nowrap">
+                        {feedbackCard.title}
+                      </span>
+                      <span className="text-[15px] leading-[1.45] text-[#9ca2b1] whitespace-nowrap">
+                        {feedbackCard.subtitle}
+                      </span>
+                    </span>
+                    <span className="relative flex size-6 items-center justify-center shrink-0">
+                      <img alt="" src={imgMic} className="w-[17px] h-[22px]" />
+                    </span>
+                  </button>
+                ) : null}
                 {group.texts.map((text) => (
                   <div key={text} className="bg-[#f9fafb] rounded-[12px] p-[12px] max-w-[513px]">
                     <p className="font-normal text-[15px] leading-[1.6] text-[#121213] whitespace-pre-wrap">{text}</p>

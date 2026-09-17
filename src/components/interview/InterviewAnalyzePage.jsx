@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import ChatProfileBar from '../chat/ChatProfileBar';
+import InterviewSubMenu from './InterviewSubMenu';
 import figma_c11cc4d3_aa70_48e8_a183_5d36c9318492_png from '../../assets/figma/c11cc4d3-aa70-48e8-a183-5d36c9318492.png';
 import figma_8efc9a98_3066_4866_9c40_c9ccd7f4d0c7_svg from '../../assets/figma/8efc9a98-3066-4866-9c40-c9ccd7f4d0c7.svg';
 import figma_c643f2a3_c889_49a3_a172_153902530740_svg from '../../assets/figma/c643f2a3-c889-49a3-a172-153902530740.svg';
@@ -20,7 +21,13 @@ const ANALYZE_STEPS = [
 
 const STEP_MS = 1400;
 
-export default function InterviewAnalyzePage({ onComplete }) {
+export default function InterviewAnalyzePage({
+  onComplete,
+  isSubMenuOpen = false,
+  onCloseSubMenu,
+  activeMentor = 'Sunny',
+  onSelectMentor,
+}) {
   const [completedCount, setCompletedCount] = useState(1);
 
   useEffect(() => {
@@ -33,6 +40,10 @@ export default function InterviewAnalyzePage({ onComplete }) {
   }, [completedCount, onComplete]);
 
   return (
+    <div className="flex items-stretch gap-5 flex-1 min-h-0 h-full w-full overflow-hidden">
+      {isSubMenuOpen && (
+        <InterviewSubMenu onClose={onCloseSubMenu} activeMentor={activeMentor} onSelectMentor={onSelectMentor} />
+      )}
     <section className="flex-1 min-w-0 min-h-0 h-full flex flex-col rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-hidden">
       <div className="border-b border-[#e7eaee]">
         <ChatProfileBar
@@ -79,5 +90,6 @@ export default function InterviewAnalyzePage({ onComplete }) {
         </div>
       </div>
     </section>
+    </div>
   );
 }

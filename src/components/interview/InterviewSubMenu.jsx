@@ -4,7 +4,10 @@ import figma_8c5d481c_7337_4561_910a_455ed7cfc8da_svg from '../../assets/figma/8
 const imgCollapse = figma_52e98eae_8932_4f12_888b_38f3e46a793e_svg;
 const imgPin = figma_8c5d481c_7337_4561_910a_455ed7cfc8da_svg;
 
-const MENTORS = ['Sunny', 'U.ha'];
+const MENTORS = [
+  { name: 'Sunny', disabled: false },
+  { name: 'U.ha', disabled: true },
+];
 
 export default function InterviewSubMenu({ onClose, activeMentor = 'Sunny', onSelectMentor }) {
   return (
@@ -29,18 +32,31 @@ export default function InterviewSubMenu({ onClose, activeMentor = 'Sunny', onSe
           <p className="font-medium text-sm tracking-[0.14px] text-[#747886]">최근 멘토와의 메세지</p>
           <div className="flex flex-col gap-1 items-start w-full">
             {MENTORS.map((mentor) => {
-              const isActive = activeMentor === mentor;
+              const isActive = !mentor.disabled && activeMentor === mentor.name;
+              if (mentor.disabled) {
+                return (
+                  <div
+                    key={mentor.name}
+                    className="flex items-center gap-2.5 p-3 rounded-xl w-full bg-white"
+                    aria-disabled="true"
+                  >
+                    <span className="flex-1 text-left font-medium text-[15px] leading-[1.45] text-[#121213] truncate">
+                      {mentor.name}
+                    </span>
+                  </div>
+                );
+              }
               return (
                 <button
-                  key={mentor}
+                  key={mentor.name}
                   type="button"
-                  onClick={() => onSelectMentor?.(mentor)}
+                  onClick={() => onSelectMentor?.(mentor.name)}
                   className={`flex items-center gap-2.5 p-3 rounded-xl w-full cursor-pointer ${
                     isActive ? 'bg-[#f9fafb]' : 'bg-white'
                   }`}
                 >
                   <span className="flex-1 text-left font-medium text-[15px] leading-[1.45] text-[#121213] truncate">
-                    {mentor}
+                    {mentor.name}
                   </span>
                 </button>
               );

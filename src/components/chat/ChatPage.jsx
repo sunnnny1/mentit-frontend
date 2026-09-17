@@ -5,6 +5,7 @@ import ChatAgentPanel from './ChatAgentPanel';
 import ChatThread from './ChatThread';
 import ChatMentorThread, {
   EUNOIA_MENTOR_CONVERSATION,
+  SUNNY_MENTOR_CONVERSATION,
   TEDDY_MENTOR_CONVERSATION,
   YOONIE_MENTOR_CONVERSATION,
 } from './ChatMentorThread';
@@ -22,6 +23,8 @@ import figma_2f350675_d7a6_4070_8e18_7ede58745826_png from '../../assets/figma/2
 import figma_a1ebb537_e789_47ea_9b0c_b7eb971effd0_png from '../../assets/figma/a1ebb537-e789-47ea-9b0c-b7eb971effd0.png';
 import figma_35c6cc1b_033b_4127_abc7_140365b532f4_png from '../../assets/figma/35c6cc1b-033b-4127-abc7-140365b532f4.png';
 import figma_52966149_85bf_4f88_9a88_fc1f7f9fabbb_png from '../../assets/figma/52966149-85bf-4f88-9a88-fc1f7f9fabbb.png';
+import imgSunnyAvatar from '../../assets/figma/c11cc4d3-aa70-48e8-a183-5d36c9318492.png';
+import imgSunnyCharacter from '../../assets/figma/ceef9e7c-3912-4cc0-ba9c-dbf2d463f3e3.png';
 
 const imgAvatarAgent = figma_6a21ef36_23ee_448e_a72f_026bd1b11241_png;
 const imgAvatarMentor = figma_1b69a9c3_f6dc_419e_8b7e_4073ed4858c7_png;
@@ -149,6 +152,33 @@ const MENTOR_CHAT_CONFIG = {
     availabilityIntro: '실제 현직자 Teddy, 박태훈 멘토와 직접 대화할 수 있어요!',
     availabilityDetail: 'Teddy 멘토는 평일 오후 5시 이후, 주말에 답변이 가능해요.',
   },
+  Sunny: {
+    displayName: 'Sunny',
+    role: 'UX 디자이너 ・ 카카오 ・ 5년차',
+    badgeLabel: 'Active Mentor',
+    badgeColor: '#9054ff',
+    profileAvatar: imgSunnyAvatar,
+    mentorAvatar: imgSunnyAvatar,
+    mentorDisplayName: 'Sunny (엄선희)',
+    agentGreetingIdle: ['안녕하세요! Sunny 멘토의 AI Agent에요.', '저를 찾아주셔서 감사해요!'],
+    characterIdleImg: imgSunnyCharacter,
+    characterActiveImg: imgSunnyCharacter,
+    gradientColor: 'blue',
+    threadIntro: 'Sunny AI 에이전트와 대화가 시작돼요',
+    initialGreeting:
+      '안녕하세요? 저는 카카오에서 UX 디자이너 5년차인 멘토 Sunny 입니다. 멘토의 경험을 바탕으로, 이윤영님에게 도움을 드릴게요. 궁금한 점을 말해주세요.',
+    qaMap: TEDDY_QA_MAP,
+    supportsMentorReview: true,
+    mentorConversation: SUNNY_MENTOR_CONVERSATION,
+    availabilityIntro: '실제 현직자 Sunny, 엄선희 멘토와 직접 대화할 수 있어요!',
+    availabilityDetail: 'Sunny 멘토는 평일 오후 7시 이후, 주말에 답변이 가능해요.',
+    agentTabLabel: 'AI Agent 면접 피드백',
+    openInterviewFeedback: true,
+    feedbackCard: {
+      title: '카카오 UX 디자이너 직무 실무 면접',
+      subtitle: '모의 면접 AI 피드백 보러가기',
+    },
+  },
 };
 
 export default function ChatPage({
@@ -159,16 +189,18 @@ export default function ChatPage({
   onOpenMentorSearch,
   skipStart = false,
   initialMentor = 'Yoonie',
+  initialChatMode = 'agent',
   unreadByMentor: unreadByMentorProp,
   onReadMentor,
+  onOpenInterviewFeedback,
 }) {
   const [started, setStarted] = useState(skipStart);
   const [showAgent, setShowAgent] = useState(true);
-  const [chatMode, setChatMode] = useState('agent'); // 'agent' | 'mentor' | 'review'
+  const [chatMode, setChatMode] = useState(initialChatMode); // 'agent' | 'mentor' | 'review'
   const [activeMentor, setActiveMentor] = useState(initialMentor);
   const [messages, setMessages] = useState([]);
   const [isAnswering, setIsAnswering] = useState(false);
-  const [unreadByMentorLocal, setUnreadByMentorLocal] = useState({ Yoonie: 0, Teddy: 0, Eunoia: 1 });
+  const [unreadByMentorLocal, setUnreadByMentorLocal] = useState({ Sunny: 0, Yoonie: 0, Teddy: 0, Eunoia: 1 });
   const unreadByMentor = unreadByMentorProp ?? unreadByMentorLocal;
 
   const mentorConfig = MENTOR_CHAT_CONFIG[activeMentor] ?? MENTOR_CHAT_CONFIG.Yoonie;
@@ -186,7 +218,7 @@ export default function ChatPage({
     onReadMentor?.(name);
     setUnreadByMentorLocal((prev) => (prev[name] ? { ...prev, [name]: 0 } : prev));
     setStarted(true);
-    setChatMode('agent');
+    setChatMode(name === 'Sunny' ? 'mentor' : 'agent');
     setMessages([]);
     setIsAnswering(false);
     setShowAgent(true);
@@ -241,11 +273,23 @@ export default function ChatPage({
               <ChatReview mentorDisplayName={mentorConfig.mentorDisplayName} />
             ) : chatMode === 'mentor' ? (
               <ChatMentorThread
-                onBackToAgent={() => setChatMode('agent')}
+                onBackToAgent={() => {
+                  if (mentorConfig.openInterviewFeedback) {
+                    onOpenInterviewFeedback?.();
+                    return;
+                  }
+                  setChatMode('agent');
+                }}
                 mentorDisplayName={mentorConfig.mentorDisplayName}
                 availabilityIntro={mentorConfig.availabilityIntro}
                 availabilityDetail={mentorConfig.availabilityDetail}
                 conversation={mentorConfig.mentorConversation}
+                agentTabLabel={mentorConfig.agentTabLabel}
+                feedbackCard={
+                  mentorConfig.feedbackCard
+                    ? { ...mentorConfig.feedbackCard, onClick: onOpenInterviewFeedback }
+                    : undefined
+                }
               />
             ) : (
               <>

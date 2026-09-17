@@ -28,6 +28,7 @@ import InterviewOnboardingPage from './components/interview/InterviewOnboardingP
 import InterviewAnalyzePage from './components/interview/InterviewAnalyzePage';
 import InterviewNormalPage from './components/interview/InterviewNormalPage';
 import InterviewSessionPage from './components/interview/InterviewSessionPage';
+import InterviewFeedbackPage from './components/interview/InterviewFeedbackPage';
 
 function HomeMain({ onNavigateToCareerTalk, onOpenCareerTalkDetail, onOpenQnaDetail, onOpenFreeTalkDetail, onOpenAgentChat, onOpenMentorDetail, onOpenMentitAI }) {
   return (
@@ -59,8 +60,16 @@ function App() {
   const [aiRecentConversations, setAiRecentConversations] = useState([]);
   const [chatSkipStart, setChatSkipStart] = useState(false);
   const [chatMentor, setChatMentor] = useState('Yoonie');
-  const [chatUnread, setChatUnread] = useState({ Yoonie: 0, Teddy: 0, Eunoia: 1 });
+  const [chatInitialMode, setChatInitialMode] = useState('agent');
+  const [chatUnread, setChatUnread] = useState({ Sunny: 0, Yoonie: 0, Teddy: 0, Eunoia: 1 });
   const [mentorDetailId, setMentorDetailId] = useState('yoonie');
+  const [interviewMentor, setInterviewMentor] = useState('Sunny');
+
+  const handleSelectInterviewMentor = (mentor) => {
+    if (mentor !== 'Sunny') return;
+    setInterviewMentor(mentor);
+    setPage('interview-feedback');
+  };
 
   const markChatRead = useCallback((name) => {
     setChatUnread((prev) => (prev[name] ? { ...prev, [name]: 0 } : prev));
@@ -72,16 +81,21 @@ function App() {
     if (next === 'chat') {
       setChatSkipStart(false);
       setChatMentor('Yoonie');
+      setChatInitialMode('agent');
+      setIsSubMenuOpen(false);
     }
-    if (
+    if (next.startsWith('interview')) {
+      setIsSubMenuOpen(false);
+    } else if (
       next !== 'chat' &&
       next !== 'board' &&
       next !== 'ai' &&
       next !== 'ai-mentor-search' &&
       next !== 'ai-plan' &&
       next !== 'ai-job'
-    )
+    ) {
       setIsSubMenuOpen(true);
+    }
   };
 
   const handleNavigateToCareerTalk = () => {
@@ -94,13 +108,14 @@ function App() {
     setPage('careertalk-detail');
   };
 
-  const handleOpenMentorChat = (mentor = 'Yoonie') => {
+  const handleOpenMentorChat = (mentor = 'Yoonie', options = {}) => {
     const name = (typeof mentor === 'string' ? mentor : mentor?.name ?? 'Yoonie').replace(/\s*멘토$/, '');
     setChatMentor(name);
     markChatRead(name);
     setPage('chat');
     setIsSubMenuOpen(false);
     setChatSkipStart(true);
+    setChatInitialMode(options.mode ?? (name === 'Sunny' ? 'mentor' : 'agent'));
   };
 
   const handleOpenMentorDetail = (mentorName = 'Yoonie') => {
@@ -207,6 +222,7 @@ function App() {
 
   const handleOpenInterviewOnboarding = () => {
     setPreviousPage((prev) => (page === 'interview-onboarding' ? prev : page));
+    setIsSubMenuOpen(false);
     setPage('interview-onboarding');
   };
 
@@ -251,6 +267,7 @@ function App() {
           page !== 'interview-analyze' &&
           page !== 'interview-normal' &&
           page !== 'interview-session' &&
+          page !== 'interview-feedback' &&
           !isBoardDetail
         }
         onBack={
@@ -290,7 +307,8 @@ function App() {
                       : page === 'interview-onboarding' ||
                           page === 'interview-analyze' ||
                           page === 'interview-normal' ||
-                          page === 'interview-session'
+                          page === 'interview-session' ||
+                          page === 'interview-feedback'
                         ? 'interview'
                         : page
               }
@@ -302,8 +320,12 @@ function App() {
                   page === 'ai-mentor-search' ||
                   page === 'ai-plan' ||
                   page === 'ai-job' ||
+                  page === 'interview' ||
+                  page === 'interview-onboarding' ||
+                  page === 'interview-analyze' ||
                   page === 'interview-normal' ||
-                  page === 'interview-session') &&
+                  page === 'interview-session' ||
+                  page === 'interview-feedback') &&
                 !isSubMenuOpen
               }
               onOpenChatBar={() => setIsSubMenuOpen(true)}
@@ -319,8 +341,13 @@ function App() {
                 onOpenMentorSearch={() => handleOpenMentorSearch()}
                 skipStart={chatSkipStart}
                 initialMentor={chatMentor}
+                initialChatMode={chatInitialMode}
                 unreadByMentor={chatUnread}
                 onReadMentor={markChatRead}
+                onOpenInterviewFeedback={() => {
+                  setIsSubMenuOpen(false);
+                  setPage('interview-feedback');
+                }}
               />
             ) : page === 'ai' ? (
               <MentitAiPage
@@ -358,6 +385,10 @@ function App() {
               />
             ) : page === 'interview' ? (
               <InterviewPage
+                isSubMenuOpen={isSubMenuOpen}
+                onCloseSubMenu={() => setIsSubMenuOpen(false)}
+                activeMentor={interviewMentor}
+                onSelectMentor={handleSelectInterviewMentor}
                 onOpenMentorExplore={() => handleNavigate('mentor')}
                 onOpenMentorSearch={() =>
                   handleOpenMentorSearch('모의면접에 맞는 멘토 추천해줘', { fromInterview: true })
@@ -365,34 +396,54 @@ function App() {
               />
             ) : page === 'interview-onboarding' ? (
               <InterviewOnboardingPage
+                isSubMenuOpen={isSubMenuOpen}
+                onCloseSubMenu={() => setIsSubMenuOpen(false)}
+                activeMentor={interviewMentor}
+                onSelectMentor={handleSelectInterviewMentor}
                 onBack={handleBackFromInterviewOnboarding}
                 onNext={() => setPage('interview-analyze')}
                 onOpenMentorDetail={handleOpenMentorDetail}
               />
             ) : page === 'interview-analyze' ? (
               <InterviewAnalyzePage
-                onComplete={() => {
-                  setIsSubMenuOpen(false);
-                  setPage('interview-normal');
-                }}
+                isSubMenuOpen={isSubMenuOpen}
+                onCloseSubMenu={() => setIsSubMenuOpen(false)}
+                activeMentor={interviewMentor}
+                onSelectMentor={handleSelectInterviewMentor}
+                onComplete={() => setPage('interview-normal')}
               />
             ) : page === 'interview-normal' ? (
               <InterviewNormalPage
                 isSubMenuOpen={isSubMenuOpen}
                 onCloseSubMenu={() => setIsSubMenuOpen(false)}
-                onStartInterview={() => {
-                  setIsSubMenuOpen(false);
-                  setPage('interview-session');
-                }}
+                activeMentor={interviewMentor}
+                onSelectMentor={handleSelectInterviewMentor}
+                onStartInterview={() => setPage('interview-session')}
               />
             ) : page === 'interview-session' ? (
               <InterviewSessionPage
                 isSubMenuOpen={isSubMenuOpen}
                 onCloseSubMenu={() => setIsSubMenuOpen(false)}
+                activeMentor={interviewMentor}
+                onSelectMentor={handleSelectInterviewMentor}
                 onStopInterview={() => {
                   setIsSubMenuOpen(false);
                   setPage('interview');
                 }}
+                onCompleteInterview={() => {
+                  setInterviewMentor('Sunny');
+                  setIsSubMenuOpen(false);
+                  setPage('interview-feedback');
+                }}
+              />
+            ) : page === 'interview-feedback' ? (
+              <InterviewFeedbackPage
+                isSubMenuOpen={isSubMenuOpen}
+                onCloseSubMenu={() => setIsSubMenuOpen(false)}
+                activeMentor={interviewMentor}
+                onSelectMentor={handleSelectInterviewMentor}
+                onRetryInterview={() => setPage('interview-session')}
+                onOpenMentorChat={handleOpenMentorChat}
               />
             ) : page === 'mentor' ? (
               <MentorExplorePage

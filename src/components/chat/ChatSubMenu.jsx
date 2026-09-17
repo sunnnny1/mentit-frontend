@@ -5,7 +5,7 @@ import figma_59578afb_163a_4f72_b0d6_fb2747b379c9_svg from '../../assets/figma/5
 const imgCollapse = figma_7593cb7f_18f9_440f_a8bf_fc9df3b74e55_svg;
 const imgPin = figma_59578afb_163a_4f72_b0d6_fb2747b379c9_svg;
 
-const MENTORS = ['Yoonie', 'Teddy', 'Eunoia'];
+const MENTORS = ['Sunny', 'Yoonie', 'Eunoia', 'Teddy'];
 
 export default function ChatSubMenu({ onClose, activeMentor, onSelectMentor, unreadByMentor = {} }) {
   const [tab, setTab] = useState('chat');

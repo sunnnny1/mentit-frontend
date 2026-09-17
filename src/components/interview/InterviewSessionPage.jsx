@@ -14,9 +14,9 @@ import imgCharacterQ2 from '../../assets/icons/interview/sunny-q2.png';
 const QUESTIONS = [
   { text: '간단한 자기소개를 부탁드립니다', character: imgCharacterQ1, crop: 'q1' },
   { text: '왜 저희 회사에 지원하셨나요?', character: imgCharacterQ2, crop: 'q2' },
-  { text: '가장 인상적인 프로젝트 경험을 소개해주세요', character: imgCharacterQ1, crop: 'q1' },
   { text: '협업 과정에서 갈등을 어떻게 해결했나요?', character: imgCharacterQ1, crop: 'q1' },
-  { text: '입사 후 1년 안에 이루고 싶은 목표는 무엇인가요?', character: imgCharacterQ1, crop: 'q1' },
+  { text: '실패했던 경험과 그 과정에서 배운 점을 말씀해주세요', character: imgCharacterQ1, crop: 'q1' },
+  { text: '본인의 강점을 구체적인 사례와 함께 말씀해주세요', character: imgCharacterQ1, crop: 'q1' },
 ];
 
 const WAVE_BARS = [
@@ -77,6 +77,9 @@ export default function InterviewSessionPage({
   isSubMenuOpen = false,
   onCloseSubMenu,
   onStopInterview,
+  onCompleteInterview,
+  activeMentor = 'Sunny',
+  onSelectMentor,
 }) {
   const videoRef = useRef(null);
   const streamRef = useRef(null);
@@ -222,7 +225,11 @@ export default function InterviewSessionPage({
   };
 
   const handleNext = () => {
-    if (questionIndex >= QUESTIONS.length - 1) return;
+    if (questionIndex >= QUESTIONS.length - 1) {
+      streamRef.current?.getTracks().forEach((track) => track.stop());
+      onCompleteInterview?.();
+      return;
+    }
     resumeAudio();
     setQuestionIndex((index) => index + 1);
     setAwaitingAnswer(true);
@@ -239,7 +246,9 @@ export default function InterviewSessionPage({
 
   return (
     <div className="flex items-stretch gap-5 flex-1 min-h-0 h-full w-full overflow-hidden">
-      {isSubMenuOpen && <InterviewSubMenu onClose={onCloseSubMenu} activeMentor="Sunny" />}
+      {isSubMenuOpen && (
+        <InterviewSubMenu onClose={onCloseSubMenu} activeMentor={activeMentor} onSelectMentor={onSelectMentor} />
+      )}
 
       <section className="relative flex-1 min-w-0 min-h-0 h-full flex flex-col rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-hidden">
         <div className="border-b border-[#e7eaee]">
@@ -381,7 +390,7 @@ export default function InterviewSessionPage({
                 type="button"
                 onClick={handleNext}
                 className="relative size-[60px] shrink-0 cursor-pointer"
-                aria-label="다음 질문"
+                aria-label={questionIndex >= QUESTIONS.length - 1 ? '면접 종료' : '다음 질문'}
               >
                 <img alt="" src={imgNextBg} className="absolute inset-0 size-full" />
                 <img alt="" src={imgNextIcon} className="absolute left-[30%] right-[30%] top-[18px] h-6 w-[40%] object-contain" />
