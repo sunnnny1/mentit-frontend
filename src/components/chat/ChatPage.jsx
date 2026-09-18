@@ -10,6 +10,8 @@ import ChatMentorThread, {
   YOONIE_MENTOR_CONVERSATION,
 } from './ChatMentorThread';
 import ChatReview from './ChatReview';
+import ChatFeedbackUpload from './ChatFeedbackUpload';
+import ChatFeedbackResult from './ChatFeedbackResult';
 import ChatStartScreen from './ChatStartScreen';
 import figma_6a21ef36_23ee_448e_a72f_026bd1b11241_png from '../../assets/figma/6a21ef36-23ee-448e-a72f-026bd1b11241.png';
 import figma_1b69a9c3_f6dc_419e_8b7e_4073ed4858c7_png from '../../assets/figma/1b69a9c3-f6dc-419e-8b7e-4073ed4858c7.png';
@@ -24,6 +26,7 @@ import figma_a1ebb537_e789_47ea_9b0c_b7eb971effd0_png from '../../assets/figma/a
 import figma_35c6cc1b_033b_4127_abc7_140365b532f4_png from '../../assets/figma/35c6cc1b-033b-4127-abc7-140365b532f4.png';
 import figma_52966149_85bf_4f88_9a88_fc1f7f9fabbb_png from '../../assets/figma/52966149-85bf-4f88-9a88-fc1f7f9fabbb.png';
 import imgSunnyAvatar from '../../assets/figma/c11cc4d3-aa70-48e8-a183-5d36c9318492.png';
+import imgSunnyMentor from '../../assets/figma/sunny-mentor-profile.png';
 import imgSunnyCharacter from '../../assets/figma/ceef9e7c-3912-4cc0-ba9c-dbf2d463f3e3.png';
 
 const imgAvatarAgent = figma_6a21ef36_23ee_448e_a72f_026bd1b11241_png;
@@ -158,7 +161,7 @@ const MENTOR_CHAT_CONFIG = {
     badgeLabel: 'Active Mentor',
     badgeColor: '#9054ff',
     profileAvatar: imgSunnyAvatar,
-    mentorAvatar: imgSunnyAvatar,
+    mentorAvatar: imgSunnyMentor,
     mentorDisplayName: 'Sunny (엄선희)',
     agentGreetingIdle: ['안녕하세요! Sunny 멘토의 AI Agent에요.', '저를 찾아주셔서 감사해요!'],
     characterIdleImg: imgSunnyCharacter,
@@ -200,10 +203,16 @@ export default function ChatPage({
   const [activeMentor, setActiveMentor] = useState(initialMentor);
   const [messages, setMessages] = useState([]);
   const [isAnswering, setIsAnswering] = useState(false);
+  const [subMenuTab, setSubMenuTab] = useState('chat');
+  const [feedbackReady, setFeedbackReady] = useState(false);
+  const [feedbackView, setFeedbackView] = useState('upload');
+  const [feedbackKind, setFeedbackKind] = useState('portfolio');
   const [unreadByMentorLocal, setUnreadByMentorLocal] = useState({ Sunny: 0, Yoonie: 0, Teddy: 0, Eunoia: 1 });
   const unreadByMentor = unreadByMentorProp ?? unreadByMentorLocal;
+  const [feedbackUnreadByMentor, setFeedbackUnreadByMentor] = useState({ Yoonie: 0, Sunny: 2 });
 
   const mentorConfig = MENTOR_CHAT_CONFIG[activeMentor] ?? MENTOR_CHAT_CONFIG.Yoonie;
+  const isFeedbackTab = subMenuTab === 'feedback';
 
   useEffect(() => {
     onReadMentor?.(activeMentor);
@@ -215,13 +224,45 @@ export default function ChatPage({
 
   const handleSelectMentor = (name) => {
     setActiveMentor(name);
+    setStarted(true);
+    if (subMenuTab === 'feedback') {
+      setFeedbackUnreadByMentor((prev) => (prev[name] ? { ...prev, [name]: 0 } : prev));
+      return;
+    }
     onReadMentor?.(name);
     setUnreadByMentorLocal((prev) => (prev[name] ? { ...prev, [name]: 0 } : prev));
-    setStarted(true);
     setChatMode(name === 'Sunny' ? 'mentor' : 'agent');
     setMessages([]);
     setIsAnswering(false);
     setShowAgent(true);
+  };
+
+  const handleSelectSubMenuTab = (tab) => {
+    setSubMenuTab(tab);
+    if (tab !== 'feedback') return;
+    setStarted(true);
+    if (activeMentor !== 'Yoonie' && activeMentor !== 'Sunny') {
+      setActiveMentor('Yoonie');
+    }
+  };
+
+  const openFeedbackUpload = () => {
+    setStarted(true);
+    setSubMenuTab('feedback');
+    if (activeMentor !== 'Yoonie' && activeMentor !== 'Sunny') {
+      setActiveMentor('Yoonie');
+    }
+  };
+
+  const openAgentFeedback = (kind) => {
+    if (kind === 'resume' || kind === 'portfolio') setFeedbackKind(kind);
+    setSubMenuTab('feedback');
+    setFeedbackView('result');
+  };
+
+  const openMentorFromFeedback = () => {
+    setSubMenuTab('feedback');
+    setFeedbackView('mentor');
   };
 
   const handleSend = (userText) => {
@@ -247,14 +288,16 @@ export default function ChatPage({
           onClose={onCloseSubMenu}
           activeMentor={activeMentor}
           onSelectMentor={handleSelectMentor}
-          unreadByMentor={unreadByMentor}
+          unreadByMentor={isFeedbackTab ? feedbackUnreadByMentor : unreadByMentor}
+          tab={subMenuTab}
+          onSelectTab={handleSelectSubMenuTab}
         />
       )}
 
       {started ? (
         <section className="flex-1 min-w-0 min-h-0 flex flex-col rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-hidden">
           <ChatProfileBar
-            mode={chatMode}
+            mode={isFeedbackTab ? (feedbackView === 'mentor' ? 'mentor' : 'agent') : chatMode}
             displayName={mentorConfig.displayName}
             mentorDisplayName={mentorConfig.mentorDisplayName}
             role={mentorConfig.role}
@@ -262,14 +305,56 @@ export default function ChatPage({
             badgeColor={mentorConfig.badgeColor}
             profileAvatar={mentorConfig.profileAvatar}
             mentorAvatar={mentorConfig.mentorAvatar}
-            supportsMentorReview={mentorConfig.supportsMentorReview}
+            supportsMentorReview={!isFeedbackTab && mentorConfig.supportsMentorReview}
+            extraActionLabel={
+              isFeedbackTab && feedbackView === 'mentor'
+                ? '리뷰 쓰러가기'
+                : isFeedbackTab && feedbackView === 'result'
+                  ? '멘토에게 피드백받기'
+                  : isFeedbackTab && feedbackReady
+                    ? '에이전트에게 피드백받기'
+                    : undefined
+            }
+            extraActionVariant="primary"
+            onExtraAction={
+              feedbackView === 'mentor'
+                ? () => {
+                    setSubMenuTab('chat');
+                    setChatMode('review');
+                  }
+                : feedbackView === 'result'
+                  ? openMentorFromFeedback
+                  : openAgentFeedback
+            }
             onStartMentorChat={() => setChatMode('mentor')}
             onStartReview={() => setChatMode('review')}
             onSubmitReview={onNavigateHome}
           />
           <div className="h-px w-full shrink-0 bg-[#e7eaee]" />
           <div className="flex flex-1 min-h-0 overflow-hidden">
-            {chatMode === 'review' ? (
+            <div className={`flex flex-1 min-h-0 overflow-hidden ${isFeedbackTab && feedbackView === 'upload' ? '' : 'hidden'}`}>
+              <ChatFeedbackUpload
+                onReadyChange={setFeedbackReady}
+                onFileKindChange={setFeedbackKind}
+                onRequestAgentFeedback={openAgentFeedback}
+              />
+            </div>
+            {isFeedbackTab && (feedbackView === 'result' || feedbackView === 'mentor') ? (
+              <ChatFeedbackResult
+                key={`${feedbackView}-${feedbackKind}`}
+                mode={feedbackView === 'mentor' ? 'mentor' : 'agent'}
+                documentKind={feedbackKind}
+                displayName={mentorConfig.displayName}
+                mentorDisplayName={mentorConfig.mentorDisplayName}
+                availabilityIntro={mentorConfig.availabilityIntro}
+                availabilityDetail={mentorConfig.availabilityDetail}
+                mentorAvatar={mentorConfig.mentorAvatar}
+                onEditUpload={() => setFeedbackView('upload')}
+                onOpenMentor={openMentorFromFeedback}
+                onOpenAgent={openAgentFeedback}
+              />
+            ) : null}
+            {isFeedbackTab ? null : chatMode === 'review' ? (
               <ChatReview mentorDisplayName={mentorConfig.mentorDisplayName} />
             ) : chatMode === 'mentor' ? (
               <ChatMentorThread
@@ -315,6 +400,7 @@ export default function ChatPage({
                   threadIntro={mentorConfig.threadIntro}
                   initialGreeting={mentorConfig.initialGreeting}
                   suggestedChips={mentorConfig.suggestedChips}
+                  onCtaClick={openFeedbackUpload}
                 />
               </>
             )}

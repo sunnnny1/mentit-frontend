@@ -13,8 +13,10 @@ export default function ChatProfileBar({
   onSubmitReview,
   extraActionLabel,
   onExtraAction,
+  extraActionVariant = 'outlined',
 }) {
   const showActionButton = Boolean(extraActionLabel) || mode !== 'agent' || supportsMentorReview;
+  const isPrimaryExtraAction = extraActionVariant === 'primary';
 
   return (
     <div className="flex gap-2.5 items-center p-5 rounded-t-2xl bg-white shrink-0">
@@ -43,9 +45,19 @@ export default function ChatProfileBar({
         <button
           type="button"
           onClick={onExtraAction}
-          className="relative flex items-center justify-center px-7 py-3 rounded-xl border border-[#e7eaee] bg-white overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10"
+          className={
+            isPrimaryExtraAction
+              ? 'relative flex items-center justify-center px-7 py-3 rounded-xl border border-[#70d2ff] bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10'
+              : 'relative flex items-center justify-center px-7 py-3 rounded-xl border border-[#e7eaee] bg-white overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10'
+          }
         >
-          <p className="relative font-medium text-base text-[#121213] whitespace-nowrap">{extraActionLabel}</p>
+          <p
+            className={`relative text-base whitespace-nowrap ${
+              isPrimaryExtraAction ? 'font-bold text-white' : 'font-medium text-[#121213]'
+            }`}
+          >
+            {extraActionLabel}
+          </p>
         </button>
       ) : showActionButton ? (
         <button

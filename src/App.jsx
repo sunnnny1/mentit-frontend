@@ -82,7 +82,7 @@ function App() {
       setChatSkipStart(false);
       setChatMentor('Yoonie');
       setChatInitialMode('agent');
-      setIsSubMenuOpen(false);
+      setIsSubMenuOpen(true);
     }
     if (next.startsWith('interview')) {
       setIsSubMenuOpen(false);

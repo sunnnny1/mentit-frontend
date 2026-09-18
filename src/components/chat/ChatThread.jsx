@@ -20,6 +20,7 @@ export default function ChatThread({
   initialGreeting = '안녕하세요? 저는 당근에서 프로덕트 디자이너 5년차인 멘토 Yoonie 입니다. 멘토의 경험을 바탕으로, 이윤영님에게 도움을 드릴게요. 궁금한 점을 말해주세요.',
   suggestedChips = SUGGESTED_CHIPS,
   isAnswering = false,
+  onCtaClick,
 }) {
   const [draft, setDraft] = useState('');
 
@@ -124,7 +125,8 @@ export default function ChatThread({
                     {msg.ctaText && (
                       <button
                         type="button"
-                        className="bg-[rgba(26,117,255,0.05)] border-[0.5px] border-[#1a75ff] rounded-[8px] px-[16px] py-[8px] w-full flex items-center justify-center"
+                        onClick={onCtaClick}
+                        className="bg-[rgba(26,117,255,0.05)] border-[0.5px] border-[#1a75ff] rounded-[8px] px-[16px] py-[8px] w-full flex items-center justify-center cursor-pointer"
                       >
                         <span className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#1a75ff]">
                           {msg.ctaText}
@@ -143,7 +145,8 @@ export default function ChatThread({
                     {msg.ctaText && (
                       <button
                         type="button"
-                        className="bg-[rgba(26,117,255,0.05)] border-[0.5px] border-[#1a75ff] rounded-[8px] px-[16px] py-[8px] w-full flex items-center justify-center"
+                        onClick={onCtaClick}
+                        className="bg-[rgba(26,117,255,0.05)] border-[0.5px] border-[#1a75ff] rounded-[8px] px-[16px] py-[8px] w-full flex items-center justify-center cursor-pointer"
                       >
                         <span className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#1a75ff]">
                           {msg.ctaText}

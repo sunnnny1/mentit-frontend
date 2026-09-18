@@ -269,7 +269,7 @@ function RadarChart({ progress }) {
             const [x, y] = point(i, 1);
             return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="#c2c7d0" strokeWidth="1" />;
           })}
-          <polygon points={data} fill="rgba(86,159,255,0.35)" stroke="#1a75ff" strokeWidth="2" />
+          <polygon points={data} fill="rgba(112,210,255,0.4)" stroke="#1a75ff" strokeWidth="2" />
         </svg>
         <div className="absolute left-[calc(50%+8px)] top-[2px] h-[118px] flex flex-col justify-between text-[10px] leading-[1.2] text-[#9ca2b1]">
           <span>100</span>
