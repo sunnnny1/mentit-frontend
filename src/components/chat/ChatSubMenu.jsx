@@ -5,8 +5,12 @@ import figma_59578afb_163a_4f72_b0d6_fb2747b379c9_svg from '../../assets/figma/5
 const imgCollapse = figma_7593cb7f_18f9_440f_a8bf_fc9df3b74e55_svg;
 const imgPin = figma_59578afb_163a_4f72_b0d6_fb2747b379c9_svg;
 
-const MENTORS = ['Sunny', 'Yoonie', 'Eunoia', 'Teddy'];
-const FEEDBACK_MENTORS = ['Yoonie', 'Sunny'];
+const MENTORS = ['Yoonie', 'Eunoia', 'Teddy', 'Sunny'];
+const FEEDBACK_THREADS = [
+  { mentor: 'Yoonie', badge: '포트폴리오', kind: 'portfolio' },
+  { mentor: 'Yoonie', badge: '자소서', kind: 'resume' },
+  { mentor: 'Sunny', badge: '포트폴리오', kind: 'portfolio' },
+];
 
 export default function ChatSubMenu({
   onClose,
@@ -15,6 +19,7 @@ export default function ChatSubMenu({
   unreadByMentor = {},
   tab = 'chat',
   onSelectTab,
+  feedbackKind = 'portfolio',
 }) {
   const [localTab, setLocalTab] = useState('chat');
   const activeTab = onSelectTab ? tab : localTab;
@@ -65,29 +70,56 @@ export default function ChatSubMenu({
           <div className="flex flex-col gap-3 items-start w-full">
             <p className="font-medium text-sm tracking-[0.14px] text-[#747886]">최근 멘토와의 메세지</p>
             <div className="flex flex-col gap-1 items-start w-full">
-              {(activeTab === 'feedback' ? FEEDBACK_MENTORS : MENTORS).map((mentor) => {
-                const isActive = activeMentor === mentor;
-                const unread = unreadByMentor[mentor] ?? 0;
-                return (
-                  <button
-                    key={mentor}
-                    type="button"
-                    onClick={() => onSelectMentor?.(mentor)}
-                    className={`flex items-center gap-2.5 p-3 rounded-xl w-full cursor-pointer ${
-                      isActive ? 'bg-[#f9fafb]' : 'bg-white'
-                    }`}
-                  >
-                    <span className="flex-1 text-left font-medium text-[15px] leading-[1.45] text-[#121213] truncate">
-                      {mentor}
-                    </span>
-                    {unread > 0 && (
-                      <span className="flex items-center justify-center h-7 w-[30px] rounded-[14px] bg-[#f4f6f8] text-[13px] font-medium tracking-[0.26px] text-[#121213]">
-                        {unread}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
+              {activeTab === 'feedback'
+                ? FEEDBACK_THREADS.map((thread) => {
+                    const isActive = activeMentor === thread.mentor && feedbackKind === thread.kind;
+                    const unread = unreadByMentor[thread.mentor] ?? 0;
+                    return (
+                      <button
+                        key={`${thread.mentor}-${thread.kind}`}
+                        type="button"
+                        onClick={() => onSelectMentor?.(thread.mentor, { feedbackKind: thread.kind })}
+                        className={`flex items-center gap-2 p-3 rounded-xl w-full cursor-pointer ${
+                          isActive ? 'bg-[#f9fafb]' : 'bg-white'
+                        }`}
+                      >
+                        <span className="font-medium text-[15px] leading-[1.45] text-[#121213] shrink-0">
+                          {thread.mentor}
+                        </span>
+                        <span className="flex items-center justify-center px-2 py-1 rounded-lg bg-[#f4f6f8] text-[12px] font-medium tracking-[0.3px] text-[#747886] shrink-0">
+                          {thread.badge}
+                        </span>
+                        {unread > 0 && (
+                          <span className="ml-auto flex items-center justify-center h-7 w-[30px] rounded-[14px] bg-[#f4f6f8] text-[13px] font-medium tracking-[0.26px] text-[#121213]">
+                            {unread}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })
+                : MENTORS.map((mentor) => {
+                    const isActive = activeMentor === mentor;
+                    const unread = unreadByMentor[mentor] ?? 0;
+                    return (
+                      <button
+                        key={mentor}
+                        type="button"
+                        onClick={() => onSelectMentor?.(mentor)}
+                        className={`flex items-center gap-2.5 p-3 rounded-xl w-full cursor-pointer ${
+                          isActive ? 'bg-[#f9fafb]' : 'bg-white'
+                        }`}
+                      >
+                        <span className="flex-1 text-left font-medium text-[15px] leading-[1.45] text-[#121213] truncate">
+                          {mentor}
+                        </span>
+                        {unread > 0 && (
+                          <span className="flex items-center justify-center h-7 w-[30px] rounded-[14px] bg-[#f4f6f8] text-[13px] font-medium tracking-[0.26px] text-[#121213]">
+                            {unread}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
             </div>
           </div>
         </>

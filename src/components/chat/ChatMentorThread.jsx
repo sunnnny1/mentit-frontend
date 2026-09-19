@@ -224,7 +224,7 @@ export default function ChatMentorThread({
 
   return (
     <div className="relative z-[1] flex-1 min-w-0 min-h-0 h-full flex flex-col bg-white">
-      <div className="shrink-0 flex justify-start px-5 py-5">
+      <div className="shrink-0 flex justify-start px-16 py-5">
         <div className="flex items-center p-0.5 rounded-lg bg-[#f4f6f8]">
           <button
             type="button"
@@ -242,7 +242,7 @@ export default function ChatMentorThread({
         </div>
       </div>
 
-      <div className="relative shrink-0 px-6 py-7 bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_50%,#ffffff_100%)]">
+      <div className="relative shrink-0 px-16 py-7 bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_50%,#ffffff_100%)]">
         <div className="relative flex flex-col gap-1 items-center justify-center text-center w-full">
           <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213] w-full">
             {availabilityIntro}
@@ -253,7 +253,7 @@ export default function ChatMentorThread({
         </div>
       </div>
 
-      <div className="flex-1 min-h-0 overflow-y-auto px-6 pb-28 flex flex-col gap-10 max-w-[957px] mx-auto w-full">
+      <div className="flex-1 min-h-0 overflow-y-auto px-16 pb-28 flex flex-col gap-10 w-full">
         {conversation.map((group, index) => {
           if (group.role === 'user') {
             return (
@@ -312,8 +312,8 @@ export default function ChatMentorThread({
           setDraft('');
         }}
       >
-        <div className="px-5 pt-4">
-        <div className="relative flex items-center gap-2 px-5 py-3 rounded-xl border border-[#e7eaee] bg-[rgba(255,255,255,0.4)] backdrop-blur-[6px] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] max-w-[957px] mx-auto w-full">
+        <div className="px-16 pt-4">
+        <div className="relative flex items-center gap-2 px-5 py-3 rounded-xl border border-[#e7eaee] bg-[rgba(255,255,255,0.4)] backdrop-blur-[6px] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] w-full">
           <input
             value={draft}
             onChange={(e) => setDraft(e.target.value)}

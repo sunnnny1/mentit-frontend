@@ -351,7 +351,7 @@ export function Badge({ tone, children }) {
     improve: 'text-[#569fff] bg-[#569fff]/10',
   };
   return (
-    <span className={`shrink-0 px-2 py-1 rounded-lg font-medium text-[13px] leading-[1.4] tracking-[0.26px] ${styles[tone]}`}>
+    <span className={`inline-flex w-fit self-start items-center justify-center px-2 py-1 rounded-lg font-medium text-[13px] leading-[1.4] tracking-[0.26px] ${styles[tone]}`}>
       {children}
     </span>
   );

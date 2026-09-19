@@ -41,7 +41,7 @@ export default function InterviewNormalPage({
             <img
               alt="Sunny"
               src={imgCharacter}
-              className="absolute bottom-0 left-1/2 h-[92%] w-auto max-w-none -translate-x-1/2"
+              className="absolute inset-x-0 bottom-0 h-[92%] w-full object-contain object-bottom"
               style={{
                 WebkitMaskImage:
                   'linear-gradient(180deg, #000 0%, #000 58%, rgba(0,0,0,0.55) 78%, transparent 100%)',

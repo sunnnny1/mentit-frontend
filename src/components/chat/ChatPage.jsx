@@ -193,6 +193,9 @@ export default function ChatPage({
   skipStart = false,
   initialMentor = 'Yoonie',
   initialChatMode = 'agent',
+  initialTab = 'chat',
+  initialFeedbackKind = 'portfolio',
+  initialFeedbackView = 'upload',
   unreadByMentor: unreadByMentorProp,
   onReadMentor,
   onOpenInterviewFeedback,
@@ -203,10 +206,12 @@ export default function ChatPage({
   const [activeMentor, setActiveMentor] = useState(initialMentor);
   const [messages, setMessages] = useState([]);
   const [isAnswering, setIsAnswering] = useState(false);
-  const [subMenuTab, setSubMenuTab] = useState('chat');
-  const [feedbackReady, setFeedbackReady] = useState(false);
-  const [feedbackView, setFeedbackView] = useState('upload');
-  const [feedbackKind, setFeedbackKind] = useState('portfolio');
+  const [subMenuTab, setSubMenuTab] = useState(initialTab === 'feedback' ? 'feedback' : 'chat');
+  const [feedbackReady, setFeedbackReady] = useState(initialTab === 'feedback' && initialFeedbackView !== 'upload');
+  const [feedbackView, setFeedbackView] = useState(
+    initialFeedbackView === 'result' || initialFeedbackView === 'mentor' ? initialFeedbackView : 'upload',
+  );
+  const [feedbackKind, setFeedbackKind] = useState(initialFeedbackKind === 'resume' ? 'resume' : 'portfolio');
   const [unreadByMentorLocal, setUnreadByMentorLocal] = useState({ Sunny: 0, Yoonie: 0, Teddy: 0, Eunoia: 1 });
   const unreadByMentor = unreadByMentorProp ?? unreadByMentorLocal;
   const [feedbackUnreadByMentor, setFeedbackUnreadByMentor] = useState({ Yoonie: 0, Sunny: 2 });
@@ -222,10 +227,14 @@ export default function ChatPage({
     });
   }, [activeMentor, onReadMentor]);
 
-  const handleSelectMentor = (name) => {
+  const handleSelectMentor = (name, options = {}) => {
     setActiveMentor(name);
     setStarted(true);
     if (subMenuTab === 'feedback') {
+      const kind = options.feedbackKind === 'resume' ? 'resume' : 'portfolio';
+      setFeedbackKind(kind);
+      setFeedbackView('result');
+      setFeedbackReady(true);
       setFeedbackUnreadByMentor((prev) => (prev[name] ? { ...prev, [name]: 0 } : prev));
       return;
     }
@@ -291,6 +300,7 @@ export default function ChatPage({
           unreadByMentor={isFeedbackTab ? feedbackUnreadByMentor : unreadByMentor}
           tab={subMenuTab}
           onSelectTab={handleSelectSubMenuTab}
+          feedbackKind={feedbackKind}
         />
       )}
 

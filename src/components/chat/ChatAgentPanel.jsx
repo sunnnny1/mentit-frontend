@@ -53,7 +53,7 @@ export default function ChatAgentPanel({
         <img
           alt={displayName}
           src={hasStarted ? characterActiveImg : characterIdleImg}
-          className="absolute bottom-0 left-1/2 h-full w-auto max-w-none -translate-x-1/2"
+          className="absolute left-1/2 bottom-0 h-full w-auto max-w-none -translate-x-1/2"
         />
         <div className="absolute bottom-0 left-0 z-[2] w-full h-[150px] bg-gradient-to-b from-transparent to-white" />
       </div>

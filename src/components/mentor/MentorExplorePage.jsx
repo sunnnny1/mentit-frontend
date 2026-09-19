@@ -205,7 +205,7 @@ function ReviewCard({ review, rotate, onOpenMentorDetail }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={canOpenDetail ? () => onOpenMentorDetail?.(review.mentorName) : undefined}
-      className={`flex-1 min-w-0 flex flex-col gap-4 items-start px-5 py-4 rounded-xl border border-[#f4f6f8] bg-[#f7fbff] shadow-[0_0_4px_rgba(18,18,19,0.04)] transition-transform duration-300 ease-out${canOpenDetail ? ' cursor-pointer' : ''}`}
+      className={`flex-1 min-w-0 flex flex-col gap-4 items-start px-5 py-4 rounded-xl border border-[#f4f6f8] bg-[#f7fbff] shadow-[0_0_4px_rgba(18,18,19,0.04)] origin-center transition-transform duration-300 ease-out${canOpenDetail ? ' cursor-pointer' : ''}`}
       style={{ transform: `rotate(${isHovered ? -rotate : rotate}deg)` }}
     >
       <p className="text-[15px] leading-[1.6] text-[#121213] line-clamp-2">{review.quote}</p>
@@ -317,7 +317,7 @@ export default function MentorExplorePage({ onOpenAgentChat, onOpenMentorDetail,
 
           <section className="flex flex-col gap-8 items-start w-full">
             <h2 className="font-bold text-[22px] tracking-[-0.33px] text-[#121213]">후기로 알아보는 현직자 멘토</h2>
-            <div className="flex gap-4 items-start w-full">
+            <div className="flex gap-4 items-start w-full overflow-visible px-1 pt-3 pb-8">
               <ReviewCard review={REVIEWS[0]} rotate={-2.79} onOpenMentorDetail={onOpenMentorDetail} />
               <ReviewCard review={REVIEWS[1]} rotate={2.43} onOpenMentorDetail={onOpenMentorDetail} />
               <ReviewCard review={REVIEWS[2]} rotate={-3.79} onOpenMentorDetail={onOpenMentorDetail} />

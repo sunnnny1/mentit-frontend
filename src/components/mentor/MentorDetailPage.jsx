@@ -319,8 +319,18 @@ function InfoModal({ variant = 'active', onClose }) {
         </p>
         <div className="flex flex-col gap-1.5 pt-4 border-t border-[#e7eaee]">
           <p className="font-bold text-[14px] text-[#121213]">[획득 조건]</p>
-          <p className="text-[14px] leading-[1.5] text-[#747886]">누적 대화 30회 이상 · 평점 4.5 이상</p>
-          <p className="text-[14px] leading-[1.5] text-[#747886]">최근 30일 응답률 80% 이상</p>
+          {isMaster ? (
+            <>
+              <p className="text-[14px] leading-[1.5] text-[#747886]">Active Mentor 자격을 6개월 이상 유지</p>
+              <p className="text-[14px] leading-[1.5] text-[#747886]">누적 대화 80회 이상 · 평점 4.8 이상</p>
+              <p className="text-[14px] leading-[1.5] text-[#747886]">리뷰 50개 이상 · 최근 30일 응답률 90% 이상</p>
+            </>
+          ) : (
+            <>
+              <p className="text-[14px] leading-[1.5] text-[#747886]">누적 대화 30회 이상 · 평점 4.5 이상</p>
+              <p className="text-[14px] leading-[1.5] text-[#747886]">최근 30일 응답률 80% 이상</p>
+            </>
+          )}
         </div>
       </div>
     </div>

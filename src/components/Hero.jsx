@@ -55,23 +55,25 @@ export default function Hero({ onOpenMentitAI } = {}) {
           <ChevronLink text="멘팃 AI와 다시 계획하기" onClick={onOpenMentitAI} />
         </div>
 
-        <div className="relative h-[55px] w-full rounded-full shadow-[0_0_30px_rgba(0,0,0,0.04)] overflow-hidden">
-          <div className="absolute inset-0 bg-[rgba(222,250,255,0.4)] rounded-full" />
-          <div className="absolute inset-0 rounded-[inherit] shadow-[inset_-10px_-10px_10px_0_rgba(255,255,255,0.9),inset_10px_10px_10px_0_rgba(255,255,255,0.9)] pointer-events-none" />
-          <div className="absolute left-[49px] top-1/2 -translate-y-1/2 flex items-center gap-5">
-            <div className="flex flex-col items-center gap-0">
-              <img alt="" src={imgActivitiesIconRow} className="w-[232px] h-[22px]" />
-              <p className="text-[13px] font-medium tracking-[0.26px] text-[#747886] text-center whitespace-nowrap">기업 탐색</p>
-            </div>
-            <img alt="" src={imgSupportActivities} className="w-[220px] h-[22px]" />
-            <div className="flex flex-col items-center gap-0">
-              <img alt="" src={imgApplicationIcons} className="w-[232px] h-[22px]" />
-              <p className="text-[13px] font-medium tracking-[0.26px] text-[#747886] text-center whitespace-nowrap">서류 지원</p>
+        <div className="relative h-[72px] w-full">
+          <div className="absolute inset-x-0 top-1/2 h-12 -translate-y-1/2 overflow-hidden rounded-full shadow-[0_0_30px_rgba(0,0,0,0.04)]">
+            <div className="absolute inset-0 rounded-full bg-[rgba(222,250,255,0.4)]" />
+            <div className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_-10px_-10px_10px_0_rgba(255,255,255,0.9),inset_10px_10px_10px_0_rgba(255,255,255,0.9)]" />
+            <div className="absolute left-[49px] top-1/2 flex -translate-y-1/2 items-center gap-5">
+              <div className="relative flex h-12 w-[232px] items-center justify-center">
+                <img alt="" src={imgActivitiesIconRow} className="absolute inset-x-0 top-2 h-[22px] w-[232px]" />
+                <p className="relative text-center text-[13px] font-medium tracking-[0.26px] text-[#747886] whitespace-nowrap">기업 탐색</p>
+              </div>
+              <img alt="" src={imgSupportActivities} className="h-[22px] w-[220px]" />
+              <div className="relative flex h-12 w-[232px] items-center justify-center">
+                <img alt="" src={imgApplicationIcons} className="absolute inset-x-0 top-2 h-[22px] w-[232px]" />
+                <p className="relative text-center text-[13px] font-medium tracking-[0.26px] text-[#747886] whitespace-nowrap">서류 지원</p>
+              </div>
             </div>
           </div>
-          <div className="absolute left-[292px] top-1/2 -translate-y-1/2 flex flex-col gap-1 items-center justify-center px-5 py-3 rounded-[40px] w-[237px] bg-[rgba(255,255,255,0.7)] shadow-[inset_-2px_-2px_2px_0_rgba(255,255,255,0.3)]">
-            <p className="font-bold text-base text-[#121213] whitespace-nowrap">포트폴리오 보완</p>
-            <p className="text-[13px] font-medium tracking-[0.26px] text-[#747886] whitespace-nowrap">Yoonie 멘토에게 피드백 받는중</p>
+          <div className="absolute left-[292px] top-1/2 z-10 flex w-[237px] -translate-y-1/2 flex-col items-center justify-center gap-1 rounded-[40px] bg-[rgba(255,255,255,0.85)] px-5 py-3 shadow-[inset_-2px_-2px_2px_0_rgba(255,255,255,0.3),0_0_16px_rgba(18,18,19,0.04)]">
+            <p className="text-base font-bold leading-[1.45] text-[#121213] whitespace-nowrap">포트폴리오 보완</p>
+            <p className="text-[13px] font-medium leading-[1.4] tracking-[0.26px] text-[#747886] whitespace-nowrap">Yoonie 멘토에게 피드백 받는중</p>
           </div>
         </div>
       </div>

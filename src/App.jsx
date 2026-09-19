@@ -35,7 +35,7 @@ function HomeMain({ onNavigateToCareerTalk, onOpenCareerTalkDetail, onOpenQnaDet
     <main className="no-scrollbar flex-1 max-w-[1173px] mx-auto pt-16 pb-16 px-5 flex flex-col gap-16 self-stretch min-h-0 overflow-y-auto">
       <div className="flex gap-5 items-start">
         <Hero onOpenMentitAI={onOpenMentitAI} />
-        <PortfolioCard />
+        <PortfolioCard onOpenFeedback={() => onOpenAgentChat?.('Yoonie', { tab: 'feedback', feedbackKind: 'portfolio', feedbackView: 'result' })} />
       </div>
 
       <MentorRecommendations onOpenAgentChat={onOpenAgentChat} onOpenMentorDetail={onOpenMentorDetail} />
@@ -61,6 +61,9 @@ function App() {
   const [chatSkipStart, setChatSkipStart] = useState(false);
   const [chatMentor, setChatMentor] = useState('Yoonie');
   const [chatInitialMode, setChatInitialMode] = useState('agent');
+  const [chatInitialTab, setChatInitialTab] = useState('chat');
+  const [chatInitialFeedbackKind, setChatInitialFeedbackKind] = useState('portfolio');
+  const [chatInitialFeedbackView, setChatInitialFeedbackView] = useState('upload');
   const [chatUnread, setChatUnread] = useState({ Sunny: 0, Yoonie: 0, Teddy: 0, Eunoia: 1 });
   const [mentorDetailId, setMentorDetailId] = useState('yoonie');
   const [interviewMentor, setInterviewMentor] = useState('Sunny');
@@ -82,6 +85,9 @@ function App() {
       setChatSkipStart(false);
       setChatMentor('Yoonie');
       setChatInitialMode('agent');
+      setChatInitialTab('chat');
+      setChatInitialFeedbackKind('portfolio');
+      setChatInitialFeedbackView('upload');
       setIsSubMenuOpen(true);
     }
     if (next.startsWith('interview')) {
@@ -110,12 +116,16 @@ function App() {
 
   const handleOpenMentorChat = (mentor = 'Yoonie', options = {}) => {
     const name = (typeof mentor === 'string' ? mentor : mentor?.name ?? 'Yoonie').replace(/\s*멘토$/, '');
+    const tab = options.tab === 'feedback' ? 'feedback' : 'chat';
     setChatMentor(name);
     markChatRead(name);
     setPage('chat');
     setIsSubMenuOpen(false);
     setChatSkipStart(true);
     setChatInitialMode(options.mode ?? (name === 'Sunny' ? 'mentor' : 'agent'));
+    setChatInitialTab(tab);
+    setChatInitialFeedbackKind(options.feedbackKind === 'resume' ? 'resume' : 'portfolio');
+    setChatInitialFeedbackView(options.feedbackView === 'result' || options.feedbackView === 'mentor' ? options.feedbackView : 'upload');
   };
 
   const handleOpenMentorDetail = (mentorName = 'Yoonie') => {
@@ -342,6 +352,9 @@ function App() {
                 skipStart={chatSkipStart}
                 initialMentor={chatMentor}
                 initialChatMode={chatInitialMode}
+                initialTab={chatInitialTab}
+                initialFeedbackKind={chatInitialFeedbackKind}
+                initialFeedbackView={chatInitialFeedbackView}
                 unreadByMentor={chatUnread}
                 onReadMentor={markChatRead}
                 onOpenInterviewFeedback={() => {

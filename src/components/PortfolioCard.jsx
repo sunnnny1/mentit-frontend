@@ -1,6 +1,6 @@
 import imgPortfolioGraphic from '../assets/icons/portfolio-graphic.webp';
 
-export default function PortfolioCard() {
+export default function PortfolioCard({ onOpenFeedback }) {
   return (
     <div className="relative flex flex-col gap-3 h-[264px] items-center pt-7 pb-5 px-5 rounded-2xl w-[346px] shrink-0 overflow-hidden mt-[107px]">
       <div className="absolute inset-0 rounded-2xl bg-[#f7fbff]" />
@@ -22,6 +22,7 @@ export default function PortfolioCard() {
 
       <button
         type="button"
+        onClick={onOpenFeedback}
         className="relative flex items-center justify-center px-7 py-3 rounded-xl border border-[rgba(255,255,255,0.7)] w-full shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10"
       >
         <p className="relative font-bold text-base text-[#00388c] whitespace-nowrap">Yoonie 멘토 피드백 보러가기</p>

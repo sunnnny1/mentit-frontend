@@ -33,7 +33,7 @@ export default function ChatThread({
 
   return (
     <div className={`relative z-[1] flex-1 min-w-0 min-h-0 h-full flex flex-col bg-white ${showAgent ? 'rounded-br-2xl' : ''}`}>
-      <div className="relative shrink-0 px-6 py-7 bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_50%,#ffffff_100%)]">
+      <div className="relative shrink-0 px-16 py-7 bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_50%,#ffffff_100%)]">
         <div className="relative flex flex-col gap-1 items-center justify-center text-center w-full">
           <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213] w-full">
             {threadIntro}
@@ -58,8 +58,8 @@ export default function ChatThread({
       </div>
 
       <div
-        className={`flex-1 min-h-0 overflow-y-auto px-6 pb-24 flex flex-col gap-10 ${
-          showAgent ? '' : 'max-w-[957px] mx-auto w-full'
+        className={`flex-1 min-h-0 overflow-y-auto px-16 pb-24 flex flex-col gap-10 ${
+          showAgent ? '' : 'w-full'
         }`}
       >
         <div className={`flex flex-col gap-3 items-start w-full ${showAgent ? 'max-w-[399px]' : 'max-w-[513px]'}`}>
@@ -164,7 +164,7 @@ export default function ChatThread({
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 flex flex-col">
-      <div className="flex flex-col px-5 pt-5">
+      <div className="flex flex-col px-16 pt-5">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -173,7 +173,7 @@ export default function ChatThread({
         >
           <div
             className={`relative flex items-center gap-2 px-5 py-3 rounded-xl border border-[#e7eaee] bg-[rgba(255,255,255,0.4)] backdrop-blur-[6px] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] ${
-              showAgent ? '' : 'max-w-[957px] mx-auto w-full'
+              showAgent ? '' : 'w-full'
             }`}
           >
             <input
