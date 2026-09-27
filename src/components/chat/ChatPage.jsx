@@ -158,15 +158,15 @@ const MENTOR_CHAT_CONFIG = {
   Sunny: {
     displayName: 'Sunny',
     role: 'UX 디자이너 ・ 카카오 ・ 5년차',
-    badgeLabel: 'Active Mentor',
-    badgeColor: '#9054ff',
+    badgeLabel: 'Master Mentor',
+    badgeColor: '#e52222',
     profileAvatar: imgSunnyAvatar,
     mentorAvatar: imgSunnyMentor,
     mentorDisplayName: 'Sunny (엄선희)',
     agentGreetingIdle: ['안녕하세요! Sunny 멘토의 AI Agent에요.', '저를 찾아주셔서 감사해요!'],
     characterIdleImg: imgSunnyCharacter,
     characterActiveImg: imgSunnyCharacter,
-    gradientColor: 'blue',
+    gradientColor: 'red',
     threadIntro: 'Sunny AI 에이전트와 대화가 시작돼요',
     initialGreeting:
       '안녕하세요? 저는 카카오에서 UX 디자이너 5년차인 멘토 Sunny 입니다. 멘토의 경험을 바탕으로, 이윤영님에게 도움을 드릴게요. 궁금한 점을 말해주세요.',
@@ -187,7 +187,7 @@ const MENTOR_CHAT_CONFIG = {
 export default function ChatPage({
   isSubMenuOpen = true,
   onCloseSubMenu,
-  onNavigateHome,
+  onOpenMentorDetail,
   onOpenMentorExplore,
   onOpenMentorSearch,
   skipStart = false,
@@ -338,7 +338,8 @@ export default function ChatPage({
             }
             onStartMentorChat={() => setChatMode('mentor')}
             onStartReview={() => setChatMode('review')}
-            onSubmitReview={onNavigateHome}
+            onSubmitReview={() => onOpenMentorDetail?.(activeMentor, { tab: 'review' })}
+            hideActionButton={!isFeedbackTab && chatMode === 'review'}
           />
           <div className="h-px w-full shrink-0 bg-[#e7eaee]" />
           <div className="flex flex-1 min-h-0 overflow-hidden">
@@ -365,9 +366,13 @@ export default function ChatPage({
               />
             ) : null}
             {isFeedbackTab ? null : chatMode === 'review' ? (
-              <ChatReview mentorDisplayName={mentorConfig.mentorDisplayName} />
+              <ChatReview
+                mentorDisplayName={mentorConfig.mentorDisplayName}
+                onSubmit={() => onOpenMentorDetail?.(activeMentor, { tab: 'review' })}
+              />
             ) : chatMode === 'mentor' ? (
               <ChatMentorThread
+                isSubMenuOpen={isSubMenuOpen}
                 onBackToAgent={() => {
                   if (mentorConfig.openInterviewFeedback) {
                     onOpenInterviewFeedback?.();
@@ -380,6 +385,14 @@ export default function ChatPage({
                 availabilityDetail={mentorConfig.availabilityDetail}
                 conversation={mentorConfig.mentorConversation}
                 agentTabLabel={mentorConfig.agentTabLabel}
+                mentorBubbleColor={
+                  mentorConfig.badgeLabel === 'Master Mentor'
+                    ? 'red'
+                    : mentorConfig.badgeLabel === 'Rookie Mentor'
+                      ? 'blue'
+                      : 'purple'
+                }
+                onStartReview={() => setChatMode('review')}
                 feedbackCard={
                   mentorConfig.feedbackCard
                     ? { ...mentorConfig.feedbackCard, onClick: onOpenInterviewFeedback }

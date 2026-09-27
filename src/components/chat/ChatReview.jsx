@@ -15,12 +15,11 @@ const REVIEW_GROUPS = [
   },
 ];
 
-const INITIAL_SELECTED = ['포트폴리오 개선', '실무 인사이트 공유', '명확한 설명'];
 const MAX_SELECTIONS = 4;
 const MAX_COMMENT_LENGTH = 2000;
 
-export default function ChatReview({ mentorDisplayName = 'Yoonie (최윤희)' }) {
-  const [selectedOptions, setSelectedOptions] = useState(INITIAL_SELECTED);
+export default function ChatReview({ mentorDisplayName = 'Yoonie (최윤희)', onSubmit }) {
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const [comment, setComment] = useState('');
 
   const toggleOption = (option) => {
@@ -48,8 +47,8 @@ export default function ChatReview({ mentorDisplayName = 'Yoonie (최윤희)' })
         </div>
       </div>
 
-      <div className="flex-1 min-h-0 overflow-y-auto px-6 pb-16">
-        <div className="max-w-[867px] mx-auto w-full flex flex-col gap-[64px]">
+      <div className="flex-1 min-h-0 overflow-y-auto px-5 pb-16 pt-10">
+        <div className="max-w-[867px] mx-auto w-full flex flex-col gap-16 items-center">
           <section className="flex flex-col gap-6 items-start w-full">
             <div className="flex flex-col gap-1 items-start w-full">
               <div className="flex gap-1 items-center">
@@ -89,26 +88,34 @@ export default function ChatReview({ mentorDisplayName = 'Yoonie (최윤희)' })
             </div>
           </section>
 
-          <section className="flex flex-col gap-3 items-start w-full">
+          <section className="flex flex-col gap-5 items-start w-full">
             <div className="flex flex-col gap-1 items-start w-full">
               <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-[#121213]">추가 코멘트</p>
               <p className="font-normal text-[14px] leading-[1.42] tracking-[0.14px] text-[#9ca2b1]">
                 멘토에게 정성스러운 코멘트를 남겨주세요(선택)
               </p>
             </div>
-            <div className="relative w-full">
+            <div className="relative w-full min-h-[140px] flex flex-col gap-3 border border-[#e7eaee] rounded-[12px] bg-white px-5 py-3">
               <textarea
                 value={comment}
                 onChange={(e) => setComment(e.target.value.slice(0, MAX_COMMENT_LENGTH))}
                 maxLength={MAX_COMMENT_LENGTH}
                 placeholder="남긴 코멘트는 추후에 수정하거나 삭제할 수 없어요"
-                className="w-full min-h-[140px] resize-none border border-[#e7eaee] rounded-[12px] bg-white px-5 py-3 pb-8 text-[15px] leading-[1.6] text-[#121213] placeholder:text-[#9ca2b1] outline-none"
+                className="w-full flex-1 min-h-[84px] resize-none bg-transparent outline-none text-[15px] leading-[1.6] text-[#121213] placeholder:text-[#9ca2b1]"
               />
-              <p className="absolute right-5 bottom-3 font-normal text-[12px] leading-[1.35] tracking-[0.3px] text-[#747886]">
+              <p className="font-normal text-[12px] leading-[1.35] tracking-[0.3px] text-[#747886]">
                 {comment.length}/{MAX_COMMENT_LENGTH}
               </p>
             </div>
           </section>
+
+          <button
+            type="button"
+            onClick={onSubmit}
+            className="relative w-[337px] max-w-full flex items-center justify-center px-7 py-3 rounded-xl border border-[#70d2ff] bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:rounded-xl"
+          >
+            <span className="relative font-bold text-[16px] leading-[1.45] text-white whitespace-nowrap">리뷰 등록하기</span>
+          </button>
         </div>
       </div>
     </div>

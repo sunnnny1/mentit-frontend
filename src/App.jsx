@@ -30,7 +30,7 @@ import InterviewNormalPage from './components/interview/InterviewNormalPage';
 import InterviewSessionPage from './components/interview/InterviewSessionPage';
 import InterviewFeedbackPage from './components/interview/InterviewFeedbackPage';
 
-function HomeMain({ onNavigateToCareerTalk, onOpenCareerTalkDetail, onOpenQnaDetail, onOpenFreeTalkDetail, onOpenAgentChat, onOpenMentorDetail, onOpenMentitAI }) {
+function HomeMain({ onNavigateToCareerTalk, onOpenCareerTalkDetail, onOpenQnaDetail, onOpenFreeTalkDetail, onOpenAgentChat, onOpenMentorDetail, onOpenMentitAI, onOpenInterview }) {
   return (
     <main className="no-scrollbar flex-1 max-w-[1173px] mx-auto pt-16 pb-16 px-5 flex flex-col gap-16 self-stretch min-h-0 overflow-y-auto">
       <div className="flex gap-5 items-start">
@@ -38,7 +38,7 @@ function HomeMain({ onNavigateToCareerTalk, onOpenCareerTalkDetail, onOpenQnaDet
         <PortfolioCard onOpenFeedback={() => onOpenAgentChat?.('Yoonie', { tab: 'feedback', feedbackKind: 'portfolio', feedbackView: 'result' })} />
       </div>
 
-      <MentorRecommendations onOpenAgentChat={onOpenAgentChat} onOpenMentorDetail={onOpenMentorDetail} />
+      <MentorRecommendations onOpenAgentChat={onOpenAgentChat} onOpenMentorDetail={onOpenMentorDetail} onOpenInterview={onOpenInterview} />
       <CareerTalk onNavigateToCareerTalk={onNavigateToCareerTalk} onOpenDetail={onOpenCareerTalkDetail} />
       <PersonalizedPosts onOpenQnaDetail={onOpenQnaDetail} onOpenFreeTalkDetail={onOpenFreeTalkDetail} />
     </main>
@@ -66,6 +66,7 @@ function App() {
   const [chatInitialFeedbackView, setChatInitialFeedbackView] = useState('upload');
   const [chatUnread, setChatUnread] = useState({ Sunny: 0, Yoonie: 0, Teddy: 0, Eunoia: 1 });
   const [mentorDetailId, setMentorDetailId] = useState('yoonie');
+  const [mentorDetailTab, setMentorDetailTab] = useState('intro');
   const [interviewMentor, setInterviewMentor] = useState('Sunny');
 
   const handleSelectInterviewMentor = (mentor) => {
@@ -128,10 +129,11 @@ function App() {
     setChatInitialFeedbackView(options.feedbackView === 'result' || options.feedbackView === 'mentor' ? options.feedbackView : 'upload');
   };
 
-  const handleOpenMentorDetail = (mentorName = 'Yoonie') => {
+  const handleOpenMentorDetail = (mentorName = 'Yoonie', options = {}) => {
     const name = normalizeMentorName(mentorName);
     if (name !== 'Yoonie' && name !== 'Sunny') return;
     setMentorDetailId(name.toLowerCase());
+    setMentorDetailTab(options.tab === 'review' || options.tab === 'content' ? options.tab : 'intro');
     setPage('mentor-detail');
   };
 
@@ -154,6 +156,7 @@ function App() {
 
   const handleOpenPlan = () => {
     rememberAiConversation({ id: 'career-plan', title: '취업 목표 설정' });
+    setPreviousPage((prev) => (page === 'ai-plan' ? prev : page));
     setPage('ai-plan');
   };
 
@@ -347,6 +350,7 @@ function App() {
                 isSubMenuOpen={isSubMenuOpen}
                 onCloseSubMenu={() => setIsSubMenuOpen(false)}
                 onNavigateHome={() => handleNavigate('home')}
+                onOpenMentorDetail={handleOpenMentorDetail}
                 onOpenMentorExplore={() => handleNavigate('mentor')}
                 onOpenMentorSearch={() => handleOpenMentorSearch()}
                 skipStart={chatSkipStart}
@@ -467,6 +471,7 @@ function App() {
             ) : page === 'mentor-detail' ? (
               <MentorDetailPage
                 mentorId={mentorDetailId}
+                initialTab={mentorDetailTab}
                 onOpenAgentChat={handleOpenMentorChat}
                 onOpenInterview={handleOpenInterviewOnboarding}
                 onOpenCareerTalkDetail={handleOpenCareerTalkDetail}
@@ -524,7 +529,8 @@ function App() {
                 onOpenFreeTalkDetail={handleOpenFreeTalkDetail}
                 onOpenAgentChat={handleOpenMentorChat}
                 onOpenMentorDetail={handleOpenMentorDetail}
-                onOpenMentitAI={() => handleNavigate('ai')}
+                onOpenMentitAI={handleOpenPlan}
+                onOpenInterview={handleOpenInterviewOnboarding}
               />
             )}
           </>

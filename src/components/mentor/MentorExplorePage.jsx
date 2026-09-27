@@ -70,13 +70,15 @@ const imgUha = figma_a4391ae5_9399_440b_b50f_ed055caf1bd5_png;
 
 // 홈/멘팃AI에서 쓰는 기존 MENTORS(Yoonie, Eunoia, Teddy)에 Sunny/Daisy/U.ha를 더해 상단 추천 6명 구성
 const FEATURED_MENTORS = [
-  ...MENTORS,
+  { ...MENTORS[0], tags: ['포트폴리오', '자소서'] },
+  { ...MENTORS[1], tags: ['포트폴리오', '자소서'] },
+  { ...MENTORS[2], tags: ['포트폴리오', '면접'] },
   {
     name: 'Sunny',
     badgeLabel: 'Master Mentor',
     color: 'red',
     role: 'UX 디자이너 · 카카오 · 5년차',
-    tags: ['UX 디자인', '면접'],
+    tags: ['면접', '자소서'],
     desc: '사용자 리서치부터 UX 설계까지 다양한 프로젝트를 경험해왔어요. 디자인 취업을 준비하면서 생기는 고민과 실무에서 필요한 역량에 대해 구체적으로 알려드릴게요.',
     reviews: '60개',
     followers: '2.1K',
@@ -89,7 +91,7 @@ const FEATURED_MENTORS = [
     badgeLabel: 'Rookie Mentor',
     color: 'lightblue',
     role: '프로덕트 디자이너 · 카카오 · 1년차',
-    tags: ['프로덕트 디자인', '포트폴리오'],
+    tags: ['포트폴리오', '자소서'],
     desc: '취준했던 경험을 바탕으로 가장 가까이서 대기업 프로덕트 디자이너에 대한 내용을 알려드립니다.',
     reviews: '8개',
     followers: '340',
@@ -102,7 +104,7 @@ const FEATURED_MENTORS = [
     badgeLabel: 'Active Mentor',
     color: 'purple',
     role: '프로덕트 디자이너 · 세일즈포스 · 3년차',
-    tags: ['프로덕트 디자인', '포트폴리오'],
+    tags: ['포트폴리오', '면접'],
     desc: '해외 디자이너의 A to Z 까지 포트폴리오, 면접, 실무에 관한 내용을 알려드립니다.',
     reviews: '30개',
     followers: '890',

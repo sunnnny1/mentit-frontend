@@ -17,7 +17,7 @@ const imgLineHorizontal = figma_5e2a8321_3b01_4485_9e12_0c84b24bb548_svg;
 
 const NAV_ITEMS = [
   { key: 'home', label: '홈', icon: imgHome, iconActive: imgHomeActive },
-  { key: 'chat', label: '채팅', icon: imgChat, iconActive: imgChatActive },
+  { key: 'chat', label: '멘토링', icon: imgChat, iconActive: imgChatActive },
   { key: 'interview', label: '면접', icon: null, iconActive: null },
   { key: 'ai', label: '멘팃 AI', icon: imgAi, iconActive: imgAi },
   { key: 'mentor', label: '멘토 탐색', icon: imgPersonPlus, iconActive: imgPersonPlusActive },

@@ -8,15 +8,15 @@ const imgChevronLeft = figma_c25d4b68_8802_4c60_8fb6_a6c20b14fba3_svg;
 
 export default function Header({ showStreak = true, onSearchClick, onBack, onLogoClick }) {
   return (
-    <header className="sticky top-0 z-20 shrink-0 h-16 bg-[#fcfcfc] flex items-center justify-between pl-9 pr-5 w-full">
-      <div className="flex items-center gap-[37px] h-[39px] p-0.5">
+    <header className="sticky top-0 z-20 shrink-0 bg-[#fcfcfc] flex items-center justify-between pl-9 pr-5 py-3 w-full">
+      <div className="flex items-center gap-[37px]">
         <button
           type="button"
           onClick={onLogoClick}
-          className="size-[35px] cursor-pointer shrink-0"
+          className="size-8 cursor-pointer shrink-0"
           aria-label="홈으로 이동"
         >
-          <img alt="" src={imgLogo} className="size-[35px]" />
+          <img alt="" src={imgLogo} className="size-8" />
         </button>
         {onBack && (
           <button type="button" onClick={onBack} className="size-6 cursor-pointer">
@@ -46,9 +46,6 @@ export default function Header({ showStreak = true, onSearchClick, onBack, onLog
           <button type="button" className="flex items-center justify-center size-6 cursor-pointer">
             <img alt="알림" src={imgBell} className="size-6" />
           </button>
-          <div className="flex items-center justify-center px-2 py-[5px] rounded-lg border border-[#e7eaee]">
-            <p className="text-[13px] font-medium tracking-[0.26px] text-[#747886] whitespace-nowrap">멘토 서비스</p>
-          </div>
         </div>
       </div>
     </header>

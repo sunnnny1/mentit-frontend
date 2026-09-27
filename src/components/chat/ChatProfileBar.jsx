@@ -14,8 +14,10 @@ export default function ChatProfileBar({
   extraActionLabel,
   onExtraAction,
   extraActionVariant = 'outlined',
+  hideActionButton = false,
 }) {
-  const showActionButton = Boolean(extraActionLabel) || mode !== 'agent' || supportsMentorReview;
+  const showActionButton =
+    !hideActionButton && (Boolean(extraActionLabel) || mode !== 'agent' || supportsMentorReview);
   const isPrimaryExtraAction = extraActionVariant === 'primary';
 
   return (

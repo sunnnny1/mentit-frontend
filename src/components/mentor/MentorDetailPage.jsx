@@ -559,19 +559,21 @@ function ProfileSidebarCard({ profile, onOpenAgentChat, onOpenInterview }) {
 
 export default function MentorDetailPage({
   mentorId = 'yoonie',
+  initialTab = 'intro',
   onOpenAgentChat,
   onOpenInterview,
   onOpenCareerTalkDetail,
   onOpenQnaDetail,
 }) {
   const mentor = MENTOR_PAGES[mentorId] ?? MENTOR_PAGES.yoonie;
-  const [activeTab, setActiveTab] = useState('intro');
+  const resolvedInitialTab = initialTab === 'review' || initialTab === 'content' ? initialTab : 'intro';
+  const [activeTab, setActiveTab] = useState(resolvedInitialTab);
   const [showInfoModal, setShowInfoModal] = useState(false);
 
   useEffect(() => {
-    setActiveTab('intro');
+    setActiveTab(resolvedInitialTab);
     setShowInfoModal(false);
-  }, [mentorId]);
+  }, [mentorId, resolvedInitialTab]);
 
   return (
     <section className="relative flex-1 min-w-0 min-h-0 flex flex-col rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-hidden">

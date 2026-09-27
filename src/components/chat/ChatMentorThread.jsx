@@ -211,6 +211,12 @@ export const SUNNY_MENTOR_CONVERSATION = [
   },
 ];
 
+const MENTOR_BUBBLE_BG = {
+  purple: '#fbf7ff',
+  red: '#fffafa',
+  blue: '#f7fbff',
+};
+
 export default function ChatMentorThread({
   onBackToAgent,
   mentorDisplayName = 'Yoonie (최윤희)',
@@ -219,12 +225,19 @@ export default function ChatMentorThread({
   conversation = YOONIE_MENTOR_CONVERSATION,
   agentTabLabel = 'AI Agent 채팅',
   feedbackCard,
+  mentorBubbleColor = 'purple',
+  isSubMenuOpen = true,
+  onStartReview,
 }) {
   const [draft, setDraft] = useState('');
+  const mentorBubbleBg = MENTOR_BUBBLE_BG[mentorBubbleColor] ?? MENTOR_BUBBLE_BG.purple;
+  const threadBodyClass = `relative flex-1 min-h-0 flex flex-col w-full ${
+    isSubMenuOpen ? '' : 'max-w-[calc(100%-266px)] mx-auto'
+  }`;
 
   return (
     <div className="relative z-[1] flex-1 min-w-0 min-h-0 h-full flex flex-col bg-white">
-      <div className="shrink-0 flex justify-start px-16 py-5">
+      <div className="shrink-0 flex justify-start px-5 py-5">
         <div className="flex items-center p-0.5 rounded-lg bg-[#f4f6f8]">
           <button
             type="button"
@@ -242,6 +255,7 @@ export default function ChatMentorThread({
         </div>
       </div>
 
+      <div className={threadBodyClass}>
       <div className="relative shrink-0 px-16 py-7 bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_50%,#ffffff_100%)]">
         <div className="relative flex flex-col gap-1 items-center justify-center text-center w-full">
           <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213] w-full">
@@ -253,7 +267,7 @@ export default function ChatMentorThread({
         </div>
       </div>
 
-      <div className="flex-1 min-h-0 overflow-y-auto px-16 pb-28 flex flex-col gap-10 w-full">
+      <div className="flex-1 min-h-0 overflow-y-auto px-[157px] pb-28 flex flex-col gap-10 w-full">
         {conversation.map((group, index) => {
           if (group.role === 'user') {
             return (
@@ -278,7 +292,7 @@ export default function ChatMentorThread({
                   </button>
                 ) : null}
                 {group.texts.map((text) => (
-                  <div key={text} className="bg-[#f9fafb] rounded-[12px] p-[12px] max-w-[513px]">
+                  <div key={text} className="bg-[#f9fafb] rounded-[12px] p-[12px] max-w-[423px]">
                     <p className="font-normal text-[15px] leading-[1.6] text-[#121213] whitespace-pre-wrap">{text}</p>
                   </div>
                 ))}
@@ -287,7 +301,7 @@ export default function ChatMentorThread({
           }
 
           return (
-            <div key={index} className="flex flex-col gap-4 items-start w-full max-w-[513px]">
+            <div key={index} className="flex flex-col gap-4 items-start w-full max-w-[423px]">
               {group.texts.map((text, textIndex) => (
                 <div key={text} className="flex flex-col gap-2 items-start w-full">
                   {textIndex === 0 && (
@@ -295,7 +309,10 @@ export default function ChatMentorThread({
                       {mentorDisplayName}
                     </p>
                   )}
-                  <div className="bg-[#f7fbff] rounded-[12px] p-[12px] max-w-[513px] w-full">
+                  <div
+                    className="rounded-[12px] p-[12px] max-w-[423px] w-full"
+                    style={{ backgroundColor: mentorBubbleBg }}
+                  >
                     <p className="font-normal text-[15px] leading-[1.6] text-[#121213] whitespace-pre-wrap">{text}</p>
                   </div>
                 </div>
@@ -303,6 +320,24 @@ export default function ChatMentorThread({
             </div>
           );
         })}
+
+        <div className="flex flex-col gap-6 items-start w-full max-w-[424px] p-6 rounded-2xl bg-white border border-[#f4f6f8] shadow-[0_0_15px_rgba(18,18,19,0.04)]">
+          <div className="flex flex-col gap-3 items-start w-full">
+            <p className="font-bold text-[15px] leading-[1.6] text-[#121213] w-full">
+              {mentorDisplayName} 멘토가 리뷰를 요청했어요!
+            </p>
+            <p className="font-normal text-[14px] leading-[1.58] tracking-[0.14px] text-[#121213] w-full">
+              멘토링은 어떠셨나요? 소중한 경험을 리뷰로 남겨주세요.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onStartReview}
+            className="relative w-full flex items-center justify-center px-7 py-3 rounded-xl border border-[#70d2ff] bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10 after:rounded-xl"
+          >
+            <span className="relative font-bold text-[16px] leading-[1.45] text-white whitespace-nowrap">리뷰 쓰러가기</span>
+          </button>
+        </div>
       </div>
 
       <form
@@ -331,6 +366,7 @@ export default function ChatMentorThread({
         </div>
         <div className="h-4 w-full bg-white" aria-hidden />
       </form>
+      </div>
     </div>
   );
 }
