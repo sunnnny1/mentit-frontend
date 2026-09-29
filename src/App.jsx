@@ -329,7 +329,7 @@ function App() {
           setPage('search');
         }}
       />
-      <div className="flex items-stretch gap-5 px-5 flex-1 min-h-0 overflow-hidden pb-5">
+      <div className="flex items-stretch gap-5 px-5 flex-1 min-h-0 overflow-x-visible overflow-y-hidden pb-5">
         {page === 'search' ? (
           <SearchPage onClose={() => setPage(previousPage ?? 'home')} onOpenAgentChat={handleOpenMentorChat} onOpenMentorDetail={handleOpenMentorDetail} />
         ) : (
@@ -396,6 +396,10 @@ function App() {
                 onOpenInterviewFeedback={() => {
                   setIsSubMenuOpen(false);
                   setPage('interview-feedback');
+                }}
+                onOpenInterview={(mentor) => {
+                  if (mentor) setInterviewMentor(mentor);
+                  handleOpenInterviewOnboarding();
                 }}
               />
             ) : page === 'ai' ? (

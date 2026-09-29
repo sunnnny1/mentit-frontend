@@ -29,6 +29,9 @@ import figma_52966149_85bf_4f88_9a88_fc1f7f9fabbb_png from '../../assets/figma/5
 import imgSunnyAvatar from '../../assets/figma/c11cc4d3-aa70-48e8-a183-5d36c9318492.png';
 import imgSunnyMentor from '../../assets/figma/sunny-mentor-profile.png';
 import imgSunnyCharacter from '../../assets/figma/ceef9e7c-3912-4cc0-ba9c-dbf2d463f3e3.png';
+import imgYoonieIntro from '../../assets/figma/yoonie-intro.png';
+import imgEunoiaIntro from '../../assets/figma/eunoia-intro.png';
+import imgTeddyIntro from '../../assets/figma/teddy-intro.png';
 
 const imgAvatarAgent = figma_6a21ef36_23ee_448e_a72f_026bd1b11241_png;
 const imgAvatarMentor = figma_1b69a9c3_f6dc_419e_8b7e_4073ed4858c7_png;
@@ -87,6 +90,23 @@ const TEDDY_QA_MAP = {
 
 const DEFAULT_ANSWER = { text: '아직 학습 중이에요. 조금 더 구체적으로 다시 질문해주시겠어요?' };
 
+function resolveChatCta(userText, answer) {
+  const hay = `${userText}\n${answer.text ?? ''}`;
+  if (/포트폴리오|포폴/.test(hay)) {
+    return { ctaText: '포트폴리오 피드백 받으러 가기', ctaKind: 'portfolio' };
+  }
+  if (/자기소개서|자소서/.test(hay)) {
+    return { ctaText: '자기소개서 피드백 받으러 가기', ctaKind: 'resume' };
+  }
+  if (/면접/.test(hay)) {
+    return { ctaText: '모의 면접 보러 가기', ctaKind: 'interview' };
+  }
+  if (answer.ctaText) {
+    return { ctaText: answer.ctaText, ctaKind: answer.ctaKind ?? 'portfolio' };
+  }
+  return {};
+}
+
 const MENTOR_CHAT_CONFIG = {
   Yoonie: {
     displayName: 'Yoonie',
@@ -98,8 +118,12 @@ const MENTOR_CHAT_CONFIG = {
     mentorDisplayName: 'Yoonie (최윤희)',
     agentGreetingIdle: ['안녕하세요! Yoonie 멘토의 AI Agent에요.', '저를 찾아주셔서 감사해요!'],
     characterIdleImg: figma_ea377a0e_1420_4c73_8a4d_c09f50d135a0_png,
+    characterIntroImg: imgYoonieIntro,
     characterActiveImg: imgCharacterActive,
+    characterIdleWidth: 454,
+    characterActiveWidth: 454,
     gradientColor: 'purple',
+    introBadges: ['실무 이야기', '자소서 피드백', '포트폴리오 피드백'],
     threadIntro: 'Yoonie AI 에이전트와 대화가 시작돼요',
     initialGreeting:
       '안녕하세요? 저는 당근에서 프로덕트 디자이너 5년차인 멘토 Yoonie 입니다. 멘토의 경험을 바탕으로, 이윤영님에게 도움을 드릴게요. 궁금한 점을 말해주세요.',
@@ -119,8 +143,12 @@ const MENTOR_CHAT_CONFIG = {
     mentorDisplayName: 'Eunoia (이지희)',
     agentGreetingIdle: ['안녕하세요! Eunoia 멘토의 AI Agent에요.', '저를 찾아주셔서 감사해요!'],
     characterIdleImg: figma_9a8a793a_7f8d_4803_8fe8_a2de07fedc14_png,
+    characterIntroImg: imgEunoiaIntro,
     characterActiveImg: figma_a7a013d1_ad2d_40e9_87de_7c0ad93dc40d_png,
+    characterIdleWidth: 421,
+    characterActiveWidth: 381,
     gradientColor: 'red',
+    introBadges: ['실무 이야기', '포트폴리오 피드백'],
     threadIntro: 'Eunoia AI 에이전트와 대화가 시작돼요',
     initialGreeting:
       '안녕하세요? 저는 토스에서 프로덕트 디자이너 3년차인 멘토 Eunoia 입니다. 멘토의 경험을 바탕으로, 이윤영님에게 도움을 드릴게요. 궁금한 점을 말해주세요.',
@@ -140,8 +168,12 @@ const MENTOR_CHAT_CONFIG = {
     mentorDisplayName: 'Teddy (박태훈)',
     agentGreetingIdle: ['안녕하세요! Teddy 멘토의 AI Agent에요.', '저를 찾아주셔서 감사해요!'],
     characterIdleImg: figma_35c6cc1b_033b_4127_abc7_140365b532f4_png,
+    characterIntroImg: imgTeddyIntro,
     characterActiveImg: figma_52966149_85bf_4f88_9a88_fc1f7f9fabbb_png,
+    characterIdleWidth: 449,
+    characterActiveWidth: 401,
     gradientColor: 'blue',
+    introBadges: ['실무 이야기', '면접 꿀팁'],
     threadIntro: 'Teddy AI 에이전트와 대화가 시작돼요',
     initialGreeting:
       '안녕하세요? 저는 프리랜서로 일하고 있는 UX 디자이너 6년차인 멘토 Teddy 입니다. 멘토의 경험을 바탕으로, 이윤영님에게 도움을 드릴게요. 궁금한 점을 말해주세요.',
@@ -203,10 +235,10 @@ export default function ChatPage({
   unreadByMentor: unreadByMentorProp,
   onReadMentor,
   onOpenInterviewFeedback,
+  onOpenInterview,
 }) {
   const [started, setStarted] = useState(skipStart);
   const [sessionView, setSessionView] = useState(skipStart && initialShowIntro ? 'intro' : 'thread');
-  const [showAgent, setShowAgent] = useState(true);
   const [chatMode, setChatMode] = useState(initialChatMode); // 'agent' | 'mentor' | 'review'
   const [activeMentor, setActiveMentor] = useState(initialMentor);
   const [messages, setMessages] = useState([]);
@@ -253,7 +285,6 @@ export default function ChatPage({
     setChatMode(name === 'Sunny' ? 'mentor' : 'agent');
     setMessages([]);
     setIsAnswering(false);
-    setShowAgent(true);
     setSessionView(name === 'Sunny' ? 'thread' : 'intro');
   };
 
@@ -266,12 +297,21 @@ export default function ChatPage({
     }
   };
 
-  const openFeedbackUpload = () => {
+  const openFeedbackUpload = (kind) => {
     setStarted(true);
     setSubMenuTab('feedback');
+    if (kind === 'resume' || kind === 'portfolio') setFeedbackKind(kind);
     if (activeMentor !== 'Yoonie' && activeMentor !== 'Sunny') {
       setActiveMentor('Yoonie');
     }
+  };
+
+  const handleCtaClick = (kind) => {
+    if (kind === 'interview') {
+      onOpenInterview?.(activeMentor);
+      return;
+    }
+    openFeedbackUpload(kind === 'resume' ? 'resume' : 'portfolio');
   };
 
   const openAgentFeedback = (kind) => {
@@ -285,24 +325,31 @@ export default function ChatPage({
     setFeedbackView('mentor');
   };
 
-  const handleSend = (userText) => {
+  const handleSend = (userText, replyTo) => {
     const value = userText.trim();
     if (!value) return;
     const qaMap = MENTOR_CHAT_CONFIG[activeMentor]?.qaMap ?? QA_MAP;
     const answer = qaMap[value] ?? DEFAULT_ANSWER;
-    setMessages((prev) => [...prev, { role: 'user', text: value }]);
+    const cta = resolveChatCta(value, answer);
+    setMessages((prev) => [...prev, { role: 'user', text: value, replyTo: replyTo || undefined }]);
     setIsAnswering(true);
     setTimeout(() => {
       setMessages((prev) => [
         ...prev,
-        { role: 'mentor', text: answer.text, citation: answer.citation, ctaText: answer.ctaText },
+        {
+          role: 'mentor',
+          text: answer.text,
+          citation: answer.citation,
+          ctaText: cta.ctaText,
+          ctaKind: cta.ctaKind,
+        },
       ]);
       setIsAnswering(false);
     }, 2200);
   };
 
   return (
-    <div className="flex items-stretch gap-5 flex-1 min-h-0 h-full w-full overflow-hidden">
+    <div className="flex items-stretch gap-5 flex-1 min-h-0 h-full w-full">
       {isSubMenuOpen && started && (
         <ChatSubMenu
           onClose={onCloseSubMenu}
@@ -312,12 +359,13 @@ export default function ChatPage({
           tab={subMenuTab}
           onSelectTab={handleSelectSubMenuTab}
           feedbackKind={feedbackKind}
-          onFindMentor={onOpenMentorExplore}
+          onFindMentor={() => setStarted(false)}
         />
       )}
 
       {started ? (
-        <section className="flex-1 min-w-0 min-h-0 flex flex-col rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-hidden">
+        <section className="relative z-0 flex-1 min-w-0 min-h-0 flex flex-col rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)]">
+          <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl">
           <ChatProfileBar
             mode={isFeedbackTab ? (feedbackView === 'mentor' ? 'mentor' : 'agent') : chatMode}
             displayName={mentorConfig.displayName}
@@ -418,43 +466,45 @@ export default function ChatPage({
                   isSubMenuOpen={isSubMenuOpen}
                   displayName={mentorConfig.displayName}
                   characterIdleImg={mentorConfig.characterIdleImg}
+                  characterIntroImg={mentorConfig.characterIntroImg}
                   characterActiveImg={mentorConfig.characterActiveImg}
                   gradientColor={mentorConfig.gradientColor}
                 />
                 <ChatAgentIntro
                   displayName={mentorConfig.displayName}
+                  badges={mentorConfig.introBadges}
                   onStartChat={() => setSessionView('thread')}
                   onStartFeedback={openFeedbackUpload}
                 />
               </>
             ) : (
               <>
-                {showAgent && (
-                  <ChatAgentPanel
-                    isSubMenuOpen={isSubMenuOpen}
-                    onClose={() => setShowAgent(false)}
-                    hasStarted={messages.length > 0}
-                    displayName={mentorConfig.displayName}
-                    agentGreetingIdle={mentorConfig.agentGreetingIdle}
-                    characterIdleImg={mentorConfig.characterIdleImg}
-                    characterActiveImg={mentorConfig.characterActiveImg}
-                    gradientColor={mentorConfig.gradientColor}
-                  />
-                )}
+                <ChatAgentPanel
+                  isSubMenuOpen={isSubMenuOpen}
+                  hasStarted={messages.length > 0}
+                  displayName={mentorConfig.displayName}
+                  agentGreetingIdle={mentorConfig.agentGreetingIdle}
+                  characterIdleImg={mentorConfig.characterIdleImg}
+                  characterActiveImg={mentorConfig.characterActiveImg}
+                  characterIdleWidth={mentorConfig.characterIdleWidth}
+                  characterActiveWidth={mentorConfig.characterActiveWidth}
+                  gradientColor={mentorConfig.gradientColor}
+                />
                 <ChatThread
                   messages={messages}
                   onSend={handleSend}
                   isAnswering={isAnswering}
-                  showAgent={showAgent}
-                  onShowAgent={() => setShowAgent(true)}
                   displayName={mentorConfig.displayName}
-                  threadIntro={mentorConfig.threadIntro}
                   initialGreeting={mentorConfig.initialGreeting}
                   suggestedChips={mentorConfig.suggestedChips}
-                  onCtaClick={openFeedbackUpload}
+                  onCtaClick={handleCtaClick}
+                  agentTabLabel={mentorConfig.agentTabLabel ?? 'AI Agent 채팅'}
+                  onSwitchMentorChat={() => setChatMode('mentor')}
+                  isSubMenuOpen={isSubMenuOpen}
                 />
               </>
             )}
+          </div>
           </div>
         </section>
       ) : (

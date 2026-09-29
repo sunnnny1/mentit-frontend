@@ -49,8 +49,8 @@ export default function ChatProfileBar({
           onClick={onExtraAction}
           className={
             isPrimaryExtraAction
-              ? 'relative flex items-center justify-center px-7 py-3 rounded-xl border border-[#70d2ff] bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10'
-              : 'relative flex items-center justify-center px-7 py-3 rounded-xl border border-[#e7eaee] bg-white overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10'
+              ? 'relative shrink-0 flex items-center justify-center px-7 py-3 rounded-xl border border-[#70d2ff] bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10'
+              : 'relative shrink-0 flex items-center justify-center px-7 py-3 rounded-xl border border-[#e7eaee] bg-white overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10'
           }
         >
           <p
@@ -67,7 +67,7 @@ export default function ChatProfileBar({
           onClick={
             mode === 'agent' ? onStartMentorChat : mode === 'mentor' ? onStartReview : onSubmitReview
           }
-          className="relative flex items-center justify-center px-7 py-3 rounded-xl border border-[#70d2ff] bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10"
+          className="relative shrink-0 flex items-center justify-center px-7 py-3 rounded-xl border border-[#70d2ff] bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10"
         >
           {/* TODO: 실제 리뷰 데이터 서버 제출 로직 연결 (현재는 홈으로 이동만 처리) */}
           <p className="relative font-bold text-base text-white whitespace-nowrap">

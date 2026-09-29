@@ -1,19 +1,19 @@
 import MentorCircleGradient from './MentorCircleGradient';
-import figma_343a242e_14ba_427b_a8e0_6227d163ad87_svg from '../../assets/figma/343a242e-14ba-427b-a8e0-6227d163ad87.svg';
-
-const imgClose = figma_343a242e_14ba_427b_a8e0_6227d163ad87_svg;
 
 export default function ChatAgentPanel({
-  onClose,
   isSubMenuOpen = true,
   hasStarted = false,
   displayName = 'Yoonie',
   agentGreetingIdle = ['안녕하세요! Yoonie 멘토의 AI Agent에요.', '저를 찾아주셔서 감사해요!'],
   characterIdleImg,
   characterActiveImg,
+  characterIntroImg,
+  characterIdleWidth = 380,
+  characterActiveWidth = 380,
   gradientColor = 'purple',
   introMode = false,
 }) {
+  const threadCharacterWidth = hasStarted ? characterActiveWidth : characterIdleWidth;
   return (
     <div
       className={`relative flex flex-col h-full min-h-0 shrink-0 overflow-hidden border-r border-[#e7eaee] ${
@@ -24,20 +24,14 @@ export default function ChatAgentPanel({
         <MentorCircleGradient
           isSubMenuOpen={isSubMenuOpen}
           gradientColor={gradientColor}
-          className="absolute left-1/2 top-[46%] size-[340px] -translate-x-1/2 -translate-y-1/2"
+          className={`absolute left-1/2 -translate-x-1/2 -translate-y-1/2 ${
+            isSubMenuOpen ? 'top-[46%] size-[340px]' : 'top-[calc(50%-40px)] size-[400px]'
+          }`}
         />
       ) : null}
 
       {!introMode ? (
-        <div className="relative z-10 flex items-center justify-end px-6 py-4 h-[62px] shrink-0">
-          <button type="button" onClick={onClose} className="size-6 cursor-pointer" aria-label="캐릭터 패널 닫기">
-            <img alt="" src={imgClose} className="size-6" />
-          </button>
-        </div>
-      ) : null}
-
-      {!introMode ? (
-        <div className="relative z-10 px-5 py-4 shrink-0">
+        <div className="relative z-10 h-[116px] shrink-0 flex items-center justify-center px-5">
           <p className="text-sm leading-[1.58] tracking-[0.14px] text-[#747886] text-center">
             {hasStarted ? (
               <>
@@ -58,15 +52,29 @@ export default function ChatAgentPanel({
 
       <div className="relative z-[1] flex-1 min-h-0 overflow-hidden pointer-events-none">
         <img
+          key={introMode ? `${displayName}-intro` : `${displayName}-agent`}
           alt={displayName}
-          src={hasStarted && !introMode ? characterActiveImg : characterIdleImg}
+          src={
+            introMode
+              ? characterIntroImg || characterIdleImg
+              : hasStarted
+                ? characterActiveImg
+                : characterIdleImg
+          }
           className={
             introMode
-              ? 'absolute left-1/2 top-[14.4%] w-[min(498px,93.4%)] h-auto -translate-x-1/2 object-contain object-top [mask-image:linear-gradient(to_bottom,black_55%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_55%,transparent_100%)]'
-              : 'absolute left-1/2 bottom-0 h-full w-auto max-w-none -translate-x-1/2'
+              ? 'absolute left-1/2 top-[83px] w-[min(450px,84%)] h-auto -translate-x-1/2 object-contain object-top [mask-image:linear-gradient(to_bottom,black_72%,rgba(0,0,0,0.4)_88%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_72%,rgba(0,0,0,0.4)_88%,transparent_100%)]'
+              : 'absolute left-1/2 top-[32px] h-auto -translate-x-1/2 object-contain object-top [mask-image:linear-gradient(to_bottom,black_78%,rgba(0,0,0,0.4)_92%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_78%,rgba(0,0,0,0.4)_92%,transparent_100%)]'
           }
+          style={!introMode ? { width: `min(${threadCharacterWidth}px, 88%)` } : undefined}
         />
-        <div className="absolute bottom-0 left-0 z-[2] w-full h-[200px] bg-gradient-to-b from-transparent to-white" />
+        <div
+          className={`absolute bottom-0 left-0 z-[2] w-full ${
+            introMode
+              ? 'h-[18%] bg-gradient-to-b from-transparent from-0% via-white/50 via-[40%] to-white to-[90%]'
+              : 'h-[200px] bg-gradient-to-b from-transparent to-white'
+          }`}
+        />
       </div>
     </div>
   );

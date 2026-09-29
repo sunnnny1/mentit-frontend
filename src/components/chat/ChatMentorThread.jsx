@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import figma_70a5b9f2_c5bb_45a9_9836_1ccc8ad917e2_svg from '../../assets/figma/70a5b9f2-c5bb-45a9-9836-1ccc8ad917e2.svg';
 import imgMic from '../../assets/icons/chat/mic.svg';
 
@@ -230,14 +230,22 @@ export default function ChatMentorThread({
   onStartReview,
 }) {
   const [draft, setDraft] = useState('');
+  const inputRef = useRef(null);
+  const listRef = useRef(null);
   const mentorBubbleBg = MENTOR_BUBBLE_BG[mentorBubbleColor] ?? MENTOR_BUBBLE_BG.purple;
   const threadBodyClass = `relative flex-1 min-h-0 flex flex-col w-full ${
     isSubMenuOpen ? '' : 'max-w-[calc(100%-266px)] mx-auto'
   }`;
 
+  useEffect(() => {
+    const el = listRef.current;
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
+  }, [conversation]);
+
   return (
     <div className="relative z-[1] flex-1 min-w-0 min-h-0 h-full flex flex-col bg-white">
-      <div className="shrink-0 flex flex-col gap-2 px-5 py-5 self-stretch w-full">
+      <div className="shrink-0 flex flex-col gap-2 px-6 py-5 self-stretch w-full">
         <div className="flex items-center p-0.5 rounded-lg bg-[#f4f6f8] w-fit">
           <button
             type="button"
@@ -264,7 +272,7 @@ export default function ChatMentorThread({
       </div>
 
       <div className={threadBodyClass}>
-      <div className="flex-1 min-h-0 overflow-y-auto px-[157px] pb-28 flex flex-col gap-10 w-full">
+      <div ref={listRef} className="flex-1 min-h-0 overflow-y-auto px-[157px] pb-28 flex flex-col gap-10 w-full">
         {conversation.map((group, index) => {
           const isLast = index === conversation.length - 1;
           const reviewBox = (
@@ -362,13 +370,27 @@ export default function ChatMentorThread({
           setDraft('');
         }}
       >
-        <div className="px-16 pt-4">
+        <div className="px-5 pt-4">
         <div className="relative flex items-center gap-2 px-5 py-3 rounded-xl border border-[#e7eaee] bg-[rgba(255,255,255,0.4)] backdrop-blur-[6px] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] w-full">
-          <input
+          <textarea
+            ref={inputRef}
             value={draft}
-            onChange={(e) => setDraft(e.target.value)}
+            rows={1}
+            onChange={(e) => {
+              setDraft(e.target.value);
+              e.target.style.height = '24px';
+              e.target.style.height = `${Math.min(e.target.scrollHeight, 96)}px`;
+            }}
+            onKeyDown={(e) => {
+              if (e.nativeEvent.isComposing) return;
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                setDraft('');
+                if (inputRef.current) inputRef.current.style.height = '24px';
+              }
+            }}
             placeholder="메세지를 입력하세요"
-            className="flex-1 min-w-0 bg-transparent outline-none text-[15px] leading-[1.6] text-[#121213] placeholder:text-[#9ca2b1]"
+            className="flex-1 min-w-0 h-6 max-h-24 py-0 resize-none bg-transparent outline-none text-[15px] leading-6 text-[#121213] placeholder:text-[#9ca2b1]"
           />
           <button
             type="submit"

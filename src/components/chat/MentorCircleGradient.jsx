@@ -21,7 +21,7 @@ export default function MentorCircleGradient({ className, isSubMenuOpen = true, 
         : isSubMenuOpen
           ? imgPurpleOpen
           : imgPurpleClosed;
-  const insetClass = gradientColor === 'purple' ? 'inset-[-50%]' : 'inset-[-58.82%]';
+  const insetClass = gradientColor === 'red' ? 'inset-[-41.89%]' : 'inset-[-50%]';
 
   return (
     <div className={className || 'relative size-[340px]'}>

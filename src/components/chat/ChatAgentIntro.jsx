@@ -1,7 +1,8 @@
-const INTRO_BADGES = ['실무 이야기', '자소서 피드백', '포트폴리오 피드백'];
+const DEFAULT_INTRO_BADGES = ['실무 이야기', '자소서 피드백', '포트폴리오 피드백'];
 
 export default function ChatAgentIntro({
   displayName = 'Yoonie',
+  badges = DEFAULT_INTRO_BADGES,
   onStartChat,
   onStartFeedback,
 }) {
@@ -9,12 +10,12 @@ export default function ChatAgentIntro({
     <div className="relative z-[1] flex-1 min-w-0 min-h-0 h-full flex flex-col items-center justify-center bg-white px-5 py-7">
       <div className="flex w-full max-w-[375px] flex-col items-center gap-10">
         <div className="flex w-full flex-col items-center gap-6">
-          <p className="w-full text-center font-bold text-[22px] leading-[1.4] tracking-[-0.33px] text-[#121213]">
+          <p className="w-full text-center font-semibold text-[22px] leading-[1.4] tracking-[-0.33px] text-[#121213]">
             {displayName} 멘토의 AI 에이전트와 대화해보세요
           </p>
           <div className="flex flex-col items-center gap-4">
             <div className="flex items-start justify-center gap-2">
-              {INTRO_BADGES.map((label) => (
+              {badges.map((label) => (
                 <div
                   key={label}
                   className="flex items-center justify-center rounded-lg bg-[#f4f6f8] px-2 py-1"

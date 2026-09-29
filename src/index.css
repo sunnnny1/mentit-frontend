@@ -18,6 +18,14 @@ body {
 
 * {
   box-sizing: border-box;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 .no-scrollbar {
@@ -42,4 +50,19 @@ body {
 
 .mentit-symbol-in {
   animation: mentit-symbol-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes mentit-bubble-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mentit-bubble-in {
+  animation: mentit-bubble-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
