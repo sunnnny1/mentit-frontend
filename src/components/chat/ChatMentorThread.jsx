@@ -240,7 +240,11 @@ export default function ChatMentorThread({
   useEffect(() => {
     const el = listRef.current;
     if (!el) return;
-    el.scrollTop = el.scrollHeight;
+    const toTop = () => {
+      el.scrollTop = 0;
+    };
+    toTop();
+    requestAnimationFrame(toTop);
   }, [conversation]);
 
   return (

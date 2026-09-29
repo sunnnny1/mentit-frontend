@@ -432,6 +432,7 @@ export default function ChatPage({
               />
             ) : chatMode === 'mentor' ? (
               <ChatMentorThread
+                key={activeMentor}
                 isSubMenuOpen={isSubMenuOpen}
                 onBackToAgent={() => {
                   if (mentorConfig.openInterviewFeedback) {
