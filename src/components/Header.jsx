@@ -8,7 +8,7 @@ const imgChevronLeft = figma_c25d4b68_8802_4c60_8fb6_a6c20b14fba3_svg;
 
 export default function Header({ showStreak = true, onSearchClick, onBack, onLogoClick }) {
   return (
-    <header className="sticky top-0 z-20 shrink-0 bg-[#fcfcfc] flex items-center justify-between pl-9 pr-5 py-3 w-full">
+    <header className="sticky top-0 z-20 shrink-0 h-14 bg-[#fcfcfc] flex items-center justify-between pl-9 pr-5 w-full">
       <div className="flex items-center gap-[37px]">
         <button
           type="button"
