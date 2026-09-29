@@ -17,7 +17,7 @@ export default function PortfolioCard({ onOpenFeedback }) {
           <p className="w-full text-sm font-normal leading-[1.58] tracking-[0.14px] text-[#121213]">
             Yoonie 멘토에게 요청했던
             <br />
-            포트폴리오 피드백이 도착했어요.
+            포트폴리오 피드백이 도착했어요
           </p>
         </div>
 

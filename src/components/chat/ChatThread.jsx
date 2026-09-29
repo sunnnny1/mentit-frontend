@@ -67,7 +67,7 @@ export default function ChatThread({
             <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213]">
               {displayName} (AI Agent)
             </p>
-            <div className="bg-[#f7fbff] rounded-[12px] p-[12px] max-w-[513px] w-full">
+            <div className="bg-[#f7fbff] rounded-[12px] p-[12px] w-fit max-w-[513px]">
               <p className="font-normal text-[15px] leading-[1.6] text-[#121213]">{initialGreeting}</p>
             </div>
           </div>
@@ -91,7 +91,7 @@ export default function ChatThread({
           if (msg.role === 'user') {
             return (
               <div key={index} className="flex flex-col items-end w-full">
-                <div className="bg-[#f9fafb] rounded-[12px] p-[12px] max-w-[513px]">
+                <div className="bg-[#f9fafb] rounded-[12px] p-[12px] w-fit max-w-[513px]">
                   <p className="font-normal text-[15px] leading-[1.6] text-[#121213]">{msg.text}</p>
                 </div>
               </div>
@@ -101,19 +101,19 @@ export default function ChatThread({
           const parts = msg.text.split('\n\n');
           return (
             <div key={index} className="flex flex-col gap-1 items-start w-full max-w-[552px]">
-              <div className="flex flex-col gap-4 items-start w-full max-w-[513px]">
-                <div className="flex flex-col gap-2 items-start w-full">
+              <div className="flex flex-col gap-4 items-start w-fit max-w-[513px]">
+                <div className="flex flex-col gap-2 items-start w-fit max-w-[513px]">
                     <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213]">
                     {displayName} (AI Agent)
                   </p>
-                  <div className="bg-[#f7fbff] rounded-[12px] p-[12px] max-w-[513px] w-full">
+                  <div className="bg-[#f7fbff] rounded-[12px] p-[12px] w-fit max-w-[513px]">
                     <p className="font-normal text-[15px] leading-[1.6] text-[#121213]">{parts[0]}</p>
                   </div>
                 </div>
                 {parts.slice(1).map((part) => (
-                  <div key={part} className="flex flex-col gap-4 items-start w-full">
-                    <div className="flex flex-col gap-2 items-start w-full">
-                      <div className="bg-[#f7fbff] rounded-[12px] p-[12px] max-w-[513px] w-full">
+                  <div key={part} className="flex flex-col gap-4 items-start w-fit max-w-[513px]">
+                    <div className="flex flex-col gap-2 items-start w-fit max-w-[513px]">
+                      <div className="bg-[#f7fbff] rounded-[12px] p-[12px] w-fit max-w-[513px]">
                         <p className="font-normal text-[15px] leading-[1.6] text-[#121213]">{part}</p>
                       </div>
                       {msg.citation && (

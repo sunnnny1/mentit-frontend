@@ -21,7 +21,7 @@ export default function ChatProfileBar({
   const isPrimaryExtraAction = extraActionVariant === 'primary';
 
   return (
-    <div className="flex gap-2.5 items-center p-5 rounded-t-2xl bg-white shrink-0">
+    <div className="flex gap-2.5 items-center px-5 py-4 rounded-t-2xl bg-white shrink-0">
       <div className="flex-1 flex gap-3 items-center min-w-0">
         <img
           alt={displayName}

@@ -49,6 +49,7 @@ function App() {
   const [page, setPage] = useState('home');
   const [previousPage, setPreviousPage] = useState(null);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(true);
+  const [headerBackTo, setHeaderBackTo] = useState(null);
   const [boardCategory, setBoardCategory] = useState('all');
   const [careerTalkArticleId, setCareerTalkArticleId] = useState('uha');
   const [qnaArticleId, setQnaArticleId] = useState('qualquant');
@@ -59,6 +60,7 @@ function App() {
   const [mentorSearchFromInterview, setMentorSearchFromInterview] = useState(false);
   const [aiRecentConversations, setAiRecentConversations] = useState([]);
   const [chatSkipStart, setChatSkipStart] = useState(false);
+  const [chatShowIntro, setChatShowIntro] = useState(false);
   const [chatMentor, setChatMentor] = useState('Yoonie');
   const [chatInitialMode, setChatInitialMode] = useState('agent');
   const [chatInitialTab, setChatInitialTab] = useState('chat');
@@ -79,17 +81,19 @@ function App() {
     setChatUnread((prev) => (prev[name] ? { ...prev, [name]: 0 } : prev));
   }, []);
 
-  const handleNavigate = (next) => {
+  const handleNavigate = (next, { fromStart = false } = {}) => {
+    if (!fromStart) setHeaderBackTo(null);
     setPage(next);
     if (next === 'board') setBoardCategory('all');
     if (next === 'chat') {
       setChatSkipStart(false);
+      setChatShowIntro(false);
       setChatMentor('Yoonie');
       setChatInitialMode('agent');
       setChatInitialTab('chat');
       setChatInitialFeedbackKind('portfolio');
       setChatInitialFeedbackView('upload');
-      setIsSubMenuOpen(true);
+      setIsSubMenuOpen(false);
     }
     if (next.startsWith('interview')) {
       setIsSubMenuOpen(false);
@@ -118,11 +122,14 @@ function App() {
   const handleOpenMentorChat = (mentor = 'Yoonie', options = {}) => {
     const name = (typeof mentor === 'string' ? mentor : mentor?.name ?? 'Yoonie').replace(/\s*멘토$/, '');
     const tab = options.tab === 'feedback' ? 'feedback' : 'chat';
+    const skipIntro = tab === 'feedback' || options.skipIntro === true || name === 'Sunny';
     setChatMentor(name);
     markChatRead(name);
     setPage('chat');
-    setIsSubMenuOpen(false);
     setChatSkipStart(true);
+    setChatShowIntro(!skipIntro);
+    setIsSubMenuOpen(!skipIntro);
+    setHeaderBackTo(null);
     setChatInitialMode(options.mode ?? (name === 'Sunny' ? 'mentor' : 'agent'));
     setChatInitialTab(tab);
     setChatInitialFeedbackKind(options.feedbackKind === 'resume' ? 'resume' : 'portfolio');
@@ -145,13 +152,24 @@ function App() {
     setAiRecentConversations((prev) => [item, ...prev.filter((conversation) => conversation.id !== item.id)]);
   };
 
-  const handleOpenMentorSearch = (query = '멘토 추천', { fromInterview = false } = {}) => {
+  const handleOpenMentorSearch = (query = '멘토 추천', { fromInterview = false, fromStart = false } = {}) => {
     setMentorSearchQuery(query);
     setMentorSearchFromInterview(fromInterview);
     if (!fromInterview) {
       rememberAiConversation({ id: 'mentor-search', title: '멘토 추천' });
     }
+    setHeaderBackTo(fromStart ? 'chat' : null);
     setPage('ai-mentor-search');
+  };
+
+  const handleHeaderBack = () => {
+    const target = headerBackTo ?? 'home';
+    setHeaderBackTo(null);
+    if (target === 'chat') {
+      handleNavigate('chat');
+      return;
+    }
+    setPage(target);
   };
 
   const handleOpenPlan = () => {
@@ -166,6 +184,10 @@ function App() {
   };
 
   const handleSelectAiConversation = (conversation) => {
+    if (!conversation) {
+      setPage('ai');
+      return;
+    }
     if (conversation.id === 'mentor-search') {
       setMentorSearchQuery('멘토 추천');
       setMentorSearchFromInterview(false);
@@ -259,6 +281,7 @@ function App() {
 
   const isBoardDetail =
     page === 'careertalk-detail' || page === 'qna-detail' || page === 'freetalk-detail' || page === 'board-write';
+  const isChatStartScreen = page === 'chat' && !chatSkipStart;
 
   return (
     <div className="h-dvh max-h-dvh overflow-hidden bg-[#fcfcfc] flex flex-col">
@@ -296,7 +319,9 @@ function App() {
                     ? handleBackFromMyPageProfile
                     : page === 'mentor-detail'
                       ? handleBackFromMentorDetail
-                      : undefined
+                      : (page === 'mentor' || page === 'ai-mentor-search') && headerBackTo
+                        ? handleHeaderBack
+                        : undefined
         }
         onLogoClick={() => handleNavigate('home')}
         onSearchClick={() => {
@@ -327,6 +352,7 @@ function App() {
               }
               onNavigate={handleNavigate}
               showChatBarToggle={
+                !isChatStartScreen &&
                 (page === 'chat' ||
                   page === 'board' ||
                   page === 'ai' ||
@@ -346,14 +372,20 @@ function App() {
             />
             {page === 'chat' ? (
               <ChatPage
-                key={chatMentor}
+                key={chatSkipStart ? `${chatMentor}-${chatInitialTab}-${chatInitialMode}-${chatShowIntro}` : 'chat-start'}
                 isSubMenuOpen={isSubMenuOpen}
                 onCloseSubMenu={() => setIsSubMenuOpen(false)}
                 onNavigateHome={() => handleNavigate('home')}
                 onOpenMentorDetail={handleOpenMentorDetail}
                 onOpenMentorExplore={() => handleNavigate('mentor')}
                 onOpenMentorSearch={() => handleOpenMentorSearch()}
+                onOpenStartExplore={() => {
+                  setHeaderBackTo('chat');
+                  handleNavigate('mentor', { fromStart: true });
+                }}
+                onOpenStartSearch={() => handleOpenMentorSearch('멘토 추천', { fromStart: true })}
                 skipStart={chatSkipStart}
+                initialShowIntro={chatShowIntro}
                 initialMentor={chatMentor}
                 initialChatMode={chatInitialMode}
                 initialTab={chatInitialTab}

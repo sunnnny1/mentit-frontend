@@ -13,6 +13,7 @@ import ChatReview from './ChatReview';
 import ChatFeedbackUpload from './ChatFeedbackUpload';
 import ChatFeedbackResult from './ChatFeedbackResult';
 import ChatStartScreen from './ChatStartScreen';
+import ChatAgentIntro from './ChatAgentIntro';
 import figma_6a21ef36_23ee_448e_a72f_026bd1b11241_png from '../../assets/figma/6a21ef36-23ee-448e-a72f-026bd1b11241.png';
 import figma_1b69a9c3_f6dc_419e_8b7e_4073ed4858c7_png from '../../assets/figma/1b69a9c3-f6dc-419e-8b7e-4073ed4858c7.png';
 import figma_5ddbd43f_7583_4a6b_8ddb_cf34b22b4e76_png from '../../assets/figma/5ddbd43f-7583-4a6b-8ddb-cf34b22b4e76.png';
@@ -190,7 +191,10 @@ export default function ChatPage({
   onOpenMentorDetail,
   onOpenMentorExplore,
   onOpenMentorSearch,
+  onOpenStartExplore,
+  onOpenStartSearch,
   skipStart = false,
+  initialShowIntro = false,
   initialMentor = 'Yoonie',
   initialChatMode = 'agent',
   initialTab = 'chat',
@@ -201,6 +205,7 @@ export default function ChatPage({
   onOpenInterviewFeedback,
 }) {
   const [started, setStarted] = useState(skipStart);
+  const [sessionView, setSessionView] = useState(skipStart && initialShowIntro ? 'intro' : 'thread');
   const [showAgent, setShowAgent] = useState(true);
   const [chatMode, setChatMode] = useState(initialChatMode); // 'agent' | 'mentor' | 'review'
   const [activeMentor, setActiveMentor] = useState(initialMentor);
@@ -218,6 +223,11 @@ export default function ChatPage({
 
   const mentorConfig = MENTOR_CHAT_CONFIG[activeMentor] ?? MENTOR_CHAT_CONFIG.Yoonie;
   const isFeedbackTab = subMenuTab === 'feedback';
+
+  useEffect(() => {
+    setStarted(skipStart);
+    setSessionView(skipStart && initialShowIntro ? 'intro' : 'thread');
+  }, [skipStart, initialShowIntro]);
 
   useEffect(() => {
     onReadMentor?.(activeMentor);
@@ -244,6 +254,7 @@ export default function ChatPage({
     setMessages([]);
     setIsAnswering(false);
     setShowAgent(true);
+    setSessionView(name === 'Sunny' ? 'thread' : 'intro');
   };
 
   const handleSelectSubMenuTab = (tab) => {
@@ -292,7 +303,7 @@ export default function ChatPage({
 
   return (
     <div className="flex items-stretch gap-5 flex-1 min-h-0 h-full w-full overflow-hidden">
-      {isSubMenuOpen && (
+      {isSubMenuOpen && started && (
         <ChatSubMenu
           onClose={onCloseSubMenu}
           activeMentor={activeMentor}
@@ -301,6 +312,7 @@ export default function ChatPage({
           tab={subMenuTab}
           onSelectTab={handleSelectSubMenuTab}
           feedbackKind={feedbackKind}
+          onFindMentor={onOpenMentorExplore}
         />
       )}
 
@@ -339,7 +351,7 @@ export default function ChatPage({
             onStartMentorChat={() => setChatMode('mentor')}
             onStartReview={() => setChatMode('review')}
             onSubmitReview={() => onOpenMentorDetail?.(activeMentor, { tab: 'review' })}
-            hideActionButton={!isFeedbackTab && chatMode === 'review'}
+            hideActionButton={(!isFeedbackTab && chatMode === 'review') || sessionView === 'intro'}
           />
           <div className="h-px w-full shrink-0 bg-[#e7eaee]" />
           <div className="flex flex-1 min-h-0 overflow-hidden">
@@ -399,6 +411,22 @@ export default function ChatPage({
                     : undefined
                 }
               />
+            ) : sessionView === 'intro' ? (
+              <>
+                <ChatAgentPanel
+                  introMode
+                  isSubMenuOpen={isSubMenuOpen}
+                  displayName={mentorConfig.displayName}
+                  characterIdleImg={mentorConfig.characterIdleImg}
+                  characterActiveImg={mentorConfig.characterActiveImg}
+                  gradientColor={mentorConfig.gradientColor}
+                />
+                <ChatAgentIntro
+                  displayName={mentorConfig.displayName}
+                  onStartChat={() => setSessionView('thread')}
+                  onStartFeedback={openFeedbackUpload}
+                />
+              </>
             ) : (
               <>
                 {showAgent && (
@@ -431,8 +459,8 @@ export default function ChatPage({
         </section>
       ) : (
         <ChatStartScreen
-          onOpenMentorExplore={onOpenMentorExplore}
-          onOpenMentorSearch={onOpenMentorSearch}
+          onOpenMentorExplore={onOpenStartExplore ?? onOpenMentorExplore}
+          onOpenMentorSearch={onOpenStartSearch ?? onOpenMentorSearch}
         />
       )}
     </div>

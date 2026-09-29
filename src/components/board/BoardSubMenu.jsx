@@ -11,11 +11,11 @@ const CATEGORIES = [
 
 export default function BoardSubMenu({ onClose, activeCategory, onCategoryChange }) {
   return (
-    <aside className="bg-white shadow-[0_0_8px_rgba(18,18,19,0.04)] flex flex-col items-start px-5 py-6 rounded-2xl w-[246px] h-full min-h-0 shrink-0 overflow-hidden">
+    <aside className="bg-white shadow-[0_0_8px_rgba(18,18,19,0.04)] flex flex-col items-start px-5 py-8 rounded-2xl w-[246px] h-full min-h-0 shrink-0 overflow-hidden">
       <div className="flex flex-col gap-10 items-start w-full min-h-0 flex-1 overflow-y-auto">
-        <div className="flex flex-col gap-6 items-start w-full">
-          <button type="button" onClick={onClose} className="size-6 cursor-pointer" aria-label="채팅바 여닫기">
-            <img alt="" src={imgCollapse} className="size-6" />
+        <div className="flex flex-col gap-5 items-start w-full">
+          <button type="button" onClick={onClose} className="size-5 cursor-pointer" aria-label="채팅바 여닫기">
+            <img alt="" src={imgCollapse} className="size-5" />
           </button>
           <p className="font-bold text-[15px] leading-[1.6] text-[#121213]">게시판</p>
         </div>

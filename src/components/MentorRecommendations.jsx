@@ -3,8 +3,6 @@ import { useState } from 'react';
 import imgYoonie from '../assets/icons/yoonie.webp';
 import imgEunoia from '../assets/icons/eunoia.webp';
 import imgTeddy from '../assets/icons/teddy.webp';
-import imgHeart from '../assets/figma/icon-heart.svg';
-
 const BADGE_STYLES = {
   purple: 'text-[#9054ff] bg-[#9054ff]',
   red: 'text-[#e52222] bg-[#e52222]',
@@ -83,20 +81,6 @@ function canOpenAgentChat(name) {
 
 function canOpenInterview(name) {
   return name === 'Sunny' || name === 'Sunny 멘토';
-}
-
-function FollowHeart({ filled }) {
-  if (filled) {
-    return (
-      <svg viewBox="0 0 24 24" className="relative size-6" fill="none" aria-hidden>
-        <path
-          d="M1.50006 9.4001C1.50006 5.93664 4.17005 3.1001 7.60003 3.1001C9.3425 3.1001 10.8974 3.83723 12 5.01883C13.1027 3.83723 14.6575 3.1001 16.4 3.1001C19.83 3.1001 22.5 5.93664 22.5 9.4001C22.5 11.04 21.9064 12.4208 20.9792 13.7026C20.0691 14.9607 18.8031 16.1683 17.4124 17.4596L17.4082 17.4635L13.6686 20.8915C13.4958 21.0499 13.3299 21.202 13.1792 21.3198C13.0137 21.4492 12.812 21.5821 12.5557 21.6605C12.1935 21.7712 11.8065 21.7712 11.4444 21.6605C11.1881 21.5821 10.9864 21.4492 10.8209 21.3198C10.6701 21.202 10.5043 21.0499 10.3314 20.8915L6.59188 17.4635L6.58763 17.4596C5.19695 16.1683 3.93093 14.9607 3.02085 13.7026C2.09362 12.4208 1.50006 11.04 1.50006 9.4001Z"
-          fill="#747886"
-        />
-      </svg>
-    );
-  }
-  return <img alt="" src={imgHeart} className="relative size-6" />;
 }
 
 export function MentorCard({ mentor, onOpenAgentChat, onOpenMentorDetail, onOpenInterview, clampDescription = false, variant = 'home' }) {
@@ -179,7 +163,7 @@ export function MentorCard({ mentor, onOpenAgentChat, onOpenMentorDetail, onOpen
             onClick={canOpenInterview(mentor.name) ? () => onOpenInterview?.(mentor) : undefined}
             className={GLASS_BUTTON}
           >
-            <p className="relative font-bold text-base text-[#121213] whitespace-nowrap">모의 면접 하기</p>
+            <p className="relative font-bold text-base text-[#121213] whitespace-nowrap">모의 면접하기</p>
           </button>
         </div>
       </div>
@@ -192,31 +176,21 @@ export function MentorCard({ mentor, onOpenAgentChat, onOpenMentorDetail, onOpen
       style={{ background: `radial-gradient(ellipse 78% 70% at 50% 50%, ${CARD_TINT[mentor.color]} 0%, #ffffff 78%)` }}
     >
       <div className="relative flex w-full flex-col gap-5">
-        <div className="flex items-center gap-5 w-full">
-          <div
-            className={`flex min-w-0 flex-1 items-center gap-3${canOpenDetail ? ' cursor-pointer' : ''}`}
-            onClick={canOpenDetail ? () => onOpenMentorDetail?.(mentor.name) : undefined}
-          >
-            <img alt={mentor.name} src={mentor.avatar} className="size-[60px] rounded-full shrink-0 object-cover" />
-            <div className="flex min-w-0 flex-col gap-1.5">
-              <div className="flex items-center gap-2">
-                <p className="font-bold text-lg leading-[1.5] tracking-[-0.0036px] text-[#121213] whitespace-nowrap">{displayName}</p>
-                <div className="relative flex items-center justify-center px-2 py-1 rounded-lg shrink-0">
-                  <div className={`absolute inset-0 opacity-10 rounded-lg ${BADGE_STYLES[mentor.color].split(' ')[1]}`} />
-                  <p className={`relative text-[10px] tracking-[0.25px] whitespace-nowrap ${BADGE_STYLES[mentor.color].split(' ')[0]}`}>{mentor.badgeLabel}</p>
-                </div>
+        <div
+          className={`flex items-center gap-3 w-full${canOpenDetail ? ' cursor-pointer' : ''}`}
+          onClick={canOpenDetail ? () => onOpenMentorDetail?.(mentor.name) : undefined}
+        >
+          <img alt={mentor.name} src={mentor.avatar} className="size-[60px] rounded-full shrink-0 object-cover" />
+          <div className="flex min-w-0 flex-col gap-1.5">
+            <div className="flex items-center gap-2">
+              <p className="font-bold text-lg leading-[1.5] tracking-[-0.0036px] text-[#121213] whitespace-nowrap">{displayName}</p>
+              <div className="relative flex items-center justify-center px-2 py-1 rounded-lg shrink-0">
+                <div className={`absolute inset-0 opacity-10 rounded-lg ${BADGE_STYLES[mentor.color].split(' ')[1]}`} />
+                <p className={`relative text-[10px] tracking-[0.25px] whitespace-nowrap ${BADGE_STYLES[mentor.color].split(' ')[0]}`}>{mentor.badgeLabel}</p>
               </div>
-              <p className="text-sm text-[#747886] tracking-[0.14px] whitespace-nowrap">{mentor.role}</p>
             </div>
+            <p className="text-sm text-[#747886] tracking-[0.14px] whitespace-nowrap">{mentor.role}</p>
           </div>
-          <button
-            type="button"
-            onClick={() => setIsFollowing((prev) => !prev)}
-            className="relative flex size-10 shrink-0 items-center justify-center rounded-full border border-[rgba(255,255,255,0.4)] bg-[rgba(255,255,255,0.4)] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] backdrop-blur-[10px] cursor-pointer"
-            aria-label={isFollowing ? '팔로우 취소' : '팔로우'}
-          >
-            <FollowHeart filled={isFollowing} />
-          </button>
         </div>
 
         <div className="flex flex-col gap-3 w-full">
@@ -251,7 +225,7 @@ export function MentorCard({ mentor, onOpenAgentChat, onOpenMentorDetail, onOpen
           onClick={() => onOpenInterview?.(mentor)}
           className={GLASS_BUTTON}
         >
-          <p className="relative font-bold text-base leading-[1.45] text-[#121213] whitespace-nowrap">모의 면접 하기</p>
+          <p className="relative font-bold text-base leading-[1.45] text-[#121213] whitespace-nowrap">모의 면접하기</p>
         </button>
       </div>
     </div>

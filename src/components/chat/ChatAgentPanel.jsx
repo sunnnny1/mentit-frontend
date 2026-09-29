@@ -12,6 +12,7 @@ export default function ChatAgentPanel({
   characterIdleImg,
   characterActiveImg,
   gradientColor = 'purple',
+  introMode = false,
 }) {
   return (
     <div
@@ -19,43 +20,53 @@ export default function ChatAgentPanel({
         isSubMenuOpen ? 'w-[533px] max-w-[50%]' : 'w-[710px] max-w-[60%]'
       }`}
     >
-      <MentorCircleGradient
-        isSubMenuOpen={isSubMenuOpen}
-        gradientColor={gradientColor}
-        className="absolute left-1/2 top-[46%] size-[340px] -translate-x-1/2 -translate-y-1/2"
-      />
+      {!introMode ? (
+        <MentorCircleGradient
+          isSubMenuOpen={isSubMenuOpen}
+          gradientColor={gradientColor}
+          className="absolute left-1/2 top-[46%] size-[340px] -translate-x-1/2 -translate-y-1/2"
+        />
+      ) : null}
 
-      <div className="relative z-10 flex items-center justify-end px-6 py-4 h-[62px] shrink-0">
-        <button type="button" onClick={onClose} className="size-6 cursor-pointer" aria-label="캐릭터 패널 닫기">
-          <img alt="" src={imgClose} className="size-6" />
-        </button>
-      </div>
+      {!introMode ? (
+        <div className="relative z-10 flex items-center justify-end px-6 py-4 h-[62px] shrink-0">
+          <button type="button" onClick={onClose} className="size-6 cursor-pointer" aria-label="캐릭터 패널 닫기">
+            <img alt="" src={imgClose} className="size-6" />
+          </button>
+        </div>
+      ) : null}
 
-      <div className="relative z-10 px-5 py-4 shrink-0">
-        <p className="text-sm leading-[1.58] tracking-[0.14px] text-[#747886] text-center">
-          {hasStarted ? (
-            <>
-              멘토의 데이터를 찾아서 답변드릴게요.
-              <br />
-              잠시만 기다려주세요.
-            </>
-          ) : (
-            <>
-              {agentGreetingIdle[0]}
-              <br />
-              {agentGreetingIdle[1]}
-            </>
-          )}
-        </p>
-      </div>
+      {!introMode ? (
+        <div className="relative z-10 px-5 py-4 shrink-0">
+          <p className="text-sm leading-[1.58] tracking-[0.14px] text-[#747886] text-center">
+            {hasStarted ? (
+              <>
+                멘토의 데이터를 찾아서 답변드릴게요.
+                <br />
+                잠시만 기다려주세요.
+              </>
+            ) : (
+              <>
+                {agentGreetingIdle[0]}
+                <br />
+                {agentGreetingIdle[1]}
+              </>
+            )}
+          </p>
+        </div>
+      ) : null}
 
       <div className="relative z-[1] flex-1 min-h-0 overflow-hidden pointer-events-none">
         <img
           alt={displayName}
-          src={hasStarted ? characterActiveImg : characterIdleImg}
-          className="absolute left-1/2 bottom-0 h-full w-auto max-w-none -translate-x-1/2"
+          src={hasStarted && !introMode ? characterActiveImg : characterIdleImg}
+          className={
+            introMode
+              ? 'absolute left-1/2 top-[14.4%] w-[min(498px,93.4%)] h-auto -translate-x-1/2 object-contain object-top [mask-image:linear-gradient(to_bottom,black_55%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_55%,transparent_100%)]'
+              : 'absolute left-1/2 bottom-0 h-full w-auto max-w-none -translate-x-1/2'
+          }
         />
-        <div className="absolute bottom-0 left-0 z-[2] w-full h-[150px] bg-gradient-to-b from-transparent to-white" />
+        <div className="absolute bottom-0 left-0 z-[2] w-full h-[200px] bg-gradient-to-b from-transparent to-white" />
       </div>
     </div>
   );

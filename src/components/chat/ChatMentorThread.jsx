@@ -237,8 +237,8 @@ export default function ChatMentorThread({
 
   return (
     <div className="relative z-[1] flex-1 min-w-0 min-h-0 h-full flex flex-col bg-white">
-      <div className="shrink-0 flex justify-start px-5 py-5">
-        <div className="flex items-center p-0.5 rounded-lg bg-[#f4f6f8]">
+      <div className="shrink-0 flex flex-col gap-2 px-5 py-5 self-stretch w-full">
+        <div className="flex items-center p-0.5 rounded-lg bg-[#f4f6f8] w-fit">
           <button
             type="button"
             onClick={onBackToAgent}
@@ -253,11 +253,7 @@ export default function ChatMentorThread({
             멘토 채팅
           </button>
         </div>
-      </div>
-
-      <div className={threadBodyClass}>
-      <div className="relative shrink-0 px-16 py-7 bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_50%,#ffffff_100%)]">
-        <div className="relative flex flex-col gap-1 items-center justify-center text-center w-full">
+        <div className="flex h-10 flex-col gap-1 items-center justify-center text-center w-full">
           <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213] w-full">
             {availabilityIntro}
           </p>
@@ -267,11 +263,33 @@ export default function ChatMentorThread({
         </div>
       </div>
 
+      <div className={threadBodyClass}>
       <div className="flex-1 min-h-0 overflow-y-auto px-[157px] pb-28 flex flex-col gap-10 w-full">
         {conversation.map((group, index) => {
+          const isLast = index === conversation.length - 1;
+          const reviewBox = (
+            <div className="flex flex-col gap-6 items-start w-full max-w-[424px] p-6 rounded-2xl bg-white border border-[#f4f6f8] shadow-[0_0_15px_rgba(18,18,19,0.04)]">
+              <div className="flex flex-col gap-3 items-start w-full">
+                <p className="font-bold text-[15px] leading-[1.6] text-[#121213] w-full">
+                  {mentorDisplayName} 멘토가 리뷰를 요청했어요!
+                </p>
+                <p className="font-normal text-[14px] leading-[1.58] tracking-[0.14px] text-[#121213] w-full">
+                  멘토링은 어떠셨나요? 소중한 경험을 리뷰로 남겨주세요.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={onStartReview}
+                className="relative w-full flex items-center justify-center px-7 py-3 rounded-xl border border-[#70d2ff] bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10 after:rounded-xl"
+              >
+                <span className="relative font-bold text-[16px] leading-[1.45] text-white whitespace-nowrap">리뷰 쓰러가기</span>
+              </button>
+            </div>
+          );
+
           if (group.role === 'user') {
-            return (
-              <div key={index} className={`flex flex-col items-end w-full ${index === 0 && feedbackCard ? 'gap-2' : 'gap-2.5'}`}>
+            const userBlock = (
+              <div className={`flex flex-col items-end w-full ${index === 0 && feedbackCard ? 'gap-2' : 'gap-2.5'}`}>
                 {index === 0 && feedbackCard ? (
                   <button
                     type="button"
@@ -292,25 +310,32 @@ export default function ChatMentorThread({
                   </button>
                 ) : null}
                 {group.texts.map((text) => (
-                  <div key={text} className="bg-[#f9fafb] rounded-[12px] p-[12px] max-w-[423px]">
+                  <div key={text} className="bg-[#f9fafb] rounded-[12px] p-[12px] w-fit max-w-[512px]">
                     <p className="font-normal text-[15px] leading-[1.6] text-[#121213] whitespace-pre-wrap">{text}</p>
                   </div>
                 ))}
               </div>
             );
+            if (!isLast) return <div key={index}>{userBlock}</div>;
+            return (
+              <div key={index} className="flex flex-col gap-2 items-start w-full">
+                {userBlock}
+                {reviewBox}
+              </div>
+            );
           }
 
-          return (
-            <div key={index} className="flex flex-col gap-4 items-start w-full max-w-[423px]">
+          const mentorBlock = (
+            <div className="flex flex-col gap-4 items-start w-fit max-w-[512px]">
               {group.texts.map((text, textIndex) => (
-                <div key={text} className="flex flex-col gap-2 items-start w-full">
+                <div key={text} className="flex flex-col gap-2 items-start w-fit max-w-[512px]">
                   {textIndex === 0 && (
                     <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213]">
                       {mentorDisplayName}
                     </p>
                   )}
                   <div
-                    className="rounded-[12px] p-[12px] max-w-[423px] w-full"
+                    className="rounded-[12px] p-[12px] w-fit max-w-[512px]"
                     style={{ backgroundColor: mentorBubbleBg }}
                   >
                     <p className="font-normal text-[15px] leading-[1.6] text-[#121213] whitespace-pre-wrap">{text}</p>
@@ -319,25 +344,15 @@ export default function ChatMentorThread({
               ))}
             </div>
           );
-        })}
 
-        <div className="flex flex-col gap-6 items-start w-full max-w-[424px] p-6 rounded-2xl bg-white border border-[#f4f6f8] shadow-[0_0_15px_rgba(18,18,19,0.04)]">
-          <div className="flex flex-col gap-3 items-start w-full">
-            <p className="font-bold text-[15px] leading-[1.6] text-[#121213] w-full">
-              {mentorDisplayName} 멘토가 리뷰를 요청했어요!
-            </p>
-            <p className="font-normal text-[14px] leading-[1.58] tracking-[0.14px] text-[#121213] w-full">
-              멘토링은 어떠셨나요? 소중한 경험을 리뷰로 남겨주세요.
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={onStartReview}
-            className="relative w-full flex items-center justify-center px-7 py-3 rounded-xl border border-[#70d2ff] bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10 after:rounded-xl"
-          >
-            <span className="relative font-bold text-[16px] leading-[1.45] text-white whitespace-nowrap">리뷰 쓰러가기</span>
-          </button>
-        </div>
+          if (!isLast) return <div key={index}>{mentorBlock}</div>;
+          return (
+            <div key={index} className="flex flex-col gap-2 items-start w-full">
+              {mentorBlock}
+              {reviewBox}
+            </div>
+          );
+        })}
       </div>
 
       <form
