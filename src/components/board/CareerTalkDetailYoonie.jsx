@@ -63,10 +63,10 @@ function MentorChatSuggestion({ mentorName, onOpenChat }) {
           </p>
           <button
             type="button"
-            onClick={onOpenChat}
+            onClick={() => onOpenChat?.()}
             className="shrink-0 bg-[#1a75ff] border border-[#70d2ff] rounded-lg px-4 py-2 shadow-[inset_0_0_4px_0_#e7f3ff] cursor-pointer"
           >
-            <span className="font-bold text-[14px] tracking-[0.14px] text-white whitespace-nowrap">
+            <span className="font-semibold text-[14px] tracking-[0.14px] text-white whitespace-nowrap">
               {mentorName} 멘토와 채팅하기
             </span>
           </button>
@@ -257,13 +257,16 @@ export default function CareerTalkDetailYoonie({ onBack, onOpenMentorChat, onOpe
                 <button
                   type="button"
                   onClick={submitComment}
-                  className="font-bold text-[16px] leading-[1.45] text-[#1a75ff] cursor-pointer"
+                  disabled={!draft.trim()}
+                  className={`font-semibold text-[16px] leading-[1.45] ${
+                    draft.trim() ? 'text-[#1a75ff] cursor-pointer' : 'text-[#9ca2b1] cursor-not-allowed'
+                  }`}
                 >
                   댓글 남기기
                 </button>
               </div>
             </div>
-            <p className="text-[12px] tracking-[0.3px] text-[#9ca2b1]">댓글을 등록하면 수정이나 삭제할 수 없어요</p>
+            <p className="text-[13px] tracking-[0.26px] text-[#9ca2b1]">댓글을 등록하면 수정이나 삭제할 수 없어요</p>
           </div>
         </div>
 
@@ -272,7 +275,7 @@ export default function CareerTalkDetailYoonie({ onBack, onOpenMentorChat, onOpe
             <div key={`${comment.author}-${index}`} className="flex flex-col gap-2 w-full">
               <CommentCard comment={comment} />
               {comment.aiSuggestion && (
-                <MentorChatSuggestion mentorName="Yoonie" onOpenChat={onOpenMentorChat} />
+                <MentorChatSuggestion mentorName="Yoonie" onOpenChat={() => onOpenMentorChat?.('Yoonie')} />
               )}
             </div>
           ))}

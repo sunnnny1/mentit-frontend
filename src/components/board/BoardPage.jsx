@@ -9,6 +9,7 @@ import imgBookmark from '../../assets/icons/careertalk-bookmark.svg';
 import imgBookmarkFill from '../../assets/icons/careertalk-bookmark-fill.svg';
 import imgLikeFill from '../../assets/icons/like-fill-gray.svg';
 import imgComment from '../../assets/icons/comment.svg';
+import BoardListLikeIcon from './BoardListLikeIcon';
 import imgUha from '../../assets/icons/ellipse-uha.png';
 import imgYoonieMentor from '../../assets/icons/yoonie.webp';
 import imgEric from '../../assets/icons/ellipse-eric.png';
@@ -316,7 +317,7 @@ function FreeTalkPost({ post, onOpenDetail }) {
           className="flex items-center gap-1 cursor-pointer"
           aria-pressed={liked}
         >
-          <img alt="" src={imgLikeFill} className="size-5" />
+          <BoardListLikeIcon liked={liked} src={imgLikeFill} />
           <span className="text-[12px] tracking-[0.3px] text-[#747886]">{likeCount}</span>
         </button>
         <div className="flex items-center gap-1">
@@ -351,7 +352,7 @@ export default function BoardPage({
       {isSubMenuOpen && (
         <BoardSubMenu onClose={onCloseSubMenu} activeCategory={category} onCategoryChange={onCategoryChange} />
       )}
-      <section ref={scrollRef} className="flex-1 min-w-0 min-h-0 rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-y-auto">
+      <section className="flex-1 min-w-0 min-h-0 rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-hidden flex flex-col">
         {category === 'careertalk' ? (
           <BoardCareerTalk onOpenDetail={onOpenCareerTalkDetail} />
         ) : category === 'qna' ? (
@@ -359,6 +360,7 @@ export default function BoardPage({
         ) : category === 'freetalk' ? (
           <BoardFreeTalk onOpenDetail={onOpenFreeTalkDetail} onOpenWrite={onOpenWrite} />
         ) : (
+        <div ref={scrollRef} className="flex-1 min-h-0 overflow-y-auto">
         <div className="max-w-[867px] mx-auto py-16 flex flex-col gap-16">
           <section className="flex flex-col gap-6 items-start w-full">
             <h2 className="font-bold text-[22px] leading-[1.4] tracking-[-0.33px] text-[#121213]">이번주 활동량 높은 멘토</h2>
@@ -409,6 +411,7 @@ export default function BoardPage({
               ))}
             </div>
           </section>
+        </div>
         </div>
         )}
       </section>

@@ -14,6 +14,7 @@ import CareerTalkDetailYoonie from './components/board/CareerTalkDetailYoonie';
 import QnaDetailQualQuant from './components/board/QnaDetailQualQuant';
 import QnaDetailFailedProject from './components/board/QnaDetailFailedProject';
 import BoardFreeTalkDetail from './components/board/BoardFreeTalkDetail';
+import BoardFreeTalkDetailAionue from './components/board/BoardFreeTalkDetailAionue';
 import BoardWrite from './components/board/BoardWrite';
 import MyPage from './components/mypage/MyPage';
 import MyPageProfileEdit from './components/mypage/MyPageProfileEdit';
@@ -53,6 +54,7 @@ function App() {
   const [boardCategory, setBoardCategory] = useState('all');
   const [careerTalkArticleId, setCareerTalkArticleId] = useState('uha');
   const [qnaArticleId, setQnaArticleId] = useState('qualquant');
+  const [freeTalkArticleId, setFreeTalkArticleId] = useState('gangster');
   const [writeCategory, setWriteCategory] = useState('qna');
   const [insightTab, setInsightTab] = useState('all');
   const [myPageTab, setMyPageTab] = useState('insight');
@@ -70,6 +72,8 @@ function App() {
   const [mentorDetailId, setMentorDetailId] = useState('yoonie');
   const [mentorDetailTab, setMentorDetailTab] = useState('intro');
   const [interviewMentor, setInterviewMentor] = useState('Sunny');
+  const [searchAfterResults, setSearchAfterResults] = useState(false);
+  const [searchSession, setSearchSession] = useState(0);
 
   const handleSelectInterviewMentor = (mentor) => {
     if (mentor !== 'Sunny') return;
@@ -129,7 +133,7 @@ function App() {
     setChatSkipStart(true);
     setChatShowIntro(!skipIntro);
     setIsSubMenuOpen(!skipIntro);
-    setHeaderBackTo(null);
+    setHeaderBackTo(options.backTo ?? null);
     setChatInitialMode(options.mode ?? (name === 'Sunny' ? 'mentor' : 'agent'));
     setChatInitialTab(tab);
     setChatInitialFeedbackKind(options.feedbackKind === 'resume' ? 'resume' : 'portfolio');
@@ -231,7 +235,8 @@ function App() {
     setBoardCategory('qna');
   };
 
-  const handleOpenFreeTalkDetail = () => {
+  const handleOpenFreeTalkDetail = (articleId = 'gangster') => {
+    setFreeTalkArticleId(articleId);
     setPage('freetalk-detail');
   };
 
@@ -282,6 +287,30 @@ function App() {
   const isBoardDetail =
     page === 'careertalk-detail' || page === 'qna-detail' || page === 'freetalk-detail' || page === 'board-write';
   const isChatStartScreen = page === 'chat' && !chatSkipStart;
+  const sidebarPage = page === 'search' ? (previousPage ?? 'home') : page;
+  const sidebarActiveItem = (() => {
+    if (
+      sidebarPage === 'careertalk-detail' ||
+      sidebarPage === 'qna-detail' ||
+      sidebarPage === 'freetalk-detail' ||
+      sidebarPage === 'board-write'
+    ) {
+      return 'board';
+    }
+    if (sidebarPage === 'ai-mentor-search' || sidebarPage === 'ai-plan' || sidebarPage === 'ai-job') return 'ai';
+    if (sidebarPage === 'mentor-detail') return 'mentor';
+    if (
+      sidebarPage === 'interview-onboarding' ||
+      sidebarPage === 'interview-analyze' ||
+      sidebarPage === 'interview-normal' ||
+      sidebarPage === 'interview-session' ||
+      sidebarPage === 'interview-feedback'
+    ) {
+      return 'interview';
+    }
+    if (sidebarPage === 'mypage' || sidebarPage === 'mypage-profile') return null;
+    return sidebarPage;
+  })();
 
   return (
     <div className="h-dvh max-h-dvh overflow-hidden bg-[#fcfcfc] flex flex-col">
@@ -319,37 +348,41 @@ function App() {
                     ? handleBackFromMyPageProfile
                     : page === 'mentor-detail'
                       ? handleBackFromMentorDetail
-                      : (page === 'mentor' || page === 'ai-mentor-search') && headerBackTo
+                      : (page === 'chat' || page === 'mentor' || page === 'ai-mentor-search') && headerBackTo
                         ? handleHeaderBack
                         : undefined
         }
         onLogoClick={() => handleNavigate('home')}
         onSearchClick={() => {
           setPreviousPage((prev) => (page === 'search' ? prev : page));
+          setSearchAfterResults(false);
+          setSearchSession((n) => n + 1);
           setPage('search');
         }}
       />
       <div className="flex items-stretch gap-5 px-5 flex-1 min-h-0 overflow-x-visible overflow-y-hidden pb-5">
         {page === 'search' ? (
-          <SearchPage onClose={() => setPage(previousPage ?? 'home')} onOpenAgentChat={handleOpenMentorChat} onOpenMentorDetail={handleOpenMentorDetail} />
+          <>
+            {searchAfterResults ? (
+              <Sidebar
+                activeItem={sidebarActiveItem}
+                onNavigate={handleNavigate}
+                onOpenChatBar={() => setIsSubMenuOpen(true)}
+                onOpenMyPage={handleOpenMyPage}
+              />
+            ) : null}
+            <SearchPage
+              key={searchSession}
+              onClose={() => setPage(previousPage ?? 'home')}
+              onAfterSearchChange={setSearchAfterResults}
+              onOpenAgentChat={handleOpenMentorChat}
+              onOpenMentorDetail={handleOpenMentorDetail}
+            />
+          </>
         ) : (
           <>
             <Sidebar
-              activeItem={
-                isBoardDetail
-                  ? 'board'
-                  : page === 'ai-mentor-search' || page === 'ai-plan' || page === 'ai-job'
-                    ? 'ai'
-                    : page === 'mentor-detail'
-                      ? 'mentor'
-                      : page === 'interview-onboarding' ||
-                          page === 'interview-analyze' ||
-                          page === 'interview-normal' ||
-                          page === 'interview-session' ||
-                          page === 'interview-feedback'
-                        ? 'interview'
-                        : page
-              }
+              activeItem={sidebarActiveItem}
               onNavigate={handleNavigate}
               showChatBarToggle={
                 !isChatStartScreen &&
@@ -517,7 +550,9 @@ function App() {
               careerTalkArticleId === 'yoonie' ? (
                 <CareerTalkDetailYoonie
                   onBack={handleBackFromCareerTalkDetail}
-                  onOpenMentorChat={handleOpenMentorChat}
+                  onOpenMentorChat={(mentor, options) =>
+                    handleOpenMentorChat(mentor, { ...options, backTo: 'careertalk-detail' })
+                  }
                   onOpenMentorDetail={handleOpenMentorDetail}
                 />
               ) : (
@@ -525,12 +560,21 @@ function App() {
               )
             ) : page === 'qna-detail' ? (
               qnaArticleId === 'failed' ? (
-                <QnaDetailFailedProject onOpenMentorChat={handleOpenMentorChat} onOpenMentorDetail={handleOpenMentorDetail} />
+                <QnaDetailFailedProject
+                  onOpenMentorChat={(mentor, options) =>
+                    handleOpenMentorChat(mentor, { ...options, backTo: 'qna-detail' })
+                  }
+                  onOpenMentorDetail={handleOpenMentorDetail}
+                />
               ) : (
-                <QnaDetailQualQuant onOpenMentorChat={handleOpenMentorChat} />
+                <QnaDetailQualQuant
+                  onOpenMentorChat={(mentor, options) =>
+                    handleOpenMentorChat(mentor, { ...options, backTo: 'qna-detail' })
+                  }
+                />
               )
             ) : page === 'freetalk-detail' ? (
-              <BoardFreeTalkDetail />
+              freeTalkArticleId === 'aionue' ? <BoardFreeTalkDetailAionue /> : <BoardFreeTalkDetail />
             ) : page === 'board-write' ? (
               <BoardWrite defaultCategory={writeCategory} onSubmit={handleSubmitWrite} />
             ) : page === 'mypage-profile' ? (

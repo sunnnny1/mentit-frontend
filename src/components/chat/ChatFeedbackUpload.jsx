@@ -9,9 +9,9 @@ const MOCK_FILES = {
 };
 
 const MOCK_JDS = [
-  { url: 'http://toss.com/job', title: '토스 채용', summary: '1. 토스 프로덕트 디자이너 JD가 불러와졌어요' },
-  { url: 'http://kakao.com/job', title: '카카오 채용', summary: '2. 카카오 UX 디자이너 JD가 불러와졌어요' },
-  { url: 'http://naver.com/job', title: '네이버 채용', summary: '3. 네이버 채용 JD가 불러와졌어요' },
+  { url: 'http://toss.com/job', title: '토스 채용', summary: '토스 마케팅 매니저 JD를 불러왔어요' },
+  { url: 'http://kakao.com/job', title: '카카오 채용', summary: '카카오 UX 디자이너 JD를 불러왔어요' },
+  { url: 'http://naver.com/job', title: '네이버 채용', summary: '네이버 채용 JD를 불러왔어요' },
 ];
 
 function formatFileSize(bytes) {
@@ -22,7 +22,7 @@ function formatFileSize(bytes) {
 function CircleCheck({ checked }) {
   return (
     <span
-      className={`flex size-[18px] items-center justify-center rounded-full border-[1.5px] ${
+      className={`flex size-6 items-center justify-center rounded-full border-[1.5px] ${
         checked ? 'border-[#1a75ff] bg-[#1a75ff]' : 'border-[#e7eaee] bg-white'
       }`}
     >
@@ -92,7 +92,7 @@ export default function ChatFeedbackUpload({ onReadyChange, onRequestAgentFeedba
     const match = MOCK_JDS.find((item) => text.includes(item.url.replace('http://', ''))) ?? {
       url: text,
       title: '모집공고',
-      summary: `${jdItems.length + 1}. JD가 불러와졌어요`,
+      summary: 'JD를 불러왔어요',
     };
     addJd(match);
   };
@@ -119,9 +119,9 @@ export default function ChatFeedbackUpload({ onReadyChange, onRequestAgentFeedba
                     setUploadedFile(MOCK_FILES.portfolio);
                   }
                 }}
-                className="flex items-center gap-1 cursor-pointer"
+                className="flex w-[90px] items-center gap-1 cursor-pointer"
               >
-                <span className="text-sm tracking-[0.14px] text-[#121213]">포트폴리오</span>
+                <span className="text-sm leading-[1.42] tracking-[0.14px] text-[#121213]">포트폴리오</span>
                 <CircleCheck checked={fileKind === 'portfolio'} />
               </button>
               <button
@@ -133,9 +133,9 @@ export default function ChatFeedbackUpload({ onReadyChange, onRequestAgentFeedba
                     setUploadedFile(MOCK_FILES.resume);
                   }
                 }}
-                className="flex items-center gap-1 cursor-pointer"
+                className="flex w-[90px] items-center gap-1 cursor-pointer"
               >
-                <span className="text-sm tracking-[0.14px] text-[#121213]">자기소개서</span>
+                <span className="text-sm leading-[1.42] tracking-[0.14px] text-[#121213]">자기소개서</span>
                 <CircleCheck checked={fileKind === 'resume'} />
               </button>
             </div>
@@ -224,10 +224,19 @@ export default function ChatFeedbackUpload({ onReadyChange, onRequestAgentFeedba
                 {jdItems.map((item) => (
                   <div
                     key={item.url}
-                    className="flex w-full flex-col gap-2 items-start overflow-hidden rounded-2xl border border-[#e7eaee] px-4 py-5"
+                    className="flex w-full flex-col gap-5 items-start overflow-hidden rounded-2xl border border-[#e7eaee] px-4 py-5"
                   >
-                    <p className="font-bold text-base leading-[1.45] text-[#121213]">{item.url}</p>
-                    <p className="text-[15px] leading-[1.6] text-[#121213]">{item.title}</p>
+                    <div className="flex w-full flex-col gap-2 items-start">
+                      <p className="font-bold text-base leading-[1.45] text-[#121213]">{item.url}</p>
+                      <p className="font-normal text-[15px] leading-[1.6] text-[#121213]">{item.title}</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setJdItems((prev) => prev.filter((row) => row.url !== item.url))}
+                      className="text-[13px] leading-[1.4] tracking-[0.26px] text-[#747886] underline cursor-pointer"
+                    >
+                      다시 입력하기
+                    </button>
                   </div>
                 ))}
                 {jdItems.length < 3 ? (
@@ -252,15 +261,19 @@ export default function ChatFeedbackUpload({ onReadyChange, onRequestAgentFeedba
               <p className="font-bold text-lg leading-[1.5] tracking-[-0.0036px] text-[#121213]">
                 피드백을 위한 파일이 모두 업로드됐어요
               </p>
-              <div className="flex w-full max-w-[511px] flex-col gap-6 items-start rounded-2xl border border-[#f4f6f8] bg-white p-6 shadow-[0_0_15px_rgba(18,18,19,0.04)]">
+              <div className="flex w-[423px] max-w-full flex-col gap-6 items-start rounded-2xl border border-[#f4f6f8] bg-white p-6 shadow-[0_0_15px_rgba(18,18,19,0.04)]">
                 <div className="flex w-full flex-col gap-3 items-start">
                   <p className="font-bold text-[15px] leading-[1.45] text-[#121213]">
-                    AI 에이전트가 이 직무에 맞춰 {kindLabel}를 분석할게요
+                    {jdItems.length > 0
+                      ? `AI 에이전트가 이 직무에 맞춰 ${kindLabel}를 분석할게요`
+                      : `AI 에이전트가 ${kindLabel}를 분석할게요`}
                   </p>
                   {jdItems.length > 0 ? (
                     <div className="w-full text-[15px] leading-[1.6] text-[#121213]">
-                      {jdItems.map((item) => (
-                        <p key={item.url}>{item.summary}</p>
+                      {jdItems.map((item, index) => (
+                        <p key={item.url}>
+                          {index + 1}. {item.summary}
+                        </p>
                       ))}
                     </div>
                   ) : null}

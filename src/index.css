@@ -37,6 +37,23 @@ body {
   display: none;
 }
 
+.show-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #cad1d6 transparent;
+  -ms-overflow-style: auto;
+}
+
+.show-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  display: block;
+}
+
+.show-scrollbar::-webkit-scrollbar-thumb {
+  background: #cad1d6;
+  border-radius: 999px;
+}
+
 @keyframes mentit-symbol-in {
   from {
     opacity: 0;

@@ -13,7 +13,6 @@ import figma_f18f03a8_dbf0_4add_aa12_723afdd968d9_svg from '../../assets/figma/f
 import figma_df765ee2_056e_4c6e_9c71_962cc09f1dc5_svg from '../../assets/figma/df765ee2-056e-4c6e-9c71-962cc09f1dc5.svg';
 import figma_b20bcd72_0b9e_4707_8bd9_b80aa3f1fae3_svg from '../../assets/figma/b20bcd72-0b9e-4707-8bd9-b80aa3f1fae3.svg';
 import figma_027bc329_49a1_4a70_9a34_5bb6dcae417c_svg from '../../assets/figma/027bc329-49a1-4a70-9a34-5bb6dcae417c.svg';
-import figma_d82be445_be8d_44cb_bce0_d3f6a3b977c2_svg from '../../assets/figma/d82be445-be8d-44cb-bce0-d3f6a3b977c2.svg';
 import figma_bb3b8c56_7ee3_4df3_ba7c_8fbd9131aa9f_svg from '../../assets/figma/bb3b8c56-7ee3-4df3-ba7c-8fbd9131aa9f.svg';
 
 const imgAuthor = figma_b4ad48a6_02b1_4721_a66a_4a0f340df722_png;
@@ -22,7 +21,6 @@ const imgLikeFill = figma_f18f03a8_dbf0_4add_aa12_723afdd968d9_svg;
 const imgBookmarkOutline = figma_df765ee2_056e_4c6e_9c71_962cc09f1dc5_svg;
 const imgBookmarkFill = figma_b20bcd72_0b9e_4707_8bd9_b80aa3f1fae3_svg;
 const imgShare = figma_027bc329_49a1_4a70_9a34_5bb6dcae417c_svg;
-const imgSmallLike = figma_d82be445_be8d_44cb_bce0_d3f6a3b977c2_svg;
 const imgMoreChevron = figma_bb3b8c56_7ee3_4df3_ba7c_8fbd9131aa9f_svg;
 
 const BADGE = {
@@ -103,6 +101,8 @@ function MentorAnswerCard({ answer, onOpenMentorChat }) {
   const badge = BADGE[answer.badge];
   const [expanded, setExpanded] = useState(false);
   const [isClamped, setIsClamped] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(answer.likes);
   const textRef = useRef(null);
 
   useEffect(() => {
@@ -134,11 +134,11 @@ function MentorAnswerCard({ answer, onOpenMentorChat }) {
             onClick={() => onOpenMentorChat?.(answer.name)}
             className="shrink-0 border border-[#70d2ff] rounded-lg px-5 py-2 bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff] cursor-pointer"
           >
-            <span className="font-bold text-[15px] leading-[1.45] text-white whitespace-nowrap">멘토와 채팅하기</span>
+            <span className="font-semibold text-[15px] leading-[1.45] text-white whitespace-nowrap">멘토와 채팅하기</span>
           </button>
         ) : (
           <div className="shrink-0 border border-[#70d2ff] rounded-lg px-5 py-2 bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff]">
-            <span className="font-bold text-[15px] leading-[1.45] text-white whitespace-nowrap">멘토와 채팅하기</span>
+            <span className="font-semibold text-[15px] leading-[1.45] text-white whitespace-nowrap">멘토와 채팅하기</span>
           </div>
         )}
       </div>
@@ -160,10 +160,31 @@ function MentorAnswerCard({ answer, onOpenMentorChat }) {
             </button>
           )}
         </div>
-        <div className="flex items-center gap-1">
-          <img alt="" src={imgSmallLike} className="size-5" />
-          <span className="text-[13px] tracking-[0.26px] text-[#121213]">{answer.likes}</span>
-        </div>
+        <button
+          type="button"
+          onClick={() => {
+            setLiked((v) => !v);
+            setLikeCount((count) => (liked ? count - 1 : count + 1));
+          }}
+          className="flex items-center gap-1 cursor-pointer self-start"
+          aria-pressed={liked}
+        >
+          <span
+            aria-hidden
+            className="block size-5"
+            style={{
+              WebkitMaskImage: `url("${liked ? imgLikeFill : imgLikeOutline}")`,
+              maskImage: `url("${liked ? imgLikeFill : imgLikeOutline}")`,
+              WebkitMaskSize: 'contain',
+              maskSize: 'contain',
+              WebkitMaskRepeat: 'no-repeat',
+              maskRepeat: 'no-repeat',
+              WebkitMaskPosition: 'center',
+              backgroundColor: '#9CA2B1',
+            }}
+          />
+          <span className="text-[13px] tracking-[0.26px] text-[#121213]">{likeCount}</span>
+        </button>
       </div>
     </div>
   );

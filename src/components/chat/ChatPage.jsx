@@ -11,6 +11,7 @@ import ChatMentorThread, {
 } from './ChatMentorThread';
 import ChatReview from './ChatReview';
 import ChatFeedbackUpload from './ChatFeedbackUpload';
+import ChatFeedbackAnalyze from './ChatFeedbackAnalyze';
 import ChatFeedbackResult from './ChatFeedbackResult';
 import ChatStartScreen from './ChatStartScreen';
 import ChatAgentIntro from './ChatAgentIntro';
@@ -300,6 +301,8 @@ export default function ChatPage({
   const openFeedbackUpload = (kind) => {
     setStarted(true);
     setSubMenuTab('feedback');
+    setFeedbackView('upload');
+    setFeedbackReady(false);
     if (kind === 'resume' || kind === 'portfolio') setFeedbackKind(kind);
     if (activeMentor !== 'Yoonie' && activeMentor !== 'Sunny') {
       setActiveMentor('Yoonie');
@@ -317,7 +320,7 @@ export default function ChatPage({
   const openAgentFeedback = (kind) => {
     if (kind === 'resume' || kind === 'portfolio') setFeedbackKind(kind);
     setSubMenuTab('feedback');
-    setFeedbackView('result');
+    setFeedbackView('analyze');
   };
 
   const openMentorFromFeedback = () => {
@@ -381,7 +384,7 @@ export default function ChatPage({
                 ? '리뷰 쓰러가기'
                 : isFeedbackTab && feedbackView === 'result'
                   ? '멘토에게 피드백받기'
-                  : isFeedbackTab && feedbackReady
+                  : isFeedbackTab && feedbackView !== 'upload' && feedbackReady
                     ? '에이전트에게 피드백받기'
                     : undefined
             }
@@ -399,7 +402,11 @@ export default function ChatPage({
             onStartMentorChat={() => setChatMode('mentor')}
             onStartReview={() => setChatMode('review')}
             onSubmitReview={() => onOpenMentorDetail?.(activeMentor, { tab: 'review' })}
-            hideActionButton={(!isFeedbackTab && chatMode === 'review') || sessionView === 'intro'}
+            hideActionButton={
+              (!isFeedbackTab && chatMode === 'review') ||
+              sessionView === 'intro' ||
+              (isFeedbackTab && (feedbackView === 'upload' || feedbackView === 'analyze'))
+            }
           />
           <div className="h-px w-full shrink-0 bg-[#e7eaee]" />
           <div className="flex flex-1 min-h-0 overflow-hidden">
@@ -410,6 +417,13 @@ export default function ChatPage({
                 onRequestAgentFeedback={openAgentFeedback}
               />
             </div>
+            {isFeedbackTab && feedbackView === 'analyze' ? (
+              <ChatFeedbackAnalyze
+                key={feedbackKind}
+                documentKind={feedbackKind}
+                onComplete={() => setFeedbackView('result')}
+              />
+            ) : null}
             {isFeedbackTab && (feedbackView === 'result' || feedbackView === 'mentor') ? (
               <ChatFeedbackResult
                 key={`${feedbackView}-${feedbackKind}`}

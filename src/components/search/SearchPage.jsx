@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MentorCard } from '../MentorRecommendations';
 import figma_584cd8e0_692e_40dd_b281_c786a976a2df_svg from '../../assets/figma/584cd8e0-692e-40dd-b281-c786a976a2df.svg';
 import figma_6200caeb_f035_496f_8a18_17217b41b83a_svg from '../../assets/figma/6200caeb-f035-496f-8a18-17217b41b83a.svg';
@@ -150,9 +150,17 @@ function SearchResultContentCard({ content }) {
           )}
         </button>
       </div>
-      <div className="absolute bottom-0 left-0 w-full px-4 pb-4 pt-10 bg-gradient-to-t from-black/60 to-transparent flex flex-col gap-0.5">
-        <p className="font-bold text-lg text-white [text-shadow:0_0_2px_rgba(0,0,0,0.3)]">{content.title}</p>
-        <div className="flex gap-1 items-center text-[15px] text-white">
+      <div className="absolute bottom-0 left-0 w-full h-[140px] px-4 pb-4 flex flex-col justify-end gap-0.5">
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(to top, rgba(156, 162, 177, 0.9) 0%, rgba(156, 162, 177, 0.45) 38%, rgba(156, 162, 177, 0.12) 68%, rgba(156, 162, 177, 0) 100%)',
+          }}
+        />
+        <p className="relative font-bold text-lg text-white [text-shadow:0_0_2px_rgba(0,0,0,0.08)]">{content.title}</p>
+        <div className="relative flex gap-1 items-center text-[15px] text-white [text-shadow:0_0_2px_rgba(0,0,0,0.08)]">
           <span>{content.mentor}</span>
           <span>・</span>
           <span>{content.role}</span>
@@ -175,7 +183,7 @@ function ShowMoreButton() {
   );
 }
 
-export default function SearchPage({ onClose, onOpenAgentChat, onOpenMentorDetail }) {
+export default function SearchPage({ onClose, onAfterSearchChange, onOpenAgentChat, onOpenMentorDetail }) {
   const [query, setQuery] = useState('');
   const [recentSearches, setRecentSearches] = useState([]);
   const [submittedQuery, setSubmittedQuery] = useState('');
@@ -187,6 +195,10 @@ export default function SearchPage({ onClose, onOpenAgentChat, onOpenMentorDetai
   const normalizeQuery = (value) => value.replace(/\s+/g, '').toLowerCase();
   const hasResults = submittedQuery !== '';
   const isMasterMentorResult = hasResults && normalizeQuery(submittedQuery) === 'mastermentor';
+
+  useEffect(() => {
+    onAfterSearchChange?.(isMasterMentorResult);
+  }, [isMasterMentorResult, onAfterSearchChange]);
 
   const submitQuery = (raw) => {
     const value = raw.trim();
@@ -207,16 +219,17 @@ export default function SearchPage({ onClose, onOpenAgentChat, onOpenMentorDetai
     <div className="flex-1 min-w-0 min-h-0 h-full bg-white rounded-2xl shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-y-auto flex flex-col items-center">
       {/* 검색 필드 + 카테고리 탭: 스크롤해도 상단에 고정 */}
       <div className="sticky top-0 z-20 w-full bg-white flex flex-col items-center pt-16 pb-6 gap-5">
-        <div className="flex flex-col gap-5 items-end w-[731px] max-w-full">
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex items-center justify-center size-6 cursor-pointer"
-            aria-label="검색 닫기"
-          >
-            <img alt="" src={imgClose} className="size-6" />
-          </button>
-
+        <div className={`flex flex-col gap-5 w-[731px] max-w-full ${isMasterMentorResult ? '' : 'items-end'}`}>
+          {isMasterMentorResult ? null : (
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex items-center justify-center size-6 cursor-pointer"
+              aria-label="검색 닫기"
+            >
+              <img alt="" src={imgClose} className="size-6" />
+            </button>
+          )}
           <form
             className="w-full"
             onSubmit={(e) => {

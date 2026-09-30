@@ -23,6 +23,13 @@ const DEFAULT_TAGS = {
   freetalk: ['프로덕트디자인', '프리토크', '취준'],
 };
 
+const MAX_TAGS = 10;
+const MAX_TAG_LEN = 20;
+
+function normalizeTag(raw) {
+  return raw.trim().replace(/^#+/, '').replace(/\s+/g, '').slice(0, MAX_TAG_LEN);
+}
+
 function BoardDropdown({ category, onChange }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef(null);
@@ -75,13 +82,44 @@ export default function BoardWrite({ defaultCategory = 'qna', onSubmit }) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [tags, setTags] = useState(DEFAULT_TAGS[defaultCategory] ?? DEFAULT_TAGS.qna);
+  const [addingTag, setAddingTag] = useState(false);
+  const [tagDraft, setTagDraft] = useState('');
+  const tagInputRef = useRef(null);
+
+  useEffect(() => {
+    if (addingTag) tagInputRef.current?.focus();
+  }, [addingTag]);
 
   const handleCategoryChange = (next) => {
     setCategory(next);
     setTags(DEFAULT_TAGS[next] ?? DEFAULT_TAGS.qna);
+    setAddingTag(false);
+    setTagDraft('');
   };
 
   const removeTag = (tag) => setTags((prev) => prev.filter((t) => t !== tag));
+
+  const commitTag = (keepOpen = true) => {
+    const tag = normalizeTag(tagDraft);
+    if (!tag) {
+      setTagDraft('');
+      if (!keepOpen) setAddingTag(false);
+      return;
+    }
+    setTags((prev) => {
+      if (prev.some((item) => item.toLowerCase() === tag.toLowerCase()) || prev.length >= MAX_TAGS) {
+        return prev;
+      }
+      return [...prev, tag];
+    });
+    setTagDraft('');
+    if (!keepOpen) setAddingTag(false);
+  };
+
+  const startAddingTag = () => {
+    if (tags.length >= MAX_TAGS) return;
+    setAddingTag(true);
+  };
 
   const handleSubmit = () => {
     onSubmit?.(category);
@@ -145,12 +183,41 @@ export default function BoardWrite({ defaultCategory = 'qna', onSubmit }) {
                   </button>
                 </span>
               ))}
-              <button
-                type="button"
-                className="border border-[#e7eaee] h-10 px-4 py-2 rounded-lg cursor-pointer"
-              >
-                <span className="font-medium text-[14px] tracking-[0.14px] text-[#121213] whitespace-nowrap">태그추가</span>
-              </button>
+              {addingTag ? (
+                <label className="border border-[#1a75ff] h-10 px-4 py-2 rounded-lg flex items-center gap-0.5 shrink-0">
+                  <span className="font-medium text-[14px] tracking-[0.14px] text-[#121213]">#</span>
+                  <input
+                    ref={tagInputRef}
+                    value={tagDraft}
+                    onChange={(event) => setTagDraft(event.target.value.slice(0, MAX_TAG_LEN))}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter') {
+                        event.preventDefault();
+                        commitTag(true);
+                      }
+                      if (event.key === 'Escape') {
+                        event.preventDefault();
+                        setTagDraft('');
+                        setAddingTag(false);
+                      }
+                    }}
+                    onBlur={() => commitTag(false)}
+                    placeholder="태그 입력"
+                    aria-label="태그 입력"
+                    className="w-[88px] bg-transparent outline-none font-medium text-[14px] tracking-[0.14px] text-[#121213] placeholder:text-[#9ca2b1]"
+                  />
+                </label>
+              ) : (
+                tags.length < MAX_TAGS && (
+                  <button
+                    type="button"
+                    onClick={startAddingTag}
+                    className="border border-[#e7eaee] h-10 px-4 py-2 rounded-lg cursor-pointer"
+                  >
+                    <span className="font-medium text-[14px] tracking-[0.14px] text-[#121213] whitespace-nowrap">태그추가</span>
+                  </button>
+                )
+              )}
             </div>
           </div>
         </div>

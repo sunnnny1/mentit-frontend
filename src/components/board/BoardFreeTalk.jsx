@@ -1,10 +1,10 @@
-import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 
 import imgLikeFill from '../../assets/icons/like-fill-gray.svg';
+import BoardListLikeIcon from './BoardListLikeIcon';
+import BoardJobDropdown from './BoardJobDropdown';
 import imgGangsterPost from '../../assets/icons/gangsterImg.png';
-import CheckRow from '../JobCheckRow';
 import figma_13581474_4f36_46b1_9063_f3cfc8970ec3_svg from '../../assets/figma/13581474-4f36-46b1-9063-f3cfc8970ec3.svg';
-import figma_800d0303_c40c_40a5_9c0a_cb6149f79de6_svg from '../../assets/figma/800d0303-c40c-40a5-9c0a-cb6149f79de6.svg';
 import figma_3fab267a_3f49_4c73_b247_11cff7f62c3f_svg from '../../assets/figma/3fab267a-3f49-4c73-b247-11cff7f62c3f.svg';
 import figma_1c30df87_166c_4504_9d79_fdc847db4580_png from '../../assets/figma/1c30df87-166c-4504-9d79-fdc847db4580.png';
 import figma_2ea9a27f_5291_434e_b6b2_6efba4b60d83_png from '../../assets/figma/2ea9a27f-5291-434e-b6b2-6efba4b60d83.png';
@@ -18,11 +18,7 @@ import figma_eb30e4b4_fadd_47b1_8bfa_2b0efb88a62d_png from '../../assets/figma/e
 import figma_09c05f5c_4273_4198_a4ed_e9f4c000e9a2_png from '../../assets/figma/09c05f5c-4273-4198-a4ed-e9f4c000e9a2.png';
 import figma_d065ab99_5a90_4b4a_8be3_db8b22c1efc9_png from '../../assets/figma/d065ab99-5a90-4b4a-8be3-db8b22c1efc9.png';
 const imgComment = figma_13581474_4f36_46b1_9063_f3cfc8970ec3_svg;
-const imgChevronDown = figma_800d0303_c40c_40a5_9c0a_cb6149f79de6_svg;
 const imgPencil = figma_3fab267a_3f49_4c73_b247_11cff7f62c3f_svg;
-
-const JOB_GROUPS = ['개발', '경영・비즈니스', '마케팅・광고', '디자인', '게임 제작', '미디어'];
-const JOB_ROLES = ['그래픽 디자인', '게임 디자인', '프로덕트 디자인', 'UX 디자인', '제품 디자인', '영상・모션 디자인'];
 
 const FREE_POSTS = [
   {
@@ -55,7 +51,9 @@ const FREE_POSTS = [
     body: '계속 리서치부터 다시 정리하고, 스토리라인 바꾸고, 또 갈아엎고... 벌써 몇 번째인지 모르겠어요. 다른 분들도 포폴 완성까지 이 정도로 오래 걸리셨나요? 저만 유독 느린 건가 싶어서 조금 지치네요...ㅜㅜ',
     images: [],
     likes: 28,
-    comments: 21,
+    comments: 7,
+    hasDetail: true,
+    articleId: 'aionue',
   },
   {
     author: 'Coco',
@@ -92,77 +90,6 @@ function shuffle(list) {
     [next[i], next[j]] = [next[j], next[i]];
   }
   return next;
-}
-
-function JobDropdown() {
-  const [open, setOpen] = useState(false);
-  const [groups, setGroups] = useState(['디자인']);
-  const [roles, setRoles] = useState(['프로덕트 디자인', 'UX 디자인']);
-  const rootRef = useRef(null);
-
-  useEffect(() => {
-    if (!open) return undefined;
-    const onPointerDown = (event) => {
-      if (!rootRef.current?.contains(event.target)) setOpen(false);
-    };
-    document.addEventListener('pointerdown', onPointerDown);
-    return () => document.removeEventListener('pointerdown', onPointerDown);
-  }, [open]);
-
-  const triggerLabel =
-    roles.length === 0
-      ? '직군/직무 선택'
-      : roles.length === 1
-        ? roles[0]
-        : `${roles[0]} 외 ${roles.length - 1}개`;
-
-  const toggle = (list, setList, value) => {
-    setList(list.includes(value) ? list.filter((item) => item !== value) : [...list, value]);
-  };
-
-  return (
-    <div ref={rootRef} className="relative flex-1 min-w-0">
-      <button
-        type="button"
-        onClick={() => setOpen((prev) => !prev)}
-        className="relative overflow-hidden bg-white border border-[#e7eaee] rounded-xl w-[300px] px-5 py-4 flex items-center gap-2 cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:transition-opacity"
-        aria-expanded={open}
-      >
-        <span className="relative flex-1 text-left font-normal text-[16px] leading-[1.45] text-[#121213]">{triggerLabel}</span>
-        <img alt="" src={imgChevronDown} className={`relative size-6 ${open ? 'rotate-180' : ''}`} />
-      </button>
-      {open && (
-        <div className="absolute top-full left-0 z-20 mt-2 flex gap-1 items-start">
-          <div className="bg-white border border-[#e7eaee] rounded-[10px] w-[300px] px-4 py-6 flex flex-col gap-4 shadow-[0_0_8px_rgba(18,18,19,0.04)]">
-            <p className="px-3 font-bold text-[16px] leading-[1.45] text-[#121213]">직군</p>
-            <div className="flex flex-col gap-2">
-              {JOB_GROUPS.map((label) => (
-                <CheckRow
-                  key={label}
-                  label={label}
-                  checked={groups.includes(label)}
-                  onToggle={() => toggle(groups, setGroups, label)}
-                />
-              ))}
-            </div>
-          </div>
-          <div className="bg-white border border-[#e7eaee] rounded-[10px] w-[300px] px-4 py-6 flex flex-col gap-4 shadow-[0_0_8px_rgba(18,18,19,0.04)]">
-            <p className="px-3 font-bold text-[16px] leading-[1.45] text-[#121213]">직무</p>
-            <div className="flex flex-col gap-2">
-              {JOB_ROLES.map((label) => (
-                <CheckRow
-                  key={label}
-                  label={label}
-                  checked={roles.includes(label)}
-                  onToggle={() => toggle(roles, setRoles, label)}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
 }
 
 function FreeTalkPost({ post, onOpenDetail }) {
@@ -219,7 +146,7 @@ function FreeTalkPost({ post, onOpenDetail }) {
           className="flex items-center gap-1 cursor-pointer"
           aria-pressed={liked}
         >
-          <img alt="" src={imgLikeFill} className="size-5" />
+          <BoardListLikeIcon liked={liked} src={imgLikeFill} />
           <span className="text-[12px] tracking-[0.3px] text-[#747886]">{likeCount}</span>
         </button>
         <div className="flex items-center gap-1">
@@ -238,7 +165,8 @@ export default function BoardFreeTalk({ onOpenDetail, onOpenWrite }) {
   const posts = useMemo(() => (sort === 'latest' ? latestPosts : FREE_POSTS), [sort, latestPosts]);
 
   return (
-    <div className="max-w-[867px] mx-auto py-16 flex flex-col gap-10">
+    <div className="w-full max-w-[867px] mx-auto h-full min-h-0 pt-16 pb-16 flex flex-col">
+      <div className="relative z-20 shrink-0 flex flex-col gap-10 bg-white pb-6">
       <div className="flex items-center justify-between w-full">
         <h2 className="font-bold text-[22px] leading-[1.4] tracking-[-0.33px] text-[#121213]">
           멘티들만의 자유로운 공간이에요
@@ -269,7 +197,7 @@ export default function BoardFreeTalk({ onOpenDetail, onOpenWrite }) {
       </div>
 
       <div className="flex gap-10 items-center w-full">
-        <JobDropdown />
+        <BoardJobDropdown />
         <button
           type="button"
           onClick={() => onOpenWrite?.('freetalk')}
@@ -279,7 +207,9 @@ export default function BoardFreeTalk({ onOpenDetail, onOpenWrite }) {
           <span className="font-bold text-[15px] leading-[1.45] text-white whitespace-nowrap">글쓰기</span>
         </button>
       </div>
+      </div>
 
+      <div className="flex-1 min-h-0 overflow-y-auto">
       <div className="flex flex-col w-full gap-5">
         {posts.map((post, index) => (
           <Fragment key={post.title}>
@@ -287,6 +217,7 @@ export default function BoardFreeTalk({ onOpenDetail, onOpenWrite }) {
             {index < posts.length - 1 && <div className="h-px bg-[#e7eaee] w-full" />}
           </Fragment>
         ))}
+      </div>
       </div>
     </div>
   );

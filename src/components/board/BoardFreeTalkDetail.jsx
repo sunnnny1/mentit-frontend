@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import imgPostImage from '../../assets/icons/gangsterImg.png';
+import img0sun222 from '../../assets/icons/avatar.webp';
 import figma_4f65e1a1_f7c6_4209_9aa8_6879d1fa3e3e_svg from '../../assets/figma/4f65e1a1-f7c6-4209-9aa8-6879d1fa3e3e.svg';
 import figma_f18f03a8_dbf0_4add_aa12_723afdd968d9_svg from '../../assets/figma/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
 import figma_5972d921_320c_4f23_ae3c_9781e5c4d1f1_svg from '../../assets/figma/5972d921-320c-4f23-ae3c-9781e5c4d1f1.svg';
@@ -14,6 +15,8 @@ import figma_8224da2a_a826_4578_a312_1fa0ae3a0040_png from '../../assets/figma/8
 import figma_d8a681b6_8c6d_4d08_80c4_bf1397223b5e_png from '../../assets/figma/d8a681b6-8c6d-4d08-80c4-bf1397223b5e.png';
 import figma_4f5d61de_2a6f_48f7_aad0_3c057b7b0bf4_png from '../../assets/figma/4f5d61de-2a6f-48f7-aad0-3c057b7b0bf4.png';
 import figma_1c874779_782f_4eb9_96cd_63540102866d_png from '../../assets/figma/1c874779-782f-4eb9-96cd-63540102866d.png';
+import figma_2ea9a27f_5291_434e_b6b2_6efba4b60d83_png from '../../assets/figma/2ea9a27f-5291-434e-b6b2-6efba4b60d83.png';
+import figma_58c822c4_0089_480d_acd2_73c7af5fc500_png from '../../assets/figma/58c822c4-0089-480d-acd2-73c7af5fc500.png';
 
 const imgLikeOutline = figma_4f65e1a1_f7c6_4209_9aa8_6879d1fa3e3e_svg;
 const imgLikeFill = figma_f18f03a8_dbf0_4add_aa12_723afdd968d9_svg;
@@ -29,6 +32,8 @@ const imgAionue = figma_8224da2a_a826_4578_a312_1fa0ae3a0040_png;
 const imgHappy = figma_d8a681b6_8c6d_4d08_80c4_bf1397223b5e_png;
 const imgCoco = figma_4f5d61de_2a6f_48f7_aad0_3c057b7b0bf4_png;
 const imgMumumu = figma_1c874779_782f_4eb9_96cd_63540102866d_png;
+const imgKiki = figma_2ea9a27f_5291_434e_b6b2_6efba4b60d83_png;
+const imgSwj = figma_58c822c4_0089_480d_acd2_73c7af5fc500_png;
 
 const TAGS = ['#프로덕트디자인', '#프리토크', '#취준'];
 
@@ -44,8 +49,45 @@ const COMMENTS = [
     reply: true,
     writer: true,
   },
+  {
+    id: 'aionue-follow',
+    name: 'AIONUE',
+    avatar: imgAionue,
+    text: '오 추천 고마워!! 나도 Yoonie 멘토한테 신청해봐야겠다 포폴 30번은 갈아엎은 보람이 있었으면 좋겠다ㅠ',
+    reply: true,
+  },
   { id: 'coco', name: 'Coco', avatar: imgCoco, text: '완전 부럽다ㅠㅠㅠ 나는 계속 서탈중.. 얼른 포폴 완성해서 피드백 받아봐야겠다.. 축하해~', reply: false },
   { id: 'mumumu', name: 'mumumu', avatar: imgMumumu, text: '나도 Yoonie 멘토한테 피드백 받고 인턴 합격했었어~ 뭔가 반갑다ㅎㅎ', reply: false },
+  { id: 'kiki', name: 'Kiki', avatar: imgKiki, text: '헐 대박 축하해!! 면접 준비는 어떻게 하려고? 스터디 같이 하던 애들한테도 공유해야겠다', reply: false },
+  {
+    id: '0sun222',
+    name: '0sun222',
+    avatar: img0sun222,
+    text: 'Yoonie 멘토 커리어토크에서 포폴 정리 꿀팁 보고 바로 적용해봤었는데, 여기서도 피드백 후기가 나오니까 더 믿음이 가네. 축하해!',
+    reply: false,
+  },
+  {
+    id: 'swj',
+    name: 'SW_J',
+    avatar: imgSwj,
+    text: '축하해! 부럽다ㅠ',
+    reply: false,
+  },
+  {
+    id: 'swj-reply',
+    name: 'SW_J',
+    avatar: imgSwj,
+    text: '자소서도 같이 피드백 받은 거야? 포폴이랑 같이 보니까 더 도움이 됐는지 궁금해!',
+    reply: true,
+  },
+  {
+    id: 'gangster-swj-reply',
+    name: 'Gangster',
+    avatar: imgGangsterSmall,
+    text: '응! 같이 받았고, 확실히 더 도움됐어!!',
+    reply: true,
+    writer: true,
+  },
 ];
 
 export default function BoardFreeTalkDetail() {
@@ -53,7 +95,7 @@ export default function BoardFreeTalkDetail() {
   const [bookmarked, setBookmarked] = useState(false);
   const [comments, setComments] = useState(COMMENTS);
   const [draft, setDraft] = useState('');
-  const commentCount = 12 + (comments.length - COMMENTS.length);
+  const commentCount = comments.length;
 
   const handleSubmitComment = () => {
     const text = draft.trim();
@@ -202,15 +244,15 @@ export default function BoardFreeTalkDetail() {
                   type="button"
                   onClick={handleSubmitComment}
                   disabled={!draft.trim()}
-                  className={`font-bold text-[16px] leading-[1.45] cursor-pointer ${
-                    draft.trim() ? 'text-[#1a75ff]' : 'text-[#9ca2b1] cursor-not-allowed'
+                  className={`font-semibold text-[16px] leading-[1.45] ${
+                    draft.trim() ? 'text-[#1a75ff] cursor-pointer' : 'text-[#9ca2b1] cursor-not-allowed'
                   }`}
                 >
                   댓글 남기기
                 </button>
               </div>
             </div>
-            <p className="text-[12px] tracking-[0.3px] text-[#9ca2b1]">댓글을 등록하면 수정이나 삭제할 수 없어요</p>
+            <p className="text-[13px] tracking-[0.26px] text-[#9ca2b1]">댓글을 등록하면 수정이나 삭제할 수 없어요</p>
           </div>
 
           <div className="flex flex-col gap-3 w-full">

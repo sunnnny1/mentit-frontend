@@ -3,7 +3,7 @@ export default function JobCheckRow({ label, checked, onToggle }) {
     <button
       type="button"
       onClick={onToggle}
-      className={`relative overflow-hidden flex items-center justify-between gap-2 w-full px-4 py-3 rounded-xl cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:transition-opacity ${
+      className={`relative overflow-hidden flex shrink-0 items-center justify-between gap-2 w-full h-[46px] px-4 rounded-xl cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:transition-opacity ${
         checked ? 'bg-[#f4f6f8]' : 'bg-white'
       }`}
     >

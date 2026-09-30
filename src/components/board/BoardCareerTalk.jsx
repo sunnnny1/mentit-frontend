@@ -1,11 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import imgBookmark from '../../assets/icons/careertalk-bookmark.svg';
 import imgBookmarkFill from '../../assets/icons/careertalk-bookmark-fill.svg';
 import imgTalkYoonie from '../../assets/icons/talkYoonie.png';
 import imgTalkUha from '../../assets/icons/talkUha.png';
-import CheckRow from '../JobCheckRow';
-import figma_2a8c0fab_ff12_4088_9976_f8cdb0698792_svg from '../../assets/figma/2a8c0fab-ff12-4088-9976-f8cdb0698792.svg';
-import figma_bb3b8c56_7ee3_4df3_ba7c_8fbd9131aa9f_svg from '../../assets/figma/bb3b8c56-7ee3-4df3-ba7c-8fbd9131aa9f.svg';
+import BoardJobDropdown from './BoardJobDropdown';
 import figma_42e8dda3_b48d_4178_aa56_943f81e0bc58_png from '../../assets/figma/42e8dda3-b48d-4178-aa56-943f81e0bc58.png';
 import figma_444c9d7b_ee5e_436b_b8c4_9cd4b605267e_png from '../../assets/figma/444c9d7b-ee5e-436b-b8c4-9cd4b605267e.png';
 import figma_64c9f214_aa8c_44ed_91cf_2b4ec4344479_png from '../../assets/figma/64c9f214-aa8c-44ed-91cf-2b4ec4344479.png';
@@ -14,8 +12,6 @@ import figma_b1826544_39cf_4bbc_9ecf_5a1e949ead99_png from '../../assets/figma/b
 import figma_2aaad4a5_40c5_4c8b_83bd_e75572d056d9_png from '../../assets/figma/2aaad4a5-40c5-4c8b-83bd-e75572d056d9.png';
 import figma_5889b5a5_5bb9_4b8c_9126_c21a5641ada6_png from '../../assets/figma/5889b5a5-5bb9-4b8c-9126-c21a5641ada6.png';
 import figma_c6a69720_80fd_4bc4_ac71_9af6bb352849_png from '../../assets/figma/c6a69720-80fd-4bc4-ac71-9af6bb352849.png';
-const imgChevronDown = figma_2a8c0fab_ff12_4088_9976_f8cdb0698792_svg;
-const imgMoreChevron = figma_bb3b8c56_7ee3_4df3_ba7c_8fbd9131aa9f_svg;
 
 const CROP = { top: '-31.68%', left: '-0.08%', width: '100%', height: '135.41%' };
 
@@ -86,9 +82,6 @@ const CAREER_TALK_POSTS = [
     src: figma_c6a69720_80fd_4bc4_ac71_9af6bb352849_png,
   },
 ];
-
-const JOB_GROUPS = ['개발', '경영・비즈니스', '마케팅・광고', '디자인', '게임 제작', '미디어'];
-const JOB_ROLES = ['그래픽 디자인', '게임 디자인', '프로덕트 디자인', 'UX 디자인', '제품 디자인', '영상・모션 디자인'];
 
 function shuffle(list) {
   const next = [...list];
@@ -187,90 +180,18 @@ function CareerTalkCard({ talk, onOpenDetail }) {
   );
 }
 
-function JobDropdown() {
-  const [open, setOpen] = useState(false);
-  const [groups, setGroups] = useState(['디자인']);
-  const [roles, setRoles] = useState(['프로덕트 디자인', 'UX 디자인']);
-  const rootRef = useRef(null);
-
-  useEffect(() => {
-    if (!open) return undefined;
-    const onPointerDown = (event) => {
-      if (!rootRef.current?.contains(event.target)) setOpen(false);
-    };
-    document.addEventListener('pointerdown', onPointerDown);
-    return () => document.removeEventListener('pointerdown', onPointerDown);
-  }, [open]);
-
-  const triggerLabel =
-    roles.length === 0
-      ? '직군/직무 선택'
-      : roles.length === 1
-        ? roles[0]
-        : `${roles[0]} 외 ${roles.length - 1}개`;
-
-  const toggle = (list, setList, value) => {
-    setList(list.includes(value) ? list.filter((item) => item !== value) : [...list, value]);
-  };
-
-  return (
-    <div ref={rootRef} className="relative w-full">
-      <button
-        type="button"
-        onClick={() => setOpen((prev) => !prev)}
-        className="relative overflow-hidden bg-white border border-[#e7eaee] rounded-xl w-[300px] px-5 py-4 flex items-center gap-2 cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:transition-opacity"
-        aria-expanded={open}
-      >
-        <span className="relative flex-1 text-left font-normal text-[16px] leading-[1.45] text-[#121213]">{triggerLabel}</span>
-        <img alt="" src={imgChevronDown} className={`relative size-6 ${open ? 'rotate-180' : ''}`} />
-      </button>
-      {open && (
-        <div className="absolute top-full left-0 z-20 mt-2 flex gap-1 items-start">
-          <div className="bg-white border border-[#e7eaee] rounded-[10px] w-[300px] px-4 py-6 flex flex-col gap-4 shadow-[0_0_8px_rgba(18,18,19,0.04)]">
-            <p className="px-3 font-bold text-[16px] leading-[1.45] text-[#121213]">직군</p>
-            <div className="flex flex-col gap-2">
-              {JOB_GROUPS.map((label) => (
-                <CheckRow
-                  key={label}
-                  label={label}
-                  checked={groups.includes(label)}
-                  onToggle={() => toggle(groups, setGroups, label)}
-                />
-              ))}
-            </div>
-          </div>
-          <div className="bg-white border border-[#e7eaee] rounded-[10px] w-[300px] px-4 py-6 flex flex-col gap-4 shadow-[0_0_8px_rgba(18,18,19,0.04)]">
-            <p className="px-3 font-bold text-[16px] leading-[1.45] text-[#121213]">직무</p>
-            <div className="flex flex-col gap-2">
-              {JOB_ROLES.map((label) => (
-                <CheckRow
-                  key={label}
-                  label={label}
-                  checked={roles.includes(label)}
-                  onToggle={() => toggle(roles, setRoles, label)}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default function BoardCareerTalk({ onOpenDetail }) {
   const [sort, setSort] = useState('popular');
   const [latestPosts, setLatestPosts] = useState(() => shuffle(CAREER_TALK_POSTS));
-  const [expanded, setExpanded] = useState(false);
 
   const posts = useMemo(
     () => (sort === 'popular' ? CAREER_TALK_POSTS : latestPosts),
     [sort, latestPosts],
   );
-  const visiblePosts = expanded ? posts : posts.slice(0, 4);
 
   return (
-    <div className="max-w-[867px] mx-auto py-16 flex flex-col gap-10">
+    <div className="w-full max-w-[867px] mx-auto h-full min-h-0 pt-16 pb-16 flex flex-col">
+      <div className="relative z-20 shrink-0 flex flex-col gap-10 bg-white pb-6">
       <div className="flex items-center justify-between w-full">
         <h2 className="font-bold text-[22px] leading-[1.4] tracking-[-0.33px] text-[#121213]">
           멘토들이 발행하는 커리어 이야기에요
@@ -300,24 +221,15 @@ export default function BoardCareerTalk({ onOpenDetail }) {
         </div>
       </div>
 
-      <JobDropdown />
+      <BoardJobDropdown className="relative w-full" />
+      </div>
 
-      <div className="flex flex-col gap-5 items-center w-full">
-        <div className="grid grid-cols-2 gap-5 w-full">
-          {visiblePosts.map((talk) => (
-            <CareerTalkCard key={talk.title} talk={talk} onOpenDetail={onOpenDetail} />
-          ))}
-        </div>
-        {!expanded && (
-          <button
-            type="button"
-            onClick={() => setExpanded(true)}
-            className="w-full border border-[#e7eaee] rounded-lg py-2 px-4 flex items-center justify-center gap-1 font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#747886] cursor-pointer"
-          >
-            <img alt="" src={imgMoreChevron} className="size-6" />
-            <span>더보기</span>
-          </button>
-        )}
+      <div className="flex-1 min-h-0 overflow-y-auto">
+      <div className="grid grid-cols-2 gap-5 w-full">
+        {posts.map((talk) => (
+          <CareerTalkCard key={talk.title} talk={talk} onOpenDetail={onOpenDetail} />
+        ))}
+      </div>
       </div>
     </div>
   );

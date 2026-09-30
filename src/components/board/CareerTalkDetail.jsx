@@ -261,13 +261,16 @@ export default function CareerTalkDetail() {
                 <button
                   type="button"
                   onClick={submitComment}
-                  className="font-bold text-[16px] leading-[1.45] text-[#1a75ff] cursor-pointer"
+                  disabled={!draft.trim()}
+                  className={`font-semibold text-[16px] leading-[1.45] ${
+                    draft.trim() ? 'text-[#1a75ff] cursor-pointer' : 'text-[#9ca2b1] cursor-not-allowed'
+                  }`}
                 >
                   댓글 남기기
                 </button>
               </div>
             </div>
-            <p className="text-[12px] tracking-[0.3px] text-[#9ca2b1]">댓글을 등록하면 수정이나 삭제할 수 없어요</p>
+            <p className="text-[13px] tracking-[0.26px] text-[#9ca2b1]">댓글을 등록하면 수정이나 삭제할 수 없어요</p>
           </div>
         </div>
 

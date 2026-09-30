@@ -327,7 +327,7 @@ export default function MentorExplorePage({ onOpenAgentChat, onOpenMentorDetail,
           </section>
 
           <section className="relative isolate flex flex-col w-full">
-            <div className="sticky top-0 z-30 -mx-5 px-5 bg-white pt-16 -mt-16 pb-8 flex flex-col gap-6 isolate">
+            <div className="sticky top-0 z-30 -mx-5 px-5 bg-white pt-16 -mt-16 pb-2 flex flex-col gap-6 isolate">
               <h2 className="font-bold text-[22px] tracking-[-0.33px] text-[#121213]">멘토 카테고리</h2>
               <div className="flex items-center w-full border-b border-[#e7eaee]">
                 {CATEGORIES.map((category) => {

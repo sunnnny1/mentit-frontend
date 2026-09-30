@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import MentorProfile from './MentorProfile';
-import CheckRow from '../JobCheckRow';
+import BoardJobDropdown from './BoardJobDropdown';
+import BoardListLikeIcon from './BoardListLikeIcon';
 
 import imgUha from '../../assets/icons/ellipse-uha.png';
 import imgYoonie from '../../assets/icons/yoonie.webp';
@@ -14,8 +15,6 @@ import imgEmma from '../../assets/icons/emma.webp';
 import imgFailedProject from '../../assets/icons/personalized-thumb-1.png';
 import figma_d82be445_be8d_44cb_bce0_d3f6a3b977c2_svg from '../../assets/figma/d82be445-be8d-44cb-bce0-d3f6a3b977c2.svg';
 import figma_f18f03a8_dbf0_4add_aa12_723afdd968d9_svg from '../../assets/figma/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
-import figma_2a8c0fab_ff12_4088_9976_f8cdb0698792_svg from '../../assets/figma/2a8c0fab-ff12-4088-9976-f8cdb0698792.svg';
-import figma_bb3b8c56_7ee3_4df3_ba7c_8fbd9131aa9f_svg from '../../assets/figma/bb3b8c56-7ee3-4df3-ba7c-8fbd9131aa9f.svg';
 import figma_3fab267a_3f49_4c73_b247_11cff7f62c3f_svg from '../../assets/figma/3fab267a-3f49-4c73-b247-11cff7f62c3f.svg';
 import figma_b2a8cdbd_ae3f_4c16_8bff_caeb758fbadf_png from '../../assets/figma/b2a8cdbd-ae3f-4c16-8bff-caeb758fbadf.png';
 import figma_d47118a4_9707_403e_bdc8_88b3a5f6c7b0_png from '../../assets/figma/d47118a4-9707-403e-bdc8-88b3a5f6c7b0.png';
@@ -24,8 +23,6 @@ import figma_bf8a5b4b_bc24_4456_b46e_facc3795a174_png from '../../assets/figma/b
 
 const imgLike = figma_d82be445_be8d_44cb_bce0_d3f6a3b977c2_svg;
 const imgLikeFill = figma_f18f03a8_dbf0_4add_aa12_723afdd968d9_svg;
-const imgChevronDown = figma_2a8c0fab_ff12_4088_9976_f8cdb0698792_svg;
-const imgMoreChevron = figma_bb3b8c56_7ee3_4df3_ba7c_8fbd9131aa9f_svg;
 const imgPencil = figma_3fab267a_3f49_4c73_b247_11cff7f62c3f_svg;
 
 const MENTOR_AVATAR_POOL = [
@@ -188,9 +185,6 @@ QNA_POSTS.forEach((post) => {
   post.mentors = FIXED_MENTORS_BY_ARTICLE[post.articleId] ?? pickRandomMentors(3);
 });
 
-const JOB_GROUPS = ['개발', '경영・비즈니스', '마케팅・광고', '디자인', '게임 제작', '미디어'];
-const JOB_ROLES = ['그래픽 디자인', '게임 디자인', '프로덕트 디자인', 'UX 디자인', '제품 디자인', '영상・모션 디자인'];
-
 function shuffle(list) {
   const next = [...list];
   for (let i = next.length - 1; i > 0; i -= 1) {
@@ -198,77 +192,6 @@ function shuffle(list) {
     [next[i], next[j]] = [next[j], next[i]];
   }
   return next;
-}
-
-function JobDropdown() {
-  const [open, setOpen] = useState(false);
-  const [groups, setGroups] = useState(['디자인']);
-  const [roles, setRoles] = useState(['프로덕트 디자인', 'UX 디자인']);
-  const rootRef = useRef(null);
-
-  useEffect(() => {
-    if (!open) return undefined;
-    const onPointerDown = (event) => {
-      if (!rootRef.current?.contains(event.target)) setOpen(false);
-    };
-    document.addEventListener('pointerdown', onPointerDown);
-    return () => document.removeEventListener('pointerdown', onPointerDown);
-  }, [open]);
-
-  const triggerLabel =
-    roles.length === 0
-      ? '직군/직무 선택'
-      : roles.length === 1
-        ? roles[0]
-        : `${roles[0]} 외 ${roles.length - 1}개`;
-
-  const toggle = (list, setList, value) => {
-    setList(list.includes(value) ? list.filter((item) => item !== value) : [...list, value]);
-  };
-
-  return (
-    <div ref={rootRef} className="relative flex-1 min-w-0">
-      <button
-        type="button"
-        onClick={() => setOpen((prev) => !prev)}
-        className="relative overflow-hidden bg-white border border-[#e7eaee] rounded-xl w-[300px] px-5 py-4 flex items-center gap-2 cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:transition-opacity"
-        aria-expanded={open}
-      >
-        <span className="relative flex-1 text-left font-normal text-[16px] leading-[1.45] text-[#121213]">{triggerLabel}</span>
-        <img alt="" src={imgChevronDown} className={`relative size-6 ${open ? 'rotate-180' : ''}`} />
-      </button>
-      {open && (
-        <div className="absolute top-full left-0 z-20 mt-2 flex gap-1 items-start">
-          <div className="bg-white border border-[#e7eaee] rounded-[10px] w-[300px] px-4 py-6 flex flex-col gap-4 shadow-[0_0_8px_rgba(18,18,19,0.04)]">
-            <p className="px-3 font-bold text-[16px] leading-[1.45] text-[#121213]">직군</p>
-            <div className="flex flex-col gap-2">
-              {JOB_GROUPS.map((label) => (
-                <CheckRow
-                  key={label}
-                  label={label}
-                  checked={groups.includes(label)}
-                  onToggle={() => toggle(groups, setGroups, label)}
-                />
-              ))}
-            </div>
-          </div>
-          <div className="bg-white border border-[#e7eaee] rounded-[10px] w-[300px] px-4 py-6 flex flex-col gap-4 shadow-[0_0_8px_rgba(18,18,19,0.04)]">
-            <p className="px-3 font-bold text-[16px] leading-[1.45] text-[#121213]">직무</p>
-            <div className="flex flex-col gap-2">
-              {JOB_ROLES.map((label) => (
-                <CheckRow
-                  key={label}
-                  label={label}
-                  checked={roles.includes(label)}
-                  onToggle={() => toggle(roles, setRoles, label)}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
 }
 
 function QnaCard({ post, onOpenDetail }) {
@@ -316,39 +239,7 @@ function QnaCard({ post, onOpenDetail }) {
             className="flex items-center gap-1 cursor-pointer"
             aria-pressed={liked}
           >
-            {liked ? (
-              <span
-                aria-hidden
-                className="block size-5"
-                style={{
-                  WebkitMaskImage: `url("${imgLikeFill}")`,
-                  maskImage: `url("${imgLikeFill}")`,
-                  WebkitMaskSize: 'contain',
-                  maskSize: 'contain',
-                  WebkitMaskRepeat: 'no-repeat',
-                  maskRepeat: 'no-repeat',
-                  WebkitMaskPosition: 'center',
-                  maskPosition: 'center',
-                  backgroundColor: '#DFE4E8',
-                }}
-              />
-            ) : (
-              <span
-                aria-hidden
-                className="block size-5"
-                style={{
-                  WebkitMaskImage: `url("${imgLike}")`,
-                  maskImage: `url("${imgLike}")`,
-                  WebkitMaskSize: 'contain',
-                  maskSize: 'contain',
-                  WebkitMaskRepeat: 'no-repeat',
-                  maskRepeat: 'no-repeat',
-                  WebkitMaskPosition: 'center',
-                  maskPosition: 'center',
-                  backgroundColor: '#DFE4E8',
-                }}
-              />
-            )}
+            <BoardListLikeIcon liked={liked} src={liked ? imgLikeFill : imgLike} />
             <span className="text-[12px] tracking-[0.3px] text-[#747886]">{likeCount}</span>
           </button>
           <div className="flex items-center gap-1">
@@ -375,13 +266,17 @@ function QnaCard({ post, onOpenDetail }) {
 export default function BoardQnA({ onOpenDetail, onOpenWrite }) {
   const [sort, setSort] = useState('popular');
   const [latestPosts, setLatestPosts] = useState(() => shuffle(QNA_POSTS));
-  const [expanded, setExpanded] = useState(false);
+  const [roleFilter, setRoleFilter] = useState([]);
 
-  const posts = useMemo(() => (sort === 'popular' ? QNA_POSTS : latestPosts), [sort, latestPosts]);
-  const visiblePosts = expanded ? posts : posts.slice(0, 3);
+  const posts = useMemo(() => {
+    const source = sort === 'popular' ? QNA_POSTS : latestPosts;
+    if (roleFilter.length === 0) return source;
+    return source.filter((post) => roleFilter.includes(post.tag));
+  }, [sort, latestPosts, roleFilter]);
 
   return (
-    <div className="max-w-[867px] mx-auto py-16 flex flex-col gap-10">
+    <div className="w-full max-w-[867px] mx-auto h-full min-h-0 pt-16 pb-16 flex flex-col">
+      <div className="relative z-20 shrink-0 flex flex-col gap-10 bg-white pb-6">
       <div className="flex items-center justify-between w-full">
         <h2 className="font-bold text-[22px] leading-[1.4] tracking-[-0.33px] text-[#121213]">
           멘토들에게 궁금한 것을 물어보는 게시판이에요
@@ -412,7 +307,7 @@ export default function BoardQnA({ onOpenDetail, onOpenWrite }) {
       </div>
 
       <div className="flex gap-10 items-center w-full">
-        <JobDropdown />
+        <BoardJobDropdown onApply={({ roles }) => setRoleFilter(roles)} />
         <button
           type="button"
           onClick={() => onOpenWrite?.('qna')}
@@ -422,26 +317,18 @@ export default function BoardQnA({ onOpenDetail, onOpenWrite }) {
           <span className="font-bold text-[15px] leading-[1.45] text-white whitespace-nowrap">글쓰기</span>
         </button>
       </div>
+      </div>
 
+      <div className="flex-1 min-h-0 overflow-y-auto">
       <div className="flex flex-col items-center w-full">
-        {visiblePosts.map((post, index) => (
+        {posts.map((post, index) => (
           <div key={`${post.author}-${post.title}-${index}`} className="w-full">
             <QnaCard post={post} onOpenDetail={onOpenDetail} />
-            {index < visiblePosts.length - 1 && <div className="h-px bg-[#e7eaee] w-full" />}
+            {index < posts.length - 1 && <div className="h-px bg-[#e7eaee] w-full" />}
           </div>
         ))}
       </div>
-
-      {!expanded && (
-        <button
-          type="button"
-          onClick={() => setExpanded(true)}
-          className="w-full border border-[#e7eaee] rounded-lg py-2 px-4 flex items-center justify-center gap-1 font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#747886] cursor-pointer"
-        >
-          <img alt="" src={imgMoreChevron} className="size-6" />
-          <span>더보기</span>
-        </button>
-      )}
+      </div>
     </div>
   );
 }
