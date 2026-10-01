@@ -127,7 +127,7 @@ const MENTOR_CHAT_CONFIG = {
     introBadges: ['실무 이야기', '자소서 피드백', '포트폴리오 피드백'],
     threadIntro: 'Yoonie AI 에이전트와 대화가 시작돼요',
     initialGreeting:
-      '안녕하세요? 저는 당근에서 프로덕트 디자이너 5년차인 멘토 Yoonie 입니다. 멘토의 경험을 바탕으로, 이윤영님에게 도움을 드릴게요. 궁금한 점을 말해주세요.',
+      '저는 당근에서 프로덕트 디자이너 5년차인 Yoonie 멘토의 AI Agent예요. 멘토의 경험을 바탕으로, 이윤영님에게 도움을 드릴게요. 궁금한 점을 말해주세요.',
     qaMap: QA_MAP,
     supportsMentorReview: true,
     mentorConversation: YOONIE_MENTOR_CONVERSATION,
@@ -152,7 +152,7 @@ const MENTOR_CHAT_CONFIG = {
     introBadges: ['실무 이야기', '포트폴리오 피드백'],
     threadIntro: 'Eunoia AI 에이전트와 대화가 시작돼요',
     initialGreeting:
-      '안녕하세요? 저는 토스에서 프로덕트 디자이너 3년차인 멘토 Eunoia 입니다. 멘토의 경험을 바탕으로, 이윤영님에게 도움을 드릴게요. 궁금한 점을 말해주세요.',
+      '저는 토스에서 프로덕트 디자이너 3년차인 Eunoia 멘토의 AI Agent예요. 멘토의 경험을 바탕으로, 이윤영님에게 도움을 드릴게요. 궁금한 점을 말해주세요.',
     qaMap: EUNOIA_QA_MAP,
     supportsMentorReview: true,
     mentorConversation: EUNOIA_MENTOR_CONVERSATION,
@@ -177,7 +177,7 @@ const MENTOR_CHAT_CONFIG = {
     introBadges: ['실무 이야기', '면접 꿀팁'],
     threadIntro: 'Teddy AI 에이전트와 대화가 시작돼요',
     initialGreeting:
-      '안녕하세요? 저는 프리랜서로 일하고 있는 UX 디자이너 6년차인 멘토 Teddy 입니다. 멘토의 경험을 바탕으로, 이윤영님에게 도움을 드릴게요. 궁금한 점을 말해주세요.',
+      '저는 프리랜서로 일하고 있는 UX 디자이너 6년차인 Teddy 멘토의 AI Agent예요. 멘토의 경험을 바탕으로, 이윤영님에게 도움을 드릴게요. 궁금한 점을 말해주세요.',
     qaMap: TEDDY_QA_MAP,
     suggestedChips: [
       '저에게 맞는 직무를 어떻게 선택해야할까요?',

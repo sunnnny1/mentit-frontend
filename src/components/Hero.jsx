@@ -1,9 +1,7 @@
 import imgChevronRight from '../assets/icons/chevron-right.svg';
-import imgTicksPast from '../assets/figma/home-ticks-past.svg';
-import imgTicksMidA from '../assets/figma/home-ticks-mid-a.svg';
-import imgTicksMidB from '../assets/figma/home-ticks-mid-b.svg';
-import imgTicksApply from '../assets/figma/home-ticks-apply.svg';
-import imgTicksInterview from '../assets/figma/home-ticks-interview.svg';
+import imgTicksWeek1 from '../assets/figma/home-ticks-week1.svg';
+import imgTicksWeekMid from '../assets/figma/home-ticks-week-mid.svg';
+import imgTicksWeek4 from '../assets/figma/home-ticks-week4.svg';
 
 function ChevronLink({ text, onClick }) {
   return (
@@ -19,20 +17,6 @@ function ActivityBadge({ label }) {
     <div className="relative flex items-center justify-center px-2 py-1 rounded-lg shrink-0">
       <div className="absolute inset-0 bg-[#1a75ff] opacity-10 rounded-lg" />
       <p className="relative font-medium text-xs tracking-[0.3px] text-[#1a75ff] whitespace-nowrap leading-[1.35]">{label}</p>
-    </div>
-  );
-}
-
-function TimelineStep({ ticks, ticksClassName, label, tone = 'future', grow = true }) {
-  const labelClass = tone === 'past' ? 'text-[#9ca2b1]' : 'text-[#121213]';
-  return (
-    <div className={`flex flex-col items-center ${grow ? 'flex-1 min-w-0' : 'shrink-0'}`}>
-      <img alt="" src={ticks} className={ticksClassName} />
-      {label ? (
-        <p className={`text-center text-xs font-medium leading-[1.35] tracking-[0.3px] whitespace-nowrap ${labelClass}`}>
-          {label}
-        </p>
-      ) : null}
     </div>
   );
 }
@@ -65,27 +49,35 @@ export default function Hero({ onOpenMentitAI } = {}) {
           <div className="flex gap-7 items-end w-full">
             <div className="flex-1 flex items-center justify-between min-w-0">
               <div className="flex flex-col gap-1 justify-center">
-                <p className="font-bold text-[22px] leading-[1.4] tracking-[-0.33px] text-[#121213] whitespace-nowrap">이번주 목표</p>
-                <p className="font-medium text-base leading-[1.45] text-[#747886] whitespace-nowrap">카카오 프로덕트 디자이너 지원까지 D-7</p>
+                <p className="font-bold text-[22px] leading-[1.4] tracking-[-0.33px] text-[#121213] whitespace-nowrap">이번달 목표</p>
+                <p className="font-medium text-base leading-[1.45] text-[#747886] whitespace-nowrap">공고에 적합한 서류 지원 준비하기</p>
               </div>
             </div>
             <ChevronLink text="멘팃 AI와 다시 계획하기" onClick={onOpenMentitAI} />
           </div>
 
-          <div className="relative h-[109px] w-full">
-            <div className="absolute inset-x-0 top-[37px] flex items-start gap-4">
-              <TimelineStep ticks={imgTicksPast} ticksClassName="h-[22px] w-[120px]" label="기업 탐색" tone="past" />
-              <TimelineStep ticks={imgTicksPast} ticksClassName="h-[22px] w-[120px]" label="자소서 보완" tone="past" />
-              <TimelineStep ticks={imgTicksMidA} ticksClassName="h-[22px] w-[120px]" grow={false} />
-              <TimelineStep ticks={imgTicksMidB} ticksClassName="h-[22px] w-20" grow={false} />
-              <TimelineStep ticks={imgTicksApply} ticksClassName="h-[22px] w-[120px]" label="서류 지원" tone="future" grow={false} />
-              <TimelineStep ticks={imgTicksInterview} ticksClassName="h-[22px] w-[108px]" label="면접 연습" tone="future" />
+          <div className="relative w-full">
+            <div className="flex gap-[19px] items-center pt-[27px]">
+              <div className="flex w-[240px] shrink-0 flex-col gap-2 items-center">
+                <p className="h-[18px] w-full text-center text-xs font-medium leading-[1.35] tracking-[0.3px] text-[#747886]">1주차</p>
+                <img alt="" src={imgTicksWeek1} className="block shrink-0" />
+                <p className="w-[216px] text-center text-xs font-medium leading-[1.35] tracking-[0.3px] text-[#9ca2b1]">기업 탐색</p>
+              </div>
+              <div className="flex w-[240px] shrink-0 flex-col items-center">
+                <img alt="" src={imgTicksWeekMid} className="block shrink-0" />
+              </div>
+              <div className="flex w-[241px] shrink-0 flex-col gap-2 items-center">
+                <p className="h-[18px] w-full text-center text-xs font-medium leading-[1.35] tracking-[0.3px] text-[#747886]">4주차</p>
+                <img alt="" src={imgTicksWeek4} className="block shrink-0" />
+                <p className="w-[216px] text-center text-xs font-medium leading-[1.35] tracking-[0.3px] text-[#121213]">자기소개서 보완</p>
+              </div>
             </div>
-            <div className="absolute left-1/2 top-[-15px] z-10 flex w-[249px] -translate-x-1/2 flex-col items-center gap-2">
-              <p className="h-[18px] w-full text-center text-xs font-medium leading-[1.35] tracking-[0.3px] text-[#121213]">이번주</p>
-              <div className="flex w-full items-center gap-[5px]">
+
+            <div className="absolute left-1/2 top-0 z-10 flex w-[243px] -translate-x-1/2 flex-col items-center gap-2">
+              <p className="h-[18px] w-full text-center text-xs font-medium leading-[1.35] tracking-[0.3px] text-[#121213]">2-3주차 (현재)</p>
+              <div className="flex w-full items-center gap-1.5 bg-[#fcfcfc]">
                 <div className="h-6 w-px shrink-0 bg-[#121213]" />
-                <div className="flex h-[74px] w-[237px] shrink-0 flex-col items-center justify-center gap-1 rounded-[40px] bg-white px-5 py-3 shadow-[0_0_10px_rgba(0,0,0,0.04),inset_-2px_-2px_2px_0_rgba(255,255,255,0.3)]">
+                <div className="flex h-[74px] flex-1 min-w-0 flex-col items-center justify-center gap-1 rounded-[40px] bg-white px-5 py-3 shadow-[0_0_10px_rgba(0,0,0,0.04),inset_-2px_-2px_2px_0_rgba(255,255,255,0.3)]">
                   <p className="text-base font-bold leading-[1.45] text-[#121213] whitespace-nowrap">포트폴리오 보완</p>
                   <p className="text-[13px] font-medium leading-[1.4] tracking-[0.26px] text-[#747886] whitespace-nowrap">
                     Yoonie 멘토에게 피드백 받는 중

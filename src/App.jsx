@@ -25,11 +25,12 @@ import MentitAiJobRecommend from './components/mentitai/MentitAiJobRecommend';
 import MentorExplorePage from './components/mentor/MentorExplorePage';
 import MentorDetailPage from './components/mentor/MentorDetailPage';
 import InterviewPage from './components/interview/InterviewPage';
-import InterviewOnboardingPage from './components/interview/InterviewOnboardingPage';
+import InterviewOnboardingPage, { resetInterviewOnboardingDraft } from './components/interview/InterviewOnboardingPage';
 import InterviewAnalyzePage from './components/interview/InterviewAnalyzePage';
 import InterviewNormalPage from './components/interview/InterviewNormalPage';
 import InterviewSessionPage from './components/interview/InterviewSessionPage';
 import InterviewFeedbackPage from './components/interview/InterviewFeedbackPage';
+import { DEFAULT_INTERVIEW_TITLE } from './components/interview/InterviewSubMenu';
 
 function HomeMain({ onNavigateToCareerTalk, onOpenCareerTalkDetail, onOpenQnaDetail, onOpenFreeTalkDetail, onOpenAgentChat, onOpenMentorDetail, onOpenMentitAI, onOpenInterview }) {
   return (
@@ -51,6 +52,7 @@ function App() {
   const [previousPage, setPreviousPage] = useState(null);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(true);
   const [headerBackTo, setHeaderBackTo] = useState(null);
+  const [planSkipReveal, setPlanSkipReveal] = useState(false);
   const [boardCategory, setBoardCategory] = useState('all');
   const [careerTalkArticleId, setCareerTalkArticleId] = useState('uha');
   const [qnaArticleId, setQnaArticleId] = useState('qualquant');
@@ -72,6 +74,8 @@ function App() {
   const [mentorDetailId, setMentorDetailId] = useState('yoonie');
   const [mentorDetailTab, setMentorDetailTab] = useState('intro');
   const [interviewMentor, setInterviewMentor] = useState('Sunny');
+  const [interviewTitle, setInterviewTitle] = useState(DEFAULT_INTERVIEW_TITLE);
+  const [interviewSessionStarted, setInterviewSessionStarted] = useState(false);
   const [searchAfterResults, setSearchAfterResults] = useState(false);
   const [searchSession, setSearchSession] = useState(0);
 
@@ -156,29 +160,31 @@ function App() {
     setAiRecentConversations((prev) => [item, ...prev.filter((conversation) => conversation.id !== item.id)]);
   };
 
-  const handleOpenMentorSearch = (query = '멘토 추천', { fromInterview = false, fromStart = false } = {}) => {
+  const handleOpenMentorSearch = (query = '멘토 추천', { fromInterview = false, fromStart = false, backTo } = {}) => {
     setMentorSearchQuery(query);
     setMentorSearchFromInterview(fromInterview);
     if (!fromInterview) {
       rememberAiConversation({ id: 'mentor-search', title: '멘토 추천' });
     }
-    setHeaderBackTo(fromStart ? 'chat' : null);
+    setHeaderBackTo(fromStart ? (backTo ?? 'chat') : null);
     setPage('ai-mentor-search');
   };
 
   const handleHeaderBack = () => {
     const target = headerBackTo ?? 'home';
     setHeaderBackTo(null);
-    if (target === 'chat') {
-      handleNavigate('chat');
+    if (target === 'chat' || target === 'interview' || target === 'interview-onboarding' || target === 'home') {
+      handleNavigate(target);
       return;
     }
     setPage(target);
   };
 
-  const handleOpenPlan = () => {
+  const handleOpenPlan = ({ fromHome = false } = {}) => {
     rememberAiConversation({ id: 'career-plan', title: '취업 목표 설정' });
     setPreviousPage((prev) => (page === 'ai-plan' ? prev : page));
+    setHeaderBackTo(fromHome ? 'home' : null);
+    setPlanSkipReveal(fromHome);
     setPage('ai-plan');
   };
 
@@ -261,9 +267,17 @@ function App() {
   };
 
   const handleOpenInterviewOnboarding = () => {
+    resetInterviewOnboardingDraft();
+    setInterviewTitle(DEFAULT_INTERVIEW_TITLE);
+    setInterviewSessionStarted(false);
     setPreviousPage((prev) => (page === 'interview-onboarding' ? prev : page));
     setIsSubMenuOpen(false);
     setPage('interview-onboarding');
+  };
+
+  const handleOpenInterviewStart = () => {
+    setPage('interview');
+    setIsSubMenuOpen(true);
   };
 
   const handleBackFromInterviewOnboarding = () => {
@@ -348,7 +362,8 @@ function App() {
                     ? handleBackFromMyPageProfile
                     : page === 'mentor-detail'
                       ? handleBackFromMentorDetail
-                      : (page === 'chat' || page === 'mentor' || page === 'ai-mentor-search') && headerBackTo
+                      : (page === 'chat' || page === 'mentor' || page === 'ai-mentor-search' || page === 'ai-plan') &&
+                          headerBackTo
                         ? handleHeaderBack
                         : undefined
         }
@@ -457,10 +472,12 @@ function App() {
               />
             ) : page === 'ai-plan' ? (
               <MentitAiCareerPlan
+                key={planSkipReveal ? 'plan-instant' : 'plan-stream'}
                 isSubMenuOpen={isSubMenuOpen}
                 onCloseSubMenu={() => setIsSubMenuOpen(false)}
                 subMenu={aiSubMenu}
                 onNavigateHome={() => handleNavigate('home')}
+                skipReveal={planSkipReveal}
               />
             ) : page === 'ai-job' ? (
               <MentitAiJobRecommend
@@ -475,9 +492,19 @@ function App() {
                 onCloseSubMenu={() => setIsSubMenuOpen(false)}
                 activeMentor={interviewMentor}
                 onSelectMentor={handleSelectInterviewMentor}
-                onOpenMentorExplore={() => handleNavigate('mentor')}
+                interviewTitle={interviewTitle}
+                showRecentInterviews={interviewSessionStarted}
+                onFindMentor={handleOpenInterviewStart}
+                onOpenMentorExplore={() => {
+                  setHeaderBackTo('interview');
+                  handleNavigate('mentor', { fromStart: true });
+                }}
                 onOpenMentorSearch={() =>
-                  handleOpenMentorSearch('모의면접에 맞는 멘토 추천해줘', { fromInterview: true })
+                  handleOpenMentorSearch('모의면접에 맞는 멘토 추천해줘', {
+                    fromInterview: true,
+                    fromStart: true,
+                    backTo: 'interview',
+                  })
                 }
               />
             ) : page === 'interview-onboarding' ? (
@@ -486,9 +513,18 @@ function App() {
                 onCloseSubMenu={() => setIsSubMenuOpen(false)}
                 activeMentor={interviewMentor}
                 onSelectMentor={handleSelectInterviewMentor}
+                showRecentInterviews={interviewSessionStarted}
+                onFindMentor={handleOpenInterviewStart}
                 onBack={handleBackFromInterviewOnboarding}
-                onNext={() => setPage('interview-analyze')}
-                onOpenMentorDetail={handleOpenMentorDetail}
+                onNext={(title) => {
+                  const trimmed = title?.trim();
+                  setInterviewTitle(trimmed || DEFAULT_INTERVIEW_TITLE);
+                  setPage('interview-analyze');
+                }}
+                onOpenMentorExplore={() => {
+                  setHeaderBackTo('interview-onboarding');
+                  handleNavigate('mentor', { fromStart: true });
+                }}
               />
             ) : page === 'interview-analyze' ? (
               <InterviewAnalyzePage
@@ -496,7 +532,13 @@ function App() {
                 onCloseSubMenu={() => setIsSubMenuOpen(false)}
                 activeMentor={interviewMentor}
                 onSelectMentor={handleSelectInterviewMentor}
-                onComplete={() => setPage('interview-normal')}
+                interviewTitle={interviewTitle}
+                showRecentInterviews={interviewSessionStarted}
+                onFindMentor={handleOpenInterviewStart}
+                onComplete={() => {
+                  setInterviewSessionStarted(true);
+                  setPage('interview-normal');
+                }}
               />
             ) : page === 'interview-normal' ? (
               <InterviewNormalPage
@@ -504,6 +546,9 @@ function App() {
                 onCloseSubMenu={() => setIsSubMenuOpen(false)}
                 activeMentor={interviewMentor}
                 onSelectMentor={handleSelectInterviewMentor}
+                interviewTitle={interviewTitle}
+                showRecentInterviews={interviewSessionStarted}
+                onFindMentor={handleOpenInterviewStart}
                 onStartInterview={() => setPage('interview-session')}
               />
             ) : page === 'interview-session' ? (
@@ -512,6 +557,9 @@ function App() {
                 onCloseSubMenu={() => setIsSubMenuOpen(false)}
                 activeMentor={interviewMentor}
                 onSelectMentor={handleSelectInterviewMentor}
+                interviewTitle={interviewTitle}
+                showRecentInterviews={interviewSessionStarted}
+                onFindMentor={handleOpenInterviewStart}
                 onStopInterview={() => {
                   setIsSubMenuOpen(false);
                   setPage('interview');
@@ -528,6 +576,9 @@ function App() {
                 onCloseSubMenu={() => setIsSubMenuOpen(false)}
                 activeMentor={interviewMentor}
                 onSelectMentor={handleSelectInterviewMentor}
+                interviewTitle={interviewTitle}
+                showRecentInterviews={interviewSessionStarted}
+                onFindMentor={handleOpenInterviewStart}
                 onRetryInterview={() => setPage('interview-session')}
                 onOpenMentorChat={handleOpenMentorChat}
               />
@@ -609,7 +660,7 @@ function App() {
                 onOpenFreeTalkDetail={handleOpenFreeTalkDetail}
                 onOpenAgentChat={handleOpenMentorChat}
                 onOpenMentorDetail={handleOpenMentorDetail}
-                onOpenMentitAI={handleOpenPlan}
+                onOpenMentitAI={() => handleOpenPlan({ fromHome: true })}
                 onOpenInterview={handleOpenInterviewOnboarding}
               />
             )}

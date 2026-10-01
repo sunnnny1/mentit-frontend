@@ -48,6 +48,7 @@ function MentorReply({
   onCtaClick,
   onMention,
   onReveal,
+  className = '',
 }) {
   const [visibleCount, setVisibleCount] = useState(1);
 
@@ -72,8 +73,9 @@ function MentorReply({
   }, [showMeta, onReveal]);
 
   return (
-    <div className="flex flex-col gap-1 items-start w-full">
+    <div className={`flex flex-col gap-1 items-start w-full ${className}`}>
       <div className="flex flex-col gap-4 items-start w-fit">
+        <div className="flex flex-col gap-1 items-start w-fit">
         {parts.slice(0, visibleCount).map((part, partIndex) => (
           <div key={`${partIndex}-${part.slice(0, 24)}`} className="mentit-bubble-in flex flex-col gap-2 items-start w-fit">
             {partIndex === 0 ? (
@@ -89,6 +91,7 @@ function MentorReply({
             </MentionableBubble>
           </div>
         ))}
+        </div>
         {showMeta && (citation || ctaText) ? (
           <div className="mentit-bubble-in flex flex-col gap-4 items-start w-full">
             {citation ? (
@@ -129,7 +132,7 @@ export default function ChatThread({
   messages = [],
   onSend,
   displayName = 'Yoonie',
-  initialGreeting = '안녕하세요? 저는 당근에서 프로덕트 디자이너 5년차인 멘토 Yoonie 입니다. 멘토의 경험을 바탕으로, 이윤영님에게 도움을 드릴게요. 궁금한 점을 말해주세요.',
+  initialGreeting = '저는 당근에서 프로덕트 디자이너 5년차인 Yoonie 멘토의 AI Agent예요. 멘토의 경험을 바탕으로, 이윤영님에게 도움을 드릴게요. 궁금한 점을 말해주세요.',
   suggestedChips = SUGGESTED_CHIPS,
   isAnswering = false,
   onCtaClick,
@@ -191,7 +194,7 @@ export default function ChatThread({
         </div>
       </div>
 
-      <div ref={listRef} className="flex-1 min-h-0 overflow-y-auto px-6 pr-9 pb-32 flex flex-col gap-10">
+      <div ref={listRef} className="flex-1 min-h-0 overflow-y-auto px-6 pr-9 pb-32 flex flex-col">
         <div className="flex flex-col gap-3 items-start w-full">
           <div className="flex flex-col gap-2 items-start w-fit">
             <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213]">{agentName}</p>
@@ -221,9 +224,13 @@ export default function ChatThread({
         </div>
 
         {messages.map((msg, index) => {
+          const prevRole = index === 0 ? 'assistant' : messages[index - 1].role;
+          const stacked = msg.role === prevRole;
+          const spacingClass = stacked ? 'mt-1' : 'mt-10';
+
           if (msg.role === 'user') {
             return (
-              <div key={index} className="flex flex-col items-end gap-1.5 w-full">
+              <div key={index} className={`flex flex-col items-end gap-1.5 w-full ${spacingClass}`}>
                 {msg.replyTo ? (
                   <div className="w-fit max-w-[360px]">
                     <MentionQuote name={msg.replyTo.name} text={msg.replyTo.text} />
@@ -248,11 +255,12 @@ export default function ChatThread({
               onCtaClick={() => onCtaClick?.(msg.ctaKind)}
               onMention={mention}
               onReveal={scrollToEnd}
+              className={spacingClass}
             />
           );
         })}
 
-        {isAnswering && <LoadingSymbol size={72} className="shrink-0" />}
+        {isAnswering && <LoadingSymbol size={72} className="shrink-0 mt-10" />}
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 flex flex-col">

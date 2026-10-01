@@ -5,7 +5,6 @@ import figma_6295d8ad_2523_4444_ad67_afa9c909b74e_png from '../../assets/figma/6
 import figma_1597f73a_ad68_4de9_b3d2_a991bbd381ae_png from '../../assets/figma/1597f73a-ad68-4de9-b3d2-a991bbd381ae.png';
 import figma_a873382d_6e6d_435c_8771_5cacb244e020_png from '../../assets/figma/a873382d-6e6d-435c-8771-5cacb244e020.png';
 import figma_28f4314c_4318_4458_b819_bf1da5cdceb2_svg from '../../assets/figma/28f4314c-4318-4458-b819-bf1da5cdceb2.svg';
-import figma_e239b3f5_12b3_4681_9f36_892fad5385ea_png from '../../assets/figma/e239b3f5-12b3-4681-9f36-892fad5385ea.png';
 import figma_a3943117_ae68_4d0a_ba07_b53cbf13a6d9_png from '../../assets/figma/a3943117-ae68-4d0a-ba07-b53cbf13a6d9.png';
 import figma_c69f52ef_4a44_42a0_ad38_bc4d99cc5aff_png from '../../assets/figma/c69f52ef-4a44-42a0-ad38-bc4d99cc5aff.png';
 import figma_5bead996_cc1d_42c1_88a7_1d6e3d408833_png from '../../assets/figma/5bead996-cc1d-42c1-88a7-1d6e3d408833.png';
@@ -15,7 +14,7 @@ import figma_aacd105e_6ca7_4c89_8003_29bd622d36d1_png from '../../assets/figma/a
 import figma_dec8b4d6_0b3c_4134_8a25_e5349f8a34a2_svg from '../../assets/figma/dec8b4d6-0b3c-4134-8a25-e5349f8a34a2.svg';
 import figma_36ef78e8_6018_4fe4_b391_6cb5a05aac28_svg from '../../assets/figma/36ef78e8-6018-4fe4-b391-6cb5a05aac28.svg';
 import figma_f8febec3_4d51_48c7_8360_5b05675e4744_svg from '../../assets/figma/f8febec3-4d51-48c7-8360-5b05675e4744.svg';
-import figma_f81418e4_29cb_4475_a83a_eeb1b8d64498_png from '../../assets/figma/f81418e4-29cb-4475-a83a-eeb1b8d64498.png';
+import figma_15f95135_06d0_42d1_acb7_c25ec37f0c79_png from '../../assets/figma/15f95135-06d0-42d1-acb7-c25ec37f0c79.png';
 import figma_2c19024b_17a0_42cd_86ef_8b687e86e85d_png from '../../assets/figma/2c19024b-17a0-42cd-86ef-8b687e86e85d.png';
 import figma_05e547f0_62a2_4529_8bb7_c0e0ee15ff0f_png from '../../assets/figma/05e547f0-62a2-4529-8bb7-c0e0ee15ff0f.png';
 import figma_cf4d18f0_b8e2_4926_8732_e374fb76c8dc_png from '../../assets/figma/cf4d18f0-b8e2-4926-8732-e374fb76c8dc.png';
@@ -28,7 +27,6 @@ const imgYoonieAvatar = figma_6295d8ad_2523_4444_ad67_afa9c909b74e_png;
 const imgKakaoSunny = figma_1597f73a_ad68_4de9_b3d2_a991bbd381ae_png;
 const imgWanted = figma_a873382d_6e6d_435c_8771_5cacb244e020_png;
 const imgInfoIconMaster = figma_28f4314c_4318_4458_b819_bf1da5cdceb2_svg;
-const imgReviewerMumumu = figma_e239b3f5_12b3_4681_9f36_892fad5385ea_png;
 const imgReviewerKiki = figma_a3943117_ae68_4d0a_ba07_b53cbf13a6d9_png;
 const imgReviewerCoco = figma_c69f52ef_4a44_42a0_ad38_bc4d99cc5aff_png;
 const imgSunnyCareerTalk1 = figma_5bead996_cc1d_42c1_88a7_1d6e3d408833_png;
@@ -38,7 +36,7 @@ const imgKakao = figma_aacd105e_6ca7_4c89_8003_29bd622d36d1_png;
 const imgInfoIcon = figma_dec8b4d6_0b3c_4134_8a25_e5349f8a34a2_svg;
 const imgAiSummaryIcon = figma_36ef78e8_6018_4fe4_b391_6cb5a05aac28_svg;
 const imgChevronDown = figma_f8febec3_4d51_48c7_8360_5b05675e4744_svg;
-const imgReviewerLuvuuu = figma_f81418e4_29cb_4475_a83a_eeb1b8d64498_png;
+const imgReviewerYunn00 = figma_15f95135_06d0_42d1_acb7_c25ec37f0c79_png;
 const imgReviewer0sun222 = figma_2c19024b_17a0_42cd_86ef_8b687e86e85d_png;
 const imgReviewerGangster = figma_05e547f0_62a2_4529_8bb7_c0e0ee15ff0f_png;
 const imgCareerTalk1 = figma_cf4d18f0_b8e2_4926_8732_e374fb76c8dc_png;
@@ -49,9 +47,10 @@ const imgChevronRightIcon = figma_d551385b_79cd_4290_b3b3_7b250cc4dbd0_svg;
 
 const REVIEWS = [
   {
-    id: 'luvuuu',
-    name: 'luvuuu',
-    avatar: imgReviewerLuvuuu,
+    id: 'yunn00',
+    name: 'Yunn00',
+    avatar: imgReviewerYunn00,
+    mine: true,
     channel: '채팅',
     tags: ['실무 인사이트 공유', '빠른 응답'],
     text: '현직자한테 직접 물어보는 게 이렇게 든든한 거였다니... 취업 카페에서 떠도는 카더라랑은 차원이 달라요. 실무에서 진짜 쓰는 팁들을 아낌없이 풀어주셔서 노트 빼곡히 적었네요. 강추합니다!',
@@ -71,7 +70,7 @@ const REVIEWS = [
     name: 'Gangster',
     avatar: imgReviewerGangster,
     channel: '피드백',
-    tags: ['자소서 개선', '구체적 조언', '적극적인 소통'],
+    tags: ['자기소개서 개선', '구체적 조언', '적극적인 소통'],
     text: '"3페이지는 괜찮고, 4페이지만 이렇게 수정해보세요" 하고 필요한 부분을 콕 집어주시는 게 정말 좋았어요. 두루뭉술하게 "더 잘하세요"라고 하는 피드백이 아니라, 어느 부분을 어떻게 고치면 좋을지 바로 이해할 수 있어서 수정 방향을 잡는 데 큰 도움이 됐어요. 마지막에는 잘할 수 있다고 응원까지 해주셔서 자신감을 얻었고, 덕분에 힘내서 지원할 수 있었습니다. 결과적으로 서류에도 합격했어요!! 멘토님께 정말 감사드려요 :)',
     date: '2026.05.15',
   },
@@ -127,23 +126,24 @@ const CAREERS = [
 const STEPS = [
   {
     title: '멘토 확인 및 선택',
-    desc: "멘토의 정보를 확인하고 원하는 멘토를 선택해 '에이전트와 채팅하기' 버튼을 선택해 주세요.",
+    desc: "멘토의 정보를 확인하고 원하는 멘토를 선택해 '멘토링 받기' '모의 면접하기' 버튼을 선택해 주세요.",
   },
   {
     title: 'AI 에이전트 요청',
-    desc: '실제 멘토와 대화하기 전, 멘토의 데이터를 학습한 AI 에이전트와 대화를 할 수 있어요. 포트폴리오, 자소서를 피드백 받고싶으면 채팅 내역에서 피드백을 선택해서 진행하거나 에이전트에게 포트폴리오라고 입력하면 해당 페이지로 이동할 수 있어요.',
+    desc: "실제 멘토의 데이터를 학습한 AI 에이전트와 먼저 대화해볼 수 있어요.\n포트폴리오·자소서 피드백이나 면접 연습이 필요하면 '피드백'/'면접'을 선택하거나 채팅으로 입력해보세요.",
   },
   {
     title: '실제 멘토와 대화하기',
-    desc: "실제 멘토와 대화를 하고싶다면 '멘토와 채팅하기' 버튼을 통해 실제 멘토에게 채팅을 보낼 수 있어요. 채팅을 멘토가 확인한 후 답장해줄거에요.",
+    desc: "실제 멘토와 대화를 하고싶다면 '멘토와 채팅하기' 버튼을 통해 실제 멘토에게 채팅을 보낼 수 있어요.\n채팅을 멘토가 확인한 후 답장해줄거에요.",
   },
 ];
 
 const SUNNY_REVIEWS = [
   {
-    id: 'mumumu',
-    name: 'mumumu',
-    avatar: imgReviewerMumumu,
+    id: 'yunn00',
+    name: 'Yunn00',
+    avatar: imgReviewerYunn00,
+    mine: true,
     channel: '면접',
     tags: ['실무 인사이트 공유', '빠른 응답'],
     text: '모의면접하면서 제가 놓치고 있던 부분을 하나씩 짚어주셔서 좋았어요. 실제 면접에서 어떻게 말하면 좋을지까지 제안해주셔서 바로 적용할 수 있었습니다.',
@@ -223,13 +223,13 @@ const MENTOR_PAGES = {
     reviews: REVIEWS,
     reviewCount: 45,
     aiSummary:
-      '멘티들이 가장 많이 꼽은 강점은 "명확한 피드백"이에요. "두루뭉술한 조언이 아니라 바로 고칠 수 있었다"는 후기가 반복적으로 나왔어요. 포폴・자소서 피드백 만족도가 특히 높아요.',
+      '멘티들이 가장 많이 꼽은 강점은 "명확한 피드백"이에요. "두루뭉술한 조언이 아니라 바로 고칠 수 있었다"는 후기가 반복적으로 나왔어요. 포폴·자소서 피드백 만족도가 특히 높아요.',
     careerTalks: CAREER_TALKS,
     qnaAnswers: QNA_ANSWERS,
     sidebar: {
       avatar: imgYoonieAvatar,
       roleLine: '프로덕트 디자이너 ・ 당근 ・ 5년차',
-      tags: ['프로덕트 디자인', '포트폴리오'],
+      tags: ['포트폴리오', '자기소개서'],
       followers: '1.2K',
       chats: '60',
       reviews: '45',
@@ -363,7 +363,7 @@ function StepItem({ step, number }) {
         </div>
         <div className="flex-1 min-w-0 flex flex-col gap-0.5">
           <p className="text-[15px] font-bold leading-[1.45] text-[#121213]">{step.title}</p>
-          <p className="text-sm leading-[1.42] tracking-[0.14px] text-[#747886]">{step.desc}</p>
+          <p className="text-sm leading-[1.42] tracking-[0.14px] text-[#747886] whitespace-pre-line">{step.desc}</p>
         </div>
       </div>
     </div>
@@ -399,6 +399,12 @@ function MentorReviewCard({ review }) {
       <div className="flex gap-2 items-center">
         <img alt="" src={review.avatar} className="size-8 rounded-full object-cover shrink-0" />
         <p className="font-bold text-sm tracking-[0.14px] text-[#121213]">{review.name}</p>
+        {review.mine && (
+          <span className="relative flex items-center justify-center px-2 py-1 rounded-lg shrink-0">
+            <span className="absolute inset-0 bg-[#747886] opacity-10 rounded-lg" />
+            <span className="relative text-[10px] tracking-[0.25px] text-[#747886]">내가 쓴 글</span>
+          </span>
+        )}
       </div>
       <div className="flex gap-1 items-start flex-wrap">
         <ReviewTagBadge label={review.channel} accent />
@@ -489,7 +495,7 @@ function ProfileSidebarCard({ profile, onOpenAgentChat, onOpenInterview }) {
   return (
     <div className="w-[335px] shrink-0 sticky top-0 -mt-16 pt-16">
       <div
-        className="relative w-full overflow-hidden border-[1.5px] border-white rounded-2xl p-6 flex flex-col gap-5 shadow-[0_0_16px_rgba(18,18,19,0.04),inset_-2px_-2px_2px_rgba(255,255,255,0.3)]"
+        className="relative w-full overflow-hidden rounded-2xl p-6 flex flex-col gap-5 shadow-[0_0_16px_rgba(18,18,19,0.04),inset_-2px_-2px_2px_rgba(255,255,255,0.3)]"
         style={{ background: profile.gradient }}
       >
         <div className="relative flex gap-2 items-start w-full">
@@ -546,10 +552,10 @@ function ProfileSidebarCard({ profile, onOpenAgentChat, onOpenInterview }) {
 
         <div className="relative flex gap-3 items-start w-full">
           <button type="button" onClick={profile.canChat ? onOpenAgentChat : undefined} className={GLASS_BUTTON}>
-            <p className="relative font-bold text-base text-[#121213] whitespace-nowrap">채팅하기</p>
+            <p className="relative font-bold text-base text-[#121213] whitespace-nowrap">멘토링 받기</p>
           </button>
           <button type="button" onClick={profile.canInterview ? onOpenInterview : undefined} className={GLASS_BUTTON}>
-            <p className="relative font-bold text-base text-[#121213] whitespace-nowrap">면접보기</p>
+            <p className="relative font-bold text-base text-[#121213] whitespace-nowrap">모의 면접하기</p>
           </button>
         </div>
       </div>
@@ -569,15 +575,20 @@ export default function MentorDetailPage({
   const resolvedInitialTab = initialTab === 'review' || initialTab === 'content' ? initialTab : 'intro';
   const [activeTab, setActiveTab] = useState(resolvedInitialTab);
   const [showInfoModal, setShowInfoModal] = useState(false);
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     setActiveTab(resolvedInitialTab);
     setShowInfoModal(false);
   }, [mentorId, resolvedInitialTab]);
 
+  useEffect(() => {
+    if (scrollRef.current) scrollRef.current.scrollTop = 0;
+  }, [activeTab, mentorId]);
+
   return (
     <section className="relative flex-1 min-w-0 min-h-0 flex flex-col rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-hidden">
-      <div className="flex-1 min-h-0 overflow-y-auto">
+      <div ref={scrollRef} className="flex-1 min-h-0 overflow-y-auto">
         <div className="max-w-[1245px] mx-auto px-5 pt-16 pb-16 flex flex-wrap gap-10 items-start">
           <div className="flex-1 min-w-[360px] flex flex-col gap-10">
             <div className="sticky top-0 z-10 bg-white -mt-16 pt-16 flex flex-col w-full pb-2">

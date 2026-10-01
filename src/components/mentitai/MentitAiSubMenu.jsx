@@ -19,22 +19,24 @@ export default function MentitAiSubMenu({
           <p className="font-bold text-[15px] leading-[1.6] text-[#121213]">멘팃 AI</p>
         </div>
 
-        <div className="flex flex-col gap-3 items-start w-full">
-          <p className="font-medium text-sm tracking-[0.14px] text-[#747886] w-full">새 대화</p>
+        <div className="flex flex-col gap-3 items-start w-full min-w-0">
+          <p className="font-medium text-sm tracking-[0.14px] text-[#747886] w-full">새 채팅</p>
           <button
             type="button"
             onClick={() => onSelectConversation?.(null)}
-            className="flex gap-1 items-center w-full cursor-pointer"
+            className="flex gap-1 items-center w-full min-w-0 cursor-pointer"
           >
-            <img alt="" src={imgPlus} className="size-4" />
-            <p className="font-normal text-[13px] leading-[1.4] tracking-[0.26px] text-[#747886]">새 대화 시작</p>
+            <img alt="" src={imgPlus} className="size-4 shrink-0" />
+            <p className="min-w-0 flex-1 font-normal text-[13px] leading-[1.4] tracking-[0.26px] text-[#747886] truncate text-left">
+              새 채팅하기
+            </p>
           </button>
         </div>
 
-        <div className="flex flex-col gap-3 items-start w-full">
+        <div className="flex flex-col gap-3 items-start w-full min-w-0">
           <p className="font-medium text-sm tracking-[0.14px] text-[#747886]">최근 대화</p>
           {recentConversations.length > 0 && (
-            <div className="flex flex-col gap-1 items-start w-full">
+            <div className="flex flex-col gap-1 items-start w-full min-w-0">
               {recentConversations.map((conversation) => {
                 const isActive = activeConversationId === conversation.id;
                 return (
@@ -42,12 +44,12 @@ export default function MentitAiSubMenu({
                     key={conversation.id}
                     type="button"
                     onClick={() => onSelectConversation?.(conversation)}
-                    className={`flex items-center gap-1 p-3 rounded-xl w-full cursor-pointer ${
+                    className={`flex items-center gap-1 min-w-0 overflow-hidden p-3 rounded-xl w-full cursor-pointer ${
                       isActive ? 'bg-[#f9fafb]' : 'bg-white'
                     }`}
                   >
                     <span
-                      className={`flex-1 text-left font-medium text-[15px] leading-[1.45] truncate ${
+                      className={`block w-full min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-left font-medium text-[15px] leading-[1.45] ${
                         isActive ? 'text-[#121213]' : 'text-[#747886]'
                       }`}
                     >

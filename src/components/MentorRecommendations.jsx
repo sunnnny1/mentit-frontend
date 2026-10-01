@@ -30,7 +30,7 @@ export const MENTORS = [
     badgeLabel: 'Active Mentor',
     color: 'purple',
     role: '프로덕트 디자이너 · 당근 · 5년차',
-    tags: ['자소서', '포트폴리오'],
+    tags: ['자기소개서', '포트폴리오'],
     desc: '프로덕트 디자인 경험을 바탕으로 리서치부터 데이터 분석까지 집중적으로 답변해드립니다.',
     reviews: '45개',
     followers: '1.2K',
@@ -43,7 +43,7 @@ export const MENTORS = [
     badgeLabel: 'Master Mentor',
     color: 'red',
     role: '프로덕트 디자이너 · 토스 · 3년차',
-    tags: ['자소서', '포트폴리오'],
+    tags: ['자기소개서', '포트폴리오'],
     desc: '다양한 디지털 서비스의 UX를 설계하며 사용자 문제를 해결하는 프로덕트 디자이너입니다.',
     reviews: '50개',
     followers: '1.8K',
@@ -91,7 +91,7 @@ export function MentorCard({ mentor, onOpenAgentChat, onOpenMentorDetail, onOpen
   if (variant === 'profile') {
     return (
       <div
-        className="relative flex flex-col gap-5 items-start p-6 rounded-2xl shrink-0 w-[364px] overflow-hidden border-[1.5px] border-white shadow-[0_0_16px_rgba(18,18,19,0.04),inset_-2px_-2px_2px_rgba(255,255,255,0.3)]"
+        className="relative flex flex-col gap-5 items-start p-6 rounded-2xl shrink-0 w-[364px] overflow-hidden shadow-[0_0_16px_rgba(18,18,19,0.04),inset_-2px_-2px_2px_rgba(255,255,255,0.3)]"
         style={{ background: CARD_GRADIENT[mentor.color] ?? CARD_GRADIENT.purple }}
       >
         <div className="relative flex gap-2 items-start w-full">
@@ -172,7 +172,7 @@ export function MentorCard({ mentor, onOpenAgentChat, onOpenMentorDetail, onOpen
 
   return (
     <div
-      className="relative flex flex-col gap-5 items-start p-6 rounded-2xl shrink-0 w-[364px] overflow-hidden border-[1.5px] border-white shadow-[0_0_15px_rgba(0,0,0,0.04),inset_20px_20px_40px_rgba(255,255,255,0.9),inset_-20px_-20px_40px_rgba(255,255,255,0.9)]"
+      className="relative flex flex-col gap-5 items-start p-6 rounded-2xl shrink-0 w-[364px] overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.04),inset_20px_20px_40px_rgba(255,255,255,0.9),inset_-20px_-20px_40px_rgba(255,255,255,0.9)]"
       style={{ background: `radial-gradient(ellipse 78% 70% at 50% 50%, ${CARD_TINT[mentor.color]} 0%, #ffffff 78%)` }}
     >
       <div className="relative flex w-full flex-col gap-5">

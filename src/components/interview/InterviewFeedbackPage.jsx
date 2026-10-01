@@ -3,6 +3,7 @@ import InterviewSubMenu from './InterviewSubMenu';
 import imgBookmark from '../../assets/icons/interview/bookmark-white.svg';
 import imgBookmarkFill from '../../assets/icons/interview/bookmark-white-fill.svg';
 import imgPencil from '../../assets/icons/interview/pencil.svg';
+import imgPlayListen from '../../assets/icons/interview/play-listen.svg';
 import imgArticle1 from '../../assets/figma/interview-article-1.png';
 import imgArticle2 from '../../assets/figma/interview-article-2.png';
 
@@ -311,6 +312,9 @@ export default function InterviewFeedbackPage({
   onOpenMentorChat,
   activeMentor = 'Sunny',
   onSelectMentor,
+  interviewTitle,
+  showRecentInterviews = false,
+  onFindMentor,
 }) {
   const [tab, setTab] = useState('total');
   const [radarProgress, setRadarProgress] = useState(0);
@@ -319,7 +323,12 @@ export default function InterviewFeedbackPage({
   const [bookmarked, setBookmarked] = useState([false, false]);
   const [radarRef, radarInView] = useInView();
   const [voiceRef, voiceInView] = useInView();
+  const scrollRef = useRef(null);
   const answer = ANSWERS[answerIndex];
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo(0, 0);
+  }, [tab, answerIndex]);
 
   useEffect(() => {
     if (!radarInView) return undefined;
@@ -353,70 +362,77 @@ export default function InterviewFeedbackPage({
             setTab('total');
             onSelectMentor?.(mentor);
           }}
+          interviewTitle={interviewTitle}
+          showRecentInterviews={showRecentInterviews}
+          onFindMentor={onFindMentor}
         />
       )}
 
       <section className="flex-1 min-w-0 min-h-0 h-full flex flex-col rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-hidden">
-      <div className="flex-1 min-h-0 overflow-y-auto">
-        <div className="mx-auto w-full max-w-[820px] px-5 pt-16 pb-16 flex flex-col gap-10">
-          <div className="flex flex-col gap-3">
-            <div className="flex gap-3 items-center">
-              <h1 className="font-semibold text-[25px] leading-[1.4] tracking-[-0.5px] text-[#121213]">
-                카카오 UX 디자이너 직무 실전 면접
-              </h1>
-              <img alt="" src={imgPencil} className="size-6 shrink-0" />
-            </div>
-            <p className="text-[15px] leading-[1.45] text-[#747886]">2026.07.27</p>
-          </div>
-
-          <div className="flex flex-col gap-10">
-            <div className="relative flex h-[57px] w-full max-w-[779px]">
-              <div className="absolute inset-x-0 bottom-0 h-px bg-[#e7eaee]" />
-              {[
-                { id: 'total', label: '종합 피드백' },
-                { id: 'answers', label: '답변별 피드백' },
-              ].map((item) => {
-                const active = tab === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => setTab(item.id)}
-                    className={`relative w-[158px] pb-5 pt-3.5 px-5 text-[16px] leading-[1.45] ${
-                      active
-                        ? 'font-bold text-[#121213] border-b-2 border-[#121213]'
-                        : 'font-medium text-[#747886]'
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                );
-              })}
+        <div className="shrink-0 relative z-10 bg-white">
+          <div className="mx-auto w-full max-w-[820px] px-5 pt-16 pb-2">
+            <div className="flex flex-col gap-3 pb-2">
+              <div className="flex gap-3 items-center">
+                <h1 className="font-semibold text-[25px] leading-[1.4] tracking-[-0.5px] text-[#121213]">
+                  카카오 UX 디자이너 직무 실전 면접
+                </h1>
+                <img alt="" src={imgPencil} className="size-6 shrink-0" />
+              </div>
+              <p className="text-[15px] leading-[1.45] text-[#747886]">2026.07.27</p>
             </div>
 
-            {tab === 'answers' ? (
-              <div className="flex flex-wrap gap-3">
-                {ANSWERS.map((item, index) => {
-                  const active = index === answerIndex;
+            <div className="flex flex-col gap-10">
+              <div className="relative flex h-[57px] w-full max-w-[779px]">
+                <div className="absolute inset-x-0 bottom-0 h-px bg-[#e7eaee]" />
+                {[
+                  { id: 'total', label: '종합 피드백' },
+                  { id: 'answers', label: '답변별 피드백' },
+                ].map((item) => {
+                  const active = tab === item.id;
                   return (
                     <button
-                      key={item.chip}
+                      key={item.id}
                       type="button"
-                      onClick={() => setAnswerIndex(index)}
-                      className={`px-5 py-2 rounded-lg border text-[15px] leading-[1.45] font-medium ${
+                      onClick={() => setTab(item.id)}
+                      className={`relative w-[158px] pb-5 pt-3.5 px-5 text-[16px] leading-[1.45] ${
                         active
-                          ? 'border-[#1a75ff] bg-[rgba(26,117,255,0.05)] text-[#1a75ff]'
-                          : 'border-[#e7eaee] text-[#747886]'
+                          ? 'font-bold text-[#121213] border-b-2 border-[#121213]'
+                          : 'font-medium text-[#747886]'
                       }`}
                     >
-                      {item.chip}
+                      {item.label}
                     </button>
                   );
                 })}
               </div>
-            ) : null}
-          </div>
 
+              {tab === 'answers' ? (
+                <div className="flex flex-wrap gap-3">
+                  {ANSWERS.map((item, index) => {
+                    const active = index === answerIndex;
+                    return (
+                      <button
+                        key={item.chip}
+                        type="button"
+                        onClick={() => setAnswerIndex(index)}
+                        className={`px-5 py-2 rounded-lg border text-[15px] leading-[1.45] font-medium ${
+                          active
+                            ? 'border-[#1a75ff] bg-[rgba(26,117,255,0.05)] text-[#1a75ff]'
+                            : 'border-[#e7eaee] text-[#747886]'
+                        }`}
+                      >
+                        {item.chip}
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </div>
+
+        <div ref={scrollRef} className="relative z-0 isolate flex-1 min-h-0 overflow-x-hidden overflow-y-auto">
+          <div className="mx-auto w-full max-w-[820px] px-5 pt-8 pb-16 flex flex-col gap-10">
           {tab === 'total' ? (
             <div className="flex flex-col gap-10">
               <div className="flex flex-col gap-10">
@@ -560,8 +576,8 @@ export default function InterviewFeedbackPage({
                     <span className="font-medium text-[13px] leading-[1.38] tracking-[0.25px] text-[#747886] whitespace-nowrap">
                       답변 음성 듣기 · {answer.duration}
                     </span>
-                    <span className="size-[22px] rounded-full bg-[#747886] text-white text-[9px] font-bold flex items-center justify-center">
-                      ▶
+                    <span className="size-[22px] rounded-full bg-[#9ca2b1] overflow-hidden flex items-center justify-center">
+                      <img alt="" src={imgPlayListen} className="size-4" />
                     </span>
                   </button>
                 </div>

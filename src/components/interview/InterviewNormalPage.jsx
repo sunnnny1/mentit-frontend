@@ -1,5 +1,5 @@
 import ChatProfileBar from '../chat/ChatProfileBar';
-import InterviewSubMenu from './InterviewSubMenu';
+import InterviewSubMenu, { DEFAULT_INTERVIEW_TITLE } from './InterviewSubMenu';
 import figma_c11cc4d3_aa70_48e8_a183_5d36c9318492_png from '../../assets/figma/c11cc4d3-aa70-48e8-a183-5d36c9318492.png';
 import figma_ceef9e7c_3912_4cc0_ba9c_dbf2d463f3e3_png from '../../assets/figma/ceef9e7c-3912-4cc0-ba9c-dbf2d463f3e3.png';
 
@@ -12,11 +12,21 @@ export default function InterviewNormalPage({
   onStartInterview,
   activeMentor = 'Sunny',
   onSelectMentor,
+  interviewTitle = DEFAULT_INTERVIEW_TITLE,
+  showRecentInterviews = false,
+  onFindMentor,
 }) {
   return (
     <div className="flex items-stretch gap-5 flex-1 min-h-0 h-full w-full overflow-hidden">
       {isSubMenuOpen && (
-        <InterviewSubMenu onClose={onCloseSubMenu} activeMentor={activeMentor} onSelectMentor={onSelectMentor} />
+        <InterviewSubMenu
+          onClose={onCloseSubMenu}
+          activeMentor={activeMentor}
+          onSelectMentor={onSelectMentor}
+          interviewTitle={interviewTitle}
+          showRecentInterviews={showRecentInterviews}
+          onFindMentor={onFindMentor}
+        />
       )}
 
       <section className="flex-1 min-w-0 min-h-0 h-full flex flex-col rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-hidden">
@@ -41,7 +51,7 @@ export default function InterviewNormalPage({
             <img
               alt="Sunny"
               src={imgCharacter}
-              className="absolute inset-x-0 bottom-0 h-[92%] w-full object-contain object-bottom"
+              className="absolute inset-x-[-4%] top-0 bottom-0 w-[108%] h-full max-w-none object-cover object-[center_16%]"
               style={{
                 WebkitMaskImage:
                   'linear-gradient(180deg, #000 0%, #000 58%, rgba(0,0,0,0.55) 78%, transparent 100%)',
@@ -62,14 +72,18 @@ export default function InterviewNormalPage({
           <div className="flex-1 min-w-0 flex flex-col items-center justify-center px-5 py-7">
             <div className="flex flex-col gap-10 items-center w-full max-w-[463px]">
               <div className="flex flex-col gap-4 items-center text-center w-full">
-                <p className="font-bold text-[22px] leading-[1.4] tracking-[-0.33px] text-[#121213] w-full">
-                  카카오 UX 디자이너 직무 실전 면접
+                <p className="font-semibold text-[22px] leading-[1.4] tracking-[-0.33px] text-[#121213] w-full">
+                  {interviewTitle.trim() ? interviewTitle : DEFAULT_INTERVIEW_TITLE}
                 </p>
-                <div className="text-[14px] leading-[1.58] tracking-[0.14px] text-[#747886] w-full">
-                  <p>Sunny 멘토의 AI 에이전트와 모의 면접이 시작됩니다.</p>
-                  <p>기록된 답변 내용을 바탕으로 피드백을 제공합니다.</p>
-                  <p>예상 소요 시간은 20분이며, 면접 시간이 답변에 따라 변동될 수 있습니다.</p>
-                </div>
+                <p className="text-[14px] leading-[1.58] tracking-[0.14px] text-[#747886] w-full">
+                  Sunny 멘토의 AI 에이전트와 모의 면접이 시작됩니다.
+                  <br />
+                  예상 소요 시간은 20분이며, 면접 시간은 답변에 따라 변동될 수 있습니다.
+                  <br />
+                  화상 면접과 음성 녹음이 진행되니, 원활한 면접을 위해 주변이 조용하고
+                  <br />
+                  방해받지 않는 환경에서 참여해주세요.
+                </p>
               </div>
               <button
                 type="button"
@@ -77,7 +91,7 @@ export default function InterviewNormalPage({
                 className="relative flex items-center justify-center px-7 py-3 rounded-xl border border-[#70d2ff] bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10"
               >
                 <span className="relative font-bold text-base leading-[1.45] text-white whitespace-nowrap">
-                  모의면접 시작하기
+                  모의 면접 시작하기
                 </span>
               </button>
             </div>

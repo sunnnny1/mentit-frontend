@@ -15,69 +15,77 @@ const FOLLOW_UP_CHIPS = [
 
 const TIMELINE = [
   {
-    month: 7,
+    month: 10,
     note: '현재',
     items: [
-      { title: '원하는 기업 탐색', desc: '멘팃 AI와 기업 탐색하러 가기', arrow: true },
-      { title: '피드백 기반으로 포트폴리오 보완', desc: 'Yoonie 멘토에게 피드백받으러 가기', arrow: true },
-      { title: '자기소개서 정리', desc: 'Yoonie 멘토에게 피드백 받으러 가기', arrow: true },
+      { week: '1주차', title: '원하는 기업 탐색', desc: '멘팃 AI와 기업 탐색하러 가기', arrow: true },
+      { week: '2-3주차', title: '피드백 기반으로 포트폴리오 보완', desc: 'Yoonie 멘토에게 피드백받으러 가기', arrow: true },
+      { week: '4주차', title: '자기소개서 정리', desc: 'Yoonie 멘토에게 피드백 받으러 가기', arrow: true },
     ],
   },
   {
-    month: 8,
+    month: 11,
     note: null,
     items: [
-      { title: '포트폴리오 최종 완성', desc: '지원 전 마지막 점검과 보완을 진행하기', arrow: false },
-      { title: 'AI 면접 시뮬레이션', desc: '실전처럼 질문에 답하며 면접을 준비하기', arrow: true },
+      { week: '1-2주차', title: '포트폴리오 최종 완성', desc: '지원 전 마지막 점검과 보완을 진행하기', arrow: false },
+      { week: '3-4주차', title: 'AI 면접 시뮬레이션', desc: '실전처럼 질문에 답하며 면접을 준비하기', arrow: true },
     ],
   },
   {
-    month: 9,
+    month: 12,
     note: null,
     items: [
-      { title: '하반기 지원 시작', desc: '관심 있는 기업에 본격적으로 지원하기', arrow: false },
-      { title: '실전 면접 대비', desc: '예상 질문을 바탕으로 답변을 다듬기', arrow: true },
-      { title: '지원 현황 관리', desc: '지원 일정과 전형 결과를 체계적으로 관리하기', arrow: false },
+      { week: '1-2주차', title: '실전 면접 대비', desc: '예상 질문을 바탕으로 답변을 다듬기', arrow: true },
+      { week: '3-4주차', title: '지원 현황 관리', desc: '지원 일정과 전형 결과를 체계적으로 관리하기', arrow: false },
     ],
   },
 ];
 
 // AI 답변을 한 블록씩 순차적으로 나타나게 함 (현황 섹션 -> 타임라인 카드들 ->
 // 안내문구 -> 요약카드) - 스트리밍/타이핑처럼 답변을 주는 느낌을 주기 위함.
-function useSequentialReveal(steps, resetKey, stepDelay = 380) {
-  const [revealed, setRevealed] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+function useSequentialReveal(steps, resetKey, { instant = false, stepDelay = 380 } = {}) {
+  const [revealed, setRevealed] = useState(instant ? steps : 0);
+  const [isLoading, setIsLoading] = useState(!instant);
 
   useEffect(() => {
+    if (instant) {
+      setRevealed(steps);
+      setIsLoading(false);
+      return undefined;
+    }
     setRevealed(0);
     setIsLoading(true);
     const timer = setTimeout(() => setIsLoading(false), 2200);
     return () => clearTimeout(timer);
-  }, [resetKey]);
+  }, [resetKey, instant, steps]);
 
   useEffect(() => {
-    if (isLoading || revealed >= steps) return undefined;
+    if (instant || isLoading || revealed >= steps) return undefined;
     const timer = setTimeout(() => setRevealed((prev) => prev + 1), revealed === 0 ? 0 : stepDelay);
     return () => clearTimeout(timer);
-  }, [isLoading, revealed, steps, stepDelay]);
+  }, [instant, isLoading, revealed, steps, stepDelay]);
 
   return { revealed, isLoading };
 }
 
-function RevealBlock({ show, className = '', children }) {
-  const [entered, setEntered] = useState(false);
+function RevealBlock({ show, instant = false, className = '', children }) {
+  const [entered, setEntered] = useState(instant && show);
 
   useEffect(() => {
     if (!show) return undefined;
+    if (instant) {
+      setEntered(true);
+      return undefined;
+    }
     const id = requestAnimationFrame(() => setEntered(true));
     return () => cancelAnimationFrame(id);
-  }, [show]);
+  }, [show, instant]);
 
   return (
     <div
-      className={`w-full transition-[opacity,transform] duration-500 ease-out will-change-transform ${
-        entered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'
-      } ${className}`}
+      className={`w-full ${
+        instant ? '' : 'transition-[opacity,transform] duration-500 ease-out will-change-transform'
+      } ${entered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'} ${className}`}
     >
       {children}
     </div>
@@ -126,21 +134,32 @@ function ArrowIcon() {
   return <img alt="" src={imgArrowIcon} className="size-6 shrink-0" />;
 }
 
-function TimelineButton({ title, desc, arrow }) {
+function WeekTag({ label }) {
   return (
-    <div className="relative flex items-center gap-5 w-full px-7 py-4 rounded-xl bg-[#f4f6f8]">
-      <div className="flex-1 min-w-0 flex flex-col gap-1 items-start">
-        <p className="text-base font-medium leading-[1.45] text-[#121213]">{title}</p>
-        <p className="text-[15px] leading-[1.45] text-[#9ca2b1]">{desc}</p>
+    <div className="flex items-center justify-center shrink-0 w-[51px] px-2 py-1 rounded-md bg-[#f4f6f8]">
+      <p className="text-[10px] leading-[1.35] tracking-[0.25px] text-[#747886] whitespace-nowrap">{label}</p>
+    </div>
+  );
+}
+
+function TimelineButton({ title, desc, arrow, week }) {
+  return (
+    <div className="flex gap-2 items-start w-full">
+      <WeekTag label={week} />
+      <div className="relative flex items-center gap-5 flex-1 min-w-0 px-7 py-4 rounded-xl bg-[#f4f6f8]">
+        <div className="flex-1 min-w-0 flex flex-col gap-1 items-start">
+          <p className="text-base font-medium leading-[1.45] text-[#121213]">{title}</p>
+          <p className="text-[15px] leading-[1.45] text-[#9ca2b1]">{desc}</p>
+        </div>
+        {arrow && <ArrowIcon />}
       </div>
-      {arrow && <ArrowIcon />}
     </div>
   );
 }
 
 function TimelineCard({ month, note, items }) {
   return (
-    <div className="relative w-full max-w-[513px] flex gap-11 items-start px-5 py-3 rounded-2xl border border-[#f4f6f8] bg-[#fcfcfc] shadow-[inset_-2px_-2px_2px_0px_rgba(255,255,255,0.3)]">
+    <div className="relative w-full max-w-[513px] flex gap-10 items-start px-5 py-3 rounded-2xl border border-[#f4f6f8] bg-[#fcfcfc] shadow-[inset_-2px_-2px_2px_0px_rgba(255,255,255,0.3)]">
       <div className="flex flex-col gap-3 items-start pt-3 shrink-0 text-[#121213]">
         <div className="flex gap-1 items-start">
           <p className="font-semibold text-[25px] leading-[1.4] tracking-[-0.5px]">{month}</p>
@@ -170,9 +189,21 @@ function StatusRow({ badgeLabel, badgeClassName, label }) {
   );
 }
 
-export default function MentitAiCareerPlan({ isSubMenuOpen = true, onCloseSubMenu, subMenu, onNavigateHome }) {
+export default function MentitAiCareerPlan({
+  isSubMenuOpen = true,
+  onCloseSubMenu,
+  subMenu,
+  onNavigateHome,
+  skipReveal = false,
+}) {
   const [activeQuery, setActiveQuery] = useState('취업 목표 설정');
-  const { revealed, isLoading } = useSequentialReveal(8, activeQuery);
+  const [instant, setInstant] = useState(skipReveal);
+  const { revealed, isLoading } = useSequentialReveal(8, activeQuery, { instant });
+
+  const submitQuery = (query) => {
+    setInstant(false);
+    setActiveQuery(query);
+  };
 
   return (
     <div className="flex items-stretch gap-5 flex-1 min-h-0 h-full w-full overflow-hidden">
@@ -191,13 +222,13 @@ export default function MentitAiCareerPlan({ isSubMenuOpen = true, onCloseSubMen
 
             {isLoading && <LoadingSymbol size={72} className="self-start shrink-0" />}
 
-            <RevealBlock show={revealed >= 1}>
+            <RevealBlock show={revealed >= 1} instant={instant}>
               <p className="text-[15px] leading-[1.6] text-[#121213]">
                 네, 윤영님이 지금까지 준비해오신 내용을 통해 하반기 타임라인을 시기별로 짜봤어요
               </p>
             </RevealBlock>
 
-            <RevealBlock show={revealed >= 2} className="flex flex-col gap-4 items-start">
+            <RevealBlock show={revealed >= 2} instant={instant} className="flex flex-col gap-4 items-start">
               <div className="h-px bg-[#e7eaee] w-full" />
               <p className="text-[15px] font-medium leading-[1.45] text-[#121213]">윤영님의 취업 준비 현황</p>
               <div className="flex flex-col gap-4 items-start">
@@ -219,24 +250,24 @@ export default function MentitAiCareerPlan({ isSubMenuOpen = true, onCloseSubMen
               </div>
             </RevealBlock>
 
-            <RevealBlock show={revealed >= 3} className="flex flex-col gap-5 items-start">
+            <RevealBlock show={revealed >= 3} instant={instant} className="flex flex-col gap-5 items-start">
               <div className="h-px bg-[#e7eaee] w-full" />
               <p className="text-[15px] leading-[1.6] text-[#121213]">이렇게 시기별로 나눠서 준비하시면 좋을 것 같아요</p>
             </RevealBlock>
 
-            <RevealBlock show={revealed >= 4}>
+            <RevealBlock show={revealed >= 4} instant={instant}>
               <TimelineCard {...TIMELINE[0]} />
             </RevealBlock>
 
-            <RevealBlock show={revealed >= 5}>
+            <RevealBlock show={revealed >= 5} instant={instant}>
               <TimelineCard {...TIMELINE[1]} />
             </RevealBlock>
 
-            <RevealBlock show={revealed >= 6}>
+            <RevealBlock show={revealed >= 6} instant={instant}>
               <TimelineCard {...TIMELINE[2]} />
             </RevealBlock>
 
-            <RevealBlock show={revealed >= 7}>
+            <RevealBlock show={revealed >= 7} instant={instant}>
               <div className="w-full max-w-[513px] text-[15px] leading-[1.6] text-[#121213]">
                 <p>회사별 정확한 전형 일정은 아직 확정 전이라 각 기업 공식 채용 페이지에서 다시 확인하는게 좋아요.</p>
                 <ul className="list-disc pl-[1.5em] mt-4">
@@ -250,7 +281,7 @@ export default function MentitAiCareerPlan({ isSubMenuOpen = true, onCloseSubMen
               </div>
             </RevealBlock>
 
-            <RevealBlock show={revealed >= 8} className="flex flex-col gap-5 items-start w-full">
+            <RevealBlock show={revealed >= 8} instant={instant} className="flex flex-col gap-5 items-start w-full">
               <div className="flex flex-col gap-4 items-start w-full">
                 <div className="h-px bg-[#e7eaee] w-full" />
                 <div className="w-full max-w-[513px] flex flex-col gap-6 items-start p-6 rounded-2xl bg-white border border-[#f4f6f8] shadow-[0_0_8px_rgba(18,18,19,0.04)]">
@@ -288,7 +319,7 @@ export default function MentitAiCareerPlan({ isSubMenuOpen = true, onCloseSubMen
 
         <div className="absolute bottom-0 left-0 right-0 flex flex-col">
           <div className="flex flex-col items-center px-5 pt-5">
-          <PlanTextfield onSubmitQuery={setActiveQuery} />
+          <PlanTextfield onSubmitQuery={submitQuery} />
           </div>
           <div className="h-6 w-full bg-white" aria-hidden />
         </div>

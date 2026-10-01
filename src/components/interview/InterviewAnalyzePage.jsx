@@ -27,6 +27,9 @@ export default function InterviewAnalyzePage({
   onCloseSubMenu,
   activeMentor = 'Sunny',
   onSelectMentor,
+  interviewTitle,
+  showRecentInterviews = false,
+  onFindMentor,
 }) {
   const [completedCount, setCompletedCount] = useState(1);
 
@@ -42,7 +45,14 @@ export default function InterviewAnalyzePage({
   return (
     <div className="flex items-stretch gap-5 flex-1 min-h-0 h-full w-full overflow-hidden">
       {isSubMenuOpen && (
-        <InterviewSubMenu onClose={onCloseSubMenu} activeMentor={activeMentor} onSelectMentor={onSelectMentor} />
+        <InterviewSubMenu
+          onClose={onCloseSubMenu}
+          activeMentor={activeMentor}
+          onSelectMentor={onSelectMentor}
+          interviewTitle={interviewTitle}
+          showRecentInterviews={showRecentInterviews}
+          onFindMentor={onFindMentor}
+        />
       )}
     <section className="flex-1 min-w-0 min-h-0 h-full flex flex-col rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-hidden">
       <div className="border-b border-[#e7eaee]">

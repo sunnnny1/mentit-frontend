@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import InterviewSubMenu from './InterviewSubMenu';
+import imgLink from '../../assets/icons/chat/link.svg';
 import figma_ba571657_cca6_48a5_aa58_467ac1e324d3_svg from '../../assets/figma/ba571657-cca6-48a5-aa58-467ac1e324d3.svg';
 import figma_c11cc4d3_aa70_48e8_a183_5d36c9318492_png from '../../assets/figma/c11cc4d3-aa70-48e8-a183-5d36c9318492.png';
 import figma_fd315a38_e73e_406e_bdc3_ef0d1231ce5a_svg from '../../assets/figma/fd315a38-e73e-406e-bdc3-ef0d1231ce5a.svg';
@@ -13,6 +14,15 @@ const imgChevronUp = figma_20870255_5069_4a4b_963f_7d5e3d603d2d_svg;
 const imgCheck = figma_746b5a21_af12_4144_9847_16f8b457e3c6_svg;
 
 const INTERVIEW_TYPES = ['실무 면접', '임원 면접', 'PT 면접', '직무 기술 면접', '컬쳐핏 면접'];
+
+const MOCK_JD = { url: 'http://kakao.com/job', title: '카카오 채용' };
+
+const INITIAL_DRAFT = { name: '', type: '', jdMode: 'url', jdItem: null, jdDirect: '' };
+let onboardingDraft = { ...INITIAL_DRAFT };
+
+export function resetInterviewOnboardingDraft() {
+  onboardingDraft = { ...INITIAL_DRAFT };
+}
 
 function FieldLabel({ children }) {
   return (
@@ -88,12 +98,92 @@ function InterviewTypeDropdown({ value, onChange }) {
   );
 }
 
-function SunnyMentorPick({ onOpenMentorDetail }) {
+function SegmentedControl({ value, onChange }) {
+  return (
+    <div className="flex items-center rounded-lg bg-[#f4f6f8] p-0.5">
+      {[
+        { key: 'url', label: 'URL' },
+        { key: 'direct', label: '직접입력' },
+      ].map((option) => {
+        const active = value === option.key;
+        return (
+          <button
+            key={option.key}
+            type="button"
+            onClick={() => onChange(option.key)}
+            className={`flex items-center justify-center px-7 py-1 rounded-lg text-[13px] font-medium tracking-[0.26px] cursor-pointer ${
+              option.key === 'url' ? 'w-[91px]' : ''
+            } ${active ? 'bg-white text-[#121213] shadow-[0_0_8px_rgba(18,18,19,0.04)]' : 'text-[#9ca2b1]'}`}
+          >
+            {option.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function JobPostingField({ mode, onModeChange, jdItem, onJdChange, directText, onDirectChange }) {
+  const applyJd = (text = '') => {
+    const trimmed = text.trim();
+    if (trimmed.includes('kakao.com') || !trimmed) {
+      onJdChange(MOCK_JD);
+      return;
+    }
+    onJdChange({ url: trimmed, title: '모집공고' });
+  };
+
+  return (
+    <div className="flex flex-col gap-2 items-start w-full">
+      <FieldLabel>모집공고(JD) 입력</FieldLabel>
+      <SegmentedControl value={mode} onChange={onModeChange} />
+      {mode === 'direct' ? (
+        <textarea
+          value={directText}
+          onChange={(event) => onDirectChange(event.target.value)}
+          placeholder="모집공고 내용을 붙여넣어 주세요"
+          className="min-h-[132px] w-full resize-none rounded-2xl border border-[#e7eaee] px-4 py-5 text-[15px] leading-[1.6] text-[#121213] outline-none placeholder:text-[#9ca2b1]"
+        />
+      ) : jdItem ? (
+        <div className="flex w-full flex-col gap-5 items-start overflow-hidden rounded-2xl border border-[#e7eaee] px-4 py-5">
+          <div className="flex w-full flex-col gap-2 items-start">
+            <p className="font-bold text-base leading-[1.45] text-[#121213]">{jdItem.url}</p>
+            <p className="text-[15px] leading-[1.6] text-[#121213]">{jdItem.title}</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => onJdChange(null)}
+            className="text-[13px] leading-[1.4] tracking-[0.26px] text-[#747886] underline cursor-pointer"
+          >
+            다시 입력하기
+          </button>
+        </div>
+      ) : (
+        <div
+          tabIndex={0}
+          role="button"
+          onClick={() => applyJd()}
+          onPaste={(event) => {
+            const text = event.clipboardData?.getData('text') ?? '';
+            event.preventDefault();
+            applyJd(text);
+          }}
+          className="flex w-full flex-col gap-2 items-center justify-center rounded-2xl border border-[#e7eaee] px-4 py-5 cursor-pointer outline-none"
+        >
+          <img alt="" src={imgLink} className="size-5" />
+          <p className="w-full text-center text-[13px] leading-[1.4] tracking-[0.26px] text-[#9ca2b1]">URL을 붙여주세요</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function SunnyMentorPick({ onOpenMentorExplore }) {
   return (
     <div
       role="button"
-      onClick={() => onOpenMentorDetail?.('Sunny')}
-      className="relative flex items-center gap-3 p-6 rounded-2xl shrink-0 w-[364px] border-[1.5px] border-white shadow-[0_0_15px_rgba(0,0,0,0.04),inset_20px_20px_40px_rgba(255,255,255,0.9),inset_-20px_-20px_40px_rgba(255,255,255,0.9)] cursor-pointer"
+      onClick={() => onOpenMentorExplore?.()}
+      className="relative flex items-center gap-3 p-6 rounded-2xl shrink-0 w-[364px] shadow-[0_0_15px_rgba(0,0,0,0.04),inset_20px_20px_40px_rgba(255,255,255,0.9),inset_-20px_-20px_40px_rgba(255,255,255,0.9)] cursor-pointer"
       style={{ background: 'radial-gradient(circle at 50% 50%, rgba(254,213,213,0.4) 0%, white 70%)' }}
     >
       <img alt="Sunny 멘토" src={imgSunny} className="size-[60px] rounded-full shrink-0 object-cover" />
@@ -120,20 +210,35 @@ function SunnyMentorPick({ onOpenMentorDetail }) {
 export default function InterviewOnboardingPage({
   onBack,
   onNext,
-  onOpenMentorDetail,
+  onOpenMentorExplore,
   isSubMenuOpen = false,
   onCloseSubMenu,
   activeMentor = 'Sunny',
   onSelectMentor,
+  showRecentInterviews = false,
+  onFindMentor,
 }) {
-  const [name, setName] = useState('');
-  const [type, setType] = useState('');
-  const [jobLink, setJobLink] = useState('');
+  const [name, setName] = useState(onboardingDraft.name);
+  const [type, setType] = useState(onboardingDraft.type);
+  const [jdMode, setJdMode] = useState(onboardingDraft.jdMode);
+  const [jdItem, setJdItem] = useState(onboardingDraft.jdItem);
+  const [jdDirect, setJdDirect] = useState(onboardingDraft.jdDirect);
+
+  useEffect(() => {
+    onboardingDraft = { name, type, jdMode, jdItem, jdDirect };
+  }, [name, type, jdMode, jdItem, jdDirect]);
 
   return (
     <div className="flex items-stretch gap-5 flex-1 min-h-0 h-full w-full overflow-hidden">
       {isSubMenuOpen && (
-        <InterviewSubMenu onClose={onCloseSubMenu} activeMentor={activeMentor} onSelectMentor={onSelectMentor} />
+        <InterviewSubMenu
+          onClose={onCloseSubMenu}
+          activeMentor={activeMentor}
+          onSelectMentor={onSelectMentor}
+          interviewTitle={name}
+          showRecentInterviews={showRecentInterviews}
+          onFindMentor={onFindMentor}
+        />
       )}
     <section className="flex-1 min-w-0 min-h-0 h-full flex flex-col rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-hidden">
       <div className="flex-1 min-h-0 overflow-y-auto flex flex-col items-center px-5 py-10">
@@ -147,7 +252,7 @@ export default function InterviewOnboardingPage({
             </div>
             <div className="text-center text-[14px] leading-[1.58] tracking-[0.14px] text-[#121213] w-full">
               <p>이곳에서 멘토의 AI 에이전트와 면접 연습을 하고 피드백을 받아볼 수 있어요.</p>
-              <p>원하는 멘토를 찾아 모의면접을 시작해보세요!</p>
+              <p>원하는 멘토를 찾아 모의 면접을 시작해보세요!</p>
             </div>
           </div>
 
@@ -164,13 +269,17 @@ export default function InterviewOnboardingPage({
 
             <div className="flex flex-col gap-2 items-start w-full">
               <FieldLabel>함께할 AI 멘토</FieldLabel>
-              <SunnyMentorPick onOpenMentorDetail={onOpenMentorDetail} />
+              <SunnyMentorPick onOpenMentorExplore={onOpenMentorExplore} />
             </div>
 
-            <div className="flex flex-col gap-2 items-start w-full">
-              <FieldLabel>모집 공고 링크</FieldLabel>
-              <TextField value={jobLink} onChange={setJobLink} placeholder="링크를 복사해주세요" />
-            </div>
+            <JobPostingField
+              mode={jdMode}
+              onModeChange={setJdMode}
+              jdItem={jdItem}
+              onJdChange={setJdItem}
+              directText={jdDirect}
+              onDirectChange={setJdDirect}
+            />
 
             <div className="flex gap-5 items-start w-full">
               <button
@@ -182,7 +291,7 @@ export default function InterviewOnboardingPage({
               </button>
               <button
                 type="button"
-                onClick={onNext}
+                onClick={() => onNext?.(name)}
                 className="relative flex-1 flex items-center justify-center px-7 py-3 rounded-xl border border-[#70d2ff] bg-[#1a75ff] shadow-[inset_0_0_4px_#e7f3ff] cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:rounded-xl"
               >
                 <p className="relative font-bold text-base text-white whitespace-nowrap">다음</p>

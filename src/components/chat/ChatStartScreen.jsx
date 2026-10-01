@@ -24,6 +24,13 @@ export default function ChatStartScreen({
   onOpenMentorExplore,
   onOpenMentorSearch,
   greeting = '윤영님, 멘토와 대화를 시작해볼까요?',
+  description = (
+    <>
+      이곳에서 멘토와 대화를 나누고, 포트폴리오와 자소서에 대한 피드백을 받을 수 있어요.
+      <br />
+      원하는 멘토를 찾아 대화를 시작해보세요!
+    </>
+  ),
 }) {
   return (
     <section className="flex-1 min-w-0 min-h-0 h-full flex flex-col items-center justify-center rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] px-5">
@@ -38,9 +45,7 @@ export default function ChatStartScreen({
             </div>
           </div>
           <p className="w-full text-center text-[14px] leading-[1.58] tracking-[0.14px] text-[#121213]">
-            이곳에서 멘토와 대화를 나누고, 포트폴리오와 자소서에 대한 피드백을 받을 수 있어요.
-            <br />
-            원하는 멘토를 찾아 대화를 시작해보세요!
+            {description}
           </p>
         </div>
         <div className="flex gap-5 items-start justify-center w-full">

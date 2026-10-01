@@ -276,9 +276,12 @@ export default function ChatMentorThread({
       </div>
 
       <div className={threadBodyClass}>
-      <div ref={listRef} className="flex-1 min-h-0 overflow-y-auto px-[157px] pb-28 flex flex-col gap-10 w-full">
+      <div ref={listRef} className="flex-1 min-h-0 overflow-y-auto px-[157px] pb-28 flex flex-col w-full">
         {conversation.map((group, index) => {
           const isLast = index === conversation.length - 1;
+          const prevRole = index === 0 ? null : conversation[index - 1].role;
+          const stacked = Boolean(prevRole && prevRole === group.role);
+          const spacingClass = index === 0 ? '' : stacked ? 'mt-1' : 'mt-10';
           const reviewBox = (
             <div className="flex flex-col gap-6 items-start w-full max-w-[424px] p-6 rounded-2xl bg-white border border-[#f4f6f8] shadow-[0_0_15px_rgba(18,18,19,0.04)]">
               <div className="flex flex-col gap-3 items-start w-full">
@@ -301,7 +304,7 @@ export default function ChatMentorThread({
 
           if (group.role === 'user') {
             const userBlock = (
-              <div className={`flex flex-col items-end w-full ${index === 0 && feedbackCard ? 'gap-2' : 'gap-2.5'}`}>
+              <div className={`flex flex-col items-end w-full ${index === 0 && feedbackCard ? 'gap-2' : 'gap-1'}`}>
                 {index === 0 && feedbackCard ? (
                   <button
                     type="button"
@@ -328,9 +331,9 @@ export default function ChatMentorThread({
                 ))}
               </div>
             );
-            if (!isLast) return <div key={index}>{userBlock}</div>;
+            if (!isLast) return <div key={index} className={spacingClass}>{userBlock}</div>;
             return (
-              <div key={index} className="flex flex-col gap-2 items-start w-full">
+              <div key={index} className={`flex flex-col gap-2 items-start w-full ${spacingClass}`}>
                 {userBlock}
                 {reviewBox}
               </div>
@@ -338,7 +341,7 @@ export default function ChatMentorThread({
           }
 
           const mentorBlock = (
-            <div className="flex flex-col gap-4 items-start w-fit max-w-[512px]">
+            <div className="flex flex-col gap-1 items-start w-fit max-w-[512px]">
               {group.texts.map((text, textIndex) => (
                 <div key={text} className="flex flex-col gap-2 items-start w-fit max-w-[512px]">
                   {textIndex === 0 && (
@@ -357,9 +360,9 @@ export default function ChatMentorThread({
             </div>
           );
 
-          if (!isLast) return <div key={index}>{mentorBlock}</div>;
+          if (!isLast) return <div key={index} className={spacingClass}>{mentorBlock}</div>;
           return (
-            <div key={index} className="flex flex-col gap-2 items-start w-full">
+            <div key={index} className={`flex flex-col gap-2 items-start w-full ${spacingClass}`}>
               {mentorBlock}
               {reviewBox}
             </div>

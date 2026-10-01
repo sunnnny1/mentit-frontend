@@ -15,18 +15,20 @@ export default function ChatProfileBar({
   onExtraAction,
   extraActionVariant = 'outlined',
   hideActionButton = false,
+  className = '',
+  avatarClassName = '',
 }) {
   const showActionButton =
     !hideActionButton && (Boolean(extraActionLabel) || mode !== 'agent' || supportsMentorReview);
   const isPrimaryExtraAction = extraActionVariant === 'primary';
 
   return (
-    <div className="flex gap-2.5 items-center px-5 py-4 rounded-t-2xl bg-white shrink-0">
+    <div className={`flex gap-2.5 items-center px-5 py-4 rounded-t-2xl bg-white shrink-0 ${className}`}>
       <div className="flex-1 flex gap-3 items-center min-w-0">
         <img
           alt={displayName}
           src={mode === 'agent' ? profileAvatar : mentorAvatar}
-          className="size-[60px] rounded-full shrink-0 object-cover"
+          className={`size-[60px] rounded-full shrink-0 object-cover ${avatarClassName}`}
         />
         <div className="flex-1 flex flex-col gap-1.5 min-w-0">
           <div className="flex gap-2 items-center">

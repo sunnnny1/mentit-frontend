@@ -28,6 +28,8 @@ const STAGE_H = 840;
 const GRADIENT_TOP = 536;
 const GRADIENT_H = 300;
 const VOICE_TAB_H = 106;
+const COUNTDOWN_START_MS = 500;
+const COUNTDOWN_STEP_MS = 1200;
 const AVATAR_BOTTOM_GRADIENT =
   'linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.35) 40%, rgba(255,255,255,0.7) 70%, rgba(255,255,255,0.94) 88%, #ffffff 100%)';
 const CHARACTER_FADE_MASK =
@@ -80,6 +82,9 @@ export default function InterviewSessionPage({
   onCompleteInterview,
   activeMentor = 'Sunny',
   onSelectMentor,
+  interviewTitle,
+  showRecentInterviews = false,
+  onFindMentor,
 }) {
   const videoRef = useRef(null);
   const streamRef = useRef(null);
@@ -96,6 +101,9 @@ export default function InterviewSessionPage({
   const [elapsed, setElapsed] = useState(0);
   const [cameraReady, setCameraReady] = useState(false);
   const [stageScale, setStageScale] = useState(1);
+  const [countdown, setCountdown] = useState(null);
+  const [isCountingDown, setIsCountingDown] = useState(true);
+  const countdownRef = useRef(true);
 
   useEffect(() => {
     pausedRef.current = paused;
@@ -104,6 +112,26 @@ export default function InterviewSessionPage({
   useEffect(() => {
     awaitingRef.current = awaitingAnswer;
   }, [awaitingAnswer]);
+
+  useEffect(() => {
+    countdownRef.current = isCountingDown;
+  }, [isCountingDown]);
+
+  useEffect(() => {
+    setIsCountingDown(true);
+    countdownRef.current = true;
+    const timers = [
+      window.setTimeout(() => setCountdown(3), COUNTDOWN_START_MS),
+      window.setTimeout(() => setCountdown(2), COUNTDOWN_START_MS + COUNTDOWN_STEP_MS),
+      window.setTimeout(() => setCountdown(1), COUNTDOWN_START_MS + COUNTDOWN_STEP_MS * 2),
+      window.setTimeout(() => {
+        setCountdown(null);
+        setIsCountingDown(false);
+        countdownRef.current = false;
+      }, COUNTDOWN_START_MS + COUNTDOWN_STEP_MS * 3),
+    ];
+    return () => timers.forEach((id) => window.clearTimeout(id));
+  }, []);
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -176,7 +204,7 @@ export default function InterviewSessionPage({
             const live = Math.max(timeEnergy, freqEnergy);
             peak = Math.max(peak, live);
 
-            const target = pausedRef.current || awaitingRef.current ? 0 : live;
+            const target = pausedRef.current || awaitingRef.current || countdownRef.current ? 0 : live;
             energies[i] += (target - energies[i]) * 0.38;
 
             const bar = barElsRef.current[i];
@@ -215,16 +243,17 @@ export default function InterviewSessionPage({
   }, []);
 
   useEffect(() => {
-    if (paused || awaitingAnswer) return undefined;
+    if (paused || awaitingAnswer || isCountingDown) return undefined;
     const timer = setInterval(() => setElapsed((value) => value + 1), 1000);
     return () => clearInterval(timer);
-  }, [paused, awaitingAnswer]);
+  }, [paused, awaitingAnswer, isCountingDown]);
 
   const resumeAudio = () => {
     audioContextRef.current?.resume().catch(() => {});
   };
 
   const handleNext = () => {
+    if (isCountingDown) return;
     if (questionIndex >= QUESTIONS.length - 1) {
       streamRef.current?.getTracks().forEach((track) => track.stop());
       onCompleteInterview?.();
@@ -247,7 +276,14 @@ export default function InterviewSessionPage({
   return (
     <div className="flex items-stretch gap-5 flex-1 min-h-0 h-full w-full overflow-hidden">
       {isSubMenuOpen && (
-        <InterviewSubMenu onClose={onCloseSubMenu} activeMentor={activeMentor} onSelectMentor={onSelectMentor} />
+        <InterviewSubMenu
+          onClose={onCloseSubMenu}
+          activeMentor={activeMentor}
+          onSelectMentor={onSelectMentor}
+          interviewTitle={interviewTitle}
+          showRecentInterviews={showRecentInterviews}
+          onFindMentor={onFindMentor}
+        />
       )}
 
       <section className="relative flex-1 min-w-0 min-h-0 h-full flex flex-col rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)] overflow-hidden">
@@ -343,6 +379,18 @@ export default function InterviewSessionPage({
           </div>
 
           <div
+            className="pointer-events-none absolute inset-x-0 top-0 z-30 flex items-center justify-center"
+            style={{ bottom: VOICE_TAB_H }}
+            aria-hidden={!isCountingDown}
+          >
+            {countdown != null && (
+              <p key={countdown} className="font-medium text-[120px] leading-[1.4] text-white">
+                {countdown}
+              </p>
+            )}
+          </div>
+
+          <div
             className="absolute inset-x-0 bottom-0 z-10 flex items-center justify-center px-5 py-4"
             style={{ height: VOICE_TAB_H }}
           >
@@ -350,6 +398,7 @@ export default function InterviewSessionPage({
               <button
                 type="button"
                 onClick={() => {
+                  if (isCountingDown) return;
                   resumeAudio();
                   setPaused((value) => !value);
                 }}
@@ -366,7 +415,9 @@ export default function InterviewSessionPage({
 
               <div className="flex-1 min-w-0 flex flex-col gap-3 items-center">
                 <p className="text-[15px] leading-[1.45] text-[#747886] whitespace-nowrap">
-                  {paused ? '일시정지' : awaitingAnswer ? '답변 대기중' : '답변 녹음중'} ・ {formatTime(elapsed)}
+                  {isCountingDown
+                    ? `준비중 ・ ${formatTime(elapsed)}`
+                    : `${paused ? '일시정지' : awaitingAnswer ? '답변 대기중' : '답변 녹음중'} ・ ${formatTime(elapsed)}`}
                 </p>
                 <div className="flex items-center justify-center h-8 w-full" aria-hidden>
                   {WAVE_BARS.map((height, index) => (

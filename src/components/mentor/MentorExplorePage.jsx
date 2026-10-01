@@ -70,15 +70,15 @@ const imgUha = figma_a4391ae5_9399_440b_b50f_ed055caf1bd5_png;
 
 // 홈/멘팃AI에서 쓰는 기존 MENTORS(Yoonie, Eunoia, Teddy)에 Sunny/Daisy/U.ha를 더해 상단 추천 6명 구성
 const FEATURED_MENTORS = [
-  { ...MENTORS[0], tags: ['포트폴리오', '자소서'] },
-  { ...MENTORS[1], tags: ['포트폴리오', '자소서'] },
+  { ...MENTORS[0], tags: ['포트폴리오', '자기소개서'] },
+  { ...MENTORS[1], tags: ['포트폴리오', '자기소개서'] },
   { ...MENTORS[2], tags: ['포트폴리오', '면접'] },
   {
     name: 'Sunny',
     badgeLabel: 'Master Mentor',
     color: 'red',
     role: 'UX 디자이너 · 카카오 · 5년차',
-    tags: ['면접', '자소서'],
+    tags: ['면접', '자기소개서'],
     desc: '사용자 리서치부터 UX 설계까지 다양한 프로젝트를 경험해왔어요. 디자인 취업을 준비하면서 생기는 고민과 실무에서 필요한 역량에 대해 구체적으로 알려드릴게요.',
     reviews: '60개',
     followers: '2.1K',
@@ -91,7 +91,7 @@ const FEATURED_MENTORS = [
     badgeLabel: 'Rookie Mentor',
     color: 'lightblue',
     role: '프로덕트 디자이너 · 카카오 · 1년차',
-    tags: ['포트폴리오', '자소서'],
+    tags: ['포트폴리오', '자기소개서'],
     desc: '취준했던 경험을 바탕으로 가장 가까이서 대기업 프로덕트 디자이너에 대한 내용을 알려드립니다.',
     reviews: '8개',
     followers: '340',
@@ -147,13 +147,13 @@ const CATEGORIES = [
 
 const MENTOR_DIRECTORY = [
   { name: 'Rucas', category: 'business', badge: 'Rookie', tags: ['프로덕트 매니저', '이직', '면접'], desc: '삼성 모바일 서비스에서 제품 기획과 프로젝트 관리를 담당하고 있습니다. PM 커리어, 서비스 기획, 이직과 면접 준비에 대한 이야기를 나눠드려요.', role: 'PM', years: '3년차', avatar: figma_d2b25e22_c9b9_4ed9_a965_8edf00e04a06_png, logo: figma_0027d3ad_0884_4dd4_b826_8c373661d6a0_png, logoType: 'whiteplain' },
-  { name: 'Mia', category: 'business', badge: 'Rookie', tags: ['프로덕트 매니저', '자소서', '면접'], desc: '사용자와 비즈니스 사이의 균형을 고민하며 서비스를 만들어왔어요. PM 취업 준비부터 실제 업무에서 마주하는 고민까지 현실적인 이야기를 나눠드릴게요.', role: 'PM', years: '5년차', avatar: figma_702451ae_d398_4195_88d0_a3144f308aed_png, logo: figma_ce9cf759_4e46_4841_a9d4_c3a589debe98_png, logoType: 'whiteplain' },
+  { name: 'Mia', category: 'business', badge: 'Rookie', tags: ['프로덕트 매니저', '자기소개서', '면접'], desc: '사용자와 비즈니스 사이의 균형을 고민하며 서비스를 만들어왔어요. PM 취업 준비부터 실제 업무에서 마주하는 고민까지 현실적인 이야기를 나눠드릴게요.', role: 'PM', years: '5년차', avatar: figma_702451ae_d398_4195_88d0_a3144f308aed_png, logo: figma_ce9cf759_4e46_4841_a9d4_c3a589debe98_png, logoType: 'whiteplain' },
   { name: 'Emily', category: 'business', badge: 'Active', tags: ['사업개발', '면접', '실무'], desc: '파트너십을 만들고 새로운 사업 기회를 발굴하는 일을 하고 있어요. 사업개발 직무의 실제 업무와 커리어를 준비하는 방법을 함께 이야기해드릴게요.', role: '사업개발 매니저', years: '7년차', avatar: figma_63412269_5593_4246_9dc1_78aeeb8ffc90_png, logo: figma_04fa8627_b9b3_4bd3_8a83_45cf09ec93e1_png, logoType: 'whitecrop', logoCrop: { h: '74.27%', w: '134.62%', left: '-20.06%', top: '12.86%' } },
   { name: 'Ryan', category: 'business', badge: 'Active', tags: ['UX 디자인', '포트폴리오'], desc: '서비스의 문제를 발견하고 사용자에게 더 나은 경험을 만드는 일을 하고 있어요. UX 디자인을 처음 시작하는 분들도 이해하기 쉽게 실무에서 얻은 경험을 나눠드릴게요.', role: 'UX 디자이너', years: '6년차', avatar: figma_891e5969_f705_49f9_b541_e0a9ced5d9c5_png, logo: figma_9fa6e4ab_92fc_4142_bc61_49f4a5729cc5_png, logoType: 'whiteplain' },
 
   { name: 'Emma', category: 'design', badge: 'Rookie', tags: ['프로덕트 디자인', '면접', '포트폴리오'], desc: '사용자의 문제를 발견하고 더 나은 경험으로 해결하는 과정을 좋아해요. 포트폴리오부터 실무 디자인까지, 주니어 디자이너의 성장 방법을 함께 고민해드릴게요.', role: '프로덕트 디자이너', years: '1년차', avatar: figma_994b40d1_7f80_48b8_97d9_30facc2c64c7_png, logo: figma_ebd7e5b2_25f6_4629_8981_bb07e590af94_png, logoType: 'plain' },
   { name: 'U.ha', category: 'design', badge: 'Active', tags: ['프로덕트 디자인', '포트폴리오'], desc: '서비스의 작은 불편을 발견하고 더 나은 경험으로 개선하는 일을 하고 있어요. 디자인 취업부터 실무에서 필요한 역량까지 편하게 질문해주세요.', role: '프로덕트 디자이너', years: '2년차', avatar: figma_4a1f2afc_1958_4d12_b6f7_146feb5d6680_png, logo: figma_c8a2fd1d_e6d2_402d_a8b7_ef3ba0357ff5_png, logoType: 'whitecrop', logoCrop: { h: '84.62%', w: '94.54%', left: '4.02%', top: '7.69%' } },
-  { name: 'Daisy', category: 'design', badge: 'Rookie', tags: ['프로덕트 디자인', '포트폴리오', '자소서'], desc: '사용자 경험과 서비스 목표를 함께 고민하며 디자인하고 있어요. 포트폴리오를 준비하는 방법부터 실제 프로젝트에서의 디자인 과정까지 알려드릴게요.', role: '프로덕트 디자이너', years: '1년차', avatar: figma_bc010e8a_3235_4549_9a2e_6d6fd2896081_png, logo: figma_48ddf2e7_e9c4_4c9f_ac50_f8b2c091b5f8_png, logoType: 'plain' },
+  { name: 'Daisy', category: 'design', badge: 'Rookie', tags: ['프로덕트 디자인', '포트폴리오', '자기소개서'], desc: '사용자 경험과 서비스 목표를 함께 고민하며 디자인하고 있어요. 포트폴리오를 준비하는 방법부터 실제 프로젝트에서의 디자인 과정까지 알려드릴게요.', role: '프로덕트 디자이너', years: '1년차', avatar: figma_bc010e8a_3235_4549_9a2e_6d6fd2896081_png, logo: figma_48ddf2e7_e9c4_4c9f_ac50_f8b2c091b5f8_png, logoType: 'plain' },
   { name: 'Stella', category: 'design', badge: 'Rookie', tags: ['UX 디자인', '포트폴리오', '면접'], desc: '사용자 관점에서 문제를 정의하고 더 좋은 경험을 설계하는 일을 하고 있어요. UX 디자인 역량을 쌓는 방법과 포트폴리오에 대한 고민을 함께 풀어드릴게요.', role: 'UX 디자이너', years: '2년차', avatar: figma_f1ab70e5_5273_41c2_a876_de37bd2f1338_png, logo: figma_24d1ab30_b042_4027_8067_8c6e69b2a333_png, logoType: 'whiteplain' },
   { name: 'Teddy', category: 'design', badge: 'Rookie', tags: ['UX 디자인', '프리랜서', '실무'], desc: '다양한 프로젝트를 경험하며 사용자 중심의 서비스를 설계해왔어요. UX 디자이너로 취업하기 위해 준비하면 좋은 것들과 실무 노하우를 현실적으로 알려드릴게요.', role: 'UX 디자이너', years: '6년차', avatar: figma_d00ff179_8980_414e_a00c_cf67da236c77_png, logo: figma_85807738_de8f_4537_ba06_ce37527305ef_svg, logoType: 'special' },
   { name: 'Peter', category: 'design', badge: 'Active', tags: ['UX 디자인', '포트폴리오'], desc: 'UX 리서치 팁부터 AI활용 방안까지 꼼꼼하게 피드백해드려요. 특히, 실제 프로젝트를 기반으로 다양한 경험을 나눠드립니다.', role: 'UX 디자이너', years: '6년차', avatar: figma_ecd06d7a_3987_4a50_935e_6abc74533904_png, logo: figma_7d5991cc_7062_463f_b47a_1d150853d120_png, logoType: 'whiteplain' },
@@ -168,7 +168,7 @@ const MENTOR_DIRECTORY = [
 
   { name: 'Eric', category: 'marketing', badge: 'Rookie', tags: ['마케팅', '기획', '면접'], desc: '브랜드와 고객을 연결하는 콘텐츠를 기획하고 운영하고 있습니다. 콘텐츠 마케팅 실무부터 포트폴리오, 마케터 취업 준비까지 함께 고민해드려요.', role: '콘텐츠 마케터', years: '3년차', avatar: figma_28a26f9e_6d90_48a2_85f1_232509dab99c_png, logo: figma_e590e497_53fe_4bde_b6a8_48492163514d_png, logoType: 'plain' },
   { name: 'Olivia', category: 'marketing', badge: 'Active', tags: ['마케팅', '포트폴리오', '실무'], desc: '데이터를 바탕으로 광고 성과를 분석하고 더 나은 결과를 만들어가는 일을 하고 있어요. 퍼포먼스 마케팅에 필요한 역량과 실무에서 활용하는 방법을 쉽게 알려드릴게요.', role: '퍼포먼스 마케터', years: '4년차', avatar: figma_6adeaa25_4f79_4919_a1f8_3185504e7fdc_png, logo: figma_53c5da2c_7ad7_4f8e_9a0e_be32f2b574ff_png, logoType: 'whiteplain' },
-  { name: 'Ethan', category: 'marketing', badge: 'Master', tags: ['광고 기획', '자소서', '면접'], desc: '좋은 아이디어를 브랜드의 메시지로 만들고 사람들에게 전달하는 일을 해왔어요. 광고기획 직무를 준비하면서 알아두면 좋은 것들과 포트폴리오 방향을 함께 이야기해드릴게요.', role: '광고 기획자', years: '7년차', avatar: figma_36930575_fea6_43b3_a721_f196b02e97d2_png, logo: figma_2df10676_84aa_4f2c_9851_d5ebc9383443_png, logoType: 'whitecrop', logoCrop: { h: '75.95%', w: '88.46%', left: '5.77%', top: '12.02%' } },
+  { name: 'Ethan', category: 'marketing', badge: 'Master', tags: ['광고 기획', '자기소개서', '면접'], desc: '좋은 아이디어를 브랜드의 메시지로 만들고 사람들에게 전달하는 일을 해왔어요. 광고기획 직무를 준비하면서 알아두면 좋은 것들과 포트폴리오 방향을 함께 이야기해드릴게요.', role: '광고 기획자', years: '7년차', avatar: figma_36930575_fea6_43b3_a721_f196b02e97d2_png, logo: figma_2df10676_84aa_4f2c_9851_d5ebc9383443_png, logoType: 'whitecrop', logoCrop: { h: '75.95%', w: '88.46%', left: '5.77%', top: '12.02%' } },
   { name: 'Jessica', category: 'marketing', badge: 'Rookie', tags: ['광고 기획', '면접', '기획'], desc: '소비자의 마음을 움직이는 아이디어를 고민하며 다양한 광고 프로젝트를 경험했어요. 광고기획 직무가 궁금하거나 취업을 준비하고 있다면 현실적인 경험을 나눠드릴게요.', role: '광고 기획자', years: '2년차', avatar: figma_7b8a8ac9_34d4_45d9_9aea_d7f88ce9faa5_png, logo: figma_114fa380_8e4d_49dc_bd97_e6f002e0a4fa_png, logoType: 'whiteplain' },
   { name: 'James', category: 'marketing', badge: 'Active', tags: ['마케팅', '포트폴리오'], desc: '클라이언트와 다양한 팀 사이에서 프로젝트를 조율하고 이끌어가는 일을 하고 있어요. AE의 실제 업무부터 커뮤니케이션 역량과 취업 준비 과정까지 알려드릴게요.', role: '마케팅AE', years: '5년차', avatar: figma_e4b104ef_e951_4729_b657_e9b50681fc14_png, logo: figma_1aa6a07d_5674_4396_beca_63fb1474ff35_png, logoType: 'whitecrop', logoCrop: { h: '90.13%', w: '90.13%', left: '4.43%', top: '4.1%' } },
 
@@ -177,7 +177,7 @@ const MENTOR_DIRECTORY = [
   { name: 'Alex', category: 'data', badge: 'Rookie', tags: ['데이터 분석', '포트폴리오'], desc: '데이터를 기반으로 문제를 정의하고 해결책을 찾아가는 일을 하고 있어요. 데이터 분석 직무를 준비하면서 궁금했던 실무 이야기와 커리어 방향을 편하게 물어보세요.', role: '데이터 분석가', years: '5년차', avatar: figma_be469299_e057_48b8_92cb_9d274ef5e703_png, logo: figma_749ddc9e_acaa_40f8_87b9_98616330af40_png, logoType: 'whitecrop', logoCrop: { h: '89.89%', w: '89.89%', left: '5.4%', top: '4.76%' } },
 
   { name: 'Tony', category: 'game', badge: 'Rookie', tags: ['게임 그래픽', '면접', '실무'], desc: '게임 속 캐릭터와 다양한 그래픽 요소를 만드는 일을 하고 있어요. 게임 그래픽 직무를 준비하는 데 필요한 역량부터 실제 제작 과정까지 실무 경험을 공유할게요.', role: '게임 그래픽', years: '2년차', avatar: figma_fff4c8e0_5d66_4e01_b8ba_37199f047658_png, logo: figma_41ad2c7f_dc92_4ca8_aa08_55ce5cdc5674_png, logoType: 'whiteplain' },
-  { name: 'Kevin', category: 'game', badge: 'Master', tags: ['게임 제작', '자소서', '실무'], desc: '게임의 전체적인 아트 방향을 고민하고 팀의 결과물을 만들어가는 일을 하고 있어요. 게임 아트 직무에 필요한 역량과 커리어를 쌓아가는 방법을 함께 이야기해드릴게요.', role: '게임 아티스트', years: '6년차', avatar: figma_4289b856_adb0_4782_8692_a20c22a74721_png, logo: figma_643d4525_e739_416d_9583_1c7656963807_png, logoType: 'whitecrop', logoCrop: { h: '69.23%', w: '102.87%', left: '-1.43%', top: '15.38%' } },
+  { name: 'Kevin', category: 'game', badge: 'Master', tags: ['게임 제작', '자기소개서', '실무'], desc: '게임의 전체적인 아트 방향을 고민하고 팀의 결과물을 만들어가는 일을 하고 있어요. 게임 아트 직무에 필요한 역량과 커리어를 쌓아가는 방법을 함께 이야기해드릴게요.', role: '게임 아티스트', years: '6년차', avatar: figma_4289b856_adb0_4782_8692_a20c22a74721_png, logo: figma_643d4525_e739_416d_9583_1c7656963807_png, logoType: 'whitecrop', logoCrop: { h: '69.23%', w: '102.87%', left: '-1.43%', top: '15.38%' } },
   { name: 'Sarah', category: 'game', badge: 'Active', tags: ['게임 기획', '포트폴리오', '실무'], desc: '게임의 재미와 플레이 경험을 설계하고 다양한 콘텐츠를 기획하는 일을 하고 있어요. 게임 기획자가 실제로 어떤 일을 하는지, 취업을 위해 무엇을 준비하면 좋은지 알려드릴게요.', role: '게임 기획자', years: '3년차', avatar: figma_0b99f2dc_1bfa_4202_8741_a817a06b55be_png, logo: figma_d515d176_4643_40a5_88bc_5665d1a5b48f_png, logoType: 'whitecrop', logoCrop: { h: '80.77%', w: '72.53%', left: '13.74%', top: '9.62%' } },
 ];
 
