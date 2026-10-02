@@ -43,7 +43,13 @@ function SectionHeading({ title, required, subtext }) {
   );
 }
 
-export default function ChatFeedbackUpload({ onReadyChange, onRequestAgentFeedback, onFileKindChange }) {
+export default function ChatFeedbackUpload({
+  active = true,
+  onReadyChange,
+  onRequestAgentFeedback,
+  onFileKindChange,
+}) {
+  const rootRef = useRef(null);
   const fileInputRef = useRef(null);
   const [fileKind, setFileKind] = useState('portfolio');
   const [file, setFile] = useState(null);
@@ -55,6 +61,17 @@ export default function ChatFeedbackUpload({ onReadyChange, onRequestAgentFeedba
   useEffect(() => {
     onReadyChange?.(Boolean(file));
   }, [file, onReadyChange]);
+
+  useEffect(() => {
+    if (!active) return undefined;
+    const node = rootRef.current;
+    if (!node) return undefined;
+    node.scrollTop = 0;
+    const id = requestAnimationFrame(() => {
+      node.scrollTop = 0;
+    });
+    return () => cancelAnimationFrame(id);
+  }, [active]);
 
   const setUploadedFile = (next) => {
     setFile(next);
@@ -100,7 +117,7 @@ export default function ChatFeedbackUpload({ onReadyChange, onRequestAgentFeedba
   const kindLabel = fileKind === 'resume' ? '자기소개서' : '포트폴리오';
 
   return (
-    <div className="flex-1 min-w-0 min-h-0 overflow-y-auto">
+    <div ref={rootRef} className="flex-1 min-w-0 min-h-0 overflow-y-auto">
       <div className="flex justify-center px-5 py-16">
         <div className="flex w-full max-w-[867px] flex-col gap-16 items-start">
           <section className="flex w-full flex-col gap-5 items-start">

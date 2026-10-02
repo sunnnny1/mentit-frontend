@@ -1,6 +1,5 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
-import imgJobPreview from '../../assets/figma/feedback-job-preview.png';
-import imgResumePreview from '../../assets/figma/feedback-resume-preview.png';
+import ChatProfileBar from './ChatProfileBar';
 import imgPage1 from '../../assets/figma/feedback-page-1.png';
 import imgPage2 from '../../assets/figma/feedback-page-2.png';
 import imgPage3 from '../../assets/figma/feedback-page-3.png';
@@ -44,19 +43,12 @@ const RESUME_BAR_METRICS = [
 ];
 
 const PORTFOLIO_COPY = {
-  preview: imgJobPreview,
-  previewClass: 'h-[123px] w-[220px]',
-  previewAlt: '포트폴리오 미리보기',
-  agentIntro: (name) => `${name} AI 에이전트의 포트폴리오 피드백이 시작돼요`,
-  generating: (name) => `${name} 멘토의 포트폴리오 데이터 기반 답변 생성...`,
-  editAgent: '포트폴리오 수정 후 에이전트에게 피드백받기',
   editMentor: '포트폴리오 수정 후 멘토에게 피드백 받기',
   score: 80,
   radar: RADAR_AXES,
   bars: BAR_METRICS,
   summary: [
-    '그래프 점수를 기준으로 보면 문제 해결력과 전달력·완성도는 강점, 반면 직무 적합도와 논리·근거는 조금 더 보완할 여지가 있는 것으로 보여요. 아래처럼 수정하면 자연스럽습니다. 리서치부터 페르소나, UT까지 전반적인 UX 프로세스를 충실하게 수행한 점이 잘 보여요. 특히 문제를 정의하고 해결안을 도출하는 과정과 최종 결과물을 전달하는 완성도가 강점입니다.',
-    '다만 현재 포트폴리오는 프로세스와 결과는 잘 정리되어 있지만, 각 과정에서 왜 이런 판단을 내렸는지에 대한 디자이너만의 논리와 근거가 조금 더 드러나면 좋을 것 같아요. 단순히 리서치 결과를 보여주는 것에서 나아가, 그 인사이트를 바탕으로 어떤 기준으로 우선순위를 정했고 왜 이 방향의 디자인 솔루션을 선택했는지 보여준다면 프로덕트 디자이너로서의 직무 적합도도 더욱 높게 전달될 수 있습니다.',
+    '그래프 점수를 기준으로 보면 문제 해결력과 전달력·완성도는 강점, 반면 직무 적합도와 논리·근거는 조금 더 보완할 여지가 있는 것으로 보여요. 리서치부터 페르소나, UT까지 전반적인 UX 프로세스를 충실하게 수행한 점이 잘 보여요. 특히 문제를 정의하고 해결안을 도출하는 과정과 최종 결과물을 전달하는 완성도가 강점입니다.',
   ],
   strengths: [
     {
@@ -65,13 +57,13 @@ const PORTFOLIO_COPY = {
     },
     {
       title: '리서치 흐름이 탄탄해요',
-      body: '페르소나·유저 인터뷰 기반 문제 정의가 설득력 있어요. 이 강점은 유지하세요.',
+      body: '페르소나·유저 인터뷰 기반 문제 정의가 설득력 있어요. 이 강점은 유지하는게 좋아요.',
     },
   ],
   weakness: {
     title: '“왜 이 디자인인가?"가 없어요',
     body: '리서치 → 솔루션으로 바로 점프해요. 토스/당근 면접관이 가장 많이 묻는 질문은 "왜 이 UI를 선택했나요?"입니다. AR 길찾기를 왜 선택했는지, 숏폼 UI를 왜 가져왔는지, 게이미피케이션을 왜 넣었는지에 대한 디자인 근거가 없어요.',
-    extra: '각 핵심 화면마다 "대안 A vs 대안 B를 검토했고, X 이유로 B를 선택했다" 섹션 1-2개씩 추가하세요.',
+    extra: '각 핵심 화면마다 "대안 A vs 대안 B를 검토했고, X 이유로 B를 선택했다" 섹션 1-2개씩 추가하는걸 추천해요.',
   },
   improve: {
     title: '리서치를 인사이트로 압축해보세요',
@@ -80,19 +72,12 @@ const PORTFOLIO_COPY = {
 };
 
 const RESUME_COPY = {
-  preview: imgResumePreview,
-  previewClass: 'h-[180px] w-[120px]',
-  previewAlt: '자기소개서 미리보기',
-  agentIntro: (name) => `${name} AI 에이전트의 자기소개서 피드백이 시작돼요`,
-  generating: (name) => `${name} 멘토의 자기소개서 데이터 기반 답변 생성...`,
-  editAgent: '자기소개서 수정 후 에이전트에게 피드백받기',
   editMentor: '자기소개서 수정 후 멘토에게 피드백 받기',
   score: 82,
   radar: RESUME_RADAR_AXES,
   bars: RESUME_BAR_METRICS,
   summary: [
-    '전체적인 흐름은 자연스럽고 ‘사용자 중심의 문제 해결’이라는 프로덕트 디자이너의 방향성이 잘 드러나요. 성장과정부터 지원동기, 역량, 입사 후 포부까지 일관된 메시지를 유지하고 있다는 점이 강점입니다.',
-    '다만 전반적으로 ‘사용자를 이해한다’, ‘문제를 해결한다’, ‘성장하고 싶다’와 같은 표현이 많아 실제 어떤 경험을 통해 이런 역량을 갖추었는지가 충분히 드러나지 않아요. 특히 다른 지원자와 비교했을 때 윤영님만의 경험이나 결과를 보여주는 구체적인 사례가 추가되면 자소서의 설득력이 훨씬 높아질 것 같아요.',
+    '전체 흐름은 자연스럽고 사용자 중심의 문제 해결 방향이 잘 드러나요. 다만 실제 어떤 경험을 통해 그 역량을 갖췄는지는 조금 더 구체화하는게 좋아요. 윤영님만의 경험과 결과가 보이면 설득력이 높아져요.',
   ],
   strengths: [
     {
@@ -190,6 +175,50 @@ const STROKE = {
   Improve: 'border-[#c4ecfe]',
 };
 
+function extraLines(extra) {
+  if (!extra) return [];
+  if (Array.isArray(extra)) return extra.map((item) => String(item).trim()).filter(Boolean);
+  return String(extra)
+    .split('\n')
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function SolveBox({ badge, extra }) {
+  if (badge === 'Keep') return null;
+  const items = extraLines(extra);
+  if (!items.length) return null;
+  const bg = badge === 'Problem' ? 'bg-[#fed5d5]' : 'bg-[#e7f3ff]';
+  return (
+    <div className={`w-full rounded-xl px-3 py-4 ${bg}`}>
+      {items.length === 1 ? (
+        <p className="whitespace-pre-wrap text-[15px] leading-[1.6] text-[#121213]">{items[0]}</p>
+      ) : (
+        <ul className="flex w-full flex-col gap-0 text-[15px] leading-[1.6] text-[#121213]">
+          {items.map((item) => (
+            <li key={item.slice(0, 40)} className="flex gap-1.5">
+              <span className="shrink-0">•</span>
+              <span className="min-w-0">{item}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+function MentorRequestButton({ onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="relative box-border flex h-[47px] w-[189px] max-h-[47px] min-h-[47px] shrink-0 items-center justify-center overflow-hidden self-end rounded-xl border border-[#e7eaee] bg-white cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10"
+    >
+      <span className="relative whitespace-nowrap text-[16px] font-medium leading-[1.45] text-[#121213]">멘토에게 피드백 받기</span>
+    </button>
+  );
+}
+
 const PAGES = [
   { id: 1, label: '1P', thumb: imgPage1, preview: imgPage1 },
   { id: 2, label: '2P', thumb: imgPage6, preview: imgPage6 },
@@ -204,8 +233,10 @@ const PAGE_NOTES = {
     badge: 'Improve',
     title: '인트로화면의 맥락 파악',
     body: '첫 화면에서 프로젝트명, 한 줄 설명, 기간, 역할, 팀 구성이 보여서 채용 담당자가 빠르게 맥락을 이해하기 좋아요. 다만 지금은 "무엇을 했는가"(역할·기여도)까지는 잘 보여요. 여기에 "왜 이 프로젝트였는가" 한 줄을 더하면 완성도가 올라가요. 채용 담당자는 인트로 3초 안에 "이 사람이 왜 이 문제에 뛰어들었는지"를 궁금해하거든요.',
-    extra:
-      'Implementation Level의 퍼센트(UX 리서치 80% 등)는 좋지만, 이 숫자가 "무엇을 기준으로 한 기여도인지" 짧은 각주가 있으면 신뢰도가 올라가요.\n한 줄 설명을 "결과 중심"으로 바꿔보세요. 현재 "맛집 탐색·주문 여정을 모바일로 단축한 프로젝트"에서 "주문 여정을 40% 단축한 프로젝트"처럼 임팩트가 보이면 첫인상이 강해져요.',
+    extra: [
+      'Implementation Level의 퍼센트(UX 리서치 80% 등)는 좋지만, 이 숫자가 "무엇을 기준으로 한 기여도인지" 짧은 각주가 있으면 신뢰도가 올라가요.',
+      '한 줄 설명을 "결과 중심"으로 바꿔보세요. 현재 "맛집 탐색·주문 여정을 모바일로 단축한 프로젝트"에서 "주문 여정을 40% 단축한 프로젝트"처럼 임팩트가 보이면 첫인상이 강해져요.',
+    ],
   },
   2: {
     badge: 'Improve',
@@ -237,6 +268,15 @@ const PAGE_NOTES = {
     body: '페르소나와 인터뷰가 한 페이지에 정리되어 담당자가 문제 정의를 빠르게 따라갈 수 있어요.',
     extra: '사용자 그룹을 한 유형으로만 두지 말고, 카카오형 복합 서비스에 맞춰 이해관계자 관점을 한 줄 추가해보세요.',
   },
+};
+
+const PAGE_MENTOR_COPY = {
+  1: `‘한 줄 설명을 결과 중심으로 바꾸라' 에이전트 조언은 100% 맞아요. 다만 '40% 단축' 같은 수치를 쓸 땐 반드시 어떻게 측정했는지 근거가 뒤 페이지에 있어야 해요. 면접에서 “그 40%는 어떻게 나온 숫자예요?” 라고 물었을 때 답 못하면 오히려 마이너스거든요. 수치를 쓸 거면 UT 결과 페이지랑 꼭 연결하세요.`,
+  2: `오버뷰가 길어서 임팩트가 늦게 들어와요. 첫 문장을 결과 중심으로 줄이면 3초 안에 이 사람이 뭘 바꿨는지가 보여요. 성과도 UT 전후 숫자를 붙이면 설득력이 바로 올라가요.`,
+  3: `가설 카드는 잘 정리돼 있어요. 다만 면접에선 그래서 뭘 버리고 뭘 골랐냐를 물어봐요. 가설마다 다음 솔루션으로 이어지는 한 줄만 있어도 의사결정이 보여요.`,
+  4: `문제-솔루션 매핑은 좋아요. 여기가 면접에서 제일 먼저 찔리는 구간이에요. 대안 A vs B를 검토했고 X 이유로 B를 골랐다는 문장 1-2줄이면 충분해요.`,
+  5: `WHY·WHO·WHAT·HOW 구조는 명확해요. 여기에 리텐션·전환 같은 지표가 붙으면 직무 적합도가 바로 올라가요. WHAT/HOW 옆에 숫자 한 줄만 적어보세요.`,
+  6: `리서치 흐름은 한눈에 잘 보여요. 이 강점은 유지하되, 사용자 그룹을 한 유형으로만 두지 말고 이해관계자 관점을 한 줄 추가하면 카카오형 공고에도 안 밀려요.`,
 };
 
 export function GlassPanel({ className = '', contentClassName = '', children }) {
@@ -288,7 +328,13 @@ function ScrollReveal({ rootRef, onShow, className = '', children }) {
   );
 }
 
-export function RadarChart({ axes = RADAR_AXES }) {
+function barColor(value) {
+  if (value >= 80) return { fill: 'bg-[#1a75ff]', text: 'text-[#1a75ff]' };
+  if (value >= 50) return { fill: 'bg-[#569fff]', text: 'text-[#569fff]' };
+  return { fill: 'bg-[#9ed0ff]', text: 'text-[#9ed0ff]' };
+}
+
+export function RadarChart({ axes = RADAR_AXES, progress = 1 }) {
   const cx = 110;
   const cy = 110;
   const radius = 100;
@@ -300,7 +346,13 @@ export function RadarChart({ axes = RADAR_AXES }) {
   const grid = [0.2, 0.4, 0.6, 0.8, 1].map((scale) =>
     Array.from({ length: n }, (_, i) => point(i, scale).join(',')).join(' '),
   );
-  const data = axes.map((axis, i) => point(i, axis.value / 100).join(',')).join(' ');
+  const data = axes
+    .map((axis, i) => {
+      const vertex = Math.min(1, Math.max(0, progress * n - i));
+      const eased = 1 - (1 - vertex) ** 3;
+      return point(i, (axis.value / 100) * eased).join(',');
+    })
+    .join(' ');
 
   return (
     <div className="relative mx-auto h-[301px] w-[320px] shrink-0">
@@ -411,7 +463,61 @@ function elbowFromSpine(spineX, y0, yEnd, xEnd, radius) {
   return `M ${spineX} ${y0} L ${spineX} ${yCorner} Q ${spineX} ${yEnd} ${spineX + r} ${yEnd} H ${xEnd}`;
 }
 
-function BranchLines({ box, on, fork }) {
+function roundedConnector(x0, y0, xEnd, yEnd, radius) {
+  const dx = Math.max(0, xEnd - x0);
+  const dy = yEnd - y0;
+  const down = dy >= 0;
+  const r = Math.min(radius, Math.max(0, dx / 2 - 4), Math.max(0, Math.abs(dy) / 2));
+  const spineX = x0 + Math.max(r + 8, dx / 2);
+  const y1 = down ? y0 + r : y0 - r;
+  const y2 = down ? yEnd - r : yEnd + r;
+  return `M ${x0} ${y0} H ${spineX - r} Q ${spineX} ${y0} ${spineX} ${y1} L ${spineX} ${y2} Q ${spineX} ${yEnd} ${spineX + r} ${yEnd} H ${xEnd}`;
+}
+
+function MentorConnectLine({ box, on, color = '#ad36e3' }) {
+  const markerId = useId().replace(/:/g, '');
+  if (!box?.destX || box.destX <= box.srcX) return null;
+  const d = roundedConnector(box.srcX, box.srcY, box.destX, box.destY, 16);
+  const dash = {
+    pathLength: 1,
+    strokeDasharray: 1,
+    strokeDashoffset: on ? 0 : 1,
+    style: { transition: 'stroke-dashoffset 800ms ease-out' },
+  };
+  const stroke = {
+    fill: 'none',
+    stroke: color,
+    strokeWidth: 1.5,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+  };
+
+  return (
+    <svg
+      className="pointer-events-none absolute left-0 top-0 z-[3] overflow-visible"
+      width={box.rowW || '100%'}
+      height={box.rowH || '100%'}
+    >
+      <defs>
+        <marker
+          id={markerId}
+          markerWidth="8"
+          markerHeight="8"
+          refX="4"
+          refY="4"
+          orient="auto"
+          markerUnits="userSpaceOnUse"
+        >
+          <circle cx="4" cy="4" r="3" fill={color} />
+        </marker>
+      </defs>
+      <circle cx={box.srcX} cy={box.srcY} r={3.5} fill={color} />
+      <path d={d} markerEnd={`url(#${markerId})`} {...stroke} {...dash} />
+    </svg>
+  );
+}
+
+function BranchLines({ box, on, fork, arm = 'up' }) {
   const markerId = useId().replace(/:/g, '');
   if (!box.destX || box.destX <= box.srcX) return null;
   const radius = 18;
@@ -421,7 +527,9 @@ function BranchLines({ box, on, fork }) {
   const spineX = x0 + visibleArm;
   const stem = `M ${x0} ${box.srcY} H ${spineX}`;
   const up = elbowFromSpine(spineX, box.srcY, box.destY, xEnd, radius);
-  const down = fork ? elbowFromSpine(spineX, box.srcY, box.posY, xEnd, radius) : '';
+  const down = elbowFromSpine(spineX, box.srcY, box.posY, xEnd, radius);
+  const showUp = fork || arm === 'up';
+  const showDown = fork || arm === 'down';
   const dash = {
     pathLength: 1,
     strokeDasharray: 1,
@@ -456,13 +564,13 @@ function BranchLines({ box, on, fork }) {
         </marker>
       </defs>
       <path d={stem} {...stroke} {...dash} />
-      <path d={up} markerEnd={`url(#${markerId})`} {...stroke} {...dash} />
-      {fork ? <path d={down} markerEnd={`url(#${markerId})`} {...stroke} {...dash} /> : null}
+      {showUp ? <path d={up} markerEnd={`url(#${markerId})`} {...stroke} {...dash} /> : null}
+      {showDown ? <path d={down} markerEnd={`url(#${markerId})`} {...stroke} {...dash} /> : null}
     </svg>
   );
 }
 
-function DetailSection({ page, onSelectPage }) {
+function DetailSection({ page, onSelectPage, onRequestMentor }) {
   const note = PAGE_NOTES[page];
   const selected = PAGES.find((item) => item.id === page) ?? PAGES[0];
   const badgeTone = note.badge === 'Keep' ? 'keep' : note.badge === 'Problem' ? 'problem' : 'improve';
@@ -481,13 +589,16 @@ function DetailSection({ page, onSelectPage }) {
   }, [page]);
 
   return (
-    <GlassPanel className="w-[1091px] max-w-[1091px] px-6 py-7" contentClassName="flex flex-col gap-10">
-      <div className="flex flex-col gap-1">
+    <GlassPanel
+      className="flex h-[970px] w-[1091px] max-w-[1091px] flex-col overflow-hidden px-6 py-7"
+      contentClassName="flex min-h-0 flex-1 flex-col gap-10"
+    >
+      <div className="flex shrink-0 flex-col gap-1">
         <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-[#121213]">상세 피드백</p>
         <p className="text-sm leading-[1.42] tracking-[0.14px] text-[#9ca2b1]">페이지를 클릭하면 상세피드백이 보여요</p>
       </div>
-      <div className="flex flex-wrap items-start gap-10">
-        <div ref={thumbListRef} className="flex max-h-[520px] w-[220px] shrink-0 flex-col gap-5 overflow-y-auto">
+      <div className="flex h-[823px] min-h-0 w-full items-start gap-10">
+        <div ref={thumbListRef} className="flex h-full w-[220px] shrink-0 flex-col gap-5 overflow-y-auto">
           {PAGES.map((item) => {
             const active = item.id === page;
             const tone = PAGE_NOTES[item.id].badge;
@@ -517,43 +628,52 @@ function DetailSection({ page, onSelectPage }) {
             );
           })}
         </div>
-        <div className="flex min-w-[280px] flex-1 flex-col gap-5">
-          <div className={`h-[437px] w-[779px] max-w-full overflow-hidden rounded-2xl border ${STROKE[note.badge]}`}>
-            <img
-              alt={`${selected.label} 상세`}
-              src={selected.preview}
-              width={779}
-              height={437}
-              className="size-full object-cover opacity-100"
-            />
-          </div>
-          <div className="flex flex-col gap-3">
-            <Badge tone={badgeTone}>{note.badge}</Badge>
-            <p className="font-bold text-[15px] leading-[1.6] text-[#121213]">{note.title}</p>
-            <p className="text-[15px] leading-[1.6] text-[#121213]">{note.body}</p>
-            <div className="w-full rounded-xl bg-[#e7f3ff] px-3 py-4">
-              <p className="whitespace-pre-wrap text-[15px] leading-[1.6] text-[#121213]">{note.extra}</p>
+        <div className="flex h-full min-w-0 flex-1 flex-col">
+          <div className="min-h-0 flex-1 overflow-y-auto">
+            <div className="flex w-full max-w-[779px] flex-col gap-5">
+              <div className={`h-[437px] w-full overflow-hidden rounded-2xl border ${STROKE[note.badge]}`}>
+                <img
+                  alt={`${selected.label} 상세`}
+                  src={selected.preview}
+                  width={779}
+                  height={437}
+                  className="size-full object-cover opacity-100"
+                />
+              </div>
+              <div className="flex w-full flex-col gap-3">
+                <Badge tone={badgeTone}>{note.badge}</Badge>
+                <p className="font-bold text-[15px] leading-[1.6] text-[#121213]">{note.title}</p>
+                <p className="text-[15px] leading-[1.6] text-[#121213]">{note.body}</p>
+                <SolveBox badge={note.badge} extra={note.extra} />
+              </div>
             </div>
           </div>
+          {onRequestMentor ? (
+            <div className="flex w-full max-w-[779px] shrink-0 justify-end pt-5">
+              <MentorRequestButton onClick={() => onRequestMentor(page)} />
+            </div>
+          ) : null}
         </div>
       </div>
     </GlassPanel>
   );
 }
 
-function ResumeDetailSection({ sectionId, onSelectSection }) {
+function ResumeDetailSection({ sectionId, onSelectSection, onRequestMentor }) {
   const selected = RESUME_SECTIONS.find((item) => item.id === sectionId) ?? RESUME_SECTIONS[1];
   const badgeTone = selected.badge === 'Keep' ? 'keep' : selected.badge === 'Problem' ? 'problem' : 'improve';
-  const extraBg = selected.badge === 'Problem' ? 'bg-[#fed5d5]' : 'bg-[#e7f3ff]';
 
   return (
-    <GlassPanel className="w-[1091px] max-w-[1091px] px-6 py-7" contentClassName="flex flex-col gap-10">
-      <div className="flex flex-col gap-1">
+    <GlassPanel
+      className="flex h-[970px] w-[1091px] max-w-[1091px] flex-col overflow-hidden px-6 py-7"
+      contentClassName="flex min-h-0 flex-1 flex-col gap-10"
+    >
+      <div className="flex shrink-0 flex-col gap-1">
         <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-[#121213]">상세 피드백</p>
         <p className="text-sm leading-[1.42] tracking-[0.14px] text-[#9ca2b1]">제목을 클릭하면 상세피드백이 보여요</p>
       </div>
-      <div className="flex items-start gap-10">
-        <div className="flex w-[220px] shrink-0 flex-col gap-5">
+      <div className="flex h-[823px] min-h-0 w-full items-start gap-10">
+        <div className="flex h-full w-[220px] shrink-0 flex-col gap-5 overflow-y-auto">
           {RESUME_SECTIONS.map((item) => {
             const active = item.id === selected.id;
             return (
@@ -570,20 +690,25 @@ function ResumeDetailSection({ sectionId, onSelectSection }) {
             );
           })}
         </div>
-        <div className="flex min-w-0 flex-1 flex-col gap-5">
-          <div className={`rounded-xl border px-3 py-4 ${STROKE[selected.badge]}`}>
-            <p className="whitespace-pre-wrap text-[15px] leading-[1.6] text-[#121213]">{selected.quote}</p>
-          </div>
-          <div className="flex flex-col gap-3">
-            <Badge tone={badgeTone}>{selected.badge}</Badge>
-            <p className="font-bold text-[15px] leading-[1.6] text-[#121213]">{selected.title}</p>
-            <p className="whitespace-pre-wrap text-[15px] leading-[1.6] text-[#121213]">{selected.body}</p>
-            {selected.extra ? (
-              <div className={`w-full rounded-xl px-3 py-4 ${extraBg}`}>
-                <p className="whitespace-pre-wrap text-[15px] leading-[1.6] text-[#121213]">{selected.extra}</p>
+        <div className="flex h-full min-w-0 flex-1 flex-col">
+          <div className="min-h-0 flex-1 overflow-y-auto">
+            <div className="flex w-full flex-col gap-5">
+              <div className={`w-full rounded-xl border px-3 py-4 ${STROKE[selected.badge]}`}>
+                <p className="whitespace-pre-wrap text-[15px] leading-[1.6] text-[#121213]">{selected.quote}</p>
               </div>
-            ) : null}
+              <div className="flex w-full flex-col gap-3">
+                <Badge tone={badgeTone}>{selected.badge}</Badge>
+                <p className="font-bold text-[15px] leading-[1.6] text-[#121213]">{selected.title}</p>
+                <p className="whitespace-pre-wrap text-[15px] leading-[1.6] text-[#121213]">{selected.body}</p>
+                <SolveBox badge={selected.badge} extra={selected.extra} />
+              </div>
+            </div>
           </div>
+          {onRequestMentor ? (
+            <div className="flex w-full shrink-0 justify-end pt-5">
+              <MentorRequestButton onClick={() => onRequestMentor(selected.id)} />
+            </div>
+          ) : null}
         </div>
       </div>
     </GlassPanel>
@@ -608,17 +733,17 @@ function PositioningRow({ title, percent, width, body, items, onJump }) {
       </div>
       <div className="flex flex-col gap-2">
         {items.map((item) => (
-          <div key={item.label} className="flex items-start gap-2.5 rounded-xl bg-[#f4f6f8] p-3">
-            <span className="shrink-0 rounded-lg bg-[#747886]/10 px-2 py-1 text-[13px] font-medium leading-[1.4] tracking-[0.26px] text-[#747886]">
+          <div key={item.label} className="flex h-[60px] w-full items-center gap-2.5 rounded-xl bg-[#f4f6f8] px-3">
+            <span className="flex h-7 shrink-0 items-center rounded-lg bg-[#747886]/10 px-2 text-[13px] font-medium leading-[1.4] tracking-[0.26px] text-[#747886]">
               {item.label}
             </span>
-            <p className="min-w-0 flex-1 whitespace-pre-wrap text-[15px] leading-[1.6] text-[#121213]">{item.text}</p>
+            <p className="min-w-0 flex-1 truncate text-[15px] leading-[1.6] text-[#121213]">{item.text}</p>
             <button
               type="button"
               onClick={() => onJump(item.page)}
-              className="shrink-0 rounded-lg border border-[#1a75ff] bg-[rgba(26,117,255,0.05)] px-4 py-2 text-sm font-medium leading-[1.42] tracking-[0.14px] text-[#1a75ff] cursor-pointer"
+              className="box-border flex h-[36px] min-h-[36px] max-h-[36px] shrink-0 items-center justify-center rounded-lg border-[0.5px] border-[#1a75ff] bg-[rgba(26,117,255,0.05)] px-4 text-[14px] font-medium leading-[1.42] tracking-[0.14px] text-[#1a75ff] cursor-pointer"
             >
-              {item.cta ?? `${item.label} 피드백 →`}
+              {item.cta ?? (typeof item.page === 'number' ? `${item.page}페이지 피드백` : `${item.label} 피드백`)}
             </button>
           </div>
         ))}
@@ -650,7 +775,7 @@ function PositioningSection({ onJump, documentKind = 'portfolio' }) {
                 {
                   label: '프로젝트 경험',
                   page: 'project',
-                  cta: '피드백 →',
+                  cta: '피드백',
                   text: "UI 설계 과정에서 ‘왜 이 UI를 선택했는지'에 대한 의사결정 근거를 한두 줄 추가하면 설득력이 더 높아져요.",
                 },
               ]}
@@ -666,7 +791,7 @@ function PositioningSection({ onJump, documentKind = 'portfolio' }) {
                 {
                   label: '직무 경험 및 역량',
                   page: 'skill',
-                  cta: '피드백 →',
+                  cta: '피드백',
                   text: '리서치 과정에서 다양한 사용자 그룹의 관점을 비교한 내용을 추가하고,\nUT 결과를 리텐션, 전환율 같은 비즈니스 지표와 연결해 설명해보세요.',
                 },
               ]}
@@ -680,7 +805,7 @@ function PositioningSection({ onJump, documentKind = 'portfolio' }) {
               percent={75}
               width="75%"
               body="현재 포트폴리오로는 서류 통과가 쉽지 않아요. 비즈프로필은 사장님(B2B)과 유저(B2C)를 동시에 고려해야 하는 복잡한 서비스인데, 두 프로젝트 모두 단일 사용자 타겟이에요. 리서치 방법론은 인정받을 수 있지만 비즈니스 임팩트 사고가 빠져 있는 게 결정적 약점이에요."
-              items={[{ label: '4P', page: 4, text: 'UI 설계에 "왜 이 UI인가" 의사결정 근거 1~2줄 추가' }]}
+              items={[{ label: '4P', page: 4, cta: '4페이지 피드백', text: 'UI 설계에 "왜 이 UI인가" 의사결정 근거 1~2줄 추가' }]}
               onJump={onJump}
             />
             <div className="h-px w-full bg-[#e7eaee]" />
@@ -690,8 +815,8 @@ function PositioningSection({ onJump, documentKind = 'portfolio' }) {
               width="55%"
               body="두 프로젝트 모두 단일 사용자 타겟을 중심으로 설계된 경험이에요. 카카오의 프로덕트 디자이너는 B2B·B2C를 비롯해 다양한 사용자와 이해관계자를 고려한 복합적인 서비스 경험을 설계하는 역량도 중요해요. 다양한 사용자 관점과 비즈니스 요구사항을 함께 고려한 프로젝트 경험을 보여주면 더욱 강점이 될 수 있어요."
               items={[
-                { label: '6P', page: 6, text: '리서치에 다양한 사용자 그룹 관점 추가' },
-                { label: '5P', page: 5, text: 'UT 결과에 비즈니스 지표 변화(리텐션·전환) 연결' },
+                { label: '6P', page: 6, cta: '6페이지 피드백', text: '리서치에 다양한 사용자 그룹 관점 추가' },
+                { label: '5P', page: 5, cta: '5페이지 피드백', text: 'UT 결과에 비즈니스 지표 변화(리텐션·전환) 연결' },
               ]}
               onJump={onJump}
             />
@@ -739,7 +864,7 @@ function MentorThread({ comments, mentorName, mentorAvatar, menteeAvatar, onSubm
         </div>
       ) : null}
       <form
-        className="relative flex w-full items-center gap-2 rounded-xl bg-white px-5 py-3"
+        className="box-border flex h-[48px] max-h-[48px] min-h-[48px] w-full items-center gap-2 overflow-hidden rounded-xl bg-white px-4"
         onSubmit={(event) => {
           event.preventDefault();
           const value = draft.trim();
@@ -752,43 +877,71 @@ function MentorThread({ comments, mentorName, mentorAvatar, menteeAvatar, onSubm
           value={draft}
           onChange={(event) => setDraft(event.target.value)}
           placeholder="멘토에게 질문하기"
-          className="min-w-0 flex-1 bg-transparent text-[15px] leading-[1.6] text-[#121213] outline-none placeholder:text-[#9ca2b1]"
+          className="h-[20px] min-w-0 flex-1 bg-transparent text-[14px] leading-5 text-[#121213] outline-none placeholder:text-[#9ca2b1]"
         />
         <button
           type="submit"
           aria-label="전송"
-          className="relative flex shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#70d2ff] bg-[#1a75ff] px-5 py-2 shadow-[inset_0_0_4px_#e7f3ff] cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10"
+          className="relative box-border flex h-[32px] max-h-[32px] min-h-[32px] w-[48px] shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#70d2ff] bg-[#1a75ff] shadow-[inset_0_0_4px_#e7f3ff] cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10"
         >
-          <img alt="" src={imgSend} className="relative size-6" />
+          <img alt="" src={imgSend} className="relative h-5 w-5 shrink-0" />
         </button>
       </form>
     </div>
   );
 }
 
-function MentorComment({ name, title, children, thread }) {
+const MENTOR_FEEDBACK_THEME = {
+  purple: {
+    name: '#ad36e3',
+    fill: '#fbf7ff',
+    glow: 'rgba(242,214,255,0.4)',
+  },
+  red: {
+    name: '#e52222',
+    fill: '#fffafa',
+    glow: 'rgba(254,213,213,0.4)',
+  },
+  blue: {
+    name: '#008dcf',
+    fill: '#f7fbff',
+    glow: 'rgba(196,236,254,0.4)',
+  },
+};
+
+function feedbackThemeFromBadge(badgeLabel) {
+  if (badgeLabel === 'Master Mentor') return MENTOR_FEEDBACK_THEME.red;
+  if (badgeLabel === 'Rookie Mentor') return MENTOR_FEEDBACK_THEME.blue;
+  return MENTOR_FEEDBACK_THEME.purple;
+}
+
+function MentorComment({ name, title, children, thread, waiting = false, theme = MENTOR_FEEDBACK_THEME.purple }) {
   const firstName = name.split(' ')[0];
 
   return (
     <div className="flex w-[812px] flex-col gap-1">
-      <p className="text-[13px] font-medium leading-[1.4] tracking-[0.26px] text-[#ad36e3]">{name}</p>
+      <p className="text-[13px] font-medium leading-[1.4] tracking-[0.26px]" style={{ color: theme.name }}>{name}</p>
       <div className="relative flex w-full flex-col gap-10 overflow-hidden rounded-2xl border-[1.5px] border-[#f4f6f8] px-6 py-7">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 rounded-2xl"
           style={{
-            background:
-              'radial-gradient(ellipse at center, rgba(255,255,255,0.4) 20%, #fbf7ff 100%)',
+            background: `radial-gradient(ellipse at center, rgba(255,255,255,0.4) 20%, ${theme.fill} 100%)`,
           }}
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-2xl shadow-[inset_-8px_-8px_60px_rgba(242,214,255,0.4),inset_8px_8px_60px_rgba(242,214,255,0.4)]"
+          className="pointer-events-none absolute inset-0 rounded-2xl"
+          style={{
+            boxShadow: `inset -8px -8px 60px ${theme.glow}, inset 8px 8px 60px ${theme.glow}`,
+          }}
         />
         <div className="relative flex flex-col gap-1">
           <p className="text-lg font-bold leading-[1.5] tracking-[-0.0036px] text-[#121213]">{title}</p>
           <p className="text-sm leading-[1.42] tracking-[0.14px] text-[#9ca2b1]">
-            {firstName} 멘토가 추가적으로 피드백한 내용이에요
+            {waiting
+              ? `피드백을 요청하면 평일 오후 8시 이후, 주말에 ${firstName} 멘토의 피드백을 받아볼 수 있어요!`
+              : `${firstName} 멘토가 추가적으로 피드백한 내용이에요`}
           </p>
         </div>
         <div className="relative w-full">{children}</div>
@@ -847,6 +1000,10 @@ export default function ChatFeedbackResult({
   documentKind = 'portfolio',
   displayName = 'Yoonie',
   mentorDisplayName = 'Yoonie (최윤희)',
+  role = '프로덕트 디자이너 ・ 당근 ・ 5년차',
+  badgeLabel = 'Active Mentor',
+  badgeColor = '#9054ff',
+  profileAvatar,
   availabilityIntro,
   availabilityDetail,
   mentorAvatar = imgMentorAvatar,
@@ -854,17 +1011,21 @@ export default function ChatFeedbackResult({
   onEditUpload,
   onOpenMentor: _onOpenMentor,
   onOpenAgent,
+  onStartReview,
 }) {
   const scrollRef = useRef(null);
   const timelineRef = useRef(null);
   const lineOriginRef = useRef(null);
   const rowRef = useRef(null);
+  const overviewRef = useRef(null);
   const strengthRef = useRef(null);
   const sideRef = useRef(null);
   const detailRef = useRef(null);
   const positioningRef = useRef(null);
   const mentorPageRef = useRef(null);
+  const mentorPosRef = useRef(null);
   const isMentor = mode === 'mentor';
+  const feedbackTheme = feedbackThemeFromBadge(badgeLabel);
   const isResume = documentKind === 'resume';
   const copy = isResume ? RESUME_COPY : PORTFOLIO_COPY;
   const mentorReplies = isResume ? RESUME_MENTOR_REPLIES : MENTOR_REPLIES;
@@ -886,13 +1047,173 @@ export default function ChatFeedbackResult({
   const [resumeSection, setResumeSection] = useState('project');
   const pendingScroll = useRef(null);
   const [jumpTick, setJumpTick] = useState(0);
-  const [pageComments, setPageComments] = useState([]);
+  const [pageThreads, setPageThreads] = useState({});
   const [positioningComments, setPositioningComments] = useState([]);
+  const [requestedPages, setRequestedPages] = useState([]);
+  const [mentorLineOn, setMentorLineOn] = useState(false);
+  const [mentorLineBox, setMentorLineBox] = useState({ srcX: 0, srcY: 0, destX: 0, destY: 0 });
+  const [posMentorLineOn, setPosMentorLineOn] = useState(false);
+  const [posMentorLineBox, setPosMentorLineBox] = useState({ srcX: 0, srcY: 0, destX: 0, destY: 0 });
+  const [chartPlay, setChartPlay] = useState(false);
+  const [radarProgress, setRadarProgress] = useState(0);
+  const [scoreDisplay, setScoreDisplay] = useState(0);
+  const [canvasZoom, setCanvasZoom] = useState(1);
+  const [panning, setPanning] = useState(false);
+  const panRef = useRef({ active: false, x: 0, y: 0 });
+  const zoomRef = useRef(1);
   const panelOpen = showDetail || showPositioning;
+  const currentRequestKey = isResume ? resumeSection : page;
+  const showPageRequest = !isMentor && showDetail && requestedPages.includes(currentRequestKey);
+  const showPageMentor = (isMentor || showPageRequest) && showDetail;
+  const showPosMentor = isMentor && showPositioning;
+  const pageComments = pageThreads[currentRequestKey] ?? [];
+
+  const setPageCommentsFor = (key) => (updater) => {
+    setPageThreads((prev) => {
+      const current = prev[key] ?? [];
+      const next = typeof updater === 'function' ? updater(current) : updater;
+      return { ...prev, [key]: next };
+    });
+  };
+
+  const requestMentorFor = (key) => {
+    setRequestedPages((prev) => (prev.includes(key) ? prev : [...prev, key]));
+    pendingScroll.current = 'mentor';
+    setJumpTick((n) => n + 1);
+  };
 
   useEffect(() => {
     if (!panelOpen) setBranchOn(false);
   }, [panelOpen]);
+
+  useEffect(() => {
+    if (!showPageMentor) {
+      setMentorLineOn(false);
+      return undefined;
+    }
+    setMentorLineOn(false);
+    const id = window.setTimeout(() => setMentorLineOn(true), 80);
+    return () => window.clearTimeout(id);
+  }, [showPageMentor]);
+
+  useEffect(() => {
+    if (!showPosMentor) {
+      setPosMentorLineOn(false);
+      return undefined;
+    }
+    setPosMentorLineOn(false);
+    const id = window.setTimeout(() => setPosMentorLineOn(true), 80);
+    return () => window.clearTimeout(id);
+  }, [showPosMentor]);
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setChartPlay(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  useEffect(() => {
+    if (!chartPlay) return undefined;
+    setRadarProgress(0);
+    setScoreDisplay(0);
+    const start = performance.now();
+    let raf;
+    const tick = (now) => {
+      const t = Math.min(1, (now - start) / 1400);
+      setRadarProgress(t);
+      setScoreDisplay(Math.round(copy.score * t));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [chartPlay, copy.score]);
+
+  zoomRef.current = canvasZoom;
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return undefined;
+    const onWheel = (event) => {
+      if (!event.ctrlKey && !event.metaKey) return;
+      event.preventDefault();
+      const prev = zoomRef.current;
+      const next = Math.min(1.75, Math.max(0.7, prev * (event.deltaY > 0 ? 0.96 : 1.04)));
+      if (next === prev) return;
+      const rect = el.getBoundingClientRect();
+      const cx = (el.scrollLeft + event.clientX - rect.left) / prev;
+      const cy = (el.scrollTop + event.clientY - rect.top) / prev;
+      zoomRef.current = next;
+      setCanvasZoom(next);
+      requestAnimationFrame(() => {
+        el.scrollLeft = cx * next - (event.clientX - rect.left);
+        el.scrollTop = cy * next - (event.clientY - rect.top);
+      });
+    };
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return undefined;
+
+    const endPan = () => {
+      if (!panRef.current.active) return;
+      panRef.current.active = false;
+      setPanning(false);
+    };
+
+    const onPointerDown = (event) => {
+      if (event.button !== 1) return;
+      event.preventDefault();
+      panRef.current = { active: true, x: event.clientX, y: event.clientY };
+      setPanning(true);
+      el.setPointerCapture?.(event.pointerId);
+    };
+
+    const onPointerMove = (event) => {
+      if (!panRef.current.active) return;
+      event.preventDefault();
+      const dx = event.clientX - panRef.current.x;
+      const dy = event.clientY - panRef.current.y;
+      panRef.current.x = event.clientX;
+      panRef.current.y = event.clientY;
+      el.scrollLeft -= dx;
+      el.scrollTop -= dy;
+    };
+
+    const onPointerUp = (event) => {
+      if (event.button !== 1 && event.type !== 'pointercancel' && event.type !== 'lostpointercapture') return;
+      endPan();
+    };
+
+    const onAuxClick = (event) => {
+      if (event.button === 1) event.preventDefault();
+    };
+
+    const onMouseDown = (event) => {
+      if (event.button !== 1) return;
+      event.preventDefault();
+    };
+
+    el.addEventListener('pointerdown', onPointerDown);
+    el.addEventListener('mousedown', onMouseDown);
+    window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointercancel', onPointerUp);
+    el.addEventListener('lostpointercapture', endPan);
+    el.addEventListener('auxclick', onAuxClick);
+    window.addEventListener('blur', endPan);
+    return () => {
+      el.removeEventListener('pointerdown', onPointerDown);
+      el.removeEventListener('mousedown', onMouseDown);
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('pointercancel', onPointerUp);
+      el.removeEventListener('lostpointercapture', endPan);
+      el.removeEventListener('auxclick', onAuxClick);
+      window.removeEventListener('blur', endPan);
+    };
+  }, []);
 
   useEffect(() => {
     if (!isMentor) return;
@@ -915,23 +1236,36 @@ export default function ChatFeedbackResult({
       const side = sideRef.current;
       const detail = detailRef.current;
       const pos = positioningRef.current;
+      const mentor = mentorPageRef.current;
+      const posMentor = mentorPosRef.current;
       if (!row || !src || !side) return;
       const r = row.getBoundingClientRect();
-      const s = src.getBoundingClientRect();
-      const d = side.getBoundingClientRect();
-      const detailBox = detail?.getBoundingClientRect();
-      const posBox = pos?.getBoundingClientRect();
-      const srcX = s.right - r.left;
-      const destX = d.left - r.left;
-      const destY = detailBox
-        ? detailBox.top + detailBox.height * 0.45 - r.top
-        : s.top + s.height * 0.2 - r.top;
-      const posY = posBox
-        ? posBox.top + posBox.height * 0.45 - r.top
-        : s.bottom - s.height * 0.15 - r.top;
+      const scaleX = r.width ? row.offsetWidth / r.width : 1;
+      const scaleY = r.height ? row.offsetHeight / r.height : 1;
+      const local = (el) => {
+        const a = el.getBoundingClientRect();
+        return {
+          left: (a.left - r.left) * scaleX,
+          top: (a.top - r.top) * scaleY,
+          right: (a.right - r.left) * scaleX,
+          bottom: (a.bottom - r.top) * scaleY,
+          width: a.width * scaleX,
+          height: a.height * scaleY,
+        };
+      };
+      const s = local(src);
+      const d = local(side);
+      const detailBox = detail ? local(detail) : null;
+      const posBox = pos ? local(pos) : null;
+      const mentorBox = mentor ? local(mentor) : null;
+      const posMentorBox = posMentor ? local(posMentor) : null;
+      const srcX = s.right;
+      const destX = d.left;
+      const destY = detailBox ? detailBox.top + detailBox.height * 0.38 : d.top + 970 * 0.38;
+      const posY = posBox ? posBox.top + posBox.height * 0.42 : d.top + 970 + 20 + 180;
       const forkY = (destY + posY) / 2;
-      const cardTop = s.top - r.top + 16;
-      const cardBottom = s.bottom - r.top - 16;
+      const cardTop = s.top + 16;
+      const cardBottom = s.bottom - 16;
       const srcY = Math.min(cardBottom, Math.max(cardTop, forkY));
       const next = {
         srcX,
@@ -954,10 +1288,50 @@ export default function ChatFeedbackResult({
           ? prev
           : next,
       );
+      if (detailBox && mentorBox) {
+        const line = {
+          srcX: detailBox.right,
+          srcY: detailBox.top + detailBox.height * 0.32,
+          destX: mentorBox.left,
+          destY: mentorBox.top + mentorBox.height * 0.82,
+          rowW: row.offsetWidth,
+          rowH: row.offsetHeight,
+        };
+        setMentorLineBox((prev) =>
+          prev.srcX === line.srcX &&
+          prev.srcY === line.srcY &&
+          prev.destX === line.destX &&
+          prev.destY === line.destY &&
+          prev.rowW === line.rowW &&
+          prev.rowH === line.rowH
+            ? prev
+            : line,
+        );
+      }
+      if (posBox && posMentorBox) {
+        const line = {
+          srcX: posBox.right,
+          srcY: posBox.top + posBox.height * 0.52,
+          destX: posMentorBox.left,
+          destY: posMentorBox.top + posMentorBox.height * 0.72,
+          rowW: row.offsetWidth,
+          rowH: row.offsetHeight,
+        };
+        setPosMentorLineBox((prev) =>
+          prev.srcX === line.srcX &&
+          prev.srcY === line.srcY &&
+          prev.destX === line.destX &&
+          prev.destY === line.destY &&
+          prev.rowW === line.rowW &&
+          prev.rowH === line.rowH
+            ? prev
+            : line,
+        );
+      }
     };
     const id = requestAnimationFrame(measure);
     const observer = new ResizeObserver(measure);
-    [rowRef, sideRef, detailRef, positioningRef, strengthRef].forEach((item) => {
+    [rowRef, sideRef, detailRef, positioningRef, strengthRef, mentorPageRef, mentorPosRef].forEach((item) => {
       if (item.current) observer.observe(item.current);
     });
     window.addEventListener('resize', measure);
@@ -966,12 +1340,15 @@ export default function ChatFeedbackResult({
       observer.disconnect();
       window.removeEventListener('resize', measure);
     };
-  }, [panelOpen, showDetail, showPositioning, page, resumeSection, pageComments, positioningComments]);
+  }, [panelOpen, showDetail, showPositioning, showPageRequest, showPageMentor, showPosMentor, page, resumeSection, pageComments, positioningComments, canvasZoom]);
 
   const growLine = (el) => {
     const origin = lineOriginRef.current;
     if (!el || !origin) return;
-    const next = el.getBoundingClientRect().bottom - origin.getBoundingClientRect().top;
+    const a = el.getBoundingClientRect();
+    const b = origin.getBoundingClientRect();
+    const scaleY = origin.offsetHeight ? origin.offsetHeight / b.height : 1;
+    const next = (a.bottom - b.top) * scaleY;
     setLineH((prev) => Math.max(prev, next));
   };
 
@@ -995,18 +1372,22 @@ export default function ChatFeedbackResult({
     else setPage(nextPage);
   };
 
-  const openSide = (focus = 'detail', nextPage) => {
+  const openDetail = (nextPage) => {
     selectDetail(nextPage);
-    const alreadyOpen = showDetail && showPositioning;
-    if (!alreadyOpen) setBranchOn(false);
+    setBranchOn(false);
     setShowDetail(true);
-    setShowPositioning(true);
-    pendingScroll.current = focus;
+    setShowPositioning(false);
+    pendingScroll.current = 'detail';
     setJumpTick((n) => n + 1);
   };
 
-  const openDetail = (nextPage) => openSide('detail', nextPage);
-  const openPositioning = () => openSide('positioning');
+  const openPositioning = () => {
+    setBranchOn(false);
+    setShowDetail(false);
+    setShowPositioning(true);
+    pendingScroll.current = 'positioning';
+    setJumpTick((n) => n + 1);
+  };
 
   const jumpToPage = (nextPage) => {
     setShowDetail(true);
@@ -1031,74 +1412,84 @@ export default function ChatFeedbackResult({
       scrollToNode(node);
     }, target === 'mentor' ? 750 : 80);
     return () => window.clearTimeout(timer);
-  }, [jumpTick, page, resumeSection, showDetail, showPositioning]);
+  }, [jumpTick, page, resumeSection, showDetail, showPositioning, showPageRequest]);
 
   return (
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+      <ChatProfileBar
+        mode={isMentor ? 'mentor' : 'agent'}
+        displayName={displayName}
+        mentorDisplayName={mentorDisplayName}
+        role={role}
+        badgeLabel={badgeLabel}
+        badgeColor={badgeColor}
+        profileAvatar={profileAvatar}
+        mentorAvatar={mentorAvatar}
+        supportsMentorReview={false}
+        extraActions={[
+          { label: '리뷰 쓰러가기', variant: 'primary', onClick: onStartReview },
+          { label: '피드백 다시 받기', variant: 'alternative', onClick: onEditUpload },
+        ]}
+      />
+      <div className="h-px w-full shrink-0 bg-[#e7eaee]" />
     <div
       ref={scrollRef}
-      className="relative min-h-0 flex-1 overflow-auto [container-type:inline-size] bg-[radial-gradient(#e7eaee_1.5px,transparent_1.5px)] bg-[size:24px_24px]"
+      style={{
+        backgroundSize: `${24 * canvasZoom}px ${24 * canvasZoom}px`,
+      }}
+      className={`relative min-h-0 flex-1 overflow-auto [container-type:inline-size] bg-[radial-gradient(#e7eaee_1.5px,transparent_1.5px)] ${
+        panning ? 'cursor-grabbing select-none' : ''
+      }`}
     >
       {isMentor ? (
-        <div className="sticky left-0 z-20 w-[100cqi] bg-white px-5 py-5">
-          <div className="inline-flex items-center rounded-lg bg-[#f4f6f8] p-0.5">
-            <button
-              type="button"
-              onClick={onOpenAgent}
-              className="flex items-center justify-center rounded-lg px-7 py-1 text-[13px] font-medium leading-[1.4] tracking-[0.26px] text-[#9ca2b1] cursor-pointer"
-            >
-              AI 에이전트 피드백
-            </button>
-            <button
-              type="button"
-              className="flex items-center justify-center rounded-lg bg-white px-7 py-1 text-[13px] font-medium leading-[1.4] tracking-[0.26px] text-[#121213] shadow-[0_0_8px_rgba(18,18,19,0.04)]"
-            >
-              멘토 피드백
-            </button>
-          </div>
-        </div>
-      ) : null}
-      <section className="sticky left-0 z-10 w-[100cqi] bg-white shadow-[inset_20px_20px_40px_rgba(255,255,255,0.9),inset_-20px_0_40px_rgba(255,255,255,0.25)]">
-        <div className="mx-auto flex w-full max-w-[1042px] flex-col items-center gap-4 px-10 py-7">
-          <div className="flex min-h-10 w-full flex-col items-center justify-center gap-1 text-center">
-            <p className="w-full text-sm font-medium leading-[1.42] tracking-[0.14px] text-[#121213]">
-              {isMentor
-                ? availabilityIntro || `실제 현직자 ${mentorDisplayName} 멘토와 직접 대화할 수 있어요!`
-                : copy.agentIntro(displayName)}
-            </p>
-            <p className="w-full text-[12px] leading-[1.35] tracking-[0.3px] text-[#747886]">
-              {isMentor
-                ? availabilityDetail || `${displayName} 멘토는 평일 오후 8시 이후, 주말에 답변이 가능해요.`
-                : '실제 멘토의 경험과 의사결정 기준을 바탕으로 학습된 AI 에이전트예요. 실제 멘토의 의견과는 일부 차이가 있을 수 있어요.'}
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center justify-center gap-5">
-            <button
-              type="button"
-              onClick={onEditUpload}
-              className="relative overflow-hidden rounded-lg bg-white px-4 py-2 shadow-[0_0_16px_rgba(18,18,19,0.04)] cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10"
-            >
-              <span className="relative text-[13px] font-medium leading-[1.4] tracking-[0.26px] text-[#121213]">
-                {copy.editAgent}
-              </span>
-            </button>
-            {isMentor ? (
+        <>
+          <div className="sticky left-0 z-20 w-[100cqi] bg-white px-5 py-5">
+            <div className="inline-flex items-center rounded-lg bg-[#f4f6f8] p-0.5">
               <button
                 type="button"
-                onClick={onEditUpload}
-                className="relative overflow-hidden rounded-lg bg-white px-4 py-2 shadow-[0_0_16px_rgba(18,18,19,0.04)] cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10"
+                onClick={onOpenAgent}
+                className="flex items-center justify-center rounded-lg px-7 py-1 text-[13px] font-medium leading-[1.4] tracking-[0.26px] text-[#9ca2b1] cursor-pointer"
               >
-                <span className="relative text-[13px] font-medium leading-[1.4] tracking-[0.26px] text-[#121213]">
-                  {copy.editMentor}
-                </span>
+                AI 에이전트 피드백
               </button>
-            ) : null}
+              <button
+                type="button"
+                className="flex items-center justify-center rounded-lg bg-white px-7 py-1 text-[13px] font-medium leading-[1.4] tracking-[0.26px] text-[#121213] shadow-[0_0_8px_rgba(18,18,19,0.04)]"
+              >
+                멘토 피드백
+              </button>
+            </div>
           </div>
-        </div>
-      </section>
+          <section className="sticky left-0 z-10 w-[100cqi] bg-white shadow-[inset_20px_20px_40px_rgba(255,255,255,0.9),inset_-20px_0_40px_rgba(255,255,255,0.25)]">
+            <div className="mx-auto flex w-full max-w-[1042px] flex-col items-center gap-4 px-10 py-7">
+              <div className="flex min-h-10 w-full flex-col items-center justify-center gap-1 text-center">
+                <p className="w-full text-sm font-medium leading-[1.42] tracking-[0.14px] text-[#121213]">
+                  {availabilityIntro || `실제 현직자 ${mentorDisplayName} 멘토와 직접 대화할 수 있어요!`}
+                </p>
+                <p className="w-full text-[12px] leading-[1.35] tracking-[0.3px] text-[#747886]">
+                  {availabilityDetail || `${displayName} 멘토는 평일 오후 8시 이후, 주말에 답변이 가능해요.`}
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center justify-center gap-5">
+                <button
+                  type="button"
+                  onClick={onEditUpload}
+                  className="relative overflow-hidden rounded-lg bg-white px-4 py-2 shadow-[0_0_16px_rgba(18,18,19,0.04)] cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10"
+                >
+                  <span className="relative text-[13px] font-medium leading-[1.4] tracking-[0.26px] text-[#121213]">
+                    {copy.editMentor}
+                  </span>
+                </button>
+              </div>
+            </div>
+          </section>
+        </>
+      ) : null}
 
       <div
         ref={timelineRef}
-        className={`relative pb-16 pt-8 ${
+        style={{ zoom: canvasZoom }}
+        className={`relative pb-20 pt-8 ${
           panelOpen
             ? 'w-max px-[max(40px,calc((100cqi-1000px)/2))]'
             : 'mx-auto w-full max-w-[1042px] px-10'
@@ -1110,58 +1501,57 @@ export default function ChatFeedbackResult({
               style={{ left: panelOpen ? 500 : '50%', top: originTop, height: lineH }}
             />
 
-            <div className={`relative z-[1] flex flex-col items-center gap-2 ${panelOpen ? 'w-[1000px] max-w-[1000px]' : 'w-full'}`}>
-              <img
-                alt={copy.previewAlt}
-                src={copy.preview}
-                className={`${copy.previewClass} object-cover drop-shadow-[0_0_8px_rgba(18,18,19,0.04)]`}
-              />
-              <GlassPanel className="w-[298px] px-3 py-3" contentClassName="flex flex-col items-start gap-2.5">
-                <p className="w-full font-bold text-[15px] leading-[1.6] text-[#121213]">희망 기업 모집 공고</p>
-                <p className="w-full text-[15px] leading-[1.6] text-[#121213]">
-                  토스 프로덕트 디자이너 (http://toss.com/job)
-                  <br />
-                  카카오 UX 디자이너 (http://kakao.com/job)
-                </p>
-              </GlassPanel>
-            </div>
-
             <div ref={lineOriginRef} className="relative z-[1] h-0 w-full" />
-            <div className={`relative z-[1] mt-7 flex h-[42px] items-center justify-center ${panelOpen ? 'w-[1000px]' : 'w-full'}`}>
-            <div className="flex h-[42px] items-center rounded-full bg-white px-5 py-3 shadow-[0_0_16px_rgba(18,18,19,0.04)]">
-              <p className="text-[13px] font-medium leading-[1.4] tracking-[0.26px] text-[#9ca2b1]">
-                {copy.generating(displayName)}
-              </p>
-            </div>
-            </div>
 
-            <div ref={rowRef} className="relative z-[1] mt-[25px] flex items-start">
-          {panelOpen ? <BranchLines box={branchBox} on={branchOn} fork={showPositioning} /> : null}
+            <div ref={rowRef} className="relative z-[1] flex items-start">
+          {panelOpen ? (
+            <>
+            <BranchLines
+              box={branchBox}
+              on={branchOn}
+              fork={showDetail && showPositioning}
+              arm={showPositioning && !showDetail ? 'down' : 'up'}
+            />
+            {showPageMentor ? (
+              <MentorConnectLine box={mentorLineBox} on={mentorLineOn} color={feedbackTheme.name} />
+            ) : null}
+            {showPosMentor ? (
+              <MentorConnectLine box={posMentorLineBox} on={posMentorLineOn} color={feedbackTheme.name} />
+            ) : null}
+            </>
+          ) : null}
           <div className={`flex shrink-0 flex-col gap-5 ${panelOpen ? 'w-[1000px] max-w-[1000px]' : 'w-full'}`}>
-          <ScrollReveal rootRef={scrollRef} onShow={growLine}>
+            <div ref={overviewRef}>
             <GlassPanel className="w-full px-6 py-7" contentClassName="flex flex-col gap-10">
               <div className="flex flex-col gap-5">
                 <p className="text-[15px] font-medium leading-[1.45] text-[#747886]">종합 피드백</p>
                 <div className="flex items-center gap-2">
-                  <p className="text-[32px] font-bold leading-[1.4] tracking-[-0.8px] text-[#1a75ff]">{copy.score}점</p>
+                  <p className="text-[32px] font-bold leading-[1.4] tracking-[-0.8px] text-[#1a75ff]">{scoreDisplay}점</p>
                   <p className="text-[22px] font-medium leading-[1.4] tracking-[-0.33px] text-[#747886]">/100점</p>
                 </div>
               </div>
               <div className="flex flex-col gap-10">
                 <div className="flex flex-wrap items-center gap-10 xl:gap-20">
-                  <RadarChart axes={copy.radar} />
+                  <RadarChart axes={copy.radar} progress={radarProgress} />
                   <div className="flex min-w-[280px] flex-1 flex-col gap-5">
-                    {copy.bars.map((metric) => {
-                      const fill = metric.tone === 'good' ? 'bg-[#1a75ff]' : 'bg-[#569fff]';
-                      const text = metric.tone === 'good' ? 'text-[#1a75ff]' : 'text-[#569fff]';
+                    {copy.bars.map((metric, index) => {
+                      const { fill, text } = barColor(metric.value);
+                      const delay = index * 0.1;
+                      const local = Math.min(1, Math.max(0, (radarProgress - delay) / (1 - delay)));
+                      const eased = 1 - (1 - local) ** 3;
                       return (
                         <div key={metric.label} className="flex w-full flex-col gap-1">
                           <div className="flex w-full items-center gap-1">
                             <p className="flex-1 font-bold text-[15px] leading-[1.45] text-[#121213]">{metric.label}</p>
-                            <p className={`shrink-0 font-bold text-[15px] leading-[1.45] ${text}`}>{metric.value}%</p>
+                            <p className={`shrink-0 font-bold text-[15px] leading-[1.45] ${text}`}>
+                              {Math.round(metric.value * eased)}%
+                            </p>
                           </div>
                           <div className="relative h-3 w-full overflow-hidden rounded-[5px] bg-[#e7f3ff]">
-                            <div className={`absolute inset-y-0 left-0 rounded-[5px] ${fill}`} style={{ width: `${metric.value}%` }} />
+                            <div
+                              className={`absolute inset-y-0 left-0 rounded-[5px] ${fill}`}
+                              style={{ width: `${metric.value * eased}%` }}
+                            />
                           </div>
                         </div>
                       );
@@ -1177,7 +1567,7 @@ export default function ChatFeedbackResult({
                 </div>
               </div>
             </GlassPanel>
-          </ScrollReveal>
+            </div>
 
           <ScrollReveal rootRef={scrollRef} onShow={growLine}>
             <div ref={strengthRef}>
@@ -1219,20 +1609,16 @@ export default function ChatFeedbackResult({
                 <button
                   type="button"
                   onClick={() => openDetail()}
-                  className={`relative flex min-w-px flex-1 items-center justify-center overflow-hidden rounded-lg border px-5 py-2 cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 ${
-                    showDetail ? 'border-[#1a75ff] bg-[#f4f8ff]' : 'border-[#e7eaee] bg-white'
-                  }`}
+                  className="relative flex min-w-px flex-1 items-center justify-center overflow-hidden rounded-xl border border-[#e7eaee] bg-white px-7 py-3 cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10"
                 >
-                  <span className="relative text-[15px] font-medium leading-[1.45] text-[#121213]">상세 피드백 받으러 가기</span>
+                  <span className="relative text-base font-medium leading-[1.45] text-[#121213]">상세 피드백 보기</span>
                 </button>
                 <button
                   type="button"
                   onClick={openPositioning}
-                  className={`relative flex min-w-px flex-1 items-center justify-center overflow-hidden rounded-lg border px-5 py-2 cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 ${
-                    showPositioning ? 'border-[#1a75ff] bg-[#f4f8ff]' : 'border-[#e7eaee] bg-white'
-                  }`}
+                  className="relative flex min-w-px flex-1 items-center justify-center overflow-hidden rounded-xl border border-[#e7eaee] bg-white px-7 py-3 cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10"
                 >
-                  <span className="relative text-[15px] font-medium leading-[1.45] text-[#121213]">모집 공고 기반 포지셔닝 보기</span>
+                  <span className="relative text-base font-medium leading-[1.45] text-[#121213]">모집 공고 기반 포지셔닝 보기</span>
                 </button>
               </div>
             </GlassPanel>
@@ -1246,8 +1632,8 @@ export default function ChatFeedbackResult({
               <div
                 ref={sideRef}
                 className={
-                  isMentor
-                    ? 'grid shrink-0 grid-cols-[1091px_812px] items-start gap-x-9 gap-y-5'
+                  isMentor || showPageRequest
+                    ? 'grid shrink-0 grid-cols-[1091px_812px] items-start gap-x-[72px] gap-y-5'
                     : 'flex w-[1091px] shrink-0 flex-col gap-5'
                 }
               >
@@ -1255,26 +1641,36 @@ export default function ChatFeedbackResult({
                   <Appear className="flex flex-col" onShown={() => setBranchOn(true)}>
                     <div ref={detailRef} className="scroll-mt-8">
                       {documentKind === 'resume' ? (
-                        <ResumeDetailSection sectionId={resumeSection} onSelectSection={setResumeSection} />
+                        <ResumeDetailSection
+                          sectionId={resumeSection}
+                          onSelectSection={setResumeSection}
+                          onRequestMentor={isMentor ? undefined : requestMentorFor}
+                        />
                       ) : (
-                        <DetailSection page={page} onSelectPage={setPage} />
+                        <DetailSection
+                          page={page}
+                          onSelectPage={setPage}
+                          onRequestMentor={isMentor ? undefined : requestMentorFor}
+                        />
                       )}
                     </div>
                   </Appear>
                 ) : isMentor ? (
                   <div />
                 ) : null}
-                {isMentor && showDetail ? (
-                  <Appear className="flex flex-col">
+                {showPageMentor ? (
+                  <Appear className="flex flex-col pt-[72px]">
                     <div ref={mentorPageRef}>
                       <MentorComment
+                        waiting={!isMentor}
                         name={mentorDisplayName}
+                        theme={feedbackTheme}
                         title={isResume ? '상세 피드백' : '페이지별 피드백'}
                         thread={{
                           comments: pageComments,
                           mentorAvatar,
                           menteeAvatar,
-                          onSubmit: (text) => appendMentorChat(setPageComments, text, mentorReplies),
+                          onSubmit: (text) => appendMentorChat(setPageCommentsFor(currentRequestKey), text, mentorReplies),
                         }}
                       >
                         {isResume ? (
@@ -1302,12 +1698,9 @@ export default function ChatFeedbackResult({
                           </div>
                         ) : (
                           <div className="flex flex-col gap-3">
-                            <p className="text-sm font-medium leading-[1.42] tracking-[0.14px] text-[#747886]">1P</p>
+                            <p className="text-sm font-medium leading-[1.42] tracking-[0.14px] text-[#747886]">{page}P</p>
                             <p className="whitespace-pre-wrap text-[15px] leading-[1.6] text-[#121213]">
-                              ‘한 줄 설명을 결과 중심으로 바꾸라' 에이전트 조언은 100% 맞아요. 다만 '40% 단축' 같은 수치를 쓸
-                              땐 반드시 어떻게 측정했는지 근거가 뒤 페이지에 있어야 해요. 면접에서 “그 40%는 어떻게 나온
-                              숫자예요?” 라고 물었을 때 답 못하면 오히려 마이너스거든요. 수치를 쓸 거면 UT 결과 페이지랑 꼭
-                              연결하세요.
+                              {PAGE_MENTOR_COPY[page]}
                             </p>
                           </div>
                         )}
@@ -1317,6 +1710,7 @@ export default function ChatFeedbackResult({
                 ) : null}
                 {showPositioning ? (
                   <Appear className="flex flex-col" onShown={() => setBranchOn(true)}>
+                    {!showDetail ? <div className="h-[970px] shrink-0" aria-hidden /> : null}
                     <div ref={positioningRef}>
                       <PositioningSection documentKind={documentKind} onJump={jumpToPage} />
                     </div>
@@ -1324,10 +1718,13 @@ export default function ChatFeedbackResult({
                 ) : isMentor ? (
                   <div />
                 ) : null}
-                {isMentor && showPositioning ? (
+                {showPosMentor ? (
                   <Appear className="flex flex-col">
+                    <div ref={mentorPosRef}>
                     <MentorComment
+                      waiting={false}
                       name={mentorDisplayName}
+                      theme={feedbackTheme}
                       title="모집공고 기반 포지셔닝"
                       thread={{
                         comments: positioningComments,
@@ -1395,6 +1792,7 @@ export default function ChatFeedbackResult({
                         </div>
                       )}
                     </MentorComment>
+                    </div>
                   </Appear>
                 ) : null}
               </div>
@@ -1403,6 +1801,7 @@ export default function ChatFeedbackResult({
         </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

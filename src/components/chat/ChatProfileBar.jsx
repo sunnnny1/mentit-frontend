@@ -1,3 +1,13 @@
+function extraButtonClass(variant) {
+  if (variant === 'primary') {
+    return 'relative shrink-0 flex items-center justify-center px-7 py-3 rounded-xl border border-[#70d2ff] bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10';
+  }
+  if (variant === 'alternative') {
+    return 'relative shrink-0 flex items-center justify-center px-7 py-3 rounded-xl bg-[rgba(26,117,255,0.1)] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10';
+  }
+  return 'relative shrink-0 flex items-center justify-center px-7 py-3 rounded-xl border border-[#e7eaee] bg-white overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10';
+}
+
 export default function ChatProfileBar({
   mode = 'agent',
   displayName = 'Yoonie',
@@ -14,16 +24,21 @@ export default function ChatProfileBar({
   extraActionLabel,
   onExtraAction,
   extraActionVariant = 'outlined',
+  extraActions,
   hideActionButton = false,
   className = '',
   avatarClassName = '',
 }) {
+  const actions = extraActions?.length
+    ? extraActions
+    : extraActionLabel
+      ? [{ label: extraActionLabel, onClick: onExtraAction, variant: extraActionVariant }]
+      : null;
   const showActionButton =
-    !hideActionButton && (Boolean(extraActionLabel) || mode !== 'agent' || supportsMentorReview);
-  const isPrimaryExtraAction = extraActionVariant === 'primary';
+    !hideActionButton && (Boolean(actions?.length) || mode !== 'agent' || supportsMentorReview);
 
   return (
-    <div className={`flex gap-2.5 items-center px-5 py-4 rounded-t-2xl bg-white shrink-0 ${className}`}>
+    <div className={`flex flex-wrap gap-2.5 items-center px-5 py-4 rounded-t-2xl bg-white shrink-0 ${className}`}>
       <div className="flex-1 flex gap-3 items-center min-w-0">
         <img
           alt={displayName}
@@ -45,24 +60,29 @@ export default function ChatProfileBar({
           <p className="text-sm text-[#747886] tracking-[0.14px] whitespace-nowrap">{role}</p>
         </div>
       </div>
-      {showActionButton && extraActionLabel ? (
-        <button
-          type="button"
-          onClick={onExtraAction}
-          className={
-            isPrimaryExtraAction
-              ? 'relative shrink-0 flex items-center justify-center px-7 py-3 rounded-xl border border-[#70d2ff] bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10'
-              : 'relative shrink-0 flex items-center justify-center px-7 py-3 rounded-xl border border-[#e7eaee] bg-white overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10'
-          }
-        >
-          <p
-            className={`relative text-base whitespace-nowrap ${
-              isPrimaryExtraAction ? 'font-bold text-white' : 'font-medium text-[#121213]'
-            }`}
-          >
-            {extraActionLabel}
-          </p>
-        </button>
+      {showActionButton && actions?.length ? (
+        <div className="ml-auto flex shrink-0 items-center gap-2">
+          {actions.map((action) => (
+            <button
+              key={action.label}
+              type="button"
+              onClick={action.onClick}
+              className={extraButtonClass(action.variant)}
+            >
+              <p
+                className={`relative text-base whitespace-nowrap ${
+                  action.variant === 'primary'
+                    ? 'font-bold text-white'
+                    : action.variant === 'alternative'
+                      ? 'font-medium text-[#1a75ff]'
+                      : 'font-medium text-[#121213]'
+                }`}
+              >
+                {action.label}
+              </p>
+            </button>
+          ))}
+        </div>
       ) : showActionButton ? (
         <button
           type="button"

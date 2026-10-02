@@ -72,7 +72,7 @@ export function normalizeMentorName(name = '') {
 
 export function canOpenMentorDetail(name) {
   const n = normalizeMentorName(name);
-  return n === 'Yoonie' || n === 'Sunny';
+  return n === 'Yoonie' || n === 'Sunny' || n === 'Eunoia' || n === 'Teddy';
 }
 
 function canOpenAgentChat(name) {

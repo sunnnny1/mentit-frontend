@@ -47,7 +47,7 @@ function ReviewCard({ review, onOpenMentorDetail }) {
   }, [review.text]);
 
   const isMaster = review.mentorTier === 'Master';
-  const canOpenDetail = review.mentorName === 'Yoonie' || review.mentorName === 'Sunny';
+  const canOpenDetail = review.mentorName === 'Yoonie' || review.mentorName === 'Sunny' || review.mentorName === 'Eunoia' || review.mentorName === 'Teddy';
 
   return (
     <article className="border border-[#e7eaee] rounded-2xl px-4 py-5 flex flex-col gap-5 w-full">

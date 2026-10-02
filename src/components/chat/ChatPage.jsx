@@ -250,6 +250,7 @@ export default function ChatPage({
     initialFeedbackView === 'result' || initialFeedbackView === 'mentor' ? initialFeedbackView : 'upload',
   );
   const [feedbackKind, setFeedbackKind] = useState(initialFeedbackKind === 'resume' ? 'resume' : 'portfolio');
+  const [uploadResetKey, setUploadResetKey] = useState(0);
   const [unreadByMentorLocal, setUnreadByMentorLocal] = useState({ Sunny: 0, Yoonie: 0, Teddy: 0, Eunoia: 1 });
   const unreadByMentor = unreadByMentorProp ?? unreadByMentorLocal;
   const [feedbackUnreadByMentor, setFeedbackUnreadByMentor] = useState({ Yoonie: 0, Sunny: 2 });
@@ -261,6 +262,10 @@ export default function ChatPage({
     setStarted(skipStart);
     setSessionView(skipStart && initialShowIntro ? 'intro' : 'thread');
   }, [skipStart, initialShowIntro]);
+
+  useEffect(() => {
+    setActiveMentor(initialMentor);
+  }, [initialMentor]);
 
   useEffect(() => {
     onReadMentor?.(activeMentor);
@@ -279,6 +284,7 @@ export default function ChatPage({
       setFeedbackView('result');
       setFeedbackReady(true);
       setFeedbackUnreadByMentor((prev) => (prev[name] ? { ...prev, [name]: 0 } : prev));
+      onCloseSubMenu?.();
       return;
     }
     onReadMentor?.(name);
@@ -293,9 +299,6 @@ export default function ChatPage({
     setSubMenuTab(tab);
     if (tab !== 'feedback') return;
     setStarted(true);
-    if (activeMentor !== 'Yoonie' && activeMentor !== 'Sunny') {
-      setActiveMentor('Yoonie');
-    }
   };
 
   const openFeedbackUpload = (kind) => {
@@ -304,9 +307,6 @@ export default function ChatPage({
     setFeedbackView('upload');
     setFeedbackReady(false);
     if (kind === 'resume' || kind === 'portfolio') setFeedbackKind(kind);
-    if (activeMentor !== 'Yoonie' && activeMentor !== 'Sunny') {
-      setActiveMentor('Yoonie');
-    }
   };
 
   const handleCtaClick = (kind) => {
@@ -321,6 +321,7 @@ export default function ChatPage({
     if (kind === 'resume' || kind === 'portfolio') setFeedbackKind(kind);
     setSubMenuTab('feedback');
     setFeedbackView('analyze');
+    onCloseSubMenu?.();
   };
 
   const openMentorFromFeedback = () => {
@@ -369,6 +370,8 @@ export default function ChatPage({
       {started ? (
         <section className="relative z-0 flex-1 min-w-0 min-h-0 flex flex-col rounded-2xl bg-white shadow-[0_0_16px_rgba(18,18,19,0.04)]">
           <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl">
+          {!(isFeedbackTab && (feedbackView === 'result' || feedbackView === 'mentor')) ? (
+            <>
           <ChatProfileBar
             mode={isFeedbackTab ? (feedbackView === 'mentor' ? 'mentor' : 'agent') : chatMode}
             displayName={mentorConfig.displayName}
@@ -380,25 +383,12 @@ export default function ChatPage({
             mentorAvatar={mentorConfig.mentorAvatar}
             supportsMentorReview={!isFeedbackTab && mentorConfig.supportsMentorReview}
             extraActionLabel={
-              isFeedbackTab && feedbackView === 'mentor'
-                ? '리뷰 쓰러가기'
-                : isFeedbackTab && feedbackView === 'result'
-                  ? '멘토에게 피드백받기'
-                  : isFeedbackTab && feedbackView !== 'upload' && feedbackReady
-                    ? '에이전트에게 피드백받기'
-                    : undefined
+              isFeedbackTab && feedbackView !== 'upload' && feedbackReady
+                ? '에이전트에게 피드백받기'
+                : undefined
             }
             extraActionVariant="primary"
-            onExtraAction={
-              feedbackView === 'mentor'
-                ? () => {
-                    setSubMenuTab('chat');
-                    setChatMode('review');
-                  }
-                : feedbackView === 'result'
-                  ? openMentorFromFeedback
-                  : openAgentFeedback
-            }
+            onExtraAction={openAgentFeedback}
             onStartMentorChat={() => setChatMode('mentor')}
             onStartReview={() => setChatMode('review')}
             onSubmitReview={() => onOpenMentorDetail?.(activeMentor, { tab: 'review' })}
@@ -409,9 +399,13 @@ export default function ChatPage({
             }
           />
           <div className="h-px w-full shrink-0 bg-[#e7eaee]" />
+            </>
+          ) : null}
           <div className="flex flex-1 min-h-0 overflow-hidden">
             <div className={`flex flex-1 min-h-0 overflow-hidden ${isFeedbackTab && feedbackView === 'upload' ? '' : 'hidden'}`}>
               <ChatFeedbackUpload
+                key={uploadResetKey}
+                active={isFeedbackTab && feedbackView === 'upload'}
                 onReadyChange={setFeedbackReady}
                 onFileKindChange={setFeedbackKind}
                 onRequestAgentFeedback={openAgentFeedback}
@@ -421,12 +415,15 @@ export default function ChatPage({
               <ChatFeedbackAnalyze
                 key={feedbackKind}
                 documentKind={feedbackKind}
-                onComplete={() => setFeedbackView('result')}
+                onComplete={() => {
+                  setFeedbackView('result');
+                  onCloseSubMenu?.();
+                }}
               />
             ) : null}
             {isFeedbackTab && (feedbackView === 'result' || feedbackView === 'mentor') ? (
               <ChatFeedbackResult
-                key={`${feedbackView}-${feedbackKind}`}
+                key={`${feedbackView}-${feedbackKind}-${activeMentor}`}
                 mode={feedbackView === 'mentor' ? 'mentor' : 'agent'}
                 documentKind={feedbackKind}
                 displayName={mentorConfig.displayName}
@@ -434,9 +431,22 @@ export default function ChatPage({
                 availabilityIntro={mentorConfig.availabilityIntro}
                 availabilityDetail={mentorConfig.availabilityDetail}
                 mentorAvatar={mentorConfig.mentorAvatar}
-                onEditUpload={() => setFeedbackView('upload')}
+                profileAvatar={mentorConfig.profileAvatar}
+                role={mentorConfig.role}
+                badgeLabel={mentorConfig.badgeLabel}
+                badgeColor={mentorConfig.badgeColor}
+                onEditUpload={() => {
+                  setUploadResetKey((key) => key + 1);
+                  setFeedbackReady(false);
+                  setFeedbackKind('portfolio');
+                  setFeedbackView('upload');
+                }}
                 onOpenMentor={openMentorFromFeedback}
                 onOpenAgent={openAgentFeedback}
+                onStartReview={() => {
+                  setSubMenuTab('chat');
+                  setChatMode('review');
+                }}
               />
             ) : null}
             {isFeedbackTab ? null : chatMode === 'review' ? (

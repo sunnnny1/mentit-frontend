@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 
 import imgSunnyAvatar from '../../assets/icons/ellipse-sunny.png';
 import figma_6295d8ad_2523_4444_ad67_afa9c909b74e_png from '../../assets/figma/6295d8ad-2523-4444-ad67-afa9c909b74e.png';
+import figma_ac693826_e769_4723_8f46_5f82fd520909_png from '../../assets/figma/ac693826-e769-4723-8f46-5f82fd520909.png';
+import figma_a1ebb537_e789_47ea_9b0c_b7eb971effd0_png from '../../assets/figma/a1ebb537-e789-47ea-9b0c-b7eb971effd0.png';
 import figma_1597f73a_ad68_4de9_b3d2_a991bbd381ae_png from '../../assets/figma/1597f73a-ad68-4de9-b3d2-a991bbd381ae.png';
 import figma_a873382d_6e6d_435c_8771_5cacb244e020_png from '../../assets/figma/a873382d-6e6d-435c-8771-5cacb244e020.png';
 import figma_28f4314c_4318_4458_b819_bf1da5cdceb2_svg from '../../assets/figma/28f4314c-4318-4458-b819-bf1da5cdceb2.svg';
@@ -24,6 +26,8 @@ import figma_dd6271ff_e3ce_4f32_9805_ef894b9a29f0_svg from '../../assets/figma/d
 import figma_d551385b_79cd_4290_b3b3_7b250cc4dbd0_svg from '../../assets/figma/d551385b-79cd-4290-b3b3-7b250cc4dbd0.svg';
 
 const imgYoonieAvatar = figma_6295d8ad_2523_4444_ad67_afa9c909b74e_png;
+const imgEunoiaAvatar = figma_ac693826_e769_4723_8f46_5f82fd520909_png;
+const imgTeddyAvatar = figma_a1ebb537_e789_47ea_9b0c_b7eb971effd0_png;
 const imgKakaoSunny = figma_1597f73a_ad68_4de9_b3d2_a991bbd381ae_png;
 const imgWanted = figma_a873382d_6e6d_435c_8771_5cacb244e020_png;
 const imgInfoIconMaster = figma_28f4314c_4318_4458_b819_bf1da5cdceb2_svg;
@@ -263,6 +267,60 @@ const MENTOR_PAGES = {
       gradient: 'linear-gradient(-1.85deg, rgba(255,181,181,0.25) 1.43%, rgba(255,250,250,0.25) 50%), #ffffff',
       canChat: false,
       canInterview: true,
+    },
+  },
+  eunoia: {
+    id: 'eunoia',
+    displayName: 'Eunoia 멘토',
+    badge: 'master',
+    specialty: 'IT 기업 프로덕트 디자인 포트폴리오 구성 도움',
+    portfolioLabel: 'Eunoia 멘토 포트폴리오 사이트',
+    linkedinLabel: 'Eunoia 멘토 링크드인',
+    bio: '다양한 디지털 서비스의 UX를 설계하며 사용자 문제를 해결하는 프로덕트 디자이너입니다. UX 리서치부터 디자인 시스템, 실무 포트폴리오까지 도와드려요.',
+    careers: CAREERS,
+    reviews: REVIEWS,
+    reviewCount: 38,
+    aiSummary:
+      '멘티들이 가장 많이 꼽은 강점은 "실전 채용 관점의 피드백"이에요. 토스에서 실제로 서류를 어떻게 보는지 구체적으로 짚어준다는 후기가 많아요.',
+    careerTalks: CAREER_TALKS,
+    qnaAnswers: QNA_ANSWERS,
+    sidebar: {
+      avatar: imgEunoiaAvatar,
+      roleLine: '프로덕트 디자이너 ・ 토스 ・ 3년차',
+      tags: ['포트폴리오', '프로덕트 디자인'],
+      followers: '2.4K',
+      chats: '48',
+      reviews: '38',
+      gradient: 'linear-gradient(-1.85deg, rgba(255,181,181,0.25) 1.43%, rgba(255,250,250,0.25) 50%), #ffffff',
+      canChat: true,
+      canInterview: false,
+    },
+  },
+  teddy: {
+    id: 'teddy',
+    displayName: 'Teddy 멘토',
+    badge: 'active',
+    specialty: 'UX 디자이너 취업 및 실무 노하우 도움',
+    portfolioLabel: 'Teddy 멘토 포트폴리오 사이트',
+    linkedinLabel: 'Teddy 멘토 링크드인',
+    bio: '다양한 프로젝트를 경험하며 사용자 중심의 서비스를 설계해왔어요. UX 디자이너로 취업하기 위해 준비하면 좋은 것들과 실무 노하우를 현실적으로 알려드릴게요.',
+    careers: CAREERS,
+    reviews: REVIEWS,
+    reviewCount: 22,
+    aiSummary:
+      '현실적인 취업 전략과 실무 이야기에서 만족도가 높아요. 프리랜서 경험을 바탕으로 직무 선택과 포트폴리오 방향을 잡아준다는 후기가 많아요.',
+    careerTalks: CAREER_TALKS,
+    qnaAnswers: QNA_ANSWERS,
+    sidebar: {
+      avatar: imgTeddyAvatar,
+      roleLine: 'UX 디자이너 ・ 프리랜서 ・ 6년차',
+      tags: ['UX 디자인', '실무'],
+      followers: '860',
+      chats: '27',
+      reviews: '22',
+      gradient: 'linear-gradient(-1.85deg, rgba(186,228,255,0.25) 1.43%, rgba(247,251,255,0.25) 50%), #ffffff',
+      canChat: true,
+      canInterview: false,
     },
   },
 };

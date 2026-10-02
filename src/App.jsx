@@ -146,7 +146,7 @@ function App() {
 
   const handleOpenMentorDetail = (mentorName = 'Yoonie', options = {}) => {
     const name = normalizeMentorName(mentorName);
-    if (name !== 'Yoonie' && name !== 'Sunny') return;
+    if (name !== 'Yoonie' && name !== 'Sunny' && name !== 'Eunoia' && name !== 'Teddy') return;
     setMentorDetailId(name.toLowerCase());
     setMentorDetailTab(options.tab === 'review' || options.tab === 'content' ? options.tab : 'intro');
     setPage('mentor-detail');

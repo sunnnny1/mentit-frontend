@@ -71,6 +71,15 @@ export default function ChatSubMenu({
           <div className="flex flex-col gap-1 items-start w-full">
             {activeTab === 'feedback'
               ? [
+                  ...(activeMentor === 'Teddy' || activeMentor === 'Eunoia'
+                    ? [
+                        {
+                          mentor: activeMentor,
+                          badge: feedbackKind === 'resume' ? '자기소개서' : '포트폴리오',
+                          kind: feedbackKind === 'resume' ? 'resume' : 'portfolio',
+                        },
+                      ]
+                    : []),
                   {
                     mentor: 'Yoonie',
                     badge: feedbackKind === 'resume' ? '자기소개서' : '포트폴리오',
