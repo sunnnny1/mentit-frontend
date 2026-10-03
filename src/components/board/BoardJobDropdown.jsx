@@ -11,10 +11,15 @@ function triggerLabel(group, roles) {
   return `${roles[0]} 외 ${roles.length - 1}개`;
 }
 
-export default function BoardJobDropdown({ className = 'relative flex-1 min-w-0', onApply }) {
+export default function BoardJobDropdown({
+  className = 'relative flex-1 min-w-0',
+  onApply,
+  initialGroup = '',
+  initialRoles = [],
+}) {
   const [open, setOpen] = useState(false);
-  const [appliedGroup, setAppliedGroup] = useState('');
-  const [appliedRoles, setAppliedRoles] = useState([]);
+  const [appliedGroup, setAppliedGroup] = useState(initialGroup);
+  const [appliedRoles, setAppliedRoles] = useState(initialRoles);
   const [draftGroup, setDraftGroup] = useState('');
   const [draftRoles, setDraftRoles] = useState([]);
   const rootRef = useRef(null);

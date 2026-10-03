@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import figma_70a5b9f2_c5bb_45a9_9836_1ccc8ad917e2_svg from '../../assets/figma/70a5b9f2-c5bb-45a9-9836-1ccc8ad917e2.svg';
 import imgMic from '../../assets/icons/chat/mic.svg';
-
-const imgSend = figma_70a5b9f2_c5bb_45a9_9836_1ccc8ad917e2_svg;
+import {
+  ChatInputField,
+  MentionableBubble,
+  MentionComposerQuote,
+  MentionQuote,
+  useComposerInset,
+} from './ChatMention';
 
 export const YOONIE_MENTOR_CONVERSATION = [
   {
@@ -230,8 +234,12 @@ export default function ChatMentorThread({
   onStartReview,
 }) {
   const [draft, setDraft] = useState('');
+  const [quoting, setQuoting] = useState(null);
+  const [sentMessages, setSentMessages] = useState([]);
   const inputRef = useRef(null);
   const listRef = useRef(null);
+  const composerRef = useRef(null);
+  const composerInset = useComposerInset(composerRef, listRef);
   const mentorBubbleBg = MENTOR_BUBBLE_BG[mentorBubbleColor] ?? MENTOR_BUBBLE_BG.purple;
   const threadBodyClass = `relative flex-1 min-h-0 flex flex-col w-full ${
     isSubMenuOpen ? '' : 'max-w-[calc(100%-266px)] mx-auto'
@@ -245,7 +253,33 @@ export default function ChatMentorThread({
     };
     toTop();
     requestAnimationFrame(toTop);
+    setSentMessages([]);
+    setQuoting(null);
   }, [conversation]);
+
+  useEffect(() => {
+    if (quoting) inputRef.current?.focus();
+  }, [quoting]);
+
+  useEffect(() => {
+    if (sentMessages.length === 0) return;
+    const el = listRef.current;
+    if (!el) return;
+    requestAnimationFrame(() => {
+      el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+    });
+  }, [sentMessages]);
+
+  const submit = () => {
+    const value = draft.trim();
+    if (!value) return;
+    setSentMessages((prev) => [...prev, { text: value, replyTo: quoting }]);
+    setDraft('');
+    setQuoting(null);
+    if (inputRef.current) inputRef.current.style.height = '24px';
+  };
+
+  const lastConversationRole = conversation[conversation.length - 1]?.role;
 
   return (
     <div className="relative z-[1] flex-1 min-w-0 min-h-0 h-full flex flex-col bg-white">
@@ -276,7 +310,11 @@ export default function ChatMentorThread({
       </div>
 
       <div className={threadBodyClass}>
-      <div ref={listRef} className="flex-1 min-h-0 overflow-y-auto px-[157px] pb-28 flex flex-col w-full">
+      <div
+        ref={listRef}
+        className="flex-1 min-h-0 overflow-y-auto px-[157px] pb-28 flex flex-col w-full"
+        style={composerInset ? { paddingBottom: composerInset + 24 } : undefined}
+      >
         {conversation.map((group, index) => {
           const isLast = index === conversation.length - 1;
           const prevRole = index === 0 ? null : conversation[index - 1].role;
@@ -341,20 +379,21 @@ export default function ChatMentorThread({
           }
 
           const mentorBlock = (
-            <div className="flex flex-col gap-1 items-start w-fit max-w-[512px]">
+            <div className="flex flex-col gap-1 items-start w-fit">
               {group.texts.map((text, textIndex) => (
-                <div key={text} className="flex flex-col gap-2 items-start w-fit max-w-[512px]">
+                <div key={text} className="flex flex-col gap-2 items-start w-fit">
                   {textIndex === 0 && (
                     <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213]">
                       {mentorDisplayName}
                     </p>
                   )}
-                  <div
-                    className="rounded-[12px] p-[12px] w-fit max-w-[512px]"
+                  <MentionableBubble
+                    maxWidthClass="max-w-[512px]"
                     style={{ backgroundColor: mentorBubbleBg }}
+                    onMention={() => setQuoting({ name: mentorDisplayName, text })}
                   >
                     <p className="font-normal text-[15px] leading-[1.6] text-[#121213] whitespace-pre-wrap">{text}</p>
-                  </div>
+                  </MentionableBubble>
                 </div>
               ))}
             </div>
@@ -368,45 +407,44 @@ export default function ChatMentorThread({
             </div>
           );
         })}
+        {sentMessages.map((msg, index) => (
+          <div
+            key={`sent-${index}`}
+            className={`flex flex-col items-end gap-1.5 w-full ${
+              index === 0 && lastConversationRole !== 'user' ? 'mt-10' : 'mt-1'
+            }`}
+          >
+            {msg.replyTo ? (
+              <div className="w-fit max-w-[360px]">
+                <MentionQuote name={msg.replyTo.name} text={msg.replyTo.text} />
+              </div>
+            ) : null}
+            <div className="bg-[#f9fafb] rounded-[12px] p-[12px] w-fit max-w-[512px]">
+              <p className="font-normal text-[15px] leading-[1.6] text-[#121213] whitespace-pre-wrap">{msg.text}</p>
+            </div>
+          </div>
+        ))}
       </div>
 
       <form
+        ref={composerRef}
         className="absolute bottom-0 left-0 right-0 flex flex-col"
         onSubmit={(e) => {
           e.preventDefault();
-          setDraft('');
+          submit();
         }}
       >
-        <div className="px-5 pt-4">
-        <div className="relative flex items-center gap-2 px-5 py-3 rounded-xl border border-[#e7eaee] bg-[rgba(255,255,255,0.4)] backdrop-blur-[6px] shadow-[inset_4px_4px_12px_0_rgba(255,255,255,0.5)] w-full">
-          <textarea
-            ref={inputRef}
-            value={draft}
-            rows={1}
-            onChange={(e) => {
-              setDraft(e.target.value);
-              e.target.style.height = '24px';
-              e.target.style.height = `${Math.min(e.target.scrollHeight, 96)}px`;
-            }}
-            onKeyDown={(e) => {
-              if (e.nativeEvent.isComposing) return;
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                setDraft('');
-                if (inputRef.current) inputRef.current.style.height = '24px';
-              }
-            }}
-            placeholder="메세지를 입력하세요"
-            className="flex-1 min-w-0 h-6 max-h-24 py-0 resize-none bg-transparent outline-none text-[15px] leading-6 text-[#121213] placeholder:text-[#9ca2b1]"
-          />
-          <button
-            type="submit"
-            className="relative flex items-center justify-center px-5 py-2 rounded-full border border-[#70d2ff] bg-[#1a75ff] overflow-hidden shrink-0 cursor-pointer shadow-[inset_0_0_4px_0_#e7f3ff]"
-            aria-label="전송"
-          >
-            <img alt="" src={imgSend} className="relative size-6" />
-          </button>
-        </div>
+        <div className="mx-auto w-[min(867px,calc(100%-40px))] pt-4">
+        {quoting ? (
+          <MentionComposerQuote name={quoting.name} text={quoting.text} onCancel={() => setQuoting(null)} />
+        ) : null}
+        <ChatInputField
+          inputRef={inputRef}
+          value={draft}
+          onChange={setDraft}
+          onSubmit={submit}
+          placeholder={quoting ? '언급한 답변에 대해 질문하세요' : '메세지를 입력하세요'}
+        />
         </div>
         <div className="h-4 w-full bg-white" aria-hidden />
       </form>

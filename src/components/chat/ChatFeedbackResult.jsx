@@ -599,6 +599,38 @@ function DetailSection({ page, onSelectPage, onRequestMentor }) {
   const badgeTone = note.badge === 'Keep' ? 'keep' : note.badge === 'Problem' ? 'problem' : 'improve';
   const thumbListRef = useRef(null);
   const activeThumbRef = useRef(null);
+  const hideBarTimer = useRef(null);
+  const [scrollThumb, setScrollThumb] = useState({ height: 64, top: 0 });
+  const [barVisible, setBarVisible] = useState(false);
+
+  const syncThumbBar = ({ reveal = false } = {}) => {
+    const list = thumbListRef.current;
+    if (!list) return;
+    const track = Math.max(0, list.clientHeight - 8);
+    const maxScroll = Math.max(0, list.scrollHeight - list.clientHeight);
+    const height = Math.min(track * 0.36, Math.max(52, (list.clientHeight / Math.max(list.scrollHeight, 1)) * track * 0.65));
+    const top = maxScroll <= 0 ? 0 : (list.scrollTop / maxScroll) * (track - height);
+    setScrollThumb((prev) => (prev.height === height && prev.top === top ? prev : { height, top }));
+    if (!reveal) return;
+    setBarVisible(true);
+    window.clearTimeout(hideBarTimer.current);
+    hideBarTimer.current = window.setTimeout(() => setBarVisible(false), 800);
+  };
+
+  useLayoutEffect(() => {
+    const list = thumbListRef.current;
+    if (!list) return undefined;
+    const onScroll = () => syncThumbBar({ reveal: true });
+    syncThumbBar();
+    list.addEventListener('scroll', onScroll, { passive: true });
+    const observer = new ResizeObserver(() => syncThumbBar());
+    observer.observe(list);
+    return () => {
+      list.removeEventListener('scroll', onScroll);
+      observer.disconnect();
+      window.clearTimeout(hideBarTimer.current);
+    };
+  }, []);
 
   useEffect(() => {
     const list = thumbListRef.current;
@@ -609,6 +641,7 @@ function DetailSection({ page, onSelectPage, onRequestMentor }) {
     if (thumbBox.top < listBox.top || thumbBox.bottom > listBox.bottom) {
       list.scrollTop += thumbBox.top - listBox.top - 12;
     }
+    syncThumbBar();
   }, [page]);
 
   return (
@@ -621,35 +654,48 @@ function DetailSection({ page, onSelectPage, onRequestMentor }) {
         <p className="text-sm leading-[1.42] tracking-[0.14px] text-[#9ca2b1]">페이지를 클릭하면 상세피드백이 보여요</p>
       </div>
       <div className="flex h-[823px] min-h-0 w-full items-start gap-10">
-        <div ref={thumbListRef} className="flex h-full w-[220px] shrink-0 flex-col gap-5 overflow-y-auto">
-          {PAGES.map((item) => {
-            const active = item.id === page;
-            const tone = PAGE_NOTES[item.id].badge;
-            return (
-              <button
-                key={item.id}
-                ref={active ? activeThumbRef : undefined}
-                type="button"
-                onClick={() => onSelectPage(item.id)}
-                className="flex flex-col items-center gap-2 cursor-pointer"
-              >
-                <span
-                  className={`block h-[123px] w-[220px] overflow-hidden rounded-2xl border ${STROKE[tone]} ${
-                    active ? 'opacity-100' : 'opacity-40'
-                  }`}
+        <div className="relative h-full w-[228px] shrink-0">
+          <div ref={thumbListRef} className="no-scrollbar flex h-full w-full flex-col gap-5 overflow-y-scroll pr-2">
+            {PAGES.map((item) => {
+              const active = item.id === page;
+              const tone = PAGE_NOTES[item.id].badge;
+              return (
+                <button
+                  key={item.id}
+                  ref={active ? activeThumbRef : undefined}
+                  type="button"
+                  onClick={() => onSelectPage(item.id)}
+                  className="flex flex-col items-center gap-2 cursor-pointer"
                 >
-                  <img
-                    alt={`${item.label} 미리보기`}
-                    src={item.thumb}
-                    width={220}
-                    height={123}
-                    className="h-full w-full object-cover"
-                  />
-                </span>
-                <span className="text-[12px] leading-[1.35] tracking-[0.3px] text-[#747886]">{item.label}</span>
-              </button>
-            );
-          })}
+                  <span
+                    className={`block h-[123px] w-[220px] overflow-hidden rounded-2xl border ${STROKE[tone]} ${
+                      active ? 'opacity-100' : 'opacity-40'
+                    }`}
+                  >
+                    <img
+                      alt={`${item.label} 미리보기`}
+                      src={item.thumb}
+                      width={220}
+                      height={123}
+                      className="h-full w-full object-cover"
+                    />
+                  </span>
+                  <span className="text-[12px] leading-[1.35] tracking-[0.3px] text-[#747886]">{item.label}</span>
+                </button>
+              );
+            })}
+          </div>
+          <div
+            aria-hidden
+            className={`pointer-events-none absolute right-0 top-1 bottom-1 w-1 transition-opacity duration-200 ${
+              barVisible ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <div
+              className="absolute inset-x-0 rounded-full bg-[#9ca2b1]"
+              style={{ height: scrollThumb.height, transform: `translateY(${scrollThumb.top}px)` }}
+            />
+          </div>
         </div>
         <div className="flex h-full min-w-0 flex-1 flex-col">
           <div className="min-h-0 flex-1 overflow-y-auto">

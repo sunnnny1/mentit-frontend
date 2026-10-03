@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 
 import imgSunnyAvatar from '../../assets/icons/ellipse-sunny.png';
+import imgEunoiaPortrait from '../../assets/icons/eunoia.webp';
+import imgTeddyPortrait from '../../assets/icons/teddy.webp';
 import figma_6295d8ad_2523_4444_ad67_afa9c909b74e_png from '../../assets/figma/6295d8ad-2523-4444-ad67-afa9c909b74e.png';
-import figma_ac693826_e769_4723_8f46_5f82fd520909_png from '../../assets/figma/ac693826-e769-4723-8f46-5f82fd520909.png';
-import figma_a1ebb537_e789_47ea_9b0c_b7eb971effd0_png from '../../assets/figma/a1ebb537-e789-47ea-9b0c-b7eb971effd0.png';
 import figma_1597f73a_ad68_4de9_b3d2_a991bbd381ae_png from '../../assets/figma/1597f73a-ad68-4de9-b3d2-a991bbd381ae.png';
 import figma_a873382d_6e6d_435c_8771_5cacb244e020_png from '../../assets/figma/a873382d-6e6d-435c-8771-5cacb244e020.png';
 import figma_28f4314c_4318_4458_b819_bf1da5cdceb2_svg from '../../assets/figma/28f4314c-4318-4458-b819-bf1da5cdceb2.svg';
@@ -11,6 +11,7 @@ import figma_a3943117_ae68_4d0a_ba07_b53cbf13a6d9_png from '../../assets/figma/a
 import figma_c69f52ef_4a44_42a0_ad38_bc4d99cc5aff_png from '../../assets/figma/c69f52ef-4a44-42a0-ad38-bc4d99cc5aff.png';
 import figma_5bead996_cc1d_42c1_88a7_1d6e3d408833_png from '../../assets/figma/5bead996-cc1d-42c1-88a7-1d6e3d408833.png';
 import figma_05b829b9_5dbc_4852_aa40_7b088ff2bd1a_png from '../../assets/figma/05b829b9-5dbc-4852-aa40-7b088ff2bd1a.png';
+import figma_039f8b06_82da_4b77_9a6a_042e51362c46_png from '../../assets/figma/039f8b06-82da-4b77-9a6a-042e51362c46.png';
 import figma_6173dd1c_ece3_40d6_9f2d_207c1b37aab8_png from '../../assets/figma/6173dd1c-ece3-40d6-9f2d-207c1b37aab8.png';
 import figma_aacd105e_6ca7_4c89_8003_29bd622d36d1_png from '../../assets/figma/aacd105e-6ca7-4c89-8003-29bd622d36d1.png';
 import figma_dec8b4d6_0b3c_4134_8a25_e5349f8a34a2_svg from '../../assets/figma/dec8b4d6-0b3c-4134-8a25-e5349f8a34a2.svg';
@@ -21,13 +22,21 @@ import figma_2c19024b_17a0_42cd_86ef_8b687e86e85d_png from '../../assets/figma/2
 import figma_05e547f0_62a2_4529_8bb7_c0e0ee15ff0f_png from '../../assets/figma/05e547f0-62a2-4529-8bb7-c0e0ee15ff0f.png';
 import figma_cf4d18f0_b8e2_4926_8732_e374fb76c8dc_png from '../../assets/figma/cf4d18f0-b8e2-4926-8732-e374fb76c8dc.png';
 import figma_8fa0c82f_a109_4595_8904_36697277be94_png from '../../assets/figma/8fa0c82f-a109-4595-8904-36697277be94.png';
+import figma_6d5cd07c_2ddd_4c57_98af_927fa538b7f5_png from '../../assets/figma/6d5cd07c-2ddd-4c57-98af-927fa538b7f5.png';
+import figma_2fc68703_cdff_4ad9_a305_07efea8b04ad_png from '../../assets/figma/2fc68703-cdff-4ad9-a305-07efea8b04ad.png';
+import figma_67cb6a0b_4038_40f8_974c_84299e01f393_png from '../../assets/figma/67cb6a0b-4038-40f8-974c-84299e01f393.png';
+import figma_ea712bf0_78b1_4c4b_a9ee_413162148fd0_png from '../../assets/figma/ea712bf0-78b1-4c4b-a9ee-413162148fd0.png';
+import figma_a0b555b6_3445_4d8b_85c1_d4456715b9e1_png from '../../assets/figma/a0b555b6-3445-4d8b-85c1-d4456715b9e1.png';
+import figma_a7e2724c_5740_4456_9c06_790b8f299180_svg from '../../assets/figma/a7e2724c-5740-4456-9c06-790b8f299180.svg';
 import figma_e88c6a0f_2d46_4411_bb2a_dbec13f35e62_svg from '../../assets/figma/e88c6a0f-2d46-4411-bb2a-dbec13f35e62.svg';
 import figma_dd6271ff_e3ce_4f32_9805_ef894b9a29f0_svg from '../../assets/figma/dd6271ff-e3ce-4f32-9805-ef894b9a29f0.svg';
 import figma_d551385b_79cd_4290_b3b3_7b250cc4dbd0_svg from '../../assets/figma/d551385b-79cd-4290-b3b3-7b250cc4dbd0.svg';
+import figma_5972d921_320c_4f23_ae3c_9781e5c4d1f1_svg from '../../assets/figma/5972d921-320c-4f23-ae3c-9781e5c4d1f1.svg';
 
 const imgYoonieAvatar = figma_6295d8ad_2523_4444_ad67_afa9c909b74e_png;
-const imgEunoiaAvatar = figma_ac693826_e769_4723_8f46_5f82fd520909_png;
-const imgTeddyAvatar = figma_a1ebb537_e789_47ea_9b0c_b7eb971effd0_png;
+const imgTeddyAvatar = imgTeddyPortrait;
+const imgTossLogo = figma_039f8b06_82da_4b77_9a6a_042e51362c46_png;
+const imgSamsungLogo = figma_67cb6a0b_4038_40f8_974c_84299e01f393_png;
 const imgKakaoSunny = figma_1597f73a_ad68_4de9_b3d2_a991bbd381ae_png;
 const imgWanted = figma_a873382d_6e6d_435c_8771_5cacb244e020_png;
 const imgInfoIconMaster = figma_28f4314c_4318_4458_b819_bf1da5cdceb2_svg;
@@ -45,7 +54,13 @@ const imgReviewer0sun222 = figma_2c19024b_17a0_42cd_86ef_8b687e86e85d_png;
 const imgReviewerGangster = figma_05e547f0_62a2_4529_8bb7_c0e0ee15ff0f_png;
 const imgCareerTalk1 = figma_cf4d18f0_b8e2_4926_8732_e374fb76c8dc_png;
 const imgCareerTalk2 = figma_8fa0c82f_a109_4595_8904_36697277be94_png;
+const imgEunoiaCareerTalk1 = figma_6d5cd07c_2ddd_4c57_98af_927fa538b7f5_png;
+const imgEunoiaCareerTalk2 = figma_2fc68703_cdff_4ad9_a305_07efea8b04ad_png;
+const imgTeddyCareerTalk1 = figma_ea712bf0_78b1_4c4b_a9ee_413162148fd0_png;
+const imgTeddyCareerTalk2 = figma_a0b555b6_3445_4d8b_85c1_d4456715b9e1_png;
+const imgInfoIconRookie = figma_a7e2724c_5740_4456_9c06_790b8f299180_svg;
 const imgBookmarkIcon = figma_e88c6a0f_2d46_4411_bb2a_dbec13f35e62_svg;
+const imgBookmarkOutline = figma_5972d921_320c_4f23_ae3c_9781e5c4d1f1_svg;
 const imgLikeIcon = figma_dd6271ff_e3ce_4f32_9805_ef894b9a29f0_svg;
 const imgChevronRightIcon = figma_d551385b_79cd_4290_b3b3_7b250cc4dbd0_svg;
 
@@ -101,18 +116,21 @@ const QNA_ANSWERS = [
     question: '포트폴리오에 실패한 프로젝트 넣어도 될까요?',
     text: '실패한 프로젝트를 포트폴리오에 포함하는 것 자체는 전혀 문제가 되지 않습니다. 오히려 프로젝트가 기대했던 결과를 얻지 못했더라도, 그 과정에서 어떤 문제를 발견했고 이를 어떻게 분석했으며, 이후 어떤 개선 방향을 도출했는지를 함께 보여준다면 지원자의 문제 해결 능력과 성장 가능성을 효과적으로 전달할 수 있습니다.',
     likes: 127,
+    bookmarks: 102,
   },
   {
     id: 'collab',
     question: '프로덕트 디자이너의 협업능력이 필수일까요?',
     text: '프로덕트 디자이너로써 협업은 불가피합니다. 협업을 잘 하기 위해서는 단연 소통 능력이 중요하다고 생각합니다. 아무래도 모든 회사가 그렇겠지만 특히 제가 재직하고 있는 IT 업계의 경우 이 능력이 중요합니다. 제가 1년차였을 당시에는 경험이 부족하다보니 회의 시간마다 아주 어려움을 겪었던 기억이 있습니다. 결국 중요한 것은...',
     likes: 89,
+    bookmarks: 90,
   },
   {
     id: 'prep',
     question: '프로덕트 디자이너 취업 준비, 무엇부터 시작해야 할까요?',
     text: '가장 먼저 지원하고 싶은 직무와 기업에서 어떤 역량을 중요하게 보는지 파악하는 것부터 추천해요. 그다음 본인의 프로젝트를 직무 역량에 맞춰 정리하고, 단순히 결과물을 보여주기보다 문제를 어떻게 발견하고 해결했는지가 드러나도록 포트폴리오를 다듬어보세요.',
     likes: 85,
+    bookmarks: 87,
   },
 ];
 
@@ -188,30 +206,120 @@ const SUNNY_CAREER_TALKS = [
   },
 ];
 
+const EUNOIA_CAREER_TALKS = [
+  {
+    id: 'portfolio-tips',
+    image: imgEunoiaCareerTalk1,
+    badge: '포트폴리오',
+    title: '프로덕트 디자이너의 포트폴리오 꿀팁',
+  },
+  {
+    id: 'resume-tips',
+    image: imgEunoiaCareerTalk2,
+    badge: '자기소개서',
+    title: '눈길을 끄는 자소서 작성법',
+  },
+];
+
 const SUNNY_QNA_ANSWERS = [
   {
     id: 'ux-interview',
     question: 'UX 디자이너 면접에서 중요한 것은 무엇인가요?',
     text: 'UX 디자이너 면접에서는 결과물 자체보다 왜 그런 문제를 발견했고, 어떤 근거로 해결 방법을 선택했는지를 설명하는 것이 중요하다고 생각합니다. 프로젝트의 결과만 보여주기보다 문제 상황부터 나의 판단과 행동, 그 결과까지 논리적으로 설명하면 문제 해결 과정과 UX 흐름을 잘 설명하면 좋을 것 같아요.',
     likes: 127,
+    bookmarks: 99,
   },
   {
     id: 'why-design',
     question: '“왜 이 디자인을 선택했나요?”라는 질문에는 어떻게 답해야 하나요?',
     text: '“디자인의 취향이 아닌 근거를 이야기하세요.”\n사용자 테스트, 리서치, 데이터, 비즈니스 목표 등 어떤 근거를 바탕으로 결정했는지를 설명하는 것이 중요합니다. 특히 여러 대안 중 왜 최종 방향을 선택했는지까지 설명한다면, 단순히 결과물을 만드는 디자이너가...',
     likes: 89,
+    bookmarks: 71,
   },
   {
     id: 'prep',
     question: '프로덕트 디자이너 취업 준비, 무엇부터 시작해야 할까요?',
     text: '가장 먼저 지원하고 싶은 직무와 기업에서 어떤 역량을 중요하게 보는지 파악하는 것부터 추천해요. 그다음 본인의 프로젝트를 직무 역량에 맞춰 정리하고, 단순히 결과물을 보여주기보다 문제를 어떻게 발견하고 해결했는지가 드러나도록 포트폴리오를 다듬어보세요.',
     likes: 85,
+    bookmarks: 63,
   },
 ];
 
 const SUNNY_CAREERS = [
   { logo: imgKakaoSunny, company: '카카오', role: 'UX 디자이너', period: '2021.01 - 재직중' },
   { logo: imgWanted, company: '원티드', role: '그래픽 디자이너', period: '2020.01 - 2020.12' },
+];
+
+const EUNOIA_CAREERS = [
+  { logo: imgTossLogo, company: '토스', role: '프로덕트 디자이너', period: '2024.01 - 재직중' },
+  { logo: imgKakao, company: '카카오', role: 'UX 디자이너', period: '2020.01 - 2023.12', logoFit: 'contain' },
+];
+
+const TEDDY_CAREERS = [
+  { logo: imgSamsungLogo, company: '삼성', role: 'UX 디자이너', period: '2020.01 - 2022.12', logoFit: 'contain' },
+];
+
+const TEDDY_CAREER_TALKS = [
+  {
+    id: 'interview-strengths',
+    image: imgTeddyCareerTalk1,
+    badge: '포트폴리오',
+    title: '면접에서 내 장점을 어필하는 법',
+  },
+  {
+    id: 'freelancer-process',
+    image: imgTeddyCareerTalk2,
+    badge: '자기소개서',
+    title: '프리랜서의 작업 과정 공개합니다',
+  },
+];
+
+const EUNOIA_QNA_ANSWERS = [
+  {
+    id: 'failed',
+    question: '포트폴리오에 실패한 프로젝트 넣어도 될까요?',
+    text: '저는 신입 포폴을 매년 100개 넘게 봐온 입장에서 말씀드리면, 실패 사례 자체보다 "어떻게 서술했는지"에서 갈려요. "잘 안 됐지만 배웠어요"로 끝나는 포폴이 대부분인데, 수치나 사용자 반응까지 구체적으로 붙여서 왜 실패했는지, 어떤 문제를 발견했는지, 그걸 어떻게 개선했는지 설명한 지원자는 진짜 소수였고, 그 소수가 항상 서류를 통과했어요. 결국 중요한 건 실패를 숨기는 게 아니라, 실패를 통해 어떤 인사이트와 개선 방향을 도출했는지를 보여주는 거예요.',
+    likes: 46,
+    bookmarks: 87,
+  },
+  {
+    id: 'collab',
+    question: '프로덕트 디자이너의 협업능력이 필수일까요?',
+    text: '네, 저는 오히려 실무에서 디자인 실력보다 더 중요하게 느껴질 때가 많아요. 예전에 홈 피드 개편할 때 제 의견이 맞다고 생각해서 끝까지 밀어붙인 적이 있는데, 결국 개발 일정이 밀리고 PM이랑 신뢰도 많이 깎였어요. 그 뒤로는 "제 생각엔 이게 맞아요"보다 "이 데이터 보면 이럴 수도 있을 것 같아요"처럼 근거를 붙여 설득하는 습관을 들였고, 그러고 나서야 협업이 훨씬 수월해지더라고요. 포트폴리오에도 실력만큼 "이견이 있을 때 어떻게 조율했는지"를 꼭 보여주시는 걸 추천해요.',
+    likes: 41,
+    bookmarks: 63,
+  },
+  {
+    id: 'nonmajor',
+    question: '비전공자가 프로덕트 디자이너로 취업하려면 어떤 걸 준비해야 하나요?',
+    text: '포폴 100개 넘게 보면서 느낀 건데, 비전공자인지 아닌지는 사실 전혀 안 중요해요. 오히려 비전공 출신 지원자 중 합격한 분들을 보면 공통점이 있더라고요. 전공 지식 대신 "왜 이 문제를 풀고 싶었는지"에 대한 본인만의 동기가 유난히 뚜렷했어요. 디자인 이론은 부트캠프나 독학으로도 충분히 따라잡을 수 있지만, 그 동기와 문제의식은 억지로 만들어지지 않거든요. 전공을 보완하려 애쓰기보다, 본인이 왜 이 일을 하고 싶은지부터 명확히 정리해두는 걸 추천해요.',
+    likes: 38,
+    bookmarks: 59,
+  },
+];
+
+const TEDDY_QNA_ANSWERS = [
+  {
+    id: 'no-collab',
+    question: '협업 경험 없는 포트폴리오, 어떻게 보완하나요?',
+    text: '저도 학생 때 팀플 기회가 많이 없어서 비슷한 고민했어요. 근데 면접관 입장에서 보면, "협업 경험이 있다 없다"보다 "이견이 생겼을 때 어떻게 할지 알고 있는가"를 더 궁금해하더라고요. 그래서 저는 혼자 한 프로젝트라도, 중간에 교수님이나 친구한테 피드백 받고 생각이 바뀐 지점을 일부러 남겨뒀어요. "처음엔 이렇게 생각했는데, 이 피드백 듣고 이렇게 바꿨다"는 흐름 하나만 있어도 다른 의견을 받아들이는 방식을 보여줄 수 있거든요. 꼭 팀 프로젝트가 아니어도 그 흐름 자체를 보여주는 게 중요해요.',
+    likes: 127,
+    bookmarks: 82,
+  },
+  {
+    id: 'no-research',
+    question: 'UX 리서치 경험이 없는데, 포트폴리오에 어떻게 녹여야 하나요?',
+    text: '저도 학생 때는 번듯한 리서치 방법론을 써본 적이 없었어요. 그땐 그냥 주변 사람 5명한테 "이거 쓰면서 뭐가 불편했어?"라고 물어본 게 다였거든요. 근데 중요한 건 규모가 아니라, 그 대답을 듣고 제가 뭘 다르게 판단했는지였어요. 예를 들어 "한 명이 어디를 눌러야 할지 몰라서 뒤로 갔다"고 하면, 그걸 "그래서 버튼 위치를 이렇게 바꿨다"로 연결하는 거죠. 정식 방법론보다, 아주 작은 관찰이라도 그게 실제 결정으로 이어지는 흐름을 보여주는 게 훨씬 설득력 있어요.',
+    likes: 89,
+    bookmarks: 67,
+  },
+  {
+    id: 'ia',
+    question: '정보구조(IA)를 짤 때 어떤 기준으로 우선순위를 정하시나요?',
+    text: '저는 카드소팅 결과를 그대로 메뉴에 옮기지 않아요. 예전에 한 서비스 설계할 때 사용자들은 "자주 쓰는 기능"을 상단에 두길 원했는데, 그대로 따랐다가 정작 비즈니스적으로 중요한 기능이 묻혀서 전환율이 떨어진 적이 있어요. 그 뒤로는 사용 빈도와 비즈니스 임팩트를 각각 점수로 매겨서, 둘 다 높은 것부터 우선순위를 정하는 방식으로 바꿨어요. 사용자가 원하는 것과 비즈니스에 중요한 것, 이 두 축을 따로 떼어놓고 비교해보는 게 핵심이에요.',
+    likes: 85,
+    bookmarks: 53,
+  },
 ];
 
 const MENTOR_PAGES = {
@@ -260,7 +368,7 @@ const MENTOR_PAGES = {
     sidebar: {
       avatar: imgSunnyAvatar,
       roleLine: 'UX 디자이너 ・ 카카오 ・ 5년차',
-      tags: ['UX 디자인', '면접'],
+      tags: ['면접', '자소서'],
       followers: '4K',
       chats: '30',
       reviews: '50',
@@ -273,77 +381,127 @@ const MENTOR_PAGES = {
     id: 'eunoia',
     displayName: 'Eunoia 멘토',
     badge: 'master',
-    specialty: 'IT 기업 프로덕트 디자인 포트폴리오 구성 도움',
+    specialty: 'IT 기업 포트폴리오 구성 및 자기소개서 작성 준비 도움',
     portfolioLabel: 'Eunoia 멘토 포트폴리오 사이트',
     linkedinLabel: 'Eunoia 멘토 링크드인',
-    bio: '다양한 디지털 서비스의 UX를 설계하며 사용자 문제를 해결하는 프로덕트 디자이너입니다. UX 리서치부터 디자인 시스템, 실무 포트폴리오까지 도와드려요.',
-    careers: CAREERS,
+    bio: 'UX와 프로덕트 디자인 경험을 바탕으로 UX 리서치부터 데이터 분석, 디자인시스템까지 집중적으로 답변해드립니다.\n네이버, 카카오, 당근마켓 등에서 다양한 사람들과 프로젝트를 진행하고 팀을 리딩해왔습니다. 커머스, 커뮤니티, 핀테크, 동영상 등 여러 도메인을 넘나들며 ‘좋은 디자인’을 고민해왔어요. 실제 면접관들이 어떤 시선으로 포트폴리오를 보고 판단하는지, 도메인별로 어떤 특징이 있는지 그 현실적인 관점을 나누고 싶어요.',
+    careers: EUNOIA_CAREERS,
     reviews: REVIEWS,
-    reviewCount: 38,
+    reviewCount: 64,
     aiSummary:
       '멘티들이 가장 많이 꼽은 강점은 "실전 채용 관점의 피드백"이에요. 토스에서 실제로 서류를 어떻게 보는지 구체적으로 짚어준다는 후기가 많아요.',
-    careerTalks: CAREER_TALKS,
-    qnaAnswers: QNA_ANSWERS,
+    careerTalks: EUNOIA_CAREER_TALKS,
+    careerTalkCount: 9,
+    qnaAnswers: EUNOIA_QNA_ANSWERS,
+    qnaCount: 37,
     sidebar: {
-      avatar: imgEunoiaAvatar,
+      avatar: imgEunoiaPortrait,
       roleLine: '프로덕트 디자이너 ・ 토스 ・ 3년차',
-      tags: ['포트폴리오', '프로덕트 디자인'],
-      followers: '2.4K',
-      chats: '48',
-      reviews: '38',
+      tags: ['포트폴리오', '자기소개서'],
+      followers: '5.1K',
+      chats: '47',
+      reviews: '64',
       gradient: 'linear-gradient(-1.85deg, rgba(255,181,181,0.25) 1.43%, rgba(255,250,250,0.25) 50%), #ffffff',
       canChat: true,
-      canInterview: false,
+      canInterview: true,
     },
   },
   teddy: {
     id: 'teddy',
     displayName: 'Teddy 멘토',
-    badge: 'active',
-    specialty: 'UX 디자이너 취업 및 실무 노하우 도움',
+    badge: 'rookie',
+    specialty: 'IT 기업 면접 준비 및 이직 준비 도움',
     portfolioLabel: 'Teddy 멘토 포트폴리오 사이트',
     linkedinLabel: 'Teddy 멘토 링크드인',
-    bio: '다양한 프로젝트를 경험하며 사용자 중심의 서비스를 설계해왔어요. UX 디자이너로 취업하기 위해 준비하면 좋은 것들과 실무 노하우를 현실적으로 알려드릴게요.',
-    careers: CAREERS,
+    bio: '사용자 리서치부터 UX 설계까지 다양한 프로젝트를 경험해왔어요. 디자인 취업을 준비하면서 생기는 고민과 실무에서 필요한 역량에 대해 구체적으로 알려드릴게요.',
+    careers: TEDDY_CAREERS,
     reviews: REVIEWS,
-    reviewCount: 22,
+    reviewCount: 23,
     aiSummary:
       '현실적인 취업 전략과 실무 이야기에서 만족도가 높아요. 프리랜서 경험을 바탕으로 직무 선택과 포트폴리오 방향을 잡아준다는 후기가 많아요.',
-    careerTalks: CAREER_TALKS,
-    qnaAnswers: QNA_ANSWERS,
+    careerTalks: TEDDY_CAREER_TALKS,
+    careerTalkCount: 5,
+    qnaAnswers: TEDDY_QNA_ANSWERS,
+    qnaCount: 13,
     sidebar: {
       avatar: imgTeddyAvatar,
       roleLine: 'UX 디자이너 ・ 프리랜서 ・ 6년차',
-      tags: ['UX 디자인', '실무'],
-      followers: '860',
-      chats: '27',
-      reviews: '22',
+      tags: ['면접', '포트폴리오'],
+      followers: '2.8K',
+      chats: '30',
+      reviews: '23',
       gradient: 'linear-gradient(-1.85deg, rgba(186,228,255,0.25) 1.43%, rgba(247,251,255,0.25) 50%), #ffffff',
       canChat: true,
-      canInterview: false,
+      canInterview: true,
     },
   },
 };
 
+const MENTOR_BADGE_STYLES = {
+  master: {
+    label: 'Master Mentor',
+    bg: 'bg-[#e52222]',
+    text: 'text-[#e52222]',
+    icon: imgInfoIconMaster,
+  },
+  active: {
+    label: 'Active Mentor',
+    bg: 'bg-[#ad36e3]',
+    text: 'text-[#ad36e3]',
+    icon: imgInfoIcon,
+  },
+  rookie: {
+    label: 'Rookie Mentor',
+    bg: 'bg-[#008dcf]',
+    text: 'text-[#008dcf]',
+    icon: imgInfoIconRookie,
+  },
+};
+
 function MentorTypeBadge({ variant = 'active', onClick }) {
-  const isMaster = variant === 'master';
+  const badge = MENTOR_BADGE_STYLES[variant] ?? MENTOR_BADGE_STYLES.active;
   return (
     <button
       type="button"
       onClick={onClick}
       className="relative flex items-center gap-1 h-7 px-2 py-1 rounded-lg shrink-0 cursor-pointer"
     >
-      <div className={`absolute inset-0 opacity-10 rounded-lg ${isMaster ? 'bg-[#e52222]' : 'bg-[#ad36e3]'}`} />
-      <img alt="" src={isMaster ? imgInfoIconMaster : imgInfoIcon} className="relative size-3.5" />
-      <p className={`relative text-[13px] tracking-[0.26px] whitespace-nowrap ${isMaster ? 'text-[#e52222]' : 'text-[#ad36e3]'}`}>
-        {isMaster ? 'Master Mentor' : 'Active Mentor'}
+      <div className={`absolute inset-0 opacity-10 rounded-lg ${badge.bg}`} />
+      <img alt="" src={badge.icon} className="relative size-3.5" />
+      <p className={`relative text-[13px] tracking-[0.26px] whitespace-nowrap ${badge.text}`}>
+        {badge.label}
       </p>
     </button>
   );
 }
 
 function InfoModal({ variant = 'active', onClose }) {
-  const isMaster = variant === 'master';
+  const badge = MENTOR_BADGE_STYLES[variant] ?? MENTOR_BADGE_STYLES.active;
+  const copy =
+    variant === 'master'
+      ? {
+          description:
+            '해당 분야의 풍부한 경험과 높은 만족도를 인정받은 멘토예요. 많은 취준생과 대화를 나눴고, 만족도 높은 피드백으로 신뢰를 쌓았어요.',
+          conditions: [
+            'Active Mentor 자격을 6개월 이상 유지',
+            '누적 대화 80회 이상 · 평점 4.8 이상',
+            '리뷰 50개 이상 · 최근 30일 응답률 90% 이상',
+          ],
+        }
+      : variant === 'rookie'
+        ? {
+            description:
+              '멘토 활동을 시작하는 단계예요. 실무 경험을 바탕으로 취준생을 돕고 있어요.',
+            conditions: [
+              '멘토로 등록하면 부여되는 기본 레벨이에요',
+              '누적 대화 30회 이상 · 평점 4.5 이상이 되면 Active Mentor로 올라가요',
+            ],
+          }
+        : {
+            description:
+              '꾸준히 활동하며 좋은 평가를 받고 있는 멘토예요. 많은 취준생과 대화를 나눴고, 만족도 높은 피드백으로 신뢰를 쌓았어요. 지금 가장 활발하게 멘티를 돕고 있어요.',
+            conditions: ['누적 대화 30회 이상 · 평점 4.5 이상', '최근 30일 응답률 80% 이상'],
+          };
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-5"
@@ -355,10 +513,10 @@ function InfoModal({ variant = 'active', onClose }) {
       >
         <div className="flex items-center justify-between">
           <div className="relative flex items-center gap-1 h-7 px-2 py-1 rounded-lg shrink-0">
-            <div className={`absolute inset-0 opacity-10 rounded-lg ${isMaster ? 'bg-[#e52222]' : 'bg-[#ad36e3]'}`} />
-            <img alt="" src={isMaster ? imgInfoIconMaster : imgInfoIcon} className="relative size-3.5" />
-            <p className={`relative text-[13px] tracking-[0.26px] whitespace-nowrap ${isMaster ? 'text-[#e52222]' : 'text-[#ad36e3]'}`}>
-              {isMaster ? 'Master Mentor' : 'Active Mentor'}
+            <div className={`absolute inset-0 opacity-10 rounded-lg ${badge.bg}`} />
+            <img alt="" src={badge.icon} className="relative size-3.5" />
+            <p className={`relative text-[13px] tracking-[0.26px] whitespace-nowrap ${badge.text}`}>
+              {badge.label}
             </p>
           </div>
           <button
@@ -370,25 +528,14 @@ function InfoModal({ variant = 'active', onClose }) {
             ×
           </button>
         </div>
-        <p className="text-[15px] leading-[1.6] text-[#121213]">
-          {isMaster
-            ? '해당 분야의 풍부한 경험과 높은 만족도를 인정받은 멘토예요. 많은 취준생과 대화를 나눴고, 만족도 높은 피드백으로 신뢰를 쌓았어요.'
-            : '꾸준히 활동하며 좋은 평가를 받고 있는 멘토예요. 많은 취준생과 대화를 나눴고, 만족도 높은 피드백으로 신뢰를 쌓았어요. 지금 가장 활발하게 멘티를 돕고 있어요.'}
-        </p>
+        <p className="text-[15px] leading-[1.6] text-[#121213]">{copy.description}</p>
         <div className="flex flex-col gap-1.5 pt-4 border-t border-[#e7eaee]">
           <p className="font-bold text-[14px] text-[#121213]">[획득 조건]</p>
-          {isMaster ? (
-            <>
-              <p className="text-[14px] leading-[1.5] text-[#747886]">Active Mentor 자격을 6개월 이상 유지</p>
-              <p className="text-[14px] leading-[1.5] text-[#747886]">누적 대화 80회 이상 · 평점 4.8 이상</p>
-              <p className="text-[14px] leading-[1.5] text-[#747886]">리뷰 50개 이상 · 최근 30일 응답률 90% 이상</p>
-            </>
-          ) : (
-            <>
-              <p className="text-[14px] leading-[1.5] text-[#747886]">누적 대화 30회 이상 · 평점 4.5 이상</p>
-              <p className="text-[14px] leading-[1.5] text-[#747886]">최근 30일 응답률 80% 이상</p>
-            </>
-          )}
+          {copy.conditions.map((line) => (
+            <p key={line} className="text-[14px] leading-[1.5] text-[#747886]">
+              {line}
+            </p>
+          ))}
         </div>
       </div>
     </div>
@@ -399,8 +546,12 @@ function CareerItem({ item }) {
   return (
     <div className="bg-white border border-[#e7eaee] rounded-xl px-5 py-3 w-full">
       <div className="flex gap-3 items-center w-full">
-        <div className="relative shrink-0 size-[52px] rounded-[20px] shadow-[0_0_8px_rgba(18,18,19,0.05)] overflow-hidden">
-          <img alt="" src={item.logo} className="absolute inset-0 size-full object-cover" />
+        <div className="relative shrink-0 size-[52px] rounded-[20px] bg-white shadow-[0_0_8px_rgba(18,18,19,0.05)] overflow-hidden">
+          <img
+            alt=""
+            src={item.logo}
+            className={`absolute inset-0 size-full ${item.logoFit === 'contain' ? 'object-contain p-1.5' : 'object-cover'}`}
+          />
         </div>
         <div className="flex-1 min-w-0 flex flex-col">
           <p className="text-[15px] font-bold leading-[1.45] text-[#121213]">{item.company}</p>
@@ -510,23 +661,31 @@ function ContentCareerTalkCard({ image, badge, title, onClick }) {
         <span className="flex items-center justify-center h-7 px-2 rounded-lg bg-[#f4f6f8] text-[13px] font-medium tracking-[0.26px] text-[#747886] w-fit">
           {badge}
         </span>
-        <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-[#121213] w-full whitespace-nowrap overflow-hidden">{title}</p>
+        <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-[#121213] w-full whitespace-nowrap">{title}</p>
       </div>
     </div>
   );
 }
 
-function ContentQnaCard({ question, text, likes, onOpenBoard }) {
+function ContentQnaCard({ question, text, likes, bookmarks, onOpenBoard }) {
   return (
-    <div className="border border-[#e7eaee] rounded-2xl px-4 py-5 flex flex-col gap-5 w-full">
+    <div className="border border-[#e7eaee] rounded-2xl px-4 py-5 flex flex-col gap-5 w-full overflow-hidden">
       <div className="flex flex-col gap-2 items-start w-full">
-        <p className="font-bold text-base text-[#121213]">{question}</p>
-        <p className="text-[15px] leading-[1.6] text-[#121213] w-full">{text}</p>
+        <p className="font-bold text-base leading-[1.45] text-[#121213]">{question}</p>
+        <p className="text-[15px] leading-[1.6] text-[#121213] w-full line-clamp-3">{text}</p>
       </div>
       <div className="flex gap-5 items-center w-full">
-        <div className="flex-1 flex gap-1 items-center min-w-0">
-          <img alt="" src={imgLikeIcon} className="size-5" />
-          <p className="text-[13px] leading-[1.4] tracking-[0.26px] text-[#121213]">{likes}</p>
+        <div className="flex-1 flex gap-3 items-center min-w-0">
+          <div className="flex gap-1 items-center">
+            <img alt="" src={imgLikeIcon} className="size-5" />
+            <p className="text-[13px] leading-[1.4] tracking-[0.26px] text-[#121213]">{likes}</p>
+          </div>
+          {bookmarks != null && (
+            <div className="flex gap-1 items-center">
+              <img alt="" src={imgBookmarkOutline} className="size-5" />
+              <p className="text-[13px] leading-[1.4] tracking-[0.26px] text-[#121213]">{bookmarks}</p>
+            </div>
+          )}
         </div>
         {onOpenBoard ? (
           <button type="button" onClick={onOpenBoard} className="flex gap-0.5 items-center shrink-0 cursor-pointer">
@@ -549,7 +708,12 @@ const GLASS_BUTTON =
 
 function ProfileSidebarCard({ profile, onOpenAgentChat, onOpenInterview }) {
   const [isFollowing, setIsFollowing] = useState(false);
-  const isMaster = profile.badge === 'master';
+  const sidebarBadge =
+    profile.badge === 'master'
+      ? { bg: 'bg-[#e52222]', text: 'text-[#e52222]', label: 'Master Mentor' }
+      : profile.badge === 'rookie'
+        ? { bg: 'bg-[#008dcf]', text: 'text-[#008dcf]', label: 'Rookie Mentor' }
+        : { bg: 'bg-[#9054ff]', text: 'text-[#9054ff]', label: 'Active Mentor' };
   return (
     <div className="w-[335px] shrink-0 sticky top-0 -mt-16 pt-16">
       <div
@@ -563,9 +727,9 @@ function ProfileSidebarCard({ profile, onOpenAgentChat, onOpenInterview }) {
               <div className="flex gap-2 items-center">
                 <p className="font-bold text-lg leading-[1.5] tracking-[-0.0036px] text-[#121213] whitespace-nowrap">{profile.displayName}</p>
                 <div className="relative flex items-center justify-center px-2 py-1 rounded-lg shrink-0">
-                  <div className={`absolute inset-0 opacity-10 rounded-lg ${isMaster ? 'bg-[#e52222]' : 'bg-[#9054ff]'}`} />
-                  <p className={`relative text-[10px] tracking-[0.25px] whitespace-nowrap ${isMaster ? 'text-[#e52222]' : 'text-[#9054ff]'}`}>
-                    {isMaster ? 'Master Mentor' : 'Active Mentor'}
+                  <div className={`absolute inset-0 opacity-10 rounded-lg ${sidebarBadge.bg}`} />
+                  <p className={`relative text-[10px] tracking-[0.25px] whitespace-nowrap ${sidebarBadge.text}`}>
+                    {sidebarBadge.label}
                   </p>
                 </div>
               </div>
@@ -746,7 +910,9 @@ export default function MentorDetailPage({
             ) : (
               <div className="flex flex-col gap-10 w-full">
                 <div className="flex flex-col gap-6 w-full">
-                  <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-black">커리어 토크 (13)</p>
+                  <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-black">
+                    커리어 토크 ({mentor.careerTalkCount ?? 13})
+                  </p>
                   <div className="flex flex-col gap-5 items-start w-full">
                     <div className="flex gap-[18px] items-start w-full flex-wrap">
                       {mentor.careerTalks.map((item) => (
@@ -770,7 +936,9 @@ export default function MentorDetailPage({
                 </div>
 
                 <div className="flex flex-col gap-6 w-full">
-                  <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-black">{'Q&A 답변 (27)'}</p>
+                  <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-black">
+                    {`Q&A 답변 (${mentor.qnaCount ?? 27})`}
+                  </p>
                   <div className="flex flex-col gap-5 items-start w-[690px] max-w-full">
                     {mentor.qnaAnswers.map((item) => (
                       <ContentQnaCard
@@ -778,6 +946,7 @@ export default function MentorDetailPage({
                         question={item.question}
                         text={item.text}
                         likes={item.likes}
+                        bookmarks={item.bookmarks}
                         onOpenBoard={item.id === 'failed' ? () => onOpenQnaDetail?.('failed') : undefined}
                       />
                     ))}

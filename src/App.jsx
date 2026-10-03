@@ -17,6 +17,7 @@ import BoardFreeTalkDetail from './components/board/BoardFreeTalkDetail';
 import BoardFreeTalkDetailAionue from './components/board/BoardFreeTalkDetailAionue';
 import BoardWrite from './components/board/BoardWrite';
 import MyPage from './components/mypage/MyPage';
+import MyPageInsightDetail from './components/mypage/MyPageInsightDetail';
 import MyPageProfileEdit from './components/mypage/MyPageProfileEdit';
 import MentitAiPage from './components/mentitai/MentitAiPage';
 import MentitAiMentorSearch from './components/mentitai/MentitAiMentorSearch';
@@ -59,7 +60,11 @@ function App() {
   const [freeTalkArticleId, setFreeTalkArticleId] = useState('gangster');
   const [writeCategory, setWriteCategory] = useState('qna');
   const [insightTab, setInsightTab] = useState('all');
-  const [myPageTab, setMyPageTab] = useState('insight');
+  const [insightSettingsOpen, setInsightSettingsOpen] = useState(false);
+  const [myPageSection, setMyPageSection] = useState('account');
+  const [activityTab, setActivityTab] = useState('likes');
+  const [filesTab, setFilesTab] = useState('portfolio');
+  const [accountTab, setAccountTab] = useState('profile');
   const [mentorSearchQuery, setMentorSearchQuery] = useState('멘토 추천');
   const [mentorSearchFromInterview, setMentorSearchFromInterview] = useState(false);
   const [aiRecentConversations, setAiRecentConversations] = useState([]);
@@ -73,6 +78,7 @@ function App() {
   const [chatUnread, setChatUnread] = useState({ Sunny: 0, Yoonie: 0, Teddy: 0, Eunoia: 1 });
   const [mentorDetailId, setMentorDetailId] = useState('yoonie');
   const [mentorDetailTab, setMentorDetailTab] = useState('intro');
+  const [mentorDetailBackTo, setMentorDetailBackTo] = useState('mentor');
   const [interviewMentor, setInterviewMentor] = useState('Sunny');
   const [interviewTitle, setInterviewTitle] = useState(DEFAULT_INTERVIEW_TITLE);
   const [interviewSessionStarted, setInterviewSessionStarted] = useState(false);
@@ -92,6 +98,7 @@ function App() {
   const handleNavigate = (next, { fromStart = false } = {}) => {
     if (!fromStart) setHeaderBackTo(null);
     setPage(next);
+    if (next !== 'mypage') setInsightSettingsOpen(false);
     if (next === 'board') setBoardCategory('all');
     if (next === 'chat') {
       setChatSkipStart(false);
@@ -122,6 +129,12 @@ function App() {
     setBoardCategory('careertalk');
   };
 
+  const handleOpenBoard = (category = 'qna') => {
+    setPage('board');
+    setBoardCategory(category);
+    setIsSubMenuOpen(true);
+  };
+
   const handleOpenCareerTalkDetail = (articleId = 'uha') => {
     setCareerTalkArticleId(articleId);
     setPage('careertalk-detail');
@@ -149,11 +162,14 @@ function App() {
     if (name !== 'Yoonie' && name !== 'Sunny' && name !== 'Eunoia' && name !== 'Teddy') return;
     setMentorDetailId(name.toLowerCase());
     setMentorDetailTab(options.tab === 'review' || options.tab === 'content' ? options.tab : 'intro');
+    setMentorDetailBackTo((prev) => (page === 'mentor-detail' ? prev : page));
     setPage('mentor-detail');
   };
 
   const handleBackFromMentorDetail = () => {
-    setPage('mentor');
+    const target = mentorDetailBackTo && mentorDetailBackTo !== 'mentor-detail' ? mentorDetailBackTo : 'mentor';
+    setMentorDetailBackTo('mentor');
+    setPage(target);
   };
 
   const rememberAiConversation = (item) => {
@@ -251,6 +267,17 @@ function App() {
     setBoardCategory('freetalk');
   };
 
+  const handleOpenInsightDetail = (articleId = 'ai-era') => {
+    if (articleId !== 'ai-era') return;
+    setPage('insight-detail');
+  };
+
+  const handleBackFromInsightDetail = () => {
+    setPage('mypage');
+    setMyPageSection('insight');
+    setIsSubMenuOpen(true);
+  };
+
   const handleOpenWrite = (category = 'qna') => {
     setWriteCategory(category);
     setPage('board-write');
@@ -286,8 +313,12 @@ function App() {
 
   const handleOpenMyPage = () => {
     setPage('mypage');
-    setMyPageTab('insight');
+    setMyPageSection('account');
+    setAccountTab('profile');
+    setActivityTab('likes');
     setInsightTab('all');
+    setInsightSettingsOpen(false);
+    setIsSubMenuOpen(true);
   };
 
   const handleOpenMyPageProfile = () => {
@@ -322,7 +353,7 @@ function App() {
     ) {
       return 'interview';
     }
-    if (sidebarPage === 'mypage' || sidebarPage === 'mypage-profile') return null;
+    if (sidebarPage === 'mypage' || sidebarPage === 'mypage-profile' || sidebarPage === 'insight-detail') return null;
     return sidebarPage;
   })();
 
@@ -335,6 +366,7 @@ function App() {
           page !== 'board' &&
           page !== 'mypage' &&
           page !== 'mypage-profile' &&
+          page !== 'insight-detail' &&
           page !== 'ai' &&
           page !== 'ai-mentor-search' &&
           page !== 'ai-plan' &&
@@ -360,7 +392,11 @@ function App() {
                   ? handleBackFromWrite
                   : page === 'mypage-profile'
                     ? handleBackFromMyPageProfile
-                    : page === 'mentor-detail'
+                    : page === 'insight-detail'
+                      ? handleBackFromInsightDetail
+                      : page === 'mypage' && insightSettingsOpen
+                        ? () => setInsightSettingsOpen(false)
+                      : page === 'mentor-detail'
                       ? handleBackFromMentorDetail
                       : (page === 'chat' || page === 'mentor' || page === 'ai-mentor-search' || page === 'ai-plan') &&
                           headerBackTo
@@ -412,7 +448,8 @@ function App() {
                   page === 'interview-analyze' ||
                   page === 'interview-normal' ||
                   page === 'interview-session' ||
-                  page === 'interview-feedback') &&
+                  page === 'interview-feedback' ||
+                  page === 'mypage') &&
                 !isSubMenuOpen
               }
               onOpenChatBar={() => setIsSubMenuOpen(true)}
@@ -630,14 +667,37 @@ function App() {
               <BoardWrite defaultCategory={writeCategory} onSubmit={handleSubmitWrite} />
             ) : page === 'mypage-profile' ? (
               <MyPageProfileEdit onSave={handleBackFromMyPageProfile} />
+            ) : page === 'insight-detail' ? (
+              <MyPageInsightDetail onPrev={handleBackFromInsightDetail} hasPrev hasNext={false} />
             ) : page === 'mypage' ? (
               <MyPage
-                myPageTab={myPageTab}
-                onMyPageTabChange={setMyPageTab}
+                isSubMenuOpen={isSubMenuOpen}
+                onCloseSubMenu={() => setIsSubMenuOpen(false)}
+                myPageSection={myPageSection}
+                onMyPageSectionChange={(section) => {
+                  setMyPageSection(section);
+                  if (section === 'activity') setActivityTab('likes');
+                  if (section === 'files') setFilesTab('portfolio');
+                  if (section === 'account') setAccountTab('profile');
+                }}
+                activityTab={activityTab}
+                onActivityTabChange={setActivityTab}
+                filesTab={filesTab}
+                onFilesTabChange={setFilesTab}
+                accountTab={accountTab}
+                onAccountTabChange={setAccountTab}
                 insightTab={insightTab}
                 onInsightTabChange={setInsightTab}
+                insightSettingsOpen={insightSettingsOpen}
+                onInsightSettingsOpenChange={setInsightSettingsOpen}
                 onEditProfile={handleOpenMyPageProfile}
                 onOpenMentorDetail={handleOpenMentorDetail}
+                onOpenCareerTalkDetail={handleOpenCareerTalkDetail}
+                onOpenQnaDetail={handleOpenQnaDetail}
+                onOpenFreeTalkDetail={handleOpenFreeTalkDetail}
+                onOpenBoard={handleOpenBoard}
+                onOpenMentorChat={handleOpenMentorChat}
+                onOpenInsightDetail={handleOpenInsightDetail}
               />
             ) : page === 'board' ? (
               <BoardPage
