@@ -5,7 +5,6 @@ import imgPlus from '../../assets/figma/icon-plus.svg';
 const imgCollapse = figma_7593cb7f_18f9_440f_a8bf_fc9df3b74e55_svg;
 
 const MENTORS = ['Yoonie', 'Teddy', 'Eunoia', 'Sunny'];
-const SUNNY_FEEDBACK_THREAD = { mentor: 'Sunny', badge: '자기소개서', kind: 'resume', unread: 2 };
 
 export default function ChatSubMenu({
   onClose,
@@ -85,7 +84,6 @@ export default function ChatSubMenu({
                     badge: feedbackKind === 'resume' ? '자기소개서' : '포트폴리오',
                     kind: feedbackKind === 'resume' ? 'resume' : 'portfolio',
                   },
-                  SUNNY_FEEDBACK_THREAD,
                 ].map((thread) => {
                   const isActive = activeMentor === thread.mentor && feedbackKind === thread.kind;
                   const unread = thread.unread ?? unreadByMentor[thread.mentor] ?? 0;

@@ -74,7 +74,7 @@ export default function ChatProfileBar({
                   action.variant === 'primary'
                     ? 'font-bold text-white'
                     : action.variant === 'alternative'
-                      ? 'font-medium text-[#1a75ff]'
+                      ? 'font-bold text-[#1a75ff]'
                       : 'font-medium text-[#121213]'
                 }`}
               >

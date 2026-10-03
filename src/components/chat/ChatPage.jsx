@@ -253,7 +253,7 @@ export default function ChatPage({
   const [uploadResetKey, setUploadResetKey] = useState(0);
   const [unreadByMentorLocal, setUnreadByMentorLocal] = useState({ Sunny: 0, Yoonie: 0, Teddy: 0, Eunoia: 1 });
   const unreadByMentor = unreadByMentorProp ?? unreadByMentorLocal;
-  const [feedbackUnreadByMentor, setFeedbackUnreadByMentor] = useState({ Yoonie: 0, Sunny: 2 });
+  const [feedbackUnreadByMentor, setFeedbackUnreadByMentor] = useState({ Yoonie: 0 });
 
   const mentorConfig = MENTOR_CHAT_CONFIG[activeMentor] ?? MENTOR_CHAT_CONFIG.Yoonie;
   const isFeedbackTab = subMenuTab === 'feedback';

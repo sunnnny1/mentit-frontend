@@ -36,7 +36,7 @@ export default function ChatFeedbackAnalyze({ documentKind = 'portfolio', onComp
     <div className="flex-1 min-w-0 min-h-0 flex flex-col items-center justify-center px-5">
       <div className="flex w-full max-w-[1133px] flex-col items-center gap-4">
         <div className="flex flex-col items-center gap-3">
-          <img alt="" src={imgLogoSpin} className="size-8 shrink-0" />
+          <img alt="" src={imgLogoSpin} className="size-8 shrink-0 animate-spin" />
           <p className="font-medium text-[22px] leading-[1.4] tracking-[-0.33px] text-[#121213] whitespace-nowrap">
             {isResume ? '자기소개서 피드백을 작성하고 있어요' : '포트폴리오 피드백을 작성하고 있어요'}
           </p>

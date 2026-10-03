@@ -9,9 +9,9 @@ const MOCK_FILES = {
 };
 
 const MOCK_JDS = [
-  { url: 'http://toss.com/job', title: '토스 채용', summary: '토스 마케팅 매니저 JD를 불러왔어요' },
+  { url: 'http://toss.com/job', title: '토스 채용', summary: '토스 프로덕트 디자이너 JD를 불러왔어요' },
   { url: 'http://kakao.com/job', title: '카카오 채용', summary: '카카오 UX 디자이너 JD를 불러왔어요' },
-  { url: 'http://naver.com/job', title: '네이버 채용', summary: '네이버 채용 JD를 불러왔어요' },
+  { url: 'http://naver.com/job', title: '네이버 채용', summary: '네이버 프로덕트 디자이너 JD를 불러왔어요' },
 ];
 
 function formatFileSize(bytes) {

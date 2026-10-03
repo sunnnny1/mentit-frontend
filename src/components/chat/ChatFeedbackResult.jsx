@@ -270,19 +270,10 @@ const PAGE_NOTES = {
   },
 };
 
-const PAGE_MENTOR_COPY = {
-  1: `‘한 줄 설명을 결과 중심으로 바꾸라' 에이전트 조언은 100% 맞아요. 다만 '40% 단축' 같은 수치를 쓸 땐 반드시 어떻게 측정했는지 근거가 뒤 페이지에 있어야 해요. 면접에서 “그 40%는 어떻게 나온 숫자예요?” 라고 물었을 때 답 못하면 오히려 마이너스거든요. 수치를 쓸 거면 UT 결과 페이지랑 꼭 연결하세요.`,
-  2: `오버뷰가 길어서 임팩트가 늦게 들어와요. 첫 문장을 결과 중심으로 줄이면 3초 안에 이 사람이 뭘 바꿨는지가 보여요. 성과도 UT 전후 숫자를 붙이면 설득력이 바로 올라가요.`,
-  3: `가설 카드는 잘 정리돼 있어요. 다만 면접에선 그래서 뭘 버리고 뭘 골랐냐를 물어봐요. 가설마다 다음 솔루션으로 이어지는 한 줄만 있어도 의사결정이 보여요.`,
-  4: `문제-솔루션 매핑은 좋아요. 여기가 면접에서 제일 먼저 찔리는 구간이에요. 대안 A vs B를 검토했고 X 이유로 B를 골랐다는 문장 1-2줄이면 충분해요.`,
-  5: `WHY·WHO·WHAT·HOW 구조는 명확해요. 여기에 리텐션·전환 같은 지표가 붙으면 직무 적합도가 바로 올라가요. WHAT/HOW 옆에 숫자 한 줄만 적어보세요.`,
-  6: `리서치 흐름은 한눈에 잘 보여요. 이 강점은 유지하되, 사용자 그룹을 한 유형으로만 두지 말고 이해관계자 관점을 한 줄 추가하면 카카오형 공고에도 안 밀려요.`,
-};
-
 export function GlassPanel({ className = '', contentClassName = '', children }) {
   return (
     <div
-      className={`relative rounded-2xl bg-white shadow-[inset_4px_4px_12px_rgba(255,255,255,0.5),0_0_16px_rgba(18,18,19,0.04)] ${className}`}
+      className={`relative box-border rounded-2xl bg-white px-6 py-7 shadow-[inset_4px_4px_12px_rgba(255,255,255,0.5),0_0_16px_rgba(18,18,19,0.04)] ${className}`}
     >
       <div className={contentClassName}>{children}</div>
     </div>
@@ -474,6 +465,38 @@ function roundedConnector(x0, y0, xEnd, yEnd, radius) {
   return `M ${x0} ${y0} H ${spineX - r} Q ${spineX} ${y0} ${spineX} ${y1} L ${spineX} ${y2} Q ${spineX} ${yEnd} ${spineX + r} ${yEnd} H ${xEnd}`;
 }
 
+function layoutBox(el, ancestor) {
+  if (!el || !ancestor) return null;
+  let left = 0;
+  let top = 0;
+  let node = el;
+  while (node && node !== ancestor) {
+    left += node.offsetLeft;
+    top += node.offsetTop;
+    const next = node.offsetParent;
+    if (!next || next === node) break;
+    node = next;
+  }
+  return {
+    left,
+    top,
+    right: left + el.offsetWidth,
+    bottom: top + el.offsetHeight,
+    width: el.offsetWidth,
+    height: el.offsetHeight,
+  };
+}
+
+function bendDestY(srcY, box, minBend = 96) {
+  const preferred = box.top + box.height * 0.82;
+  if (Math.abs(preferred - srcY) >= minBend) return preferred;
+  const lo = box.top + 36;
+  const hi = box.bottom - 36;
+  if (hi - srcY >= minBend) return Math.min(hi, srcY + minBend);
+  if (srcY - lo >= minBend) return Math.max(lo, srcY - minBend);
+  return Math.abs(hi - srcY) >= Math.abs(srcY - lo) ? hi : lo;
+}
+
 function MentorConnectLine({ box, on, color = '#ad36e3' }) {
   const markerId = useId().replace(/:/g, '');
   if (!box?.destX || box.destX <= box.srcX) return null;
@@ -590,7 +613,7 @@ function DetailSection({ page, onSelectPage, onRequestMentor }) {
 
   return (
     <GlassPanel
-      className="flex h-[970px] w-[1091px] max-w-[1091px] flex-col overflow-hidden px-6 py-7"
+      className="box-border flex h-[970px] w-[1091px] max-w-[1091px] flex-col overflow-hidden"
       contentClassName="flex min-h-0 flex-1 flex-col gap-10"
     >
       <div className="flex shrink-0 flex-col gap-1">
@@ -665,15 +688,15 @@ function ResumeDetailSection({ sectionId, onSelectSection, onRequestMentor }) {
 
   return (
     <GlassPanel
-      className="flex h-[970px] w-[1091px] max-w-[1091px] flex-col overflow-hidden px-6 py-7"
-      contentClassName="flex min-h-0 flex-1 flex-col gap-10"
+      className="box-border flex w-[1091px] max-w-[1091px] flex-col overflow-hidden"
+      contentClassName="flex flex-col gap-10"
     >
       <div className="flex shrink-0 flex-col gap-1">
         <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-[#121213]">상세 피드백</p>
         <p className="text-sm leading-[1.42] tracking-[0.14px] text-[#9ca2b1]">제목을 클릭하면 상세피드백이 보여요</p>
       </div>
-      <div className="flex h-[823px] min-h-0 w-full items-start gap-10">
-        <div className="flex h-full w-[220px] shrink-0 flex-col gap-5 overflow-y-auto">
+      <div className="flex w-full items-start gap-10">
+        <div className="flex w-[220px] shrink-0 flex-col gap-5">
           {RESUME_SECTIONS.map((item) => {
             const active = item.id === selected.id;
             return (
@@ -690,18 +713,16 @@ function ResumeDetailSection({ sectionId, onSelectSection, onRequestMentor }) {
             );
           })}
         </div>
-        <div className="flex h-full min-w-0 flex-1 flex-col">
-          <div className="min-h-0 flex-1 overflow-y-auto">
-            <div className="flex w-full flex-col gap-5">
-              <div className={`w-full rounded-xl border px-3 py-4 ${STROKE[selected.badge]}`}>
-                <p className="whitespace-pre-wrap text-[15px] leading-[1.6] text-[#121213]">{selected.quote}</p>
-              </div>
-              <div className="flex w-full flex-col gap-3">
-                <Badge tone={badgeTone}>{selected.badge}</Badge>
-                <p className="font-bold text-[15px] leading-[1.6] text-[#121213]">{selected.title}</p>
-                <p className="whitespace-pre-wrap text-[15px] leading-[1.6] text-[#121213]">{selected.body}</p>
-                <SolveBox badge={selected.badge} extra={selected.extra} />
-              </div>
+        <div className="flex min-w-0 flex-1 flex-col">
+          <div className="flex w-full flex-col gap-5">
+            <div className={`w-full rounded-xl border px-3 py-4 ${STROKE[selected.badge]}`}>
+              <p className="whitespace-pre-wrap text-[15px] leading-[1.6] text-[#121213]">{selected.quote}</p>
+            </div>
+            <div className="flex w-full flex-col gap-3">
+              <Badge tone={badgeTone}>{selected.badge}</Badge>
+              <p className="font-bold text-[15px] leading-[1.6] text-[#121213]">{selected.title}</p>
+              <p className="whitespace-pre-wrap text-[15px] leading-[1.6] text-[#121213]">{selected.body}</p>
+              <SolveBox badge={selected.badge} extra={selected.extra} />
             </div>
           </div>
           {onRequestMentor ? (
@@ -752,16 +773,19 @@ function PositioningRow({ title, percent, width, body, items, onJump }) {
   );
 }
 
-function PositioningSection({ onJump, documentKind = 'portfolio' }) {
+function PositioningSection({ onJump, documentKind = 'portfolio', onRequestMentor }) {
   const isResume = documentKind === 'resume';
 
   return (
-    <GlassPanel className="w-[1091px] max-w-[1091px] px-6 py-7" contentClassName="flex flex-col gap-10">
-      <div className="flex flex-col gap-1">
-        <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-[#121213]">모집공고 기반 포지셔닝</p>
-        <p className="text-sm leading-[1.42] tracking-[0.14px] text-[#9ca2b1]">
-          윤영님이 선택한 공고를 기준으로, 현재 적합도와 합격을 위해 보완할 부분을 알려드려요.
-        </p>
+    <GlassPanel className="box-border w-[1091px] max-w-[1091px] overflow-hidden" contentClassName="flex w-full flex-col gap-10">
+      <div className="flex items-start justify-between gap-5">
+        <div className="flex min-w-0 flex-col gap-1">
+          <p className="font-bold text-[18px] leading-[1.5] tracking-[-0.0036px] text-[#121213]">모집공고 기반 포지셔닝</p>
+          <p className="text-sm leading-[1.42] tracking-[0.14px] text-[#9ca2b1]">
+            윤영님이 선택한 공고를 기준으로, 현재 적합도와 합격을 위해 보완할 부분을 알려드려요.
+          </p>
+        </div>
+        {onRequestMentor ? <MentorRequestButton onClick={onRequestMentor} /> : null}
       </div>
       <div className="flex w-full flex-col gap-7">
         {isResume ? (
@@ -827,40 +851,44 @@ function PositioningSection({ onJump, documentKind = 'portfolio' }) {
   );
 }
 
-function MentorThread({ comments, mentorName, mentorAvatar, menteeAvatar, onSubmit }) {
+function MentorThread({ comments, mentorName, mentorAvatar, menteeAvatar, onSubmit, waiting = false, waitLabel }) {
   const [draft, setDraft] = useState('');
-  const hasComments = comments.length > 0;
+  const showCommentBlock = waiting || comments.length > 0;
 
   return (
     <div className="relative flex w-full flex-col gap-10">
-      {hasComments ? (
-        <div className="flex flex-col gap-10">
+      {showCommentBlock ? (
+        <div className="flex flex-col gap-7">
           <p className="text-base font-bold leading-[1.45] text-[#121213]">댓글 {comments.length}개</p>
-          <div className="flex flex-col gap-7">
-            {comments.map((item) => {
-              const isMentor = item.role === 'mentor';
-              return (
-                <div key={item.id} className="flex flex-col gap-3">
-                  <div className="flex items-center gap-2">
-                    <img
-                      alt=""
-                      src={isMentor ? mentorAvatar : menteeAvatar}
-                      className={`shrink-0 rounded-full object-cover ${isMentor ? 'size-9' : 'size-8'}`}
-                    />
-                    <div className="flex min-w-0 items-center gap-2">
-                      <p className="shrink-0 text-[15px] font-bold leading-[1.6] text-[#121213]">
-                        {isMentor ? mentorName : '이윤영'}
-                      </p>
-                      <p className="text-sm font-medium leading-[1.42] tracking-[0.14px] text-[#9ca2b1]">
-                        {isMentor ? '멘토' : '멘티'}
-                      </p>
+          {waiting && comments.length === 0 ? (
+            <p className="text-center text-sm leading-[1.42] tracking-[0.14px] text-[#9ca2b1]">{waitLabel}</p>
+          ) : (
+            <div className="flex flex-col gap-7">
+              {comments.map((item) => {
+                const isMentor = item.role === 'mentor';
+                return (
+                  <div key={item.id} className="flex flex-col gap-3">
+                    <div className="flex items-center gap-2">
+                      <img
+                        alt=""
+                        src={isMentor ? mentorAvatar : menteeAvatar}
+                        className={`shrink-0 rounded-full object-cover ${isMentor ? 'size-9' : 'size-8'}`}
+                      />
+                      <div className="flex min-w-0 items-center gap-2">
+                        <p className="shrink-0 text-[15px] font-bold leading-[1.6] text-[#121213]">
+                          {isMentor ? mentorName : '이윤영'}
+                        </p>
+                        <p className="text-sm font-medium leading-[1.42] tracking-[0.14px] text-[#9ca2b1]">
+                          {isMentor ? '멘토' : '멘티'}
+                        </p>
+                      </div>
                     </div>
+                    <p className="text-[15px] leading-[1.6] text-[#121213]">{item.text}</p>
                   </div>
-                  <p className="text-[15px] leading-[1.6] text-[#121213]">{item.text}</p>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       ) : null}
       <form
@@ -915,13 +943,23 @@ function feedbackThemeFromBadge(badgeLabel) {
   return MENTOR_FEEDBACK_THEME.purple;
 }
 
-function MentorComment({ name, title, children, thread, waiting = false, theme = MENTOR_FEEDBACK_THEME.purple }) {
+function MentorComment({
+  name,
+  title,
+  sectionLabel,
+  question,
+  thread,
+  theme = MENTOR_FEEDBACK_THEME.purple,
+}) {
   const firstName = name.split(' ')[0];
+  const comments = thread?.comments ?? [];
+  const waiting = Boolean(question) && !comments.some((item) => item.role === 'mentor');
+  const showCommentBlock = Boolean(question);
 
   return (
     <div className="flex w-[812px] flex-col gap-1">
       <p className="text-[13px] font-medium leading-[1.4] tracking-[0.26px]" style={{ color: theme.name }}>{name}</p>
-      <div className="relative flex w-full flex-col gap-10 overflow-hidden rounded-2xl border-[1.5px] border-[#f4f6f8] px-6 py-7">
+      <div className="relative box-border flex w-full flex-col gap-10 overflow-hidden rounded-2xl border-[1.5px] border-[#f4f6f8] px-6 py-7">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 rounded-2xl"
@@ -939,21 +977,34 @@ function MentorComment({ name, title, children, thread, waiting = false, theme =
         <div className="relative flex flex-col gap-1">
           <p className="text-lg font-bold leading-[1.5] tracking-[-0.0036px] text-[#121213]">{title}</p>
           <p className="text-sm leading-[1.42] tracking-[0.14px] text-[#9ca2b1]">
-            {waiting
-              ? `피드백을 요청하면 평일 오후 8시 이후, 주말에 ${firstName} 멘토의 피드백을 받아볼 수 있어요!`
-              : `${firstName} 멘토가 추가적으로 피드백한 내용이에요`}
+            {`질문을 남겨주시면 평일 오후 8시 이후 또는 주말에 ${firstName} 멘토가 댓글로 답변해드려요.`}
           </p>
         </div>
-        <div className="relative w-full">{children}</div>
+        <div className="relative flex flex-col gap-3">
+          {sectionLabel ? (
+            <p className="text-sm font-medium leading-[1.42] tracking-[0.14px] text-[#747886]">{sectionLabel}</p>
+          ) : null}
+          <p
+            className={
+              question
+                ? 'text-[15px] leading-[1.6] text-[#121213]'
+                : 'text-sm leading-[1.42] tracking-[0.14px] text-[#9ca2b1]'
+            }
+          >
+            {question || '멘토에게 질문을 남겨주세요!'}
+          </p>
+        </div>
         {thread ? (
           <>
-            {thread.comments.length > 0 ? <div className="relative h-px w-full bg-[#e7eaee]" /> : null}
+            {showCommentBlock ? <div className="relative h-px w-full bg-[#e7eaee]" /> : null}
             <MentorThread
-              comments={thread.comments}
+              comments={comments}
               mentorName={name}
               mentorAvatar={thread.mentorAvatar}
               menteeAvatar={thread.menteeAvatar}
               onSubmit={thread.onSubmit}
+              waiting={waiting}
+              waitLabel={`${firstName} 멘토 피드백 기다리는중..`}
             />
           </>
         ) : null}
@@ -974,25 +1025,47 @@ const RESUME_MENTOR_REPLIES = [
   '사용자 반응이나 전환처럼 숫자로 증명할 수 있으면 꼭 붙이세요. 숫자가 없어도 “몇 명에게 무엇을 물어 어떤 결정을 바꿨다” 정도면 충분해요. 더 궁금한 문장 있으면 이어서 물어보세요.',
 ];
 
-function replyForMenteeCount(count, replies = MENTOR_REPLIES) {
-  return replies[Math.min(count, replies.length - 1)];
+function nextMentorReply(comments, replies = MENTOR_REPLIES) {
+  const mentorCount = comments.filter((item) => item.role === 'mentor').length;
+  return replies[Math.min(mentorCount, replies.length - 1)];
 }
 
-function appendMentorChat(setComments, text, replies = MENTOR_REPLIES) {
-  const menteeId = `mentee-${Date.now()}`;
-  const mentorId = `mentor-${menteeId}`;
-  let menteeCount = 0;
-  setComments((prev) => {
-    if (prev.some((item) => item.id === menteeId)) return prev;
-    menteeCount = prev.filter((item) => item.role === 'mentee').length;
-    return [...prev, { id: menteeId, role: 'mentee', text }];
-  });
+function scheduleMentorReply(setComments, replies = MENTOR_REPLIES) {
   window.setTimeout(() => {
-    setComments((current) => {
-      if (current.some((item) => item.id === mentorId)) return current;
-      return [...current, { id: mentorId, role: 'mentor', text: replyForMenteeCount(menteeCount, replies) }];
-    });
-  }, 700);
+    setComments((current) => [
+      ...current,
+      {
+        id: `mentor-${Date.now()}-${current.length}`,
+        role: 'mentor',
+        text: nextMentorReply(current, replies),
+      },
+    ]);
+  }, 1800);
+}
+
+function submitMentorMessage({ question, comments, setQuestion, setComments, text, replies = MENTOR_REPLIES }) {
+  if (!question) {
+    setQuestion(text);
+    scheduleMentorReply(setComments, replies);
+    return;
+  }
+  if (!comments.some((item) => item.role === 'mentor')) return;
+  setComments((prev) => [...prev, { id: `mentee-${Date.now()}`, role: 'mentee', text }]);
+  scheduleMentorReply(setComments, replies);
+}
+
+const SEED_MENTEE_QUESTION =
+  "저희 프로젝트는 실서비스로 출시된 게 아니라 학교 팀 프로젝트라서 실제 '40% 단축' 같은 수치를 측정한 데이터가 없어요. 이럴 땐 어떻게 써야 할까요? 그냥 수치를 빼는 게 나을까요?";
+
+const FOLLOW_UP_MENTEE =
+  '아 그러면 ‘40% 단축’이라고 두루뭉술하게 쓰는 것보다 "5단계 → 3단계"처럼 구체적으로 쓰는 게 낫다는 거죠? 그런데 이걸 인트로 첫 화면에 넣으면 너무 디테일해서 복잡해 보이지 않을까요?';
+
+function seedMentorComments(replies) {
+  return [
+    { id: 'seed-mentor-1', role: 'mentor', text: replies[0] },
+    { id: 'seed-mentee-1', role: 'mentee', text: FOLLOW_UP_MENTEE },
+    { id: 'seed-mentor-2', role: 'mentor', text: replies[1] },
+  ];
 }
 
 export default function ChatFeedbackResult({
@@ -1015,7 +1088,6 @@ export default function ChatFeedbackResult({
 }) {
   const scrollRef = useRef(null);
   const timelineRef = useRef(null);
-  const lineOriginRef = useRef(null);
   const rowRef = useRef(null);
   const overviewRef = useRef(null);
   const strengthRef = useRef(null);
@@ -1029,8 +1101,6 @@ export default function ChatFeedbackResult({
   const isResume = documentKind === 'resume';
   const copy = isResume ? RESUME_COPY : PORTFOLIO_COPY;
   const mentorReplies = isResume ? RESUME_MENTOR_REPLIES : MENTOR_REPLIES;
-  const [originTop, setOriginTop] = useState(0);
-  const [lineH, setLineH] = useState(56);
   const [showDetail, setShowDetail] = useState(isMentor);
   const [showPositioning, setShowPositioning] = useState(isMentor);
   const [branchOn, setBranchOn] = useState(false);
@@ -1048,8 +1118,11 @@ export default function ChatFeedbackResult({
   const pendingScroll = useRef(null);
   const [jumpTick, setJumpTick] = useState(0);
   const [pageThreads, setPageThreads] = useState({});
+  const [pageQuestions, setPageQuestions] = useState({});
   const [positioningComments, setPositioningComments] = useState([]);
+  const [positioningQuestion, setPositioningQuestion] = useState('');
   const [requestedPages, setRequestedPages] = useState([]);
+  const [requestedPositioning, setRequestedPositioning] = useState(false);
   const [mentorLineOn, setMentorLineOn] = useState(false);
   const [mentorLineBox, setMentorLineBox] = useState({ srcX: 0, srcY: 0, destX: 0, destY: 0 });
   const [posMentorLineOn, setPosMentorLineOn] = useState(false);
@@ -1065,8 +1138,10 @@ export default function ChatFeedbackResult({
   const currentRequestKey = isResume ? resumeSection : page;
   const showPageRequest = !isMentor && showDetail && requestedPages.includes(currentRequestKey);
   const showPageMentor = (isMentor || showPageRequest) && showDetail;
-  const showPosMentor = isMentor && showPositioning;
+  const showPosRequest = !isMentor && showPositioning && requestedPositioning;
+  const showPosMentor = (isMentor || showPosRequest) && showPositioning;
   const pageComments = pageThreads[currentRequestKey] ?? [];
+  const pageQuestion = pageQuestions[currentRequestKey] ?? '';
 
   const setPageCommentsFor = (key) => (updater) => {
     setPageThreads((prev) => {
@@ -1079,6 +1154,12 @@ export default function ChatFeedbackResult({
   const requestMentorFor = (key) => {
     setRequestedPages((prev) => (prev.includes(key) ? prev : [...prev, key]));
     pendingScroll.current = 'mentor';
+    setJumpTick((n) => n + 1);
+  };
+
+  const requestPositioningMentor = () => {
+    setRequestedPositioning(true);
+    pendingScroll.current = 'posMentor';
     setJumpTick((n) => n + 1);
   };
 
@@ -1105,6 +1186,21 @@ export default function ChatFeedbackResult({
     const id = window.setTimeout(() => setPosMentorLineOn(true), 80);
     return () => window.clearTimeout(id);
   }, [showPosMentor]);
+
+  useEffect(() => {
+    if (!isMentor) return;
+    setPageQuestions((prev) => (prev[currentRequestKey] ? prev : { ...prev, [currentRequestKey]: SEED_MENTEE_QUESTION }));
+    setPageThreads((prev) => {
+      if ((prev[currentRequestKey] ?? []).length) return prev;
+      return { ...prev, [currentRequestKey]: seedMentorComments(mentorReplies) };
+    });
+  }, [isMentor, currentRequestKey, mentorReplies]);
+
+  useEffect(() => {
+    if (!isMentor || !showPositioning) return;
+    setPositioningQuestion((prev) => prev || SEED_MENTEE_QUESTION);
+    setPositioningComments((prev) => (prev.length ? prev : seedMentorComments(mentorReplies)));
+  }, [isMentor, showPositioning, mentorReplies]);
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setChartPlay(true));
@@ -1222,13 +1318,6 @@ export default function ChatFeedbackResult({
   }, [isMentor]);
 
   useLayoutEffect(() => {
-    const origin = lineOriginRef.current;
-    if (!origin) return;
-    setOriginTop(origin.offsetTop);
-    setLineH(origin.nextElementSibling?.offsetHeight ?? 56);
-  }, []);
-
-  useLayoutEffect(() => {
     if (!panelOpen) return undefined;
     const measure = () => {
       const row = rowRef.current;
@@ -1239,22 +1328,10 @@ export default function ChatFeedbackResult({
       const mentor = mentorPageRef.current;
       const posMentor = mentorPosRef.current;
       if (!row || !src || !side) return;
-      const r = row.getBoundingClientRect();
-      const scaleX = r.width ? row.offsetWidth / r.width : 1;
-      const scaleY = r.height ? row.offsetHeight / r.height : 1;
-      const local = (el) => {
-        const a = el.getBoundingClientRect();
-        return {
-          left: (a.left - r.left) * scaleX,
-          top: (a.top - r.top) * scaleY,
-          right: (a.right - r.left) * scaleX,
-          bottom: (a.bottom - r.top) * scaleY,
-          width: a.width * scaleX,
-          height: a.height * scaleY,
-        };
-      };
+      const local = (el) => layoutBox(el, row);
       const s = local(src);
       const d = local(side);
+      if (!s || !d) return;
       const detailBox = detail ? local(detail) : null;
       const posBox = pos ? local(pos) : null;
       const mentorBox = mentor ? local(mentor) : null;
@@ -1309,11 +1386,12 @@ export default function ChatFeedbackResult({
         );
       }
       if (posBox && posMentorBox) {
+        const srcY = posBox.top + posBox.height * 0.32;
         const line = {
           srcX: posBox.right,
-          srcY: posBox.top + posBox.height * 0.52,
+          srcY,
           destX: posMentorBox.left,
-          destY: posMentorBox.top + posMentorBox.height * 0.72,
+          destY: bendDestY(srcY, posMentorBox),
           rowW: row.offsetWidth,
           rowH: row.offsetHeight,
         };
@@ -1329,28 +1407,30 @@ export default function ChatFeedbackResult({
         );
       }
     };
-    const id = requestAnimationFrame(measure);
+    const refs = [rowRef, sideRef, detailRef, positioningRef, strengthRef, mentorPageRef, mentorPosRef];
     const observer = new ResizeObserver(measure);
-    [rowRef, sideRef, detailRef, positioningRef, strengthRef, mentorPageRef, mentorPosRef].forEach((item) => {
-      if (item.current) observer.observe(item.current);
+    const watch = () => {
+      refs.forEach((item) => {
+        if (item.current) observer.observe(item.current);
+      });
+      measure();
+    };
+    watch();
+    const raf1 = requestAnimationFrame(() => {
+      watch();
+      requestAnimationFrame(watch);
     });
+    const t1 = window.setTimeout(watch, 80);
+    const t2 = window.setTimeout(watch, 720);
     window.addEventListener('resize', measure);
     return () => {
-      cancelAnimationFrame(id);
+      cancelAnimationFrame(raf1);
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
       observer.disconnect();
       window.removeEventListener('resize', measure);
     };
-  }, [panelOpen, showDetail, showPositioning, showPageRequest, showPageMentor, showPosMentor, page, resumeSection, pageComments, positioningComments, canvasZoom]);
-
-  const growLine = (el) => {
-    const origin = lineOriginRef.current;
-    if (!el || !origin) return;
-    const a = el.getBoundingClientRect();
-    const b = origin.getBoundingClientRect();
-    const scaleY = origin.offsetHeight ? origin.offsetHeight / b.height : 1;
-    const next = (a.bottom - b.top) * scaleY;
-    setLineH((prev) => Math.max(prev, next));
-  };
+  }, [panelOpen, showDetail, showPositioning, showPageRequest, showPageMentor, showPosRequest, showPosMentor, page, resumeSection, pageComments, pageQuestion, positioningComments, positioningQuestion, canvasZoom]);
 
   const scrollToNode = (node) => {
     const root = scrollRef.current;
@@ -1376,14 +1456,12 @@ export default function ChatFeedbackResult({
     selectDetail(nextPage);
     setBranchOn(false);
     setShowDetail(true);
-    setShowPositioning(false);
     pendingScroll.current = 'detail';
     setJumpTick((n) => n + 1);
   };
 
   const openPositioning = () => {
     setBranchOn(false);
-    setShowDetail(false);
     setShowPositioning(true);
     pendingScroll.current = 'positioning';
     setJumpTick((n) => n + 1);
@@ -1407,12 +1485,14 @@ export default function ChatFeedbackResult({
           ? positioningRef.current
           : target === 'mentor'
             ? mentorPageRef.current
+            : target === 'posMentor'
+              ? mentorPosRef.current
             : detailRef.current;
       pendingScroll.current = null;
       scrollToNode(node);
-    }, target === 'mentor' ? 750 : 80);
+    }, target === 'mentor' || target === 'posMentor' ? 750 : 80);
     return () => window.clearTimeout(timer);
-  }, [jumpTick, page, resumeSection, showDetail, showPositioning, showPageRequest]);
+  }, [jumpTick, page, resumeSection, showDetail, showPositioning, showPageRequest, showPosRequest]);
 
   return (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
@@ -1496,13 +1576,6 @@ export default function ChatFeedbackResult({
         }`}
       >
         <div className={`relative ${panelOpen ? 'w-max' : 'mx-auto w-full'}`}>
-            <div
-              className="pointer-events-none absolute z-0 w-[1.5px] -translate-x-1/2 bg-[#e7eaee] transition-[height] duration-700 ease-out"
-              style={{ left: panelOpen ? 500 : '50%', top: originTop, height: lineH }}
-            />
-
-            <div ref={lineOriginRef} className="relative z-[1] h-0 w-full" />
-
             <div ref={rowRef} className="relative z-[1] flex items-start">
           {panelOpen ? (
             <>
@@ -1520,9 +1593,10 @@ export default function ChatFeedbackResult({
             ) : null}
             </>
           ) : null}
-          <div className={`flex shrink-0 flex-col gap-5 ${panelOpen ? 'w-[1000px] max-w-[1000px]' : 'w-full'}`}>
-            <div ref={overviewRef}>
-            <GlassPanel className="w-full px-6 py-7" contentClassName="flex flex-col gap-10">
+          <div className={`relative flex shrink-0 flex-col gap-5 ${panelOpen ? 'w-[1000px] max-w-[1000px]' : 'w-full'}`}>
+            <div className="pointer-events-none absolute inset-y-0 left-1/2 z-0 w-[1.5px] -translate-x-1/2 bg-[#e7eaee]" />
+            <div ref={overviewRef} className="relative z-[1]">
+            <GlassPanel className="w-full" contentClassName="flex flex-col gap-10">
               <div className="flex flex-col gap-5">
                 <p className="text-[15px] font-medium leading-[1.45] text-[#747886]">종합 피드백</p>
                 <div className="flex items-center gap-2">
@@ -1569,9 +1643,9 @@ export default function ChatFeedbackResult({
             </GlassPanel>
             </div>
 
-          <ScrollReveal rootRef={scrollRef} onShow={growLine}>
+          <ScrollReveal rootRef={scrollRef} className="relative z-[1]">
             <div ref={strengthRef}>
-            <GlassPanel className="w-full px-6 py-7" contentClassName="flex flex-col gap-7">
+            <GlassPanel className="w-full" contentClassName="flex flex-col gap-7">
               <div className="flex w-full flex-col gap-5">
                 <div className="flex flex-col gap-3">
                   <p className="font-bold text-[15px] leading-[1.45] text-[#121213]">강점</p>
@@ -1632,7 +1706,7 @@ export default function ChatFeedbackResult({
               <div
                 ref={sideRef}
                 className={
-                  isMentor || showPageRequest
+                  isMentor || showPageRequest || showPosRequest
                     ? 'grid shrink-0 grid-cols-[1091px_812px] items-start gap-x-[72px] gap-y-5'
                     : 'flex w-[1091px] shrink-0 flex-col gap-5'
                 }
@@ -1662,136 +1736,72 @@ export default function ChatFeedbackResult({
                   <Appear className="flex flex-col pt-[72px]">
                     <div ref={mentorPageRef}>
                       <MentorComment
-                        waiting={!isMentor}
                         name={mentorDisplayName}
                         theme={feedbackTheme}
                         title={isResume ? '상세 피드백' : '페이지별 피드백'}
+                        sectionLabel={
+                          isResume
+                            ? (RESUME_SECTIONS.find((item) => item.id === resumeSection)?.label ?? '프로젝트 경험')
+                            : `${page}P`
+                        }
+                        question={pageQuestion}
                         thread={{
                           comments: pageComments,
                           mentorAvatar,
                           menteeAvatar,
-                          onSubmit: (text) => appendMentorChat(setPageCommentsFor(currentRequestKey), text, mentorReplies),
+                          onSubmit: (text) => submitMentorMessage({
+                            question: pageQuestion,
+                            comments: pageComments,
+                            setQuestion: (value) => setPageQuestions((prev) => (
+                              prev[currentRequestKey] ? prev : { ...prev, [currentRequestKey]: value }
+                            )),
+                            setComments: setPageCommentsFor(currentRequestKey),
+                            text,
+                            replies: mentorReplies,
+                          }),
                         }}
-                      >
-                        {isResume ? (
-                          <div className="flex flex-col gap-3">
-                            <p className="text-sm font-medium leading-[1.42] tracking-[0.14px] text-[#747886]">
-                              {RESUME_SECTIONS.find((item) => item.id === resumeSection)?.label ?? '프로젝트 경험'}
-                            </p>
-                            <div className="flex flex-col text-[15px] leading-[1.6] text-[#121213]">
-                              <p>
-                                프로젝트 경험이 다양하고, 사용자 조사부터 서비스 기획·UX/UI 디자인까지 프로덕트 디자인의
-                                전반적인 과정을 경험한 점이 좋아요. 특히 단순히 화면을 디자인하는 데 그치지 않고 리서치와
-                                프로토타이핑까지 직접 진행했다는 점에서 실무에 대한 관심과 경험이 잘 드러나요.
-                              </p>
-                              <p>
-                                다만 현재는 여러 프로젝트에서 무엇을 담당했는지를 나열하는 방식에 가까워서, 윤영님이 어떤
-                                문제를 발견하고 어떻게 해결했는지는 조금 흐릿하게 보여요. 프로젝트마다 핵심 문제와 본인의
-                                역할, 그 결과를 한두 문장씩 구체적으로 추가하면 경험의 깊이가 훨씬 잘 전달될 것 같아요.
-                              </p>
-                              <p>
-                                프로젝트를 많이 보여주기보다, 대표 프로젝트에서 ‘문제 → 해결 → 결과’가 보이도록
-                                작성해보세요. 특히 수치나 사용자 반응처럼 결과를 증명할 수 있는 내용이 있다면 함께 제시하는
-                                것을 추천해요.
-                              </p>
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="flex flex-col gap-3">
-                            <p className="text-sm font-medium leading-[1.42] tracking-[0.14px] text-[#747886]">{page}P</p>
-                            <p className="whitespace-pre-wrap text-[15px] leading-[1.6] text-[#121213]">
-                              {PAGE_MENTOR_COPY[page]}
-                            </p>
-                          </div>
-                        )}
-                      </MentorComment>
+                      />
                     </div>
                   </Appear>
+                ) : showDetail && showPosMentor ? (
+                  <div />
                 ) : null}
                 {showPositioning ? (
                   <Appear className="flex flex-col" onShown={() => setBranchOn(true)}>
-                    {!showDetail ? <div className="h-[970px] shrink-0" aria-hidden /> : null}
+                    {!showDetail && !showPosMentor && !isResume ? <div className="h-[970px] shrink-0" aria-hidden /> : null}
                     <div ref={positioningRef}>
-                      <PositioningSection documentKind={documentKind} onJump={jumpToPage} />
+                      <PositioningSection
+                        documentKind={documentKind}
+                        onJump={jumpToPage}
+                        onRequestMentor={isMentor ? undefined : requestPositioningMentor}
+                      />
                     </div>
                   </Appear>
                 ) : isMentor ? (
                   <div />
                 ) : null}
                 {showPosMentor ? (
-                  <Appear className="flex flex-col">
+                  <Appear className="flex flex-col pt-[72px]">
                     <div ref={mentorPosRef}>
                     <MentorComment
-                      waiting={false}
                       name={mentorDisplayName}
                       theme={feedbackTheme}
                       title="모집공고 기반 포지셔닝"
+                      question={positioningQuestion}
                       thread={{
                         comments: positioningComments,
                         mentorAvatar,
                         menteeAvatar,
-                        onSubmit: (text) => appendMentorChat(setPositioningComments, text, mentorReplies),
+                        onSubmit: (text) => submitMentorMessage({
+                          question: positioningQuestion,
+                          comments: positioningComments,
+                          setQuestion: (value) => setPositioningQuestion((prev) => prev || value),
+                          setComments: setPositioningComments,
+                          text,
+                          replies: mentorReplies,
+                        }),
                       }}
-                    >
-                      {isResume ? (
-                        <div className="flex flex-col gap-7">
-                          <div className="flex flex-col gap-2">
-                            <p className="text-base font-bold leading-[1.45] text-[#121213]">토스 프로덕트 디자이너</p>
-                            <p className="text-[15px] leading-[1.6] text-[#121213]">
-                              전체적인 방향은 잘 맞아요. 사용자 문제를 발견하고 더 나은 경험을 만들고 싶다는 이야기가 자소서
-                              전체에서 일관되게 보여요. 다만 토스는 단순히 “사용자를 생각하는 디자이너”보다 그 생각을 실제
-                              문제 해결과 결과로 연결한 경험을 중요하게 봐요. 프로젝트에서 어떤 문제를 발견했고, 왜 그렇게
-                              해결했는지 한두 문장만 더 들어가도 지금보다 훨씬 설득력 있어질 것 같아요.
-                            </p>
-                          </div>
-                          <div className="flex flex-col gap-2">
-                            <p className="text-base font-bold leading-[1.45] text-[#121213]">카카오 프로덕트 디자이너</p>
-                            <p className="text-[15px] leading-[1.6] text-[#121213]">
-                              사용자 중심으로 생각하고 UX/UI 전반을 경험했다는 점은 좋아요. 다만 지금 자소서만 보면 윤영님이
-                              어떤 상황에서 어떤 판단을 내리는 디자이너인지가 조금 흐릿해요. 카카오처럼 다양한 서비스와
-                              사용자를 다루는 환경을 생각한다면, 프로젝트에서 여러 요구사항을 비교하고 본인만의 기준으로
-                              디자인 방향을 결정했던 경험을 보여주면 좋아요.
-                            </p>
-                          </div>
-                          <div className="flex flex-col gap-2">
-                            <p className="text-base font-bold leading-[1.45] text-[#121213]">결론</p>
-                            <p className="text-[15px] leading-[1.6] text-[#121213]">
-                              두 공고 모두 기본적인 방향은 잘 맞아요. 지금 자소서에서 가장 아쉬운 건 경험의 ‘깊이’예요.
-                              프로젝트를 더 많이 추가할 필요는 없어요. 이미 적어둔 경험 중 하나를 골라서 “왜 이 문제를
-                              발견했고, 왜 이렇게 해결했는지”를 조금만 더 보여주세요. 그게 윤영님만의 강점으로 연결될 수
-                              있어요.
-                            </p>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="flex flex-col gap-7">
-                          <div className="flex flex-col gap-2">
-                            <p className="text-base font-bold leading-[1.45] text-[#121213]">토스 프로덕트 디자이너</p>
-                            <p className="text-[15px] leading-[1.6] text-[#121213]">
-                              에이전트가 매긴 75%는 얼추 맞아요. 근데 토스는 숫자보다 “이 사람이 비즈니스를 이해하나”를 훨씬
-                              세게 봐요. KKINI에 '외국인 관광객 시장 규모가 이만큼이고, 이 기능이 매출/리텐션에 이렇게
-                              기여한다' 같은 문장 하나만 넣어도 체감 적합도는 75%보다 훨씬 올라가요.
-                            </p>
-                          </div>
-                          <div className="flex flex-col gap-2">
-                            <p className="text-base font-bold leading-[1.45] text-[#121213]">카카오 프로덕트 디자이너</p>
-                            <p className="text-[15px] leading-[1.6] text-[#121213]">
-                              카카오 55%는 좀 낮게 잡힌 것 같아요. AI는 'B2B/B2C 동시 고려 경험이 없어서' 낮게 봤는데, 카카오
-                              프로덕트 디자이너는 오히려 C 서비스 깊이를 더 중요하게 봐요. KKINI처럼 단일 타겟이라도 그
-                              타겟의 문제를 깊게 판 게 보이면 카카오에선 강점이 돼요. 55%라는 숫자에 너무 위축되지 마세요.
-                            </p>
-                          </div>
-                          <div className="flex flex-col gap-2">
-                            <p className="text-base font-bold leading-[1.45] text-[#121213]">결론</p>
-                            <p className="text-[15px] leading-[1.6] text-[#121213]">
-                              비즈니스 임팩트 사고가 빠져 있다'는 AI 지적은 두 회사 다 맞아요. 이건 KKINI만의 문제가 아니라
-                              신입 포폴 대부분의 약점이에요. 해결법은 간단해요. 각 프로젝트 마지막에 '그래서 이게 비즈니스에
-                              어떤 의미였나' 한 장만 추가하세요. 이거 하나로 다른 지원자랑 확 차별화돼요.
-                            </p>
-                          </div>
-                        </div>
-                      )}
-                    </MentorComment>
+                    />
                     </div>
                   </Appear>
                 ) : null}
