@@ -18,7 +18,6 @@ import ChatAgentIntro from './ChatAgentIntro';
 import figma_6a21ef36_23ee_448e_a72f_026bd1b11241_png from '../../assets/figma/6a21ef36-23ee-448e-a72f-026bd1b11241.png';
 import figma_1b69a9c3_f6dc_419e_8b7e_4073ed4858c7_png from '../../assets/figma/1b69a9c3-f6dc-419e-8b7e-4073ed4858c7.png';
 import figma_5ddbd43f_7583_4a6b_8ddb_cf34b22b4e76_png from '../../assets/figma/5ddbd43f-7583-4a6b-8ddb-cf34b22b4e76.png';
-import figma_ea377a0e_1420_4c73_8a4d_c09f50d135a0_png from '../../assets/figma/ea377a0e-1420-4c73-8a4d-c09f50d135a0.png';
 import figma_831143ea_bc10_4177_8788_90ed49816699_png from '../../assets/figma/831143ea-bc10-4177-8788-90ed49816699.png';
 import figma_ac693826_e769_4723_8f46_5f82fd520909_png from '../../assets/figma/ac693826-e769-4723-8f46-5f82fd520909.png';
 import figma_9a8a793a_7f8d_4803_8fe8_a2de07fedc14_png from '../../assets/figma/9a8a793a-7f8d-4803-8fe8-a2de07fedc14.png';
@@ -31,6 +30,7 @@ import imgSunnyAvatar from '../../assets/figma/c11cc4d3-aa70-48e8-a183-5d36c9318
 import imgSunnyMentor from '../../assets/figma/sunny-mentor-profile.png';
 import imgSunnyCharacter from '../../assets/figma/ceef9e7c-3912-4cc0-ba9c-dbf2d463f3e3.png';
 import imgYoonieIntro from '../../assets/figma/yoonie-intro.png';
+import imgYoonieHello from '../../assets/figma/yoonie-hello.webp';
 import imgEunoiaIntro from '../../assets/figma/eunoia-intro.png';
 import imgTeddyIntro from '../../assets/figma/teddy-intro.png';
 
@@ -118,7 +118,7 @@ const MENTOR_CHAT_CONFIG = {
     mentorAvatar: imgAvatarMentor,
     mentorDisplayName: 'Yoonie (최윤희)',
     agentGreetingIdle: ['안녕하세요! Yoonie 멘토의 AI Agent에요.', '저를 찾아주셔서 감사해요!'],
-    characterIdleImg: figma_ea377a0e_1420_4c73_8a4d_c09f50d135a0_png,
+    characterIdleImg: imgYoonieHello,
     characterIntroImg: imgYoonieIntro,
     characterActiveImg: imgCharacterActive,
     characterIdleWidth: 454,

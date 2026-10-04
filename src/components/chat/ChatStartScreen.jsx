@@ -1,17 +1,18 @@
 import figma_cca1b162_9b6b_4353_9e9a_311e84863eb1_svg from '../../assets/figma/cca1b162-9b6b-4353-9e9a-311e84863eb1.svg';
 import figma_38789304_3ec8_46e0_a0c1_d358fc10868f_svg from '../../assets/figma/38789304-3ec8-46e0-a0c1-d358fc10868f.svg';
+import imgAiStar from '../../assets/icons/ai-active.svg';
 
 const imgLogoCircle = figma_cca1b162_9b6b_4353_9e9a_311e84863eb1_svg;
 const imgPersonPlus = figma_38789304_3ec8_46e0_a0c1_d358fc10868f_svg;
 
-function StartCard({ title, subtitle, onClick }) {
+function StartCard({ icon, title, subtitle, onClick }) {
   return (
     <button
       type="button"
       onClick={onClick}
       className="relative w-fit bg-white border border-[#e7eaee] rounded-xl px-5 py-4 flex flex-col gap-4 items-start justify-center text-left cursor-pointer overflow-hidden after:pointer-events-none after:absolute after:inset-[-1px] after:bg-[#121213] after:opacity-0 hover:after:opacity-10"
     >
-      <img alt="" src={imgPersonPlus} className="relative size-6" />
+      <img alt="" src={icon} className="relative size-6" />
       <div className="relative flex flex-col gap-1 items-start">
         <p className="font-medium text-[16px] leading-[1.45] text-[#121213] whitespace-nowrap">{title}</p>
         <p className="font-normal text-[15px] leading-[1.45] text-[#9ca2b1] whitespace-nowrap">{subtitle}</p>
@@ -50,11 +51,13 @@ export default function ChatStartScreen({
         </div>
         <div className="flex gap-5 items-start justify-center w-full">
           <StartCard
+            icon={imgPersonPlus}
             title="멘토 탐색"
             subtitle="멘토 탐색 페이지에서 멘토 찾아보기"
             onClick={onOpenMentorExplore}
           />
           <StartCard
+            icon={imgAiStar}
             title="멘토 추천"
             subtitle="Mentit AI 에게 멘토 추천 받아보기"
             onClick={onOpenMentorSearch}

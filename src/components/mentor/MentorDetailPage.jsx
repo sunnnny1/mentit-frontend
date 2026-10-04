@@ -426,7 +426,7 @@ const MENTOR_PAGES = {
     sidebar: {
       avatar: imgTeddyAvatar,
       roleLine: 'UX 디자이너 ・ 프리랜서 ・ 6년차',
-      tags: ['면접', '포트폴리오'],
+      tags: ['포트폴리오', '면접'],
       followers: '2.8K',
       chats: '30',
       reviews: '23',
