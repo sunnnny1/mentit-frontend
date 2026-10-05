@@ -457,6 +457,7 @@ export default function ChatPage({
                 key={uploadResetKey}
                 active={isFeedbackTab && feedbackView === 'upload'}
                 onReadyChange={setFeedbackReady}
+                fileKind={feedbackKind}
                 onFileKindChange={setFeedbackKind}
                 onRequestAgentFeedback={openAgentFeedback}
               />

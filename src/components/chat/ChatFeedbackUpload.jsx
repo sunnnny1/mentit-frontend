@@ -48,10 +48,12 @@ export default function ChatFeedbackUpload({
   onReadyChange,
   onRequestAgentFeedback,
   onFileKindChange,
+  fileKind: fileKindProp,
 }) {
   const rootRef = useRef(null);
   const fileInputRef = useRef(null);
-  const [fileKind, setFileKind] = useState('portfolio');
+  const [fileKindLocal, setFileKind] = useState('portfolio');
+  const fileKind = fileKindProp ?? fileKindLocal;
   const [file, setFile] = useState(null);
   const [jdMode, setJdMode] = useState('url');
   const [jdItems, setJdItems] = useState([]);
