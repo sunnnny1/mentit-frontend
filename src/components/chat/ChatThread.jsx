@@ -170,7 +170,7 @@ export default function ChatThread({
 
       <div
         ref={listRef}
-        className="flex-1 min-h-0 overflow-y-auto px-6 pr-9 pb-32 flex flex-col"
+        className="flex-1 min-h-0 overflow-y-auto px-6 pr-9 pt-7 pb-32 flex flex-col"
         style={composerInset ? { paddingBottom: composerInset + 24 } : undefined}
       >
         <div className="flex flex-col gap-3 items-start w-full">
