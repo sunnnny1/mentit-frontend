@@ -30,7 +30,9 @@ import imgSunnyAvatar from '../../assets/figma/c11cc4d3-aa70-48e8-a183-5d36c9318
 import imgSunnyMentor from '../../assets/figma/sunny-mentor-profile.png';
 import imgSunnyCharacter from '../../assets/figma/ceef9e7c-3912-4cc0-ba9c-dbf2d463f3e3.png';
 import imgYoonieIntro from '../../assets/figma/yoonie-intro.png';
-import imgYoonieHello from '../../assets/figma/yoonie-hello.webp';
+import imgYoonieHello from '../../assets/figma/yoonie-hello-lite.webp';
+import imgYoonieThinking from '../../assets/figma/yoonie-thinking-lite.webp';
+import imgYoonieBlink from '../../assets/figma/yoonie-blink-lite.webp';
 import imgEunoiaIntro from '../../assets/figma/eunoia-intro.png';
 import imgTeddyIntro from '../../assets/figma/teddy-intro.png';
 import { askYoonie } from '../../lib/yoonieAgent';
@@ -126,6 +128,9 @@ const MENTOR_CHAT_CONFIG = {
     characterIdleImg: imgYoonieHello,
     characterIntroImg: imgYoonieIntro,
     characterActiveImg: imgCharacterActive,
+    characterThinkingImg: imgYoonieThinking,
+    characterThinkingMs: 6800,
+    characterBlinkImg: imgYoonieBlink,
     characterIdleWidth: 454,
     characterActiveWidth: 454,
     gradientColor: 'purple',
@@ -555,10 +560,15 @@ export default function ChatPage({
                 <ChatAgentPanel
                   isSubMenuOpen={isSubMenuOpen}
                   hasStarted={messages.length > 0}
+                  isAnswering={isAnswering}
+                  questionCount={messages.filter((msg) => msg.role === 'user').length}
                   displayName={mentorConfig.displayName}
                   agentGreetingIdle={mentorConfig.agentGreetingIdle}
                   characterIdleImg={mentorConfig.characterIdleImg}
                   characterActiveImg={mentorConfig.characterActiveImg}
+                  characterThinkingImg={mentorConfig.characterThinkingImg}
+                  characterThinkingMs={mentorConfig.characterThinkingMs}
+                  characterBlinkImg={mentorConfig.characterBlinkImg}
                   characterIdleWidth={mentorConfig.characterIdleWidth}
                   characterActiveWidth={mentorConfig.characterActiveWidth}
                   gradientColor={mentorConfig.gradientColor}
