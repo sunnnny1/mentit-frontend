@@ -1,0 +1,52 @@
+import { GUMLOOP_BASE, ID_PATTERN, getConfig, readJsonBody, sendJson } from '../_gumloop.js';
+
+const MAX_MESSAGE_LENGTH = 1000;
+
+// POST /api/yoonie/start  { message, interactionId? } -> { interactionId }
+// Gumloop 에이전트에 메시지를 보내고, 답변은 /api/yoonie/status 로 조회한다.
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    return sendJson(res, 405, { error: 'method_not_allowed' });
+  }
+
+  const { apiKey, userId, gummieId, missing } = getConfig();
+  if (missing.length) {
+    console.error('[yoonie/start] missing env:', missing.join(', '));
+    return sendJson(res, 500, { error: 'not_configured' });
+  }
+
+  const body = await readJsonBody(req);
+  const message = typeof body.message === 'string' ? body.message.trim() : '';
+  if (!message) return sendJson(res, 400, { error: 'empty_message' });
+  if (message.length > MAX_MESSAGE_LENGTH) return sendJson(res, 400, { error: 'message_too_long' });
+
+  const interactionId =
+    typeof body.interactionId === 'string' && ID_PATTERN.test(body.interactionId) ? body.interactionId : undefined;
+
+  const payload = {
+    gummie_id: gummieId,
+    user_id: userId,
+    message,
+    ...(interactionId ? { interaction_id: interactionId } : {}),
+  };
+
+  try {
+    const upstream = await fetch(`${GUMLOOP_BASE}/start_agent`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!upstream.ok) {
+      const detail = (await upstream.text()).slice(0, 300);
+      console.error('[yoonie/start] upstream', upstream.status, detail);
+      return sendJson(res, 502, { error: 'upstream_error', status: upstream.status });
+    }
+    const data = await upstream.json();
+    if (!data.interaction_id) return sendJson(res, 502, { error: 'bad_upstream_response' });
+    return sendJson(res, 200, { interactionId: data.interaction_id });
+  } catch (error) {
+    console.error('[yoonie/start] request failed', error);
+    return sendJson(res, 502, { error: 'upstream_unreachable' });
+  }
+}

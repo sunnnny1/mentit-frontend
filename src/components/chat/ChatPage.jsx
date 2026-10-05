@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ChatSubMenu from './ChatSubMenu';
 import ChatProfileBar from './ChatProfileBar';
 import ChatAgentPanel from './ChatAgentPanel';
@@ -33,6 +33,7 @@ import imgYoonieIntro from '../../assets/figma/yoonie-intro.png';
 import imgYoonieHello from '../../assets/figma/yoonie-hello.webp';
 import imgEunoiaIntro from '../../assets/figma/eunoia-intro.png';
 import imgTeddyIntro from '../../assets/figma/teddy-intro.png';
+import { askYoonie } from '../../lib/yoonieAgent';
 
 const imgAvatarAgent = figma_6a21ef36_23ee_448e_a72f_026bd1b11241_png;
 const imgAvatarMentor = figma_1b69a9c3_f6dc_419e_8b7e_4073ed4858c7_png;
@@ -90,6 +91,10 @@ const TEDDY_QA_MAP = {
 };
 
 const DEFAULT_ANSWER = { text: '아직 학습 중이에요. 조금 더 구체적으로 다시 질문해주시겠어요?' };
+
+// 실제 Gumloop 에이전트(/api/yoonie/*)와 연결된 멘토. 나머지 멘토는 아래 QA_MAP 기반의 기존 동작을 유지한다.
+const LIVE_AGENT_MENTORS = new Set(['Yoonie']);
+const AGENT_ERROR_ANSWER = { text: '지금은 답변을 가져오지 못했어요. 잠시 후 다시 시도해주세요.' };
 
 function resolveChatCta(userText, answer) {
   const hay = `${userText}\n${answer.text ?? ''}`;
@@ -244,6 +249,9 @@ export default function ChatPage({
   const [activeMentor, setActiveMentor] = useState(initialMentor);
   const [messages, setMessages] = useState([]);
   const [isAnswering, setIsAnswering] = useState(false);
+  const interactionIdRef = useRef(null);
+  const requestSeqRef = useRef(0);
+  const abortRef = useRef(null);
   const [subMenuTab, setSubMenuTab] = useState(initialTab === 'feedback' ? 'feedback' : 'chat');
   const [feedbackReady, setFeedbackReady] = useState(initialTab === 'feedback' && initialFeedbackView !== 'upload');
   const [feedbackView, setFeedbackView] = useState(
@@ -266,6 +274,8 @@ export default function ChatPage({
   useEffect(() => {
     setActiveMentor(initialMentor);
   }, [initialMentor]);
+
+  useEffect(() => () => abortRef.current?.abort(), []);
 
   useEffect(() => {
     onReadMentor?.(activeMentor);
@@ -290,6 +300,9 @@ export default function ChatPage({
     onReadMentor?.(name);
     setUnreadByMentorLocal((prev) => (prev[name] ? { ...prev, [name]: 0 } : prev));
     setChatMode(name === 'Sunny' ? 'mentor' : 'agent');
+    abortRef.current?.abort();
+    requestSeqRef.current += 1;
+    interactionIdRef.current = null;
     setMessages([]);
     setIsAnswering(false);
     setSessionView(name === 'Sunny' ? 'thread' : 'intro');
@@ -329,25 +342,60 @@ export default function ChatPage({
     setFeedbackView('mentor');
   };
 
+  const appendMentorAnswer = (userText, answer) => {
+    const cta = resolveChatCta(userText, answer);
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: 'mentor',
+        text: answer.text,
+        citation: answer.citation,
+        ctaText: cta.ctaText,
+        ctaKind: cta.ctaKind,
+      },
+    ]);
+  };
+
+  const askLiveAgent = async (mentor, value, replyTo) => {
+    requestSeqRef.current += 1;
+    const seq = requestSeqRef.current;
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+    // 사용자가 특정 답변을 언급(인용)했다면 그 내용을 함께 보내 맥락을 이어준다.
+    const prompt = replyTo?.text ? `(내가 언급한 이전 답변: "${replyTo.text}")\n${value}` : value;
+    try {
+      const { text, interactionId } = await askYoonie(prompt, {
+        interactionId: interactionIdRef.current,
+        signal: controller.signal,
+      });
+      if (seq !== requestSeqRef.current) return;
+      interactionIdRef.current = interactionId;
+      appendMentorAnswer(value, { text });
+    } catch (error) {
+      if (controller.signal.aborted || seq !== requestSeqRef.current) return;
+      console.error('[yoonie-agent]', error);
+      // 연결에 실패하면 미리 준비해 둔 질문(추천 칩)은 기존 답변으로, 그 외에는 안내 문구로 대신한다.
+      const fallback = MENTOR_CHAT_CONFIG[mentor]?.qaMap?.[value];
+      appendMentorAnswer(value, fallback ?? AGENT_ERROR_ANSWER);
+    } finally {
+      if (seq === requestSeqRef.current) setIsAnswering(false);
+    }
+  };
+
   const handleSend = (userText, replyTo) => {
     const value = userText.trim();
-    if (!value) return;
-    const qaMap = MENTOR_CHAT_CONFIG[activeMentor]?.qaMap ?? QA_MAP;
-    const answer = qaMap[value] ?? DEFAULT_ANSWER;
-    const cta = resolveChatCta(value, answer);
+    if (!value || isAnswering) return;
     setMessages((prev) => [...prev, { role: 'user', text: value, replyTo: replyTo || undefined }]);
     setIsAnswering(true);
+    if (LIVE_AGENT_MENTORS.has(activeMentor)) {
+      askLiveAgent(activeMentor, value, replyTo);
+      return;
+    }
+    const qaMap = MENTOR_CHAT_CONFIG[activeMentor]?.qaMap ?? QA_MAP;
+    const answer = qaMap[value] ?? DEFAULT_ANSWER;
     setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: 'mentor',
-          text: answer.text,
-          citation: answer.citation,
-          ctaText: cta.ctaText,
-          ctaKind: cta.ctaKind,
-        },
-      ]);
+      appendMentorAnswer(value, answer);
       setIsAnswering(false);
     }, 2200);
   };
