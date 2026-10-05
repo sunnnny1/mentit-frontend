@@ -32,7 +32,6 @@ import imgSunnyCharacter from '../../assets/figma/ceef9e7c-3912-4cc0-ba9c-dbf2d4
 import imgYoonieIntro from '../../assets/figma/yoonie-intro.webp';
 import imgYoonieHello from '../../assets/figma/yoonie-hello-lite.webp';
 import imgYoonieThinking from '../../assets/figma/yoonie-thinking-lite.webp';
-import imgYoonieBlink from '../../assets/figma/yoonie-blink-lite.webp';
 import imgEunoiaIntro from '../../assets/figma/eunoia-intro.webp';
 import imgTeddyIntro from '../../assets/figma/teddy-intro.webp';
 import { askYoonie } from '../../lib/yoonieAgent';
@@ -129,8 +128,6 @@ const MENTOR_CHAT_CONFIG = {
     characterIntroImg: imgYoonieIntro,
     characterActiveImg: imgCharacterActive,
     characterThinkingImg: imgYoonieThinking,
-    characterThinkingMs: 6800,
-    characterBlinkImg: imgYoonieBlink,
     characterIdleWidth: 454,
     characterActiveWidth: 454,
     gradientColor: 'purple',
