@@ -3,7 +3,7 @@ import figma_5dffe2dd_882b_41a3_a099_9e1eff1e1134_svg from '../../assets/figma/5
 import figma_b20bcd72_0b9e_4707_8bd9_b80aa3f1fae3_svg from '../../assets/figma/b20bcd72-0b9e-4707-8bd9-b80aa3f1fae3.svg';
 import imgAiEra from '../../assets/figma/7d27cb31-182d-4209-b678-b9f8492fab4a.png';
 import imgTossUi from '../../assets/figma/0f6c2341-f009-423a-8e44-71281f9a2bd5.png';
-import imgUxTrend from '../../assets/figma/aa9a2268-6031-4d30-85cc-7020ec250cc8.png';
+import imgUxTrend from '../../assets/figma/aa9a2268-6031-4d30-85cc-7020ec250cc8.webp';
 import imgTrustDesign from '../../assets/figma/6ed80823-64b9-42a4-bfa4-f87c0dacda77.png';
 import imgAirbnb from '../../assets/figma/731994e7-5322-42d0-ab63-df82abb2174e.png';
 

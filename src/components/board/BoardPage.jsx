@@ -23,7 +23,7 @@ import imgTalkYoonie from '../../assets/icons/talkYoonie.png';
 import imgTalkUha from '../../assets/icons/talkUha.png';
 import imgGangsterAvatar from '../../assets/icons/gangsterAvatar.webp';
 import imgHappyAvatar from '../../assets/icons/happyAvatar.webp';
-import imgGangsterPost from '../../assets/icons/gangsterImg.png';
+import imgGangsterPost from '../../assets/icons/gangsterImg.webp';
 import figma_351bbd39_3bb3_44f5_b47c_4e99a9d7fd96_png from '../../assets/figma/351bbd39-3bb3-44f5-b47c-4e99a9d7fd96.png';
 import figma_3999f190_a737_47ed_9b38_92d0c376561c_png from '../../assets/figma/3999f190-a737-47ed-9b38-92d0c376561c.png';
 import figma_dc687cae_ed7c_41e1_882c_5a570399efd6_png from '../../assets/figma/dc687cae-ed7c-41e1-882c-5a570399efd6.png';

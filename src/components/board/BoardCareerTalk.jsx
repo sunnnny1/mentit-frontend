@@ -4,7 +4,7 @@ import imgBookmarkFill from '../../assets/icons/careertalk-bookmark-fill.svg';
 import imgTalkYoonie from '../../assets/icons/talkYoonie.png';
 import imgTalkUha from '../../assets/icons/talkUha.png';
 import BoardJobDropdown from './BoardJobDropdown';
-import figma_42e8dda3_b48d_4178_aa56_943f81e0bc58_png from '../../assets/figma/42e8dda3-b48d-4178-aa56-943f81e0bc58.png';
+import figma_42e8dda3_b48d_4178_aa56_943f81e0bc58_png from '../../assets/figma/42e8dda3-b48d-4178-aa56-943f81e0bc58.webp';
 import figma_444c9d7b_ee5e_436b_b8c4_9cd4b605267e_png from '../../assets/figma/444c9d7b-ee5e-436b-b8c4-9cd4b605267e.png';
 import figma_64c9f214_aa8c_44ed_91cf_2b4ec4344479_png from '../../assets/figma/64c9f214-aa8c-44ed-91cf-2b4ec4344479.png';
 import figma_57ca12d7_4a35_44a5_868b_66cc2ca11698_png from '../../assets/figma/57ca12d7-4a35-44a5-868b-66cc2ca11698.png';

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import MentorProfile from './board/MentorProfile';
 
 import imgImageVideo from '../assets/icons/personalized-thumb-1.png';
-import imgImageVideo1 from '../assets/icons/gangsterImg.png';
+import imgImageVideo1 from '../assets/icons/gangsterImg.webp';
 import imgLikeFill from '../assets/icons/like-fill-gray.svg';
 import imgComment from '../assets/icons/comment.svg';
 import imgChevronRight from '../assets/icons/chevron-right.svg';

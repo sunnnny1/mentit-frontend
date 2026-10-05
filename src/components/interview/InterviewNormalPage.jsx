@@ -1,7 +1,7 @@
 import ChatProfileBar from '../chat/ChatProfileBar';
 import InterviewSubMenu, { DEFAULT_INTERVIEW_TITLE } from './InterviewSubMenu';
 import figma_c11cc4d3_aa70_48e8_a183_5d36c9318492_png from '../../assets/figma/c11cc4d3-aa70-48e8-a183-5d36c9318492.png';
-import imgCharacter from '../../assets/figma/sunny-interview.png';
+import imgCharacter from '../../assets/figma/sunny-interview.webp';
 
 const imgSunny = figma_c11cc4d3_aa70_48e8_a183_5d36c9318492_png;
 

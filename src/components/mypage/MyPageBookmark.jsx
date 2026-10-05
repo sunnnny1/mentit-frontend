@@ -8,13 +8,13 @@ import imgCareerYoonie from '../../assets/figma/9f8b2245-96d6-4a5a-b781-47ccca5a
 import imgCareerSunny from '../../assets/figma/51ba9a82-9ebd-49ab-b34d-0085621101d1.png';
 import imgCareerUha from '../../assets/figma/1fe4470f-d393-4fb9-bfd3-fe093b843f3b.png';
 import imgCareerStella from '../../assets/figma/1bd879c7-c846-47ea-9853-45130c711592.png';
-import imgCareerDaisy from '../../assets/figma/42e8dda3-b48d-4178-aa56-943f81e0bc58.png';
+import imgCareerDaisy from '../../assets/figma/42e8dda3-b48d-4178-aa56-943f81e0bc58.webp';
 import imgCareerPeter from '../../assets/figma/444c9d7b-ee5e-436b-b8c4-9cd4b605267e.png';
 import imgQnAChart from '../../assets/figma/1b3dbdd6-5f71-4a86-9f8e-a513d2cf4763.png';
 import imgWireframe from '../../assets/figma/d47118a4-9707-403e-bdc8-88b3a5f6c7b0.png';
-import imgGangsterPost from '../../assets/icons/gangsterImg.png';
+import imgGangsterPost from '../../assets/icons/gangsterImg.webp';
 import imgBehance from '../../assets/figma/4ca3a1c1-b478-4b2f-82a4-906fb08aa942.png';
-import imgKiki from '../../assets/figma/7b7f5ec8-080d-4da2-9a4e-ca50dce927a3.png';
+import imgKiki from '../../assets/figma/7b7f5ec8-080d-4da2-9a4e-ca50dce927a3.webp';
 import imgFreeExtra1 from '../../assets/figma/2422592b-dc90-4757-a47c-729af233e3f3.png';
 import imgFreeExtra2 from '../../assets/figma/eb30e4b4-fadd-47b1-8bfa-2b0efb88a62d.png';
 import imgFreeExtra3 from '../../assets/figma/09c05f5c-4273-4198-a4ed-e9f4c000e9a2.png';

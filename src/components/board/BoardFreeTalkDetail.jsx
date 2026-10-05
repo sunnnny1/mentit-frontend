@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import imgPostImage from '../../assets/icons/gangsterImg.png';
+import imgPostImage from '../../assets/icons/gangsterImg.webp';
 import img0sun222 from '../../assets/icons/avatar.webp';
 import figma_4f65e1a1_f7c6_4209_9aa8_6879d1fa3e3e_svg from '../../assets/figma/4f65e1a1-f7c6-4209-9aa8-6879d1fa3e3e.svg';
 import figma_f18f03a8_dbf0_4add_aa12_723afdd968d9_svg from '../../assets/figma/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';

@@ -1,4 +1,4 @@
-import imgHero from '../../assets/figma/bb78de56-a639-4db9-b0e3-696dc3994c33.png';
+import imgHero from '../../assets/figma/bb78de56-a639-4db9-b0e3-696dc3994c33.webp';
 import imgChevronLeft from '../../assets/figma/c25d4b68-8802-4c60-8fb6-a6c20b14fba3.svg';
 import imgChevronRight from '../../assets/icons/chevron-right.svg';
 

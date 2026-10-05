@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import MentorProfile from '../board/MentorProfile';
 import imgTalkYoonie from '../../assets/icons/talkYoonie.png';
 import imgTalkUha from '../../assets/icons/talkUha.png';
-import imgGangsterPost from '../../assets/icons/gangsterImg.png';
+import imgGangsterPost from '../../assets/icons/gangsterImg.webp';
 import imgUha from '../../assets/icons/ellipse-uha.png';
 import imgYoonie from '../../assets/icons/yoonie.webp';
 import imgPeter from '../../assets/icons/ellipse-peter.png';
@@ -14,13 +14,13 @@ import imgChevronDown from '../../assets/figma/f8febec3-4d51-48c7-8360-5b05675e4
 import imgChevronRight from '../../assets/icons/chevron-right.svg';
 import imgLikeFill from '../../assets/figma/f18f03a8-dbf0-4add-aa12-723afdd968d9.svg';
 import imgLikeOutline from '../../assets/figma/245f4c4c-0050-45ba-a7b5-d68859001b46.svg';
-import figma_42e8dda3_b48d_4178_aa56_943f81e0bc58_png from '../../assets/figma/42e8dda3-b48d-4178-aa56-943f81e0bc58.png';
+import figma_42e8dda3_b48d_4178_aa56_943f81e0bc58_png from '../../assets/figma/42e8dda3-b48d-4178-aa56-943f81e0bc58.webp';
 import figma_444c9d7b_ee5e_436b_b8c4_9cd4b605267e_png from '../../assets/figma/444c9d7b-ee5e-436b-b8c4-9cd4b605267e.png';
 import figma_64c9f214_aa8c_44ed_91cf_2b4ec4344479_png from '../../assets/figma/64c9f214-aa8c-44ed-91cf-2b4ec4344479.png';
 import figma_57ca12d7_4a35_44a5_868b_66cc2ca11698_png from '../../assets/figma/57ca12d7-4a35-44a5-868b-66cc2ca11698.png';
 import figma_d47118a4_9707_403e_bdc8_88b3a5f6c7b0_png from '../../assets/figma/d47118a4-9707-403e-bdc8-88b3a5f6c7b0.png';
 import figma_4ca3a1c1_b478_4b2f_82a4_906fb08aa942_png from '../../assets/figma/4ca3a1c1-b478-4b2f-82a4-906fb08aa942.png';
-import figma_7b7f5ec8_080d_4da2_9a4e_ca50dce927a3_png from '../../assets/figma/7b7f5ec8-080d-4da2-9a4e-ca50dce927a3.png';
+import figma_7b7f5ec8_080d_4da2_9a4e_ca50dce927a3_png from '../../assets/figma/7b7f5ec8-080d-4da2-9a4e-ca50dce927a3.webp';
 import imgFailedProject from '../../assets/icons/personalized-thumb-1.png';
 
 const CROP = { top: '-31.68%', left: '-0.08%', width: '100%', height: '135.41%' };

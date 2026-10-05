@@ -8,8 +8,8 @@ import imgNextBg from '../../assets/icons/interview/next-bg.svg';
 import imgPauseIcon from '../../assets/icons/interview/pause-icon.svg';
 import imgPlayIcon from '../../assets/icons/interview/play-icon.svg';
 import imgNextIcon from '../../assets/icons/interview/next-icon.svg';
-import imgCharacterQ1 from '../../assets/icons/interview/sunny-q1.png';
-import imgCharacterQ2 from '../../assets/icons/interview/sunny-q2.png';
+import imgCharacterQ1 from '../../assets/icons/interview/sunny-q1.webp';
+import imgCharacterQ2 from '../../assets/icons/interview/sunny-q2.webp';
 
 const QUESTIONS = [
   { text: '간단한 자기소개를 부탁드립니다', character: imgCharacterQ1, crop: 'q1' },
