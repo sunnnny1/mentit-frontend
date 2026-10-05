@@ -30,6 +30,31 @@ function CtaButton({ label, onClick }) {
   );
 }
 
+function AnsweringIndicator() {
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  return (
+    <div className="flex items-center gap-2 shrink-0 mt-10">
+      {/* The gif has wide padding: at 72px its symbol matches the 36px logo slot, and the slot
+          clips the rest so the padding doesn't cover the first characters of the text. */}
+      <div className="relative size-9 shrink-0 overflow-hidden">
+        <LoadingSymbol
+          size={72}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+          onLoad={() => setIsPlaying(true)}
+        />
+      </div>
+      <p
+        className={`mentit-loading-text font-normal text-[13px] leading-[1.4] tracking-[0.26px] whitespace-nowrap ${
+          isPlaying ? 'is-playing' : ''
+        }`}
+      >
+        멘토의 데이터에서 답변을 찾고 있어요! 최대 10초 정도 걸려요...
+      </p>
+    </div>
+  );
+}
+
 function MentorReply({
   parts,
   agentName,
@@ -88,7 +113,11 @@ function MentorReply({
             {citation ? (
               <p className="font-normal text-[13px] leading-[1.4] tracking-[0.26px] text-[#747886]">{citation}</p>
             ) : null}
-            {ctaText ? <CtaButton label={ctaText} onClick={onCtaClick} /> : null}
+            {ctaText ? (
+              <div className="w-full pr-7">
+                <CtaButton label={ctaText} onClick={onCtaClick} />
+              </div>
+            ) : null}
           </div>
         ) : null}
       </div>
@@ -238,7 +267,7 @@ export default function ChatThread({
           );
         })}
 
-        {isAnswering && <LoadingSymbol size={72} className="shrink-0 mt-10" />}
+        {isAnswering && <AnsweringIndicator />}
       </div>
 
       <div ref={composerRef} className="absolute bottom-0 left-0 right-0 flex flex-col">

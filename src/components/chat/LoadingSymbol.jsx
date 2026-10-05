@@ -6,7 +6,7 @@ import mentitLoadingGif from '../../assets/mentit-loading.gif';
 // 매번 다른 프레임에서 시작한 것처럼 보였다. 그래서 이 컴포넌트가 새로 마운트될
 // 때마다(=isAnswering이 true가 될 때마다) 캐시버스팅 키를 새로 만들어 img를
 // 완전히 새로 불러오게 해서, 항상 gif의 첫 프레임부터 재생을 시작하게 한다.
-export default function LoadingSymbol({ size = 72, className = '' }) {
+export default function LoadingSymbol({ size = 72, className = '', onLoad }) {
   const [playKey] = useState(() => Date.now());
 
   return (
@@ -15,6 +15,7 @@ export default function LoadingSymbol({ size = 72, className = '' }) {
         key={playKey}
         alt=""
         src={`${mentitLoadingGif}?play=${playKey}`}
+        onLoad={onLoad}
         className="w-full h-full object-contain"
       />
     </div>
