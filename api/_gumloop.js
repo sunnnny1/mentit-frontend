@@ -3,14 +3,28 @@
 
 export const GUMLOOP_BASE = process.env.GUMLOOP_API_BASE || 'https://api.gumloop.com/api/v1';
 
-export function getConfig() {
+// 에이전트 이름 -> 에이전트 ID를 담은 환경변수 이름.
+// 'yoonie'        : 유니 AI Agent 채팅 (GUMLOOP_GUMMIE_ID)
+// 'yoonie-mentor' : 유니 멘토(최윤희) 멘토 채팅 (GUMLOOP_GUMMIE_ID_YOONIE_MENTOR)
+export const AGENT_ENV = {
+  yoonie: 'GUMLOOP_GUMMIE_ID',
+  'yoonie-mentor': 'GUMLOOP_GUMMIE_ID_YOONIE_MENTOR',
+};
+
+export function resolveAgent(name) {
+  if (name === undefined || name === null || name === '') return 'yoonie';
+  return typeof name === 'string' && Object.hasOwn(AGENT_ENV, name) ? name : null;
+}
+
+export function getConfig(agent = 'yoonie') {
   const apiKey = process.env.GUMLOOP_API_KEY;
   const userId = process.env.GUMLOOP_USER_ID;
-  const gummieId = process.env.GUMLOOP_GUMMIE_ID;
+  const gummieEnvName = AGENT_ENV[agent];
+  const gummieId = gummieEnvName ? process.env[gummieEnvName] : undefined;
   const missing = [
     ['GUMLOOP_API_KEY', apiKey],
     ['GUMLOOP_USER_ID', userId],
-    ['GUMLOOP_GUMMIE_ID', gummieId],
+    [gummieEnvName ?? 'GUMLOOP_GUMMIE_ID', gummieId],
   ]
     .filter(([, value]) => !value)
     .map(([name]) => name);

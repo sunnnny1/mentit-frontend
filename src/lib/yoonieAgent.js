@@ -13,7 +13,7 @@ export class AgentError extends Error {
   }
 }
 
-function sleep(ms, signal) {
+export function sleep(ms, signal) {
   return new Promise((resolve, reject) => {
     if (signal?.aborted) {
       reject(new DOMException('Aborted', 'AbortError'));
@@ -31,11 +31,11 @@ function sleep(ms, signal) {
   });
 }
 
-async function startInteraction(message, interactionId, signal) {
+async function startInteraction(message, interactionId, signal, agent) {
   const response = await fetch('/api/yoonie/start', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message, interactionId: interactionId ?? undefined }),
+    body: JSON.stringify({ message, interactionId: interactionId ?? undefined, agent }),
     signal,
   });
   if (!response.ok) {
@@ -67,14 +67,15 @@ export function formatAgentReply(raw) {
     .join('\n\n');
 }
 
-export async function askYoonie(message, { interactionId = null, signal } = {}) {
+// agent: 'yoonie'(AI Agent 채팅, 기본) | 'yoonie-mentor'(멘토 채팅)
+export async function askYoonie(message, { interactionId = null, signal, agent = 'yoonie' } = {}) {
   let currentId;
   try {
-    currentId = await startInteraction(message, interactionId, signal);
+    currentId = await startInteraction(message, interactionId, signal, agent);
   } catch (error) {
     // 이어가려던 대화가 거절되면(이전 응답이 아직 진행 중이거나 만료) 새 대화로 한 번 다시 시도한다.
     if (interactionId && error instanceof AgentError && error.code === 'upstream_error') {
-      currentId = await startInteraction(message, null, signal);
+      currentId = await startInteraction(message, null, signal, agent);
     } else {
       throw error;
     }

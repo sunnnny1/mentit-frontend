@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { askYoonie, sleep } from '../../lib/yoonieAgent';
 import imgMic from '../../assets/icons/chat/mic.svg';
 import {
   ChatInputField,
@@ -215,6 +216,38 @@ export const SUNNY_MENTOR_CONVERSATION = [
   },
 ];
 
+const EMPTY_CONVERSATION = [];
+
+// 에이전트가 대화가 마무리되는 분위기라고 판단하면 답변 끝에 붙이는 신호. 화면에는 보이지 않는다.
+const END_SIGNAL = /\[\[\s*(?:END|종료)\s*\]\]/gi;
+
+const MENTOR_AGENT_ERROR_TEXT = '지금은 답변을 가져오지 못했어요. 잠시 후 다시 시도해주세요.';
+
+// 멘토 채팅 탭에서 나눈 대화를 탭을 오갈 때 유지하기 위한 메모리 저장소 (새로고침하면 초기화)
+const liveSessions = new Map();
+
+// 답변이 여러 문단이면 카톡처럼 한 말풍선씩 나눠서 보여준다. 문단 길이에 비례해 '입력 중' 시간을 준다.
+const typingDelayMs = (text) => Math.min(1400, 450 + text.length * 9);
+
+function TypingBubble({ backgroundColor }) {
+  return (
+    <div
+      role="status"
+      aria-label="입력 중"
+      className="flex items-center gap-1 rounded-[12px] px-[14px] w-fit h-[48px]"
+      style={{ backgroundColor }}
+    >
+      {[0, 150, 300].map((delay) => (
+        <span
+          key={delay}
+          className="size-[6px] rounded-full bg-[#9ca2b1] animate-bounce"
+          style={{ animationDelay: `${delay}ms`, animationDuration: '1s' }}
+        />
+      ))}
+    </div>
+  );
+}
+
 const MENTOR_BUBBLE_BG = {
   purple: '#fbf7ff',
   red: '#fffafa',
@@ -232,10 +265,17 @@ export default function ChatMentorThread({
   mentorBubbleColor = 'purple',
   isSubMenuOpen = true,
   onStartReview,
+  liveAgent,
 }) {
   const [draft, setDraft] = useState('');
   const [quoting, setQuoting] = useState(null);
-  const [sentMessages, setSentMessages] = useState([]);
+  // thread: 이 화면에서 새로 오간 메시지. { role: 'user', text, replyTo } | { role: 'mentor', texts: [] }
+  const [thread, setThread] = useState(() => (liveAgent ? (liveSessions.get(liveAgent)?.thread ?? []) : []));
+  const [isTyping, setIsTyping] = useState(false);
+  const [isBusy, setIsBusy] = useState(false);
+  const interactionIdRef = useRef(liveAgent ? (liveSessions.get(liveAgent)?.interactionId ?? null) : null);
+  const abortRef = useRef(null);
+  const conversationRef = useRef(conversation);
   const inputRef = useRef(null);
   const listRef = useRef(null);
   const composerRef = useRef(null);
@@ -253,8 +293,15 @@ export default function ChatMentorThread({
     };
     toTop();
     requestAnimationFrame(toTop);
-    setSentMessages([]);
-    setQuoting(null);
+    if (conversationRef.current !== conversation) {
+      conversationRef.current = conversation;
+      abortRef.current?.abort();
+      interactionIdRef.current = null;
+      setThread([]);
+      setIsTyping(false);
+      setIsBusy(false);
+      setQuoting(null);
+    }
   }, [conversation]);
 
   useEffect(() => {
@@ -262,24 +309,106 @@ export default function ChatMentorThread({
   }, [quoting]);
 
   useEffect(() => {
-    if (sentMessages.length === 0) return;
+    if (thread.length === 0 && !isTyping) return;
     const el = listRef.current;
     if (!el) return;
     requestAnimationFrame(() => {
       el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
     });
-  }, [sentMessages]);
+  }, [thread, isTyping]);
+
+  useEffect(() => {
+    if (liveAgent) liveSessions.set(liveAgent, { thread, interactionId: interactionIdRef.current });
+  }, [liveAgent, thread]);
+
+  useEffect(() => () => abortRef.current?.abort(), []);
+
+  const appendMentorText = (replyId, text) => {
+    setThread((prev) => {
+      const last = prev[prev.length - 1];
+      if (last?.role === 'mentor' && last.replyId === replyId) {
+        return [...prev.slice(0, -1), { ...last, texts: [...last.texts, text] }];
+      }
+      return [...prev, { role: 'mentor', replyId, texts: [text] }];
+    });
+  };
+
+  const askLiveMentor = async (value, replyTo) => {
+    const controller = new AbortController();
+    abortRef.current?.abort();
+    abortRef.current = controller;
+    const replyId = `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+    setIsBusy(true);
+    setIsTyping(true);
+    const quoted = replyTo?.text ? replyTo.text.slice(0, 300) : '';
+    const message = quoted ? `(내가 언급한 이전 답변: "${quoted}")\n${value}` : value;
+    try {
+      const { text, interactionId } = await askYoonie(message, {
+        interactionId: interactionIdRef.current,
+        signal: controller.signal,
+        agent: liveAgent,
+      });
+      interactionIdRef.current = interactionId;
+      const endsChat = new RegExp(END_SIGNAL.source, 'i').test(text);
+      const paragraphs = text.replace(END_SIGNAL, '').split(/\n{2,}/).map((part) => part.trim()).filter(Boolean);
+      for (let i = 0; i < paragraphs.length; i += 1) {
+        if (i > 0) {
+          setIsTyping(true);
+          await sleep(typingDelayMs(paragraphs[i]), controller.signal);
+        }
+        appendMentorText(replyId, paragraphs[i]);
+        setIsTyping(false);
+      }
+      if (endsChat) {
+        await sleep(700, controller.signal);
+        setThread((prev) => (prev.some((item) => item.role === 'review') ? prev : [...prev, { role: 'review' }]));
+      }
+    } catch (error) {
+      if (error?.name === 'AbortError') return;
+      console.error('[mentor chat] agent failed', error);
+      appendMentorText(replyId, MENTOR_AGENT_ERROR_TEXT);
+    } finally {
+      if (abortRef.current === controller) {
+        setIsTyping(false);
+        setIsBusy(false);
+      }
+    }
+  };
 
   const submit = () => {
     const value = draft.trim();
-    if (!value) return;
-    setSentMessages((prev) => [...prev, { text: value, replyTo: quoting }]);
+    if (!value || isBusy) return;
+    const replyTo = quoting;
+    setThread((prev) => [...prev, { role: 'user', text: value, replyTo }]);
     setDraft('');
     setQuoting(null);
     if (inputRef.current) inputRef.current.style.height = '24px';
+    if (liveAgent) askLiveMentor(value, replyTo);
   };
 
-  const lastConversationRole = conversation[conversation.length - 1]?.role;
+  // 에이전트와 연결된 멘토는 미리 정해둔 대화 없이 빈 채팅에서 시작한다.
+  const baseConversation = liveAgent ? EMPTY_CONVERSATION : conversation;
+  const reviewBox = (
+    <div className="flex flex-col gap-6 items-start w-full max-w-[424px] p-6 rounded-2xl bg-white border border-[#f4f6f8] shadow-[0_0_15px_rgba(18,18,19,0.04)]">
+      <div className="flex flex-col gap-3 items-start w-full">
+        <p className="font-bold text-[15px] leading-[1.6] text-[#121213] w-full">
+          {mentorDisplayName} 멘토가 리뷰를 요청했어요!
+        </p>
+        <p className="font-normal text-[14px] leading-[1.58] tracking-[0.14px] text-[#121213] w-full">
+          멘토링은 어떠셨나요? 소중한 경험을 리뷰로 남겨주세요.
+        </p>
+      </div>
+      <button
+        type="button"
+        onClick={onStartReview}
+        className="relative w-full flex items-center justify-center px-7 py-3 rounded-xl border border-[#70d2ff] bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10 after:rounded-xl"
+      >
+        <span className="relative font-bold text-[16px] leading-[1.45] text-white whitespace-nowrap">리뷰 쓰러가기</span>
+      </button>
+    </div>
+  );
+
+  const lastConversationRole = baseConversation[baseConversation.length - 1]?.role;
 
   return (
     <div className="relative z-[1] flex-1 min-w-0 min-h-0 h-full flex flex-col bg-white">
@@ -315,31 +444,11 @@ export default function ChatMentorThread({
         className="flex-1 min-h-0 overflow-y-auto px-[157px] pb-28 flex flex-col w-full"
         style={composerInset ? { paddingBottom: composerInset + 24 } : undefined}
       >
-        {conversation.map((group, index) => {
-          const isLast = index === conversation.length - 1;
-          const prevRole = index === 0 ? null : conversation[index - 1].role;
+        {baseConversation.map((group, index) => {
+          const isLast = index === baseConversation.length - 1;
+          const prevRole = index === 0 ? null : baseConversation[index - 1].role;
           const stacked = Boolean(prevRole && prevRole === group.role);
           const spacingClass = index === 0 ? '' : stacked ? 'mt-1' : 'mt-10';
-          const reviewBox = (
-            <div className="flex flex-col gap-6 items-start w-full max-w-[424px] p-6 rounded-2xl bg-white border border-[#f4f6f8] shadow-[0_0_15px_rgba(18,18,19,0.04)]">
-              <div className="flex flex-col gap-3 items-start w-full">
-                <p className="font-bold text-[15px] leading-[1.6] text-[#121213] w-full">
-                  {mentorDisplayName} 멘토가 리뷰를 요청했어요!
-                </p>
-                <p className="font-normal text-[14px] leading-[1.58] tracking-[0.14px] text-[#121213] w-full">
-                  멘토링은 어떠셨나요? 소중한 경험을 리뷰로 남겨주세요.
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={onStartReview}
-                className="relative w-full flex items-center justify-center px-7 py-3 rounded-xl border border-[#70d2ff] bg-[#1a75ff] shadow-[inset_0_0_4px_0_#e7f3ff] overflow-hidden cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#747886] after:opacity-0 hover:after:opacity-10 after:rounded-xl"
-              >
-                <span className="relative font-bold text-[16px] leading-[1.45] text-white whitespace-nowrap">리뷰 쓰러가기</span>
-              </button>
-            </div>
-          );
-
           if (group.role === 'user') {
             const userBlock = (
               <div className={`flex flex-col items-end w-full ${index === 0 && feedbackCard ? 'gap-2' : 'gap-1'}`}>
@@ -407,23 +516,68 @@ export default function ChatMentorThread({
             </div>
           );
         })}
-        {sentMessages.map((msg, index) => (
-          <div
-            key={`sent-${index}`}
-            className={`flex flex-col items-end gap-1.5 w-full ${
-              index === 0 && lastConversationRole !== 'user' ? 'mt-10' : 'mt-1'
-            }`}
-          >
-            {msg.replyTo ? (
-              <div className="w-fit max-w-[360px]">
-                <MentionQuote name={msg.replyTo.name} text={msg.replyTo.text} />
+        {thread.map((item, index) => {
+          const prevRole = index === 0 ? lastConversationRole : thread[index - 1].role;
+          const firstInEmptyChat = index === 0 && baseConversation.length === 0;
+          const spacingClass = firstInEmptyChat ? 'mt-4' : prevRole === item.role ? 'mt-1' : 'mt-10';
+          if (item.role === 'review') {
+            return (
+              <div key={`review-${index}`} className={prevRole === 'mentor' ? 'mt-2' : 'mt-10'}>
+                {reviewBox}
               </div>
-            ) : null}
-            <div className="bg-[#f9fafb] rounded-[12px] p-[12px] w-fit max-w-[512px]">
-              <p className="font-normal text-[15px] leading-[1.6] text-[#121213] whitespace-pre-wrap">{msg.text}</p>
+            );
+          }
+          if (item.role === 'mentor') {
+            return (
+              <div key={`mentor-${index}`} className={`flex flex-col gap-1 items-start w-fit ${spacingClass}`}>
+                {item.texts.map((text, textIndex) => (
+                  <div key={textIndex} className="flex flex-col gap-2 items-start w-fit">
+                    {textIndex === 0 && (
+                      <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213]">
+                        {mentorDisplayName}
+                      </p>
+                    )}
+                    <MentionableBubble
+                      maxWidthClass="max-w-[512px]"
+                      style={{ backgroundColor: mentorBubbleBg }}
+                      onMention={() => setQuoting({ name: mentorDisplayName, text })}
+                    >
+                      <p className="font-normal text-[15px] leading-[1.6] text-[#121213] whitespace-pre-wrap">{text}</p>
+                    </MentionableBubble>
+                  </div>
+                ))}
+              </div>
+            );
+          }
+          return (
+            <div key={`sent-${index}`} className={`flex flex-col items-end gap-1.5 w-full ${spacingClass}`}>
+              {item.replyTo ? (
+                <div className="w-fit max-w-[360px]">
+                  <MentionQuote name={item.replyTo.name} text={item.replyTo.text} />
+                </div>
+              ) : null}
+              <div className="bg-[#f9fafb] rounded-[12px] p-[12px] w-fit max-w-[512px]">
+                <p className="font-normal text-[15px] leading-[1.6] text-[#121213] whitespace-pre-wrap">{item.text}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
+        {isTyping
+          ? (() => {
+              const prevRole = thread.length ? thread[thread.length - 1].role : lastConversationRole;
+              const joinsMentorGroup = prevRole === 'mentor';
+              return (
+                <div className={`flex flex-col gap-2 items-start w-fit ${joinsMentorGroup ? 'mt-1' : 'mt-10'}`}>
+                  {joinsMentorGroup ? null : (
+                    <p className="font-medium text-[14px] leading-[1.42] tracking-[0.14px] text-[#121213]">
+                      {mentorDisplayName}
+                    </p>
+                  )}
+                  <TypingBubble backgroundColor={mentorBubbleBg} />
+                </div>
+              );
+            })()
+          : null}
       </div>
 
       <form

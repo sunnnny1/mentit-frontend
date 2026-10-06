@@ -529,6 +529,7 @@ export default function ChatPage({
                       : 'purple'
                 }
                 onStartReview={() => setChatMode('review')}
+                liveAgent={activeMentor === 'Yoonie' ? 'yoonie-mentor' : undefined}
                 feedbackCard={
                   mentorConfig.feedbackCard
                     ? { ...mentorConfig.feedbackCard, onClick: onOpenInterviewFeedback }
