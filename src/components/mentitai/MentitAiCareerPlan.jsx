@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import MentitAiSubMenu from './MentitAiSubMenu';
+import { MentitAiChips, MentitAiThreadView, useMentitAiThread } from './MentitAiThread';
 import LoadingSymbol from '../chat/LoadingSymbol';
 import figma_7a7706e1_cc35_4e14_9913_48dfd5adcc5c_svg from '../../assets/figma/7a7706e1-cc35-4e14-9913-48dfd5adcc5c.svg';
 import figma_73476c4a_dc29_4768_b226_165c046e231d_svg from '../../assets/figma/73476c4a-dc29-4768-b226-165c046e231d.svg';
@@ -8,9 +9,9 @@ const imgSend = figma_7a7706e1_cc35_4e14_9913_48dfd5adcc5c_svg;
 const imgArrowIcon = figma_73476c4a_dc29_4768_b226_165c046e231d_svg;
 
 const FOLLOW_UP_CHIPS = [
-  '취업 준비 계획 타임라인을 메인 홈 화면에 반영해줘',
+  '토스, 카카오 프로덕트 디자이너 채용에 맞춰서 계획을 다시 짜줘',
   '조금 더 구체적으로 계획을 설명해줘',
-  '조금 더 타이트하게 다시 계획을 세워줘',
+  '계획에서 가장 중요한 일부터 우선순위를 정해줘',
 ];
 
 const TIMELINE = [
@@ -111,7 +112,7 @@ function PlanTextfield({ onSubmitQuery }) {
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') submit();
+              if (e.key === 'Enter' && !e.nativeEvent.isComposing) submit();
             }}
             placeholder="메세지를 입력해주세요"
             className="w-full bg-transparent text-[15px] leading-[1.6] text-[#121213] placeholder:text-[#9ca2b1] outline-none relative z-[1]"
@@ -197,12 +198,17 @@ export default function MentitAiCareerPlan({
   skipReveal = false,
 }) {
   const [activeQuery, setActiveQuery] = useState('취업 목표 설정');
+  const ai = useMentitAiThread('취업 목표 설정');
   const [instant, setInstant] = useState(skipReveal);
   const { revealed, isLoading } = useSequentialReveal(8, activeQuery, { instant });
 
   const submitQuery = (query) => {
-    setInstant(false);
-    setActiveQuery(query);
+    if (query.trim() === '취업 목표 설정') {
+      setInstant(false);
+      setActiveQuery(query);
+      return;
+    }
+    ai.ask(query);
   };
 
   return (
@@ -290,7 +296,7 @@ export default function MentitAiCareerPlan({
                       홈화면에서 매달 해야 할 취업 준비를 확인할 수 있어요
                     </p>
                     <p className="text-[15px] leading-[1.6] text-[#121213]">
-                      윤영님의 준비 상황에 맞춰 이번 7월달 우선적으로 진행하면 좋은 활동을 추천해서 홈화면에 띄워드려요.
+                      윤영님의 준비 상황에 맞춰 이번 10월달 우선적으로 진행하면 좋은 활동을 추천해서 홈화면에 띄워드려요.
                     </p>
                   </div>
                   <button
@@ -302,18 +308,9 @@ export default function MentitAiCareerPlan({
                   </button>
                 </div>
               </div>
-              <div className="flex flex-col gap-2 items-start">
-                {FOLLOW_UP_CHIPS.map((chip) => (
-                  <button
-                    key={chip}
-                    type="button"
-                    className="relative overflow-hidden bg-white border border-[#e7eaee] rounded-lg px-5 py-2 cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:rounded-lg after:transition-opacity"
-                  >
-                    <p className="relative text-[15px] font-medium text-[#747886] whitespace-nowrap">{chip}</p>
-                  </button>
-                ))}
-              </div>
+              <MentitAiChips chips={FOLLOW_UP_CHIPS} onSelect={ai.ask} />
             </RevealBlock>
+            <MentitAiThreadView thread={ai.thread} isLoading={ai.isLoading} />
           </div>
         </div>
 

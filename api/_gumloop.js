@@ -6,9 +6,11 @@ export const GUMLOOP_BASE = process.env.GUMLOOP_API_BASE || 'https://api.gumloop
 // 에이전트 이름 -> 에이전트 ID를 담은 환경변수 이름.
 // 'yoonie'        : 유니 AI Agent 채팅 (GUMLOOP_GUMMIE_ID)
 // 'yoonie-mentor' : 유니 멘토(최윤희) 멘토 채팅 (GUMLOOP_GUMMIE_ID_YOONIE_MENTOR)
+// 'mentit'        : 멘팃 AI 화면 (GUMLOOP_GUMMIE_ID_MENTIT)
 export const AGENT_ENV = {
   yoonie: 'GUMLOOP_GUMMIE_ID',
   'yoonie-mentor': 'GUMLOOP_GUMMIE_ID_YOONIE_MENTOR',
+  mentit: 'GUMLOOP_GUMMIE_ID_MENTIT',
 };
 
 export function resolveAgent(name) {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import MentitAiSubMenu from './MentitAiSubMenu';
+import { MentitAiChips, MentitAiThreadView, useMentitAiThread } from './MentitAiThread';
 import LoadingSymbol from '../chat/LoadingSymbol';
 import { MentorCard, MENTORS } from '../MentorRecommendations';
 import figma_7a7706e1_cc35_4e14_9913_48dfd5adcc5c_svg from '../../assets/figma/7a7706e1-cc35-4e14-9913-48dfd5adcc5c.svg';
@@ -140,7 +141,7 @@ function MentorSearchTextfield({ onSubmitQuery }) {
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') submit();
+              if (e.key === 'Enter' && !e.nativeEvent.isComposing) submit();
             }}
             placeholder="메세지를 입력해주세요"
             className="w-full bg-transparent text-[15px] leading-[1.6] text-[#121213] placeholder:text-[#9ca2b1] outline-none relative z-[1]"
@@ -171,6 +172,7 @@ export default function MentitAiMentorSearch({
 }) {
   const [activeQuery, setActiveQuery] = useState(query);
   const [interviewRank, setInterviewRank] = useState(fromInterview);
+  const ai = useMentitAiThread(interviewRank ? '멘토 추천(면접)' : '멘토 추천');
 
   useEffect(() => {
     setActiveQuery(query);
@@ -248,18 +250,9 @@ export default function MentitAiMentorSearch({
                   </p>
                 </div>
               </div>
-              <div className="flex flex-col gap-2 items-start">
-                {chips.map((chip) => (
-                  <button
-                    key={chip}
-                    type="button"
-                    className="relative overflow-hidden bg-white border border-[#e7eaee] rounded-lg px-5 py-2 cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:rounded-lg after:transition-opacity"
-                  >
-                    <p className="relative text-[15px] font-medium text-[#747886] whitespace-nowrap">{chip}</p>
-                  </button>
-                ))}
-              </div>
+              <MentitAiChips chips={chips} onSelect={ai.ask} />
             </RevealBlock>
+            <MentitAiThreadView thread={ai.thread} isLoading={ai.isLoading} />
           </div>
         </div>
 
@@ -267,8 +260,12 @@ export default function MentitAiMentorSearch({
           <div className="flex flex-col items-center px-5 pt-5">
           <MentorSearchTextfield
             onSubmitQuery={(next) => {
-              setActiveQuery(next);
-              setInterviewRank(false);
+              if (next.includes('멘토 추천')) {
+                setActiveQuery(next);
+                setInterviewRank(false);
+                return;
+              }
+              ai.ask(next);
             }}
           />
           </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import MentitAiSubMenu from './MentitAiSubMenu';
+import { MentitAiChips, MentitAiThreadView, useMentitAiThread } from './MentitAiThread';
 import LoadingSymbol from '../chat/LoadingSymbol';
 import figma_2dda7b37_f0bb_4b8e_8d9f_ac9709f93b08_svg from '../../assets/figma/2dda7b37-f0bb-4b8e-8d9f-ac9709f93b08.svg';
 import figma_3c061cdb_9bff_4932_8051_491c144e577c_png from '../../assets/figma/3c061cdb-9bff-4932-8051-491c144e577c.png';
@@ -74,6 +75,9 @@ function useSequentialReveal(steps, resetKey, stepDelay = 380) {
   return { revealed, isLoading };
 }
 
+// 530px including the 20px right padding.
+const ANSWER_TEXT_WIDTH = 'max-w-[530px] pr-5';
+
 function RevealBlock({ show, className = '', children }) {
   const [entered, setEntered] = useState(false);
 
@@ -113,7 +117,7 @@ function JobTextfield({ onSubmitQuery }) {
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') submit();
+              if (e.key === 'Enter' && !e.nativeEvent.isComposing) submit();
             }}
             placeholder="메세지를 입력해주세요"
             className="w-full bg-transparent text-[15px] leading-[1.6] text-[#121213] placeholder:text-[#9ca2b1] outline-none relative z-[1]"
@@ -165,6 +169,7 @@ function ArticleCard({ image, title, mentor, role, onClick }) {
 
 export default function MentitAiJobRecommend({ isSubMenuOpen = true, onCloseSubMenu, subMenu, onOpenCareerTalkDetail }) {
   const [activeQuery, setActiveQuery] = useState('직무 추천');
+  const ai = useMentitAiThread('직무 추천');
   const { revealed, isLoading } = useSequentialReveal(6, activeQuery);
 
   return (
@@ -184,14 +189,14 @@ export default function MentitAiJobRecommend({ isSubMenuOpen = true, onCloseSubM
 
             {isLoading && <LoadingSymbol size={72} className="self-start shrink-0" />}
 
-            <RevealBlock show={revealed >= 1}>
+            <RevealBlock show={revealed >= 1} className={ANSWER_TEXT_WIDTH}>
               <p className="text-[15px] leading-[1.6] text-[#121213]">
                 네, 윤영님이 지금 이 고민을 하고 계신다는 것 자체가 이미 좋은 신호예요. 직무 선택은 "정답"을 찾는 게
                 아니라, 나에게 맞는 걸 좁혀가는 과정이거든요. 몇 가지 기준으로 함께 정리해볼게요.
               </p>
             </RevealBlock>
 
-            <RevealBlock show={revealed >= 2} className="flex flex-col gap-5 items-start">
+            <RevealBlock show={revealed >= 2} className={`flex flex-col gap-5 items-start ${ANSWER_TEXT_WIDTH}`}>
               <div className="h-px bg-[#e7eaee] w-full" />
               <div className="flex flex-col gap-3 items-start w-full text-[#121213]">
                 <p className="text-[15px] font-bold leading-[1.6]">{SECTIONS[0].title}</p>
@@ -199,17 +204,17 @@ export default function MentitAiJobRecommend({ isSubMenuOpen = true, onCloseSubM
               </div>
             </RevealBlock>
 
-            <RevealBlock show={revealed >= 3} className="flex flex-col gap-3 items-start text-[#121213]">
+            <RevealBlock show={revealed >= 3} className={`flex flex-col gap-3 items-start text-[#121213] ${ANSWER_TEXT_WIDTH}`}>
               <p className="text-[15px] font-bold leading-[1.6]">{SECTIONS[1].title}</p>
               <p className="text-[15px] leading-[1.6]">{SECTIONS[1].desc}</p>
             </RevealBlock>
 
-            <RevealBlock show={revealed >= 4} className="flex flex-col gap-3 items-start text-[#121213]">
+            <RevealBlock show={revealed >= 4} className={`flex flex-col gap-3 items-start text-[#121213] ${ANSWER_TEXT_WIDTH}`}>
               <p className="text-[15px] font-bold leading-[1.6]">{SECTIONS[2].title}</p>
               <p className="text-[15px] leading-[1.6]">{SECTIONS[2].desc}</p>
             </RevealBlock>
 
-            <RevealBlock show={revealed >= 5} className="flex flex-col gap-3 items-start text-[#121213]">
+            <RevealBlock show={revealed >= 5} className={`flex flex-col gap-3 items-start text-[#121213] ${ANSWER_TEXT_WIDTH}`}>
               <p className="text-[15px] font-bold leading-[1.6]">{SECTIONS[3].title}</p>
               <p className="text-[15px] leading-[1.6]">{SECTIONS[3].desc}</p>
             </RevealBlock>
@@ -228,24 +233,23 @@ export default function MentitAiJobRecommend({ isSubMenuOpen = true, onCloseSubM
                   ))}
                 </div>
               </div>
-              <div className="flex flex-col gap-2 items-start">
-                {FOLLOW_UP_CHIPS.map((chip) => (
-                  <button
-                    key={chip}
-                    type="button"
-                    className="relative overflow-hidden bg-white border border-[#e7eaee] rounded-lg px-5 py-2 cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:bg-[#121213] after:opacity-0 hover:after:opacity-10 after:rounded-lg after:transition-opacity"
-                  >
-                    <p className="relative text-[15px] font-medium text-[#747886] whitespace-nowrap">{chip}</p>
-                  </button>
-                ))}
-              </div>
+              <MentitAiChips chips={FOLLOW_UP_CHIPS} onSelect={ai.ask} />
             </RevealBlock>
+            <MentitAiThreadView thread={ai.thread} isLoading={ai.isLoading} />
           </div>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 flex flex-col">
           <div className="flex flex-col items-center px-5 pt-5">
-          <JobTextfield onSubmitQuery={setActiveQuery} />
+          <JobTextfield
+            onSubmitQuery={(next) => {
+              if (next.trim() === '직무 추천') {
+                setActiveQuery(next);
+                return;
+              }
+              ai.ask(next);
+            }}
+          />
           </div>
           <div className="h-6 w-full bg-white" aria-hidden />
         </div>

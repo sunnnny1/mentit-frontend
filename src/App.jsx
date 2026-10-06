@@ -23,6 +23,7 @@ import MentitAiPage from './components/mentitai/MentitAiPage';
 import MentitAiMentorSearch from './components/mentitai/MentitAiMentorSearch';
 import MentitAiCareerPlan from './components/mentitai/MentitAiCareerPlan';
 import MentitAiJobRecommend from './components/mentitai/MentitAiJobRecommend';
+import MentitAiChat from './components/mentitai/MentitAiChat';
 import MentorExplorePage from './components/mentor/MentorExplorePage';
 import MentorDetailPage from './components/mentor/MentorDetailPage';
 import InterviewPage from './components/interview/InterviewPage';
@@ -67,6 +68,8 @@ function App() {
   const [accountTab, setAccountTab] = useState('profile');
   const [mentorSearchQuery, setMentorSearchQuery] = useState('멘토 추천');
   const [mentorSearchFromInterview, setMentorSearchFromInterview] = useState(false);
+  const [aiChatQuery, setAiChatQuery] = useState('');
+  const [aiChatSession, setAiChatSession] = useState(0);
   const [aiRecentConversations, setAiRecentConversations] = useState([]);
   const [chatSkipStart, setChatSkipStart] = useState(false);
   const [chatShowIntro, setChatShowIntro] = useState(false);
@@ -118,7 +121,8 @@ function App() {
       next !== 'ai' &&
       next !== 'ai-mentor-search' &&
       next !== 'ai-plan' &&
-      next !== 'ai-job'
+      next !== 'ai-job' &&
+      next !== 'ai-chat'
     ) {
       setIsSubMenuOpen(true);
     }
@@ -207,6 +211,12 @@ function App() {
   const handleOpenJobRecommend = () => {
     rememberAiConversation({ id: 'job-recommend', title: '직무 추천' });
     setPage('ai-job');
+  };
+
+  const handleOpenAiChat = (query) => {
+    setAiChatQuery(query);
+    setAiChatSession((prev) => prev + 1);
+    setPage('ai-chat');
   };
 
   const handleSelectAiConversation = (conversation) => {
@@ -342,7 +352,14 @@ function App() {
     ) {
       return 'board';
     }
-    if (sidebarPage === 'ai-mentor-search' || sidebarPage === 'ai-plan' || sidebarPage === 'ai-job') return 'ai';
+    if (
+      sidebarPage === 'ai-mentor-search' ||
+      sidebarPage === 'ai-plan' ||
+      sidebarPage === 'ai-job' ||
+      sidebarPage === 'ai-chat'
+    ) {
+      return 'ai';
+    }
     if (sidebarPage === 'mentor-detail') return 'mentor';
     if (
       sidebarPage === 'interview-onboarding' ||
@@ -371,6 +388,7 @@ function App() {
           page !== 'ai-mentor-search' &&
           page !== 'ai-plan' &&
           page !== 'ai-job' &&
+          page !== 'ai-chat' &&
           page !== 'mentor' &&
           page !== 'mentor-detail' &&
           page !== 'interview' &&
@@ -443,6 +461,7 @@ function App() {
                   page === 'ai-mentor-search' ||
                   page === 'ai-plan' ||
                   page === 'ai-job' ||
+                  page === 'ai-chat' ||
                   page === 'interview' ||
                   page === 'interview-onboarding' ||
                   page === 'interview-analyze' ||
@@ -495,6 +514,15 @@ function App() {
                 onOpenMentorSearch={handleOpenMentorSearch}
                 onOpenPlan={handleOpenPlan}
                 onOpenJobRecommend={handleOpenJobRecommend}
+                onOpenAiChat={handleOpenAiChat}
+              />
+            ) : page === 'ai-chat' ? (
+              <MentitAiChat
+                key={aiChatSession}
+                initialQuery={aiChatQuery}
+                isSubMenuOpen={isSubMenuOpen}
+                onCloseSubMenu={() => setIsSubMenuOpen(false)}
+                subMenu={aiSubMenu}
               />
             ) : page === 'ai-mentor-search' ? (
               <MentitAiMentorSearch

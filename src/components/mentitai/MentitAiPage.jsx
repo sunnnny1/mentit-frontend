@@ -39,7 +39,7 @@ function useRotatingText(items, { displayTime = 2200, transitionTime = 300 } = {
   return { text: items[index], visible };
 }
 
-function MentitAiTextfield({ onOpenMentorSearch }) {
+function MentitAiTextfield({ onOpenMentorSearch, onOpenPlan, onOpenJobRecommend, onOpenAiChat }) {
   const [value, setValue] = useState('');
   const { text, visible } = useRotatingText(SUGGESTED_QUESTIONS, { displayTime: 1700, transitionTime: 220 });
 
@@ -48,6 +48,12 @@ function MentitAiTextfield({ onOpenMentorSearch }) {
     if (!v) return;
     if (v.includes('멘토 추천')) {
       onOpenMentorSearch?.(v);
+    } else if (v === '취업 목표 설정') {
+      onOpenPlan?.();
+    } else if (v === '직무 추천') {
+      onOpenJobRecommend?.();
+    } else {
+      onOpenAiChat?.(v);
     }
     setValue('');
   };
@@ -61,7 +67,7 @@ function MentitAiTextfield({ onOpenMentorSearch }) {
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') submit();
+              if (e.key === 'Enter' && !e.nativeEvent.isComposing) submit();
             }}
             className="w-full bg-transparent text-[15px] leading-[1.6] text-[#121213] outline-none relative z-[1]"
           />
@@ -100,7 +106,15 @@ function QuickActionButton({ label, onClick }) {
   );
 }
 
-export default function MentitAiPage({ isSubMenuOpen = true, onCloseSubMenu, subMenu, onOpenMentorSearch, onOpenPlan, onOpenJobRecommend }) {
+export default function MentitAiPage({
+  isSubMenuOpen = true,
+  onCloseSubMenu,
+  subMenu,
+  onOpenMentorSearch,
+  onOpenPlan,
+  onOpenJobRecommend,
+  onOpenAiChat,
+}) {
   return (
     <div className="flex items-stretch gap-5 flex-1 min-h-0 h-full w-full overflow-hidden">
       {isSubMenuOpen && <MentitAiSubMenu onClose={onCloseSubMenu} {...subMenu} />}
@@ -126,7 +140,12 @@ export default function MentitAiPage({ isSubMenuOpen = true, onCloseSubMenu, sub
           </div>
 
           <div className="flex flex-col gap-10 items-center w-full max-w-[827px]">
-            <MentitAiTextfield onOpenMentorSearch={onOpenMentorSearch} />
+            <MentitAiTextfield
+              onOpenMentorSearch={onOpenMentorSearch}
+              onOpenPlan={onOpenPlan}
+              onOpenJobRecommend={onOpenJobRecommend}
+              onOpenAiChat={onOpenAiChat}
+            />
 
             <div className="flex flex-col gap-2 items-center px-5">
               {QUICK_ACTIONS.map((row, i) => (

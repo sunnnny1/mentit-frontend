@@ -3,7 +3,7 @@ import { GUMLOOP_BASE, ID_PATTERN, getConfig, readJsonBody, resolveAgent, sendJs
 const MAX_MESSAGE_LENGTH = 1000;
 
 // POST /api/yoonie/start  { message, interactionId?, agent? } -> { interactionId }
-// agent: 'yoonie'(기본, AI Agent 채팅) | 'yoonie-mentor'(멘토 채팅)
+// agent: 'yoonie'(기본, AI Agent 채팅) | 'yoonie-mentor'(멘토 채팅) | 'mentit'(멘팃 AI)
 // Gumloop 에이전트에 메시지를 보내고, 답변은 /api/yoonie/status 로 조회한다.
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
