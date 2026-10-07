@@ -94,7 +94,9 @@ const TEDDY_QA_MAP = {
 const DEFAULT_ANSWER = { text: '아직 학습 중이에요. 조금 더 구체적으로 다시 질문해주시겠어요?' };
 
 // 실제 Gumloop 에이전트(/api/yoonie/*)와 연결된 멘토. 나머지 멘토는 아래 QA_MAP 기반의 기존 동작을 유지한다.
-const LIVE_AGENT_MENTORS = new Set(['Yoonie']);
+const LIVE_AGENT_MENTORS = new Set(['Yoonie', 'Eunoia']);
+// 멘토별로 연결할 Gumloop 에이전트 이름. 지정하지 않으면 기본('yoonie') 에이전트를 쓴다.
+const LIVE_AGENT_KEY = { Eunoia: 'eunoia' };
 const AGENT_ERROR_ANSWER = { text: '지금은 답변을 가져오지 못했어요. 잠시 후 다시 시도해주세요.' };
 
 function resolveChatCta(userText, answer) {
@@ -370,6 +372,7 @@ export default function ChatPage({
       const { text, interactionId } = await askYoonie(prompt, {
         interactionId: interactionIdRef.current,
         signal: controller.signal,
+        agent: LIVE_AGENT_KEY[mentor],
       });
       if (seq !== requestSeqRef.current) return;
       interactionIdRef.current = interactionId;
