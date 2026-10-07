@@ -8,6 +8,7 @@ import {
   MentionQuote,
   useComposerInset,
 } from './ChatMention';
+import ChatSummaryCard, { useChatSummary } from './ChatSummaryCard';
 
 export const YOONIE_MENTOR_CONVERSATION = [
   {
@@ -266,7 +267,9 @@ export default function ChatMentorThread({
   isSubMenuOpen = true,
   onStartReview,
   liveAgent,
+  agentMessages,
 }) {
+  const summary = useChatSummary(agentMessages, Boolean(liveAgent));
   const [draft, setDraft] = useState('');
   const [quoting, setQuoting] = useState(null);
   // thread: 이 화면에서 새로 오간 메시지. { role: 'user', text, replyTo } | { role: 'mentor', texts: [] }
@@ -441,9 +444,15 @@ export default function ChatMentorThread({
       <div className={threadBodyClass}>
       <div
         ref={listRef}
-        className="flex-1 min-h-0 overflow-y-auto px-[157px] pb-28 flex flex-col w-full"
+        className="flex-1 min-h-0 overflow-y-auto px-5 pb-28 flex flex-col w-full"
         style={composerInset ? { paddingBottom: composerInset + 24 } : undefined}
       >
+        <div className="mx-auto flex w-full max-w-[691px] flex-col">
+        {liveAgent ? (
+          <div className="mt-4">
+            <ChatSummaryCard result={summary} />
+          </div>
+        ) : null}
         {baseConversation.map((group, index) => {
           const isLast = index === baseConversation.length - 1;
           const prevRole = index === 0 ? null : baseConversation[index - 1].role;
@@ -518,7 +527,7 @@ export default function ChatMentorThread({
         })}
         {thread.map((item, index) => {
           const prevRole = index === 0 ? lastConversationRole : thread[index - 1].role;
-          const firstInEmptyChat = index === 0 && baseConversation.length === 0;
+          const firstInEmptyChat = index === 0 && baseConversation.length === 0 && !liveAgent;
           const spacingClass = firstInEmptyChat ? 'mt-4' : prevRole === item.role ? 'mt-1' : 'mt-10';
           if (item.role === 'review') {
             return (
@@ -578,6 +587,7 @@ export default function ChatMentorThread({
               );
             })()
           : null}
+        </div>
       </div>
 
       <form
@@ -588,7 +598,7 @@ export default function ChatMentorThread({
           submit();
         }}
       >
-        <div className="mx-auto w-[min(867px,calc(100%-40px))] pt-4">
+        <div className="mx-auto w-[min(691px,calc(100%-40px))] pt-4">
         {quoting ? (
           <MentionComposerQuote name={quoting.name} text={quoting.text} onCancel={() => setQuoting(null)} />
         ) : null}

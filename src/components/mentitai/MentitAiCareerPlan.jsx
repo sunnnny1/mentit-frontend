@@ -221,7 +221,7 @@ export default function MentitAiCareerPlan({
         </div>
 
         <div className="flex-1 min-h-0 overflow-y-auto flex flex-col items-center px-5 pt-10 pb-28">
-          <div className="flex flex-col gap-10 items-start w-full max-w-[867px]">
+          <div className="flex flex-col gap-10 items-start w-full max-w-[867px] break-keep">
             <div className="self-end bg-[#f9fafb] max-w-[513px] p-3 rounded-xl">
               <p className="text-[15px] leading-[1.6] text-[#121213]">{activeQuery}</p>
             </div>

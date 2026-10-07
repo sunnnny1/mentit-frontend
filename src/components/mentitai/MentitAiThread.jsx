@@ -4,6 +4,29 @@ import { askYoonie } from '../../lib/yoonieAgent';
 
 const ERROR_TEXT = '지금은 답변을 불러오지 못했어요. 잠시 후 다시 시도해 주세요.';
 
+// 답변 문단 폭(510px)에서 15px 본문이 약 3줄 들어가는 글자 수.
+const PARAGRAPH_MAX_CHARS = 100;
+
+// 긴 문단을 문장 경계에서만 잘라 약 3줄 이하 문단으로 묶는다. 목록 항목은 그대로 둔다.
+function splitIntoParagraphs(text) {
+  return text.split(/\n{2,}/).flatMap((paragraph) => {
+    const trimmed = paragraph.trim();
+    if (!trimmed) return [];
+    if (trimmed.length <= PARAGRAPH_MAX_CHARS || /^(•|\d+\.)\s/.test(trimmed)) return [trimmed];
+    const sentences = trimmed.split(/(?<=[.!?。…])\s+/);
+    const groups = [];
+    for (const sentence of sentences) {
+      const last = groups.length - 1;
+      if (last >= 0 && groups[last].length + 1 + sentence.length <= PARAGRAPH_MAX_CHARS) {
+        groups[last] = `${groups[last]} ${sentence}`;
+      } else {
+        groups.push(sentence);
+      }
+    }
+    return groups;
+  });
+}
+
 // 멘팃 AI 에이전트('mentit')와 이어서 대화하는 훅.
 // screen: 사용자가 보고 있는 고정 화면 이름. 메시지 맨 앞에 "[화면: ...]"으로 붙여 에이전트가 맥락을 알게 한다.
 export function useMentitAiThread(screen) {
@@ -78,8 +101,8 @@ export function MentitAiThreadView({ thread, isLoading }) {
           </div>
         ) : (
           <div key={index} className="flex flex-col gap-4 items-start w-full max-w-[510px] text-[#121213]">
-            {item.text.split(/\n{2,}/).map((paragraph, i) => (
-              <p key={i} className="text-[15px] leading-[1.6]">
+            {splitIntoParagraphs(item.text).map((paragraph, i) => (
+              <p key={i} className="text-[15px] leading-[1.6] break-keep break-words">
                 {paragraph}
               </p>
             ))}

@@ -1,9 +1,11 @@
 import { GUMLOOP_BASE, ID_PATTERN, getConfig, readJsonBody, resolveAgent, sendJson } from '../_gumloop.js';
 
 const MAX_MESSAGE_LENGTH = 1000;
+// 대화 요약은 대화 전체를 보내므로 더 길게 허용한다.
+const MAX_MESSAGE_LENGTH_BY_AGENT = { summary: 4000 };
 
 // POST /api/yoonie/start  { message, interactionId?, agent? } -> { interactionId }
-// agent: 'yoonie'(기본, AI Agent 채팅) | 'yoonie-mentor'(멘토 채팅) | 'mentit'(멘팃 AI)
+// agent: 'yoonie'(기본, AI Agent 채팅) | 'yoonie-mentor'(멘토 채팅) | 'mentit'(멘팃 AI) | 'summary'(대화 요약)
 // Gumloop 에이전트에 메시지를 보내고, 답변은 /api/yoonie/status 로 조회한다.
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -23,7 +25,7 @@ export default async function handler(req, res) {
 
   const message = typeof body.message === 'string' ? body.message.trim() : '';
   if (!message) return sendJson(res, 400, { error: 'empty_message' });
-  if (message.length > MAX_MESSAGE_LENGTH) return sendJson(res, 400, { error: 'message_too_long' });
+  if (message.length > (MAX_MESSAGE_LENGTH_BY_AGENT[agent] ?? MAX_MESSAGE_LENGTH)) return sendJson(res, 400, { error: 'message_too_long' });
 
   const interactionId =
     typeof body.interactionId === 'string' && ID_PATTERN.test(body.interactionId) ? body.interactionId : undefined;

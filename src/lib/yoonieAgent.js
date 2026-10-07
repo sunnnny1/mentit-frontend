@@ -67,7 +67,7 @@ export function formatAgentReply(raw) {
     .join('\n\n');
 }
 
-// agent: 'yoonie'(AI Agent 채팅, 기본) | 'yoonie-mentor'(멘토 채팅) | 'mentit'(멘팃 AI)
+// agent: 'yoonie'(AI Agent 채팅, 기본) | 'yoonie-mentor'(멘토 채팅) | 'mentit'(멘팃 AI) | 'summary'(대화 요약)
 export async function askYoonie(message, { interactionId = null, signal, agent = 'yoonie' } = {}) {
   let currentId;
   try {

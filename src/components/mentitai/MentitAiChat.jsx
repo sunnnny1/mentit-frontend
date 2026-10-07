@@ -64,7 +64,7 @@ export default function MentitAiChat({ initialQuery, isSubMenuOpen = true, onClo
         </div>
 
         <div className="flex-1 min-h-0 overflow-y-auto flex flex-col items-center px-5 pt-10 pb-28">
-          <div className="flex flex-col gap-10 items-start w-full max-w-[867px]">
+          <div className="flex flex-col gap-10 items-start w-full max-w-[867px] break-keep">
             <MentitAiThreadView thread={thread} isLoading={isLoading} />
           </div>
         </div>
