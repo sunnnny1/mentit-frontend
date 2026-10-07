@@ -90,7 +90,7 @@ export default function CareerTalk({ onNavigateToCareerTalk, onOpenDetail }) {
   return (
     <section className="flex flex-col gap-6 items-start w-full">
       <div className="flex items-center justify-between w-full">
-        <h2 className="font-bold text-[22px] tracking-[-0.33px] text-[#121213]">멘토들의 커리어 토크</h2>
+        <h2 className="font-bold text-[22px] tracking-[-0.33px] text-[#121213]">멘토들의 커리어토크</h2>
         <button
           type="button"
           onClick={onNavigateToCareerTalk}
