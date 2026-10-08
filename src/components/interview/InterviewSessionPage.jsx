@@ -9,14 +9,16 @@ import imgPauseIcon from '../../assets/icons/interview/pause-icon.svg';
 import imgPlayIcon from '../../assets/icons/interview/play-icon.svg';
 import imgNextIcon from '../../assets/icons/interview/next-icon.svg';
 import imgCharacterQ1 from '../../assets/icons/interview/sunny-q1.webp';
-import imgCharacterQ2 from '../../assets/icons/interview/sunny-q2.webp';
 import imgSunnyQ1Poster from '../../assets/icons/interview/sunny-q1-poster.webp';
 import imgSunnyQ1Talk from '../../assets/icons/interview/sunny-q1-talk.webp';
+import imgSunnyQ2Poster from '../../assets/icons/interview/sunny-q2-poster.webp';
+import imgSunnyQ2Talk from '../../assets/icons/interview/sunny-q2-talk.webp';
 import imgSunnyNormal from '../../assets/icons/interview/sunny-normal.webp';
 import sunnyQ1Voice from '../../assets/audio/sunny-q1.mp3';
+import sunnyQ2Voice from '../../assets/audio/sunny-q2.mp3';
 
 // talk: 질문을 말하는 애니메이션(1회 재생) + voice 음성을 동시에 재생하고, 끝나면 idle 애니메이션을 다음 질문 전까지 반복한다.
-// talkMs: 음성 재생이 막혔을 때 talk 애니메이션 길이만큼 기다렸다가 idle로 넘어가기 위한 값.
+// talkMs: talk 애니메이션 길이(프레임 수 × 80ms). 음성 파일 끝의 무음 구간과 관계없이 애니메이션이 끝나는 시점에 idle로 넘어간다.
 const QUESTIONS = [
   {
     text: '간단한 자기소개를 부탁드립니다',
@@ -27,7 +29,15 @@ const QUESTIONS = [
     idle: imgSunnyNormal,
     crop: 'clip',
   },
-  { text: '왜 저희 회사에 지원하셨나요?', character: imgCharacterQ2, crop: 'q2' },
+  {
+    text: '왜 저희 회사에 지원하셨나요?',
+    character: imgSunnyQ2Poster,
+    talk: imgSunnyQ2Talk,
+    talkMs: 4080,
+    voice: sunnyQ2Voice,
+    idle: imgSunnyNormal,
+    crop: 'clip',
+  },
   { text: '협업 과정에서 갈등을 어떻게 해결했나요?', character: imgCharacterQ1, crop: 'q1' },
   { text: '실패했던 경험과 그 과정에서 배운 점을 말씀해주세요', character: imgCharacterQ1, crop: 'q1' },
   { text: '본인의 강점을 구체적인 사례와 함께 말씀해주세요', character: imgCharacterQ1, crop: 'q1' },
@@ -49,6 +59,22 @@ const AVATAR_BOTTOM_GRADIENT =
   'linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.35) 40%, rgba(255,255,255,0.7) 70%, rgba(255,255,255,0.94) 88%, #ffffff 100%)';
 const CHARACTER_FADE_MASK =
   'linear-gradient(180deg, #000 0%, #000 42%, rgba(0,0,0,0.55) 68%, rgba(0,0,0,0.15) 86%, transparent 100%)';
+
+const talkBlobCache = new Map();
+
+function loadTalkBlob(url) {
+  if (!talkBlobCache.has(url)) {
+    const request = fetch(url)
+      .then((response) => (response.ok ? response.blob() : null))
+      .catch(() => null)
+      .then((blob) => {
+        if (!blob) talkBlobCache.delete(url);
+        return blob;
+      });
+    talkBlobCache.set(url, request);
+  }
+  return talkBlobCache.get(url);
+}
 
 function formatTime(totalSeconds) {
   const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
@@ -162,12 +188,13 @@ export default function InterviewSessionPage({
     });
     audio.load();
     new Image().src = current.idle;
-    Promise.all([
-      fetch(current.talk)
-        .then((response) => response.blob())
-        .catch(() => null),
-      audioReady,
-    ]).then(([blob]) => {
+    const next = QUESTIONS[questionIndex + 1];
+    if (next?.talk) {
+      loadTalkBlob(next.talk);
+      new Image().src = next.character;
+      fetch(next.voice).catch(() => {});
+    }
+    Promise.all([loadTalkBlob(current.talk), audioReady]).then(([blob]) => {
       if (cancelled) return;
       talkAudioRef.current = audio;
       setTalkAssets({ index: questionIndex, blob });
@@ -200,9 +227,9 @@ export default function InterviewSessionPage({
       micMutedUntilRef.current = performance.now() + TALK_ECHO_GUARD_MS;
       setClip({ phase: 'idle' });
     };
-    audio.addEventListener('ended', finish, { once: true });
     audio.currentTime = 0;
-    audio.play().catch(() => window.setTimeout(finish, question.talkMs));
+    audio.play().catch(() => {});
+    window.setTimeout(finish, question.talkMs);
   };
 
   useEffect(() => {
