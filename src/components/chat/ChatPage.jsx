@@ -97,6 +97,8 @@ const DEFAULT_ANSWER = { text: '아직 학습 중이에요. 조금 더 구체적
 const LIVE_AGENT_MENTORS = new Set(['Yoonie', 'Eunoia']);
 // 멘토별로 연결할 Gumloop 에이전트 이름. 지정하지 않으면 기본('yoonie') 에이전트를 쓴다.
 const LIVE_AGENT_KEY = { Eunoia: 'eunoia' };
+// 멘토 채팅 탭(ChatMentorThread)에 연결할 Gumloop 에이전트 이름.
+const LIVE_MENTOR_CHAT_KEY = { Yoonie: 'yoonie-mentor', Eunoia: 'eunoia-mentor' };
 const AGENT_ERROR_ANSWER = { text: '지금은 답변을 가져오지 못했어요. 잠시 후 다시 시도해주세요.' };
 
 function resolveChatCta(userText, answer) {
@@ -532,7 +534,7 @@ export default function ChatPage({
                       : 'purple'
                 }
                 onStartReview={() => setChatMode('review')}
-                liveAgent={activeMentor === 'Yoonie' ? 'yoonie-mentor' : undefined}
+                liveAgent={LIVE_MENTOR_CHAT_KEY[activeMentor]}
                 agentMessages={messages}
                 feedbackCard={
                   mentorConfig.feedbackCard
