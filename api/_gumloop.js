@@ -11,6 +11,7 @@ export const GUMLOOP_BASE = process.env.GUMLOOP_API_BASE || 'https://api.gumloop
 // 'eunoia'        : Eunoia AI Agent 채팅 (GUMLOOP_GUMMIE_ID_EUNOIA)
 // 'eunoia-mentor' : Eunoia(이지희) 멘토 채팅 (GUMLOOP_GUMMIE_ID_EUNOIA_MENTOR)
 // 'teddy'         : Teddy AI Agent 채팅 (GUMLOOP_GUMMIE_ID_TEDDY)
+// 'teddy-mentor'  : Teddy(박태훈) 멘토 채팅 (GUMLOOP_GUMMIE_ID_TEDDY_MENTOR)
 export const AGENT_ENV = {
   yoonie: 'GUMLOOP_GUMMIE_ID',
   'yoonie-mentor': 'GUMLOOP_GUMMIE_ID_YOONIE_MENTOR',
@@ -19,6 +20,7 @@ export const AGENT_ENV = {
   eunoia: 'GUMLOOP_GUMMIE_ID_EUNOIA',
   'eunoia-mentor': 'GUMLOOP_GUMMIE_ID_EUNOIA_MENTOR',
   teddy: 'GUMLOOP_GUMMIE_ID_TEDDY',
+  'teddy-mentor': 'GUMLOOP_GUMMIE_ID_TEDDY_MENTOR',
 };
 
 export function resolveAgent(name) {
