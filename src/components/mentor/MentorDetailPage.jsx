@@ -410,7 +410,7 @@ const MENTOR_PAGES = {
     id: 'teddy',
     displayName: 'Teddy 멘토',
     badge: 'rookie',
-    specialty: 'IT 기업 면접 준비 및 이직 준비 도움',
+    specialty: 'IT 기업 면접 준비 및 포트폴리오 준비 도움',
     portfolioLabel: 'Teddy 멘토 포트폴리오 사이트',
     linkedinLabel: 'Teddy 멘토 링크드인',
     bio: '사용자 리서치부터 UX 설계까지 다양한 프로젝트를 경험해왔어요. 디자인 취업을 준비하면서 생기는 고민과 실무에서 필요한 역량에 대해 구체적으로 알려드릴게요.',
