@@ -10,7 +10,7 @@ function yoonieApiDevPlugin() {
     apply: 'serve',
     configureServer(server) {
       const env = loadEnv(server.config.mode, server.config.root, '')
-      for (const key of ['GUMLOOP_API_KEY', 'GUMLOOP_USER_ID', 'GUMLOOP_GUMMIE_ID', 'GUMLOOP_GUMMIE_ID_YOONIE_MENTOR', 'GUMLOOP_GUMMIE_ID_MENTIT', 'GUMLOOP_GUMMIE_ID_SUMMARY', 'GUMLOOP_GUMMIE_ID_EUNOIA', 'GUMLOOP_GUMMIE_ID_EUNOIA_MENTOR', 'GUMLOOP_API_BASE']) {
+      for (const key of ['GUMLOOP_API_KEY', 'GUMLOOP_USER_ID', 'GUMLOOP_GUMMIE_ID', 'GUMLOOP_GUMMIE_ID_YOONIE_MENTOR', 'GUMLOOP_GUMMIE_ID_MENTIT', 'GUMLOOP_GUMMIE_ID_SUMMARY', 'GUMLOOP_GUMMIE_ID_EUNOIA', 'GUMLOOP_GUMMIE_ID_EUNOIA_MENTOR', 'GUMLOOP_GUMMIE_ID_TEDDY', 'GUMLOOP_API_BASE']) {
         if (env[key] && !process.env[key]) process.env[key] = env[key]
       }
       server.middlewares.use('/api/yoonie', async (req, res, next) => {
