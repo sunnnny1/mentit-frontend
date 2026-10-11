@@ -8,14 +8,22 @@ import imgNextBg from '../../assets/icons/interview/next-bg.svg';
 import imgPauseIcon from '../../assets/icons/interview/pause-icon.svg';
 import imgPlayIcon from '../../assets/icons/interview/play-icon.svg';
 import imgNextIcon from '../../assets/icons/interview/next-icon.svg';
-import imgCharacterQ1 from '../../assets/icons/interview/sunny-q1.webp';
 import imgSunnyQ1Poster from '../../assets/icons/interview/sunny-q1-poster.webp';
 import imgSunnyQ1Talk from '../../assets/icons/interview/sunny-q1-talk.webp';
 import imgSunnyQ2Poster from '../../assets/icons/interview/sunny-q2-poster.webp';
 import imgSunnyQ2Talk from '../../assets/icons/interview/sunny-q2-talk.webp';
+import imgSunnyQ3Poster from '../../assets/icons/interview/sunny-q3-poster.webp';
+import imgSunnyQ3Talk from '../../assets/icons/interview/sunny-q3-talk.webp';
+import imgSunnyQ4Poster from '../../assets/icons/interview/sunny-q4-poster.webp';
+import imgSunnyQ4Talk from '../../assets/icons/interview/sunny-q4-talk.webp';
+import imgSunnyQ5Poster from '../../assets/icons/interview/sunny-q5-poster.webp';
+import imgSunnyQ5Talk from '../../assets/icons/interview/sunny-q5-talk.webp';
 import imgSunnyNormal from '../../assets/icons/interview/sunny-normal.webp';
 import sunnyQ1Voice from '../../assets/audio/sunny-q1.mp3';
 import sunnyQ2Voice from '../../assets/audio/sunny-q2.mp3';
+import sunnyQ3Voice from '../../assets/audio/sunny-q3.mp3';
+import sunnyQ4Voice from '../../assets/audio/sunny-q4.mp3';
+import sunnyQ5Voice from '../../assets/audio/sunny-q5.mp3';
 
 // talk: 질문을 말하는 애니메이션(1회 재생) + voice 음성을 동시에 재생하고, 끝나면 idle 애니메이션을 다음 질문 전까지 반복한다.
 // talkMs: talk 애니메이션 길이(프레임 수 × 80ms). 음성 파일 끝의 무음 구간과 관계없이 애니메이션이 끝나는 시점에 idle로 넘어간다.
@@ -38,9 +46,33 @@ const QUESTIONS = [
     idle: imgSunnyNormal,
     crop: 'clip',
   },
-  { text: '협업 과정에서 갈등을 어떻게 해결했나요?', character: imgCharacterQ1, crop: 'q1' },
-  { text: '실패했던 경험과 그 과정에서 배운 점을 말씀해주세요', character: imgCharacterQ1, crop: 'q1' },
-  { text: '본인의 강점을 구체적인 사례와 함께 말씀해주세요', character: imgCharacterQ1, crop: 'q1' },
+  {
+    text: '협업 과정에서 갈등을 어떻게 해결했나요?',
+    character: imgSunnyQ3Poster,
+    talk: imgSunnyQ3Talk,
+    talkMs: 4080,
+    voice: sunnyQ3Voice,
+    idle: imgSunnyNormal,
+    crop: 'clip',
+  },
+  {
+    text: '실패했던 경험과 그 과정에서 배운 점을 말씀해주세요',
+    character: imgSunnyQ4Poster,
+    talk: imgSunnyQ4Talk,
+    talkMs: 4080,
+    voice: sunnyQ4Voice,
+    idle: imgSunnyNormal,
+    crop: 'clip',
+  },
+  {
+    text: '본인의 강점을 구체적인 사례와 함께 말씀해주세요',
+    character: imgSunnyQ5Poster,
+    talk: imgSunnyQ5Talk,
+    talkMs: 4080,
+    voice: sunnyQ5Voice,
+    idle: imgSunnyNormal,
+    crop: 'clip',
+  },
 ];
 
 const WAVE_BARS = [
@@ -55,6 +87,7 @@ const VOICE_TAB_H = 106;
 const COUNTDOWN_START_MS = 500;
 const COUNTDOWN_STEP_MS = 1200;
 const TALK_ECHO_GUARD_MS = 700;
+const NEXT_QUESTION_DELAY_MS = 500;
 const AVATAR_BOTTOM_GRADIENT =
   'linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.35) 40%, rgba(255,255,255,0.7) 70%, rgba(255,255,255,0.94) 88%, #ffffff 100%)';
 const CHARACTER_FADE_MASK =
@@ -147,6 +180,7 @@ export default function InterviewSessionPage({
   const talkAudioRef = useRef(null);
   const micMutedUntilRef = useRef(0);
   const voiceStartedRef = useRef(null);
+  const questionShownAtRef = useRef(0);
   const [elapsed, setElapsed] = useState(0);
   const [cameraReady, setCameraReady] = useState(false);
   const [stageScale, setStageScale] = useState(1);
@@ -208,8 +242,12 @@ export default function InterviewSessionPage({
   useEffect(() => {
     if (isCountingDown || talkAssets?.index !== questionIndex || !talkAssets.blob) return undefined;
     const url = URL.createObjectURL(talkAssets.blob);
-    setClip({ phase: 'talk', url });
-    return () => URL.revokeObjectURL(url);
+    const wait = Math.max(0, questionShownAtRef.current + NEXT_QUESTION_DELAY_MS - performance.now());
+    const timer = window.setTimeout(() => setClip({ phase: 'talk', url }), wait);
+    return () => {
+      window.clearTimeout(timer);
+      URL.revokeObjectURL(url);
+    };
   }, [isCountingDown, questionIndex, talkAssets]);
 
   useEffect(() => () => voiceRef.current?.pause(), []);
@@ -385,6 +423,7 @@ export default function InterviewSessionPage({
     voiceRef.current = null;
     speakingRef.current = Boolean(QUESTIONS[questionIndex + 1].talk);
     setClip(null);
+    questionShownAtRef.current = performance.now();
     setQuestionIndex((index) => index + 1);
     setAwaitingAnswer(true);
     setElapsed(0);
